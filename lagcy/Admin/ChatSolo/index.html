@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<section id="sideBar_Transtopia_SUB">
+	
+		</section>
+		<section id="content_Transtopia_SUB">
+			<div class="panel-chat">
+				<div class="panel-chat-header">
+					<a href="#"></a>
+				</div>
+				<div class="panel-chat-content">
+					<!-- 聊天记录 -->
+				</div>
+				<div class="panel-chat-input">
+					<div class="panel-chat-input-toolbar">
+						<a href="#"><i class="fa fa-smile-o"></i></a>
+						<a href="#"><i class="fa fa-paperclip"></i></a>
+						<a href="#"><i class="fa fa-send-o"></i></a>
+						<a href="#"><i class="fa fa-plus-circle"></i></a>
+					</div>
+				</div>
+				<textarea placeholder="说些什么..."></textarea>
+				<div class="enter"> 使用Enter发送</div>
+			</div>
+		</section>
+		
+		<style>
+			.panel-chat {
+				width:1080px;
+				height:800px;
+				background-color: rgb(255,255,255);
+				border-radius: 3px;
+				position: relative;
+				left: 50%;
+				transform: translateX(-50%)
+			}
+			.panel-chat-header {
+				height: 50px;
+				width: 100%;
+				border-bottom: 1px solid #ddd;
+				padding:14px 16px;"
+			}
+			.panel-chat-header a {
+				 font-size: 18px;
+				 color: #333;
+				 font-family: Helvetica Neue,Helvetica,Nimbus Sans L,Arial,Liberation Sans,Hiragino Sans GB,Source Han Sans CN Normal,Microsoft YaHei,Wenquanyi Micro Hei,WenQuanYi Zen Hei,ST Heiti,SimHei,WenQuanYi Zen Hei Sharp,sans-serif;
+			}
+			.panel-chat-content {
+				height: 550px;
+				width: 100%;
+				border-bottom: 1px solid #ddd;
+				padding:14px 16px;
+			}
+			.panel-chat-message-time {
+				font-size: 12px;
+				color: #bbb;
+				text-align: center;
+			}
+			.panel-chat-content-item {
+				margin: 15px auto;
+			}
+			.panel-chat-content-item img{
+				width:45px;
+				height:auto;
+				vertical-align: top"
+			}
+			.panel-chat-personal-message-text {
+				line-height: 1.6;
+				margin-left: 15px;
+				padding: 8px 13px;
+				display: inline-block;
+				font-size: 14px;
+				word-break: break-all;
+				border-radius: 6px;
+				border: 1px solid #ccc;
+				max-width: 540px;"
+			}
+			.panel-chat-mine-message-text {
+				float: right;
+				line-height: 1.6;
+				margin-left: 15px;
+				padding: 8px 13px;
+				display: inline-block;
+				font-size: 14px;
+				word-break: break-all;
+				border-radius: 6px;
+				border: 1px solid #ccc;
+				max-width: 540px;"
+			}
+			.panel-chat-system-message-text {
+				font-size: 12px;
+				color: #bbb;
+				text-align: center;
+			}
+			.panel-chat-input-toolbar {
+				height: 40px;
+				padding: 4px 15px;
+				font-size: 20px;
+			}
+			.panel-chat-input-toolbar > a {
+				margin-left: 15px;
+				font-size: 21px;
+				color: rgba(0,0,0,.5);
+			}
+			.panel-chat textarea {
+				z-index: auto;
+				position: relative;
+				line-height: 21px;
+				font-size: 14px;
+				transition: none;
+				background: transparent !important;
+				display: block;
+				width: 100%;
+				height: 130px;
+				border: 0;
+				resize: none;
+				padding: 10px;
+				outline: none;overflow-x: hidden;
+				overflow-y: auto;
+				box-sizing: border-box;
+				border-radius: 4px;
+			}
+			.enter {
+				color: rgba(0,0,0,.35);
+				font-size: 13px;
+				float: right;
+				margin-right:15px;
+				cursor: pointer;
+			}
+		</style>
+		
+		<script>
+			$(document).on("ready", function(){
+				$("[data-toggle='popover']").popover();
+			});
+				
+			/*
+			data structure
+				chats:[{
+					user_id: 
+					user_name:
+					user_img:
+					user_email:
+					user_role: 0 / 1:self
+					time:
+					text:
+				}]
+			*/	
+				
+			var loadChatContent = function(data, name){
+				$(".panel-chat .panel-chat-header > a").text(name);
+				$(".panel-chat-content").empty();
+				$.each(data,function(index, chat){
+					if(chat.user_role == 0){
+						$(".panel-chat-content").append(
+							'<div class="panel-chat-content-item">\
+								<p class="panel-chat-message-time">' + chat.time + '</p>\
+								<img class="img-circle" src="' + chat.user_img + '" title="' + chat.user_name + '" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="' + chat.user_email + '">\
+								<div class="panel-chat-personal-message-text">' + chat.text + '</div>\
+							</div>');
+					}else if(chat.user_role == 1){
+						$(".panel-chat-content").append(
+							'<div class="panel-chat-content-item">\
+								<p class="panel-chat-message-time">' + chat.time + '</p>\
+								<div class="panel-chat-mine-message-text">' + chat.text + '</div>\
+							</div>');
+					}else{
+						$(".panel-groupchat-content").append(
+							'<div class="panel-groupchat-content-item">\
+								<p class="panel-groupchat-message-time">' + chat.time + '</p>\
+								<p class="panel-groupchat-system-message-text">' + chat.text + '</p>\
+							</div>');
+					}
+				});
+			}
+			
+			//test_data = {'user':{'id': 123, 'name': '六月'}, 'chats': [{'user':{'id': 5, 'name': '六月', 'phone': 123456789,'img': 'Img/Logo.png'}, 'time':121212121, 'text':12121215457878, 'type': 1}]};
+			//loadChatContent(test_data);
+		</script>
+    </body>
+</html>
+

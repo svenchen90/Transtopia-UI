@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>我的Transtopia</title>
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <!-- Bootstrap 3.3.6 -->
+        <link rel="stylesheet" href="../CSS/bootstrap.min.css" />
+        <link href="../CSS/font-awesome.css" type="text/css" rel="stylesheet">
+        <!-- Font Awesome -->
+        <!-- Theme style -->
+        <link rel="stylesheet" href="../CSS/AdminLTE.min.css">
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+             folder instead of downloading all of them to reduce the load. -->
+        <link rel="stylesheet" href="../CSS/skins/_all-skins.min.css">
+        <!-- iCheck -->
+        <link rel="stylesheet" href="../CSS/blue.css">
+        <!-- Morris chart -->
+        <link rel="stylesheet" href="../CSS/morris.css">
+        <link rel="shortcut icon" href="./Img/logo.png">
+        <script src="../JS/jquery.min.js"></script>
+        <!-- jQuery UI 1.11.4 -->
+        <script src="../JS/jquery-ui.min.js"></script>
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+		<!-- Select2 -->
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+		
+		<!-- bootstrap-wysiwyg -->
+		<link href="Moment/bootstrap-wysiwyg/external/google-code-prettify/prettify.css" rel="stylesheet">
+		<!-- <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+		<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet"> -->
+		<link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+		<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script> -->
+		<script src="Moment/bootstrap-wysiwyg/external/jquery.hotkeys.js"></script>
+		<!-- <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script> -->
+		<script src="Moment/bootstrap-wysiwyg/external/google-code-prettify/prettify.js"></script>
+		<script src="Moment/bootstrap-wysiwyg/bootstrap-wysiwyg.js"></script>
+		
+        <script>
+            $.widget.bridge('uibutton', $.ui.button);
+        </script>
+        <!-- Bootstrap 3.3.6 -->
+        <script src="../JS/bootstrap.min.js"></script>
+        <script src="../JS/raphael-min.js"></script>
+        <script src="../JS/morris.min.js"></script>
+        <script src="../JS/fastclick.min.js"></script>
+        <script src="../JS/app.min.js"></script>
+        <script src="../JS/Admin_Head/mine.js"></script>
+    </head>
+
+
+    <body class="hold-transition skin-blue sidebar-mini">
+        <div class="wrapper">
+
+            <header class="main-header">
+                <!-- Logo -->
+<!--                <a href="index2.html" class="logo">
+                     mini logo for sidebar mini 50x50 pixels 
+                    <span class="logo-mini"><b>T</b></span>
+                     logo for regular state and mobile devices 
+                    <span class="logo-lg"><b>Transtopia</b></span>
+                </a>-->
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top">
+                    <!-- Sidebar toggle button-->
+                    <div class="navbar-custom-menu-left">
+                        <ul class="nav navbar-nav">
+                    <li><a id="head1" href="javascript:void(0);" class="admin_a" onclick="showMainContent('1')">消息</a></li>
+                    <li><a id="head2" href="javascript:void(0);" class="admin_a" onclick="showMainContent('2')">动态</a></li>
+                    <li><a id="head3" href="javascript:void(0);" class="admin_a" onclick="showMainContent('3')">项目管理</a></li>
+                    <li><a id="head4" href="javascript:void(0);" class="admin_a" onclick="showMainContent('4')">应用管理</a></li>
+                    <li><a id="head5" href="javascript:void(0);" class="admin_a" onclick="showMainContent('5')">论坛</a></li>
+                </ul>
+                    </div>
+
+                    <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav">
+                            <!-- Messages: style can be found in dropdown.less-->
+                            <li class="dropdown messages-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-envelope-o"></i>
+                                    <span class="label label-success">4</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header">You have 4 messages</li>
+                                    <li>
+                                        <!-- inner menu: contains the actual data -->
+                                        <ul class="menu">
+                                            <li><!-- start message -->
+                                                <a href="#">
+                                                    <div class="pull-left">
+                                                        <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                                    </div>
+                                                    <h4>
+                                                        Support Team
+                                                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                                                    </h4>
+                                                    <p>Why not buy a new awesome theme?</p>
+                                                </a>
+                                            </li>
+                                            <!-- end message -->
+                                            <li>
+                                                <a href="#">
+                                                    <div class="pull-left">
+                                                        <img src="dist/img/user3-128x128.jpg" class="img-circle" alt="User Image">
+                                                    </div>
+                                                    <h4>
+                                                        AdminLTE Design Team
+                                                        <small><i class="fa fa-clock-o"></i> 2 hours</small>
+                                                    </h4>
+                                                    <p>Why not buy a new awesome theme?</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <div class="pull-left">
+                                                        <img src="dist/img/user4-128x128.jpg" class="img-circle" alt="User Image">
+                                                    </div>
+                                                    <h4>
+                                                        Developers
+                                                        <small><i class="fa fa-clock-o"></i> Today</small>
+                                                    </h4>
+                                                    <p>Why not buy a new awesome theme?</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <div class="pull-left">
+                                                        <img src="dist/img/user3-128x128.jpg" class="img-circle" alt="User Image">
+                                                    </div>
+                                                    <h4>
+                                                        Sales Department
+                                                        <small><i class="fa fa-clock-o"></i> Yesterday</small>
+                                                    </h4>
+                                                    <p>Why not buy a new awesome theme?</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <div class="pull-left">
+                                                        <img src="dist/img/user4-128x128.jpg" class="img-circle" alt="User Image">
+                                                    </div>
+                                                    <h4>
+                                                        Reviewers
+                                                        <small><i class="fa fa-clock-o"></i> 2 days</small>
+                                                    </h4>
+                                                    <p>Why not buy a new awesome theme?</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="footer"><a href="#">See All Messages</a></li>
+                                </ul>
+                            </li>
+                            <!-- Notifications: style can be found in dropdown.less -->
+                            <li class="dropdown notifications-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-bell-o"></i>
+                                    <span class="label label-warning">10</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header">You have 10 notifications</li>
+                                    <li>
+                                        <!-- inner menu: contains the actual data -->
+                                        <ul class="menu">
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
+                                                    page and may cause design problems
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-users text-red"></i> 5 new members joined
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-shopping-cart text-green"></i> 25 sales made
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-user text-red"></i> You changed your username
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="footer"><a href="#">View all</a></li>
+                                </ul>
+                            </li>
+                            <!-- Tasks: style can be found in dropdown.less -->
+                            <li class="dropdown tasks-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-flag-o"></i>
+                                    <span class="label label-danger">9</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header">You have 9 tasks</li>
+                                    <li>
+                                        <!-- inner menu: contains the actual data -->
+                                        <ul class="menu">
+                                            <li><!-- Task item -->
+                                                <a href="#">
+                                                    <h3>
+                                                        Design some buttons
+                                                        <small class="pull-right">20%</small>
+                                                    </h3>
+                                                    <div class="progress xs">
+                                                        <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                                            <span class="sr-only">20% Complete</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <!-- end task item -->
+                                            <li><!-- Task item -->
+                                                <a href="#">
+                                                    <h3>
+                                                        Create a nice theme
+                                                        <small class="pull-right">40%</small>
+                                                    </h3>
+                                                    <div class="progress xs">
+                                                        <div class="progress-bar progress-bar-green" style="width: 40%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                                            <span class="sr-only">40% Complete</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <!-- end task item -->
+                                            <li><!-- Task item -->
+                                                <a href="#">
+                                                    <h3>
+                                                        Some task I need to do
+                                                        <small class="pull-right">60%</small>
+                                                    </h3>
+                                                    <div class="progress xs">
+                                                        <div class="progress-bar progress-bar-red" style="width: 60%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                                            <span class="sr-only">60% Complete</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <!-- end task item -->
+                                            <li><!-- Task item -->
+                                                <a href="#">
+                                                    <h3>
+                                                        Make beautiful transitions
+                                                        <small class="pull-right">80%</small>
+                                                    </h3>
+                                                    <div class="progress xs">
+                                                        <div class="progress-bar progress-bar-yellow" style="width: 80%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                                            <span class="sr-only">80% Complete</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <!-- end task item -->
+                                        </ul>
+                                    </li>
+                                    <li class="footer">
+                                        <a href="#">View all tasks</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- User Account: style can be found in dropdown.less -->
+                            <li class="dropdown user user-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                                    <span class="hidden-xs">付志成</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <!-- User image -->
+                                    <li class="user-header">
+                                        <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+
+                                        <p>
+                                           Zhicheng Fu - Web Developer
+                                            <small>Member since Nov. 2012</small>
+                                        </p>
+                                    </li>
+                                    <!-- Menu Body -->
+                                    <li class="user-body">
+                                        <div class="row">
+                                            <div class="col-xs-4 text-center">
+                                                <a href="#">Followers</a>
+                                            </div>
+                                            <div class="col-xs-4 text-center">
+                                                <a href="#">Sales</a>
+                                            </div>
+                                            <div class="col-xs-4 text-center">
+                                                <a href="#">Friends</a>
+                                            </div>
+                                        </div>
+                                        <!-- /.row -->
+                                    </li>
+                                    <!-- Menu Footer-->
+                                    <li class="user-footer">
+                                        <div class="pull-left">
+                                            <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                        </div>
+                                        <div class="pull-right">
+                                            <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- Control Sidebar Toggle Button -->
+                            <li>
+                                <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+            <!-- Left side column. contains the logo and sidebar -->
+            <aside class="main-sidebar">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar" id="sideBar_Transtopia">
+					<form action="#" method="get" class="sidebar-form">
+						<div class="input-group">
+							<input type="text" name="q" class="form-control" placeholder="Search...">
+								<span class="input-group-btn">
+									<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+									</button>
+								</span>
+						</div>
+					</form>
+					
+				  <ul class="sidebar-menu">
+					<!-- Optionally, you can add icons to the links -->
+					<li class="active"><a href="#"><i class="fa fa-list-alt"></i> <span>全部动态</span></a></li>
+					<li><a href="#"><i class="fa fa-user"></i> <span>我的动态</span></a></li>
+					<li><a href="#"><i class="fa fa-star"></i> <span>星标动态</span></a></li>
+				  </ul>
+				  <ul class="sidebar-menu">
+					<li class="header">群组动态</li>
+					<!-- Optionally, you can add icons to the links -->
+					<li><a href="#"><i class="fa fa-list-alt"></i> <span>交托班</span></a></li>
+					<li><a href="#"><i class="fa fa-user"></i> <span>测试</span></a></li>
+					<li><a href="#"><i class="fa fa-star"></i> <span>我自己</span></a></li>
+				  </ul>	
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+			
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper" id="content_Transtopia">
+				<!-- Content Header (Page header) -->
+				<section class="content-header">
+				  <h1>
+					动态墙
+				  </h1>
+				  <ol class="breadcrumb">
+					<li><a href="#"><i class="fa fa-dashboard"></i> 全部动态</a></li>
+				  </ol>
+				</section>
+				
+				<!-- Main content -->
+				<section class="content">		  
+				  <div class="row">
+						<div id="userInfo" class="col-md-3">
+							<div class="box box-widget widget-user">
+							<!-- Add the bg color to the header using any of the bg-* classes -->
+							<div class="widget-user-header bg-black" style="background: url('Moment/photo1.png') center center;">
+								<h3 class="widget-user-username"></h3>
+								<!-- <h5 class="widget-user-desc">软件工程师</h5> -->
+							</div>
+							<div class="widget-user-image">
+								<img class="img-circle" alt="User Avatar">
+							</div>
+							<div class="box-footer">
+								<div class="row">
+								<div class="col-sm-4 border-right">
+									<div class="description-block">
+									<h5 class="description-header"></h5>
+									<span class="description-text">动态</span>
+									</div>
+									<!-- /.description-block -->
+								</div>
+								<!-- /.col -->
+								<div class="col-sm-4 border-right">
+									<div class="description-block">
+									<h5 class="description-header"></h5>
+									<span class="description-text">精华</span>
+									</div>
+									<!-- /.description-block -->
+								</div>
+								<!-- /.col -->
+								<div class="col-sm-4">
+									<div class="description-block">
+									<h5 class="description-header"></h5>
+									<span class="description-text">关注者</span>
+									</div>
+									<!-- /.description-block -->
+								</div>
+								<!-- /.col -->
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+									<a href="#" class="btn btn-primary btn-block"><b>关注</b></a>
+								</div>
+									
+								</div>
+								<!-- /.row -->
+							</div>
+							</div>
+					
+							<!-- About Me Box -->
+							<div class="box box-primary">
+							<div class="box-header with-border">
+								<h3 class="box-title">个人信息</h3>
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body">
+								<strong><i class="fa fa-book margin-r-5"></i> 个人介绍</strong>
+
+								<p class="text-muted">
+								</p>
+
+								<hr>
+
+								<strong><i class="fa fa-pencil margin-r-5"></i> 父话题</strong>
+
+								<p id="topicGenres">
+								<!-- 父话题 -->
+								</p>
+
+								<hr>
+
+								<strong><i class="fa fa-file-text-o margin-r-5"></i> 子话题</strong>
+								
+								<p id="topicTags">
+								<!-- 子话题 -->
+								</p>
+							</div>
+							<!-- /.box-body -->
+							</div>
+							<!-- /.box -->
+						</div>
+						<div class="col-md-9">
+							<!-- The time line -->
+							<ul id="personalMoments" class="timeline">
+
+							</ul>
+						</div>
+				  </div>
+				  
+				  
+				  <!-- /.row -->
+				<!-- /.content -->
+				
+				<!-- modal 开始 -->
+				<div class="modal fade" id="momentModal" tabindex="-1">
+					<div class="modal-dialog" style="width: 60%;">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+									&times;
+								</button>
+								<h4 class="modal-title">
+									<!-- 用户信息 -->
+								</h4>
+							</div>
+							<div class="modal-body">
+								<h4 class="moment-title">
+								<!-- 标题 -->
+								</h4>
+								<h6 class="moment-datetime">
+								<!-- 时间 -->
+								</h6>
+								<div class="content">
+								<!-- 内容 -->
+								</div>
+								<div class="clearfix" style="float: right;">
+									<a class="btn btn-default btn-xs" style="margin-left: 5px;"><span class="fa fa-tag"></span> 分享</a>
+									<a class="btn btn-default btn-xs" style="margin-left: 5px;"><span class="fa fa-tag"></span> 举报</a>
+								</div>
+								<div class="tags">
+									<!-- 标签 -->
+								</div>
+							</div>
+							<div class="modal-footer" style="text-align: left;">
+								<div class="editor-block">
+									<!-- 编辑器 -->
+								</div>
+								<div class="comments" style="margin: 5px 30px;">
+									<!-- 评论 -->
+								</div>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal -->
+				</div>
+				<script>
+					//模态框加载
+					$('#momentModal').on('show.bs.modal', function () {
+						//获取data
+						data = {
+								id: 54315,
+								user_id: 123,
+								user_name: "张振宇",
+								user_img: "Moment/user1-128x128.jpg",
+								user_followers: 123,
+								user_blogs: 456, //发表总文章数
+								user_bestblogs: 789, //用户精华帖
+								
+
+								title: "这是一个标题",
+								content: '<div>作者：Airbnb<br>链接：https://zhuanlan.zhihu.com/p/23528322<br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br><br><p>在风云变幻的都市上海，有这样的一块地方，完整地保留了民国时期的浮华与沧桑，那就是今天旅行者都不会错过的上海原法租界。虽然我们已经远离了那个年代，但只要在Airbnb上预定一间上海原法租界的房子，你就可以瞬间穿越回斑驳的1943，感受民国租界里的生活的滋味。</p><p><b>1、复古挑高华美百年洋房</b></p><img src="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_r.jpg"><p>这间被称作“时间胶囊”的民宿凭借优越的地理位置以及独特的室内装潢，吸引了不少Airbnb的房客。虽然面积不大，但空间布局和每一处细小的装潢都独具特色。</p><img src="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_r.jpg"><p>房间里的罗马柱和清一色地木质家具，仿佛重回1943的老上海。房东大量的藏书，让人觉得好像来到了20世纪初的欧洲私人图书馆，沉浸在阅读的欢愉中，与外面的都市喧嚣全然隔绝。<br></p><img src="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_r.jpg"><p>房间的厨房小巧玲珑，但可以称得上是空间利用的典范，即便是在这小小的空间里，做出一顿法式大餐也是完全可能的。<br></p><img src="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_r.jpg"><p>4米挑高阁楼上的卧室既保有整个房间的古朴元素，又加入了一些现代的装饰，角落里摆放的埃菲尔铁塔懒人沙发在昭示着这间房子与法国千丝万缕的关联。<br></p><img src="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_b.jpg" data-rawwidth="852" data-rawheight="640" class="origin_image zh-lightbox-thumb" width="852" data-original="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_r.jpg"><p>房子对面就有法租界里有名的酒吧和咖啡馆，如果觉得一个人在屋里无聊的话，买杯咖啡，在对街看看这栋有一百年历史的老房子，读一读《上海法租界史》，说不定你住的民宿还会出现在书里某张泛黄的照片里哦。</p><br><p><b>2、法租界优雅的孔雀吱屋</b></p><img src="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_r.jpg"><p>这间位于石库门洋房一楼的loft民宿有一个特别的名字，叫“雀吱”。跟孔雀那高傲的美艳一样，这家民宿也是大有来头，曾经风靡上海滩的大明星胡蝶就曾居住于此。</p><img src="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_r.jpg"><p>为了方便房客入住，房子的主人特意改造了独门独户的入口，门厅的设计也满满都是中式古朴感，两侧镂雕花卉纹的木质柜子，装饰以铜制吊扣和拉手，散发着时间流逝的芳香。</p></div>',
+								datetime: "2015-07-13 08:05", //时间
+								genre: "资讯", // 大分类
+								tags: ["绘图","资讯"], // 小标签
+								sharedwith: [], //分享范围，是否需要？？？
+								total_like: 8056, //总点赞人数
+								like: 0, //我是否点赞
+								star: 1, //我是否加星
+								
+								comments: [{
+									user_id: 2574,
+									user_name: "刘美义",
+									user_img: "Moment/user2-160x160.jpg",
+									
+									to_id: -1, //回复用户id
+									to_name: "", //回复用户姓名
+									content: '<div>作者：Airbnb<br>链接：https://zhuanlan.zhihu.com/p/23528322<br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br><br><p>在风云变幻的都市上海，有这样的一块地方，完整地保留了民国时期的浮华与沧桑，那就是今天旅行者都不会错过的上海原法租界。虽然我们已经远离了那个年代，但只要在Airbnb上预定一间上海原法租界的房子，你就可以瞬间穿越回斑驳的1943，感受民国租界里的生活的滋味。</p><p><b>1、复古挑高华美百年洋房</b></p><img src="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_r.jpg"><p>这间被称作“时间胶囊”的民宿凭借优越的地理位置以及独特的室内装潢，吸引了不少Airbnb的房客。虽然面积不大，但空间布局和每一处细小的装潢都独具特色。</p><img src="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_r.jpg"><p>房间里的罗马柱和清一色地木质家具，仿佛重回1943的老上海。房东大量的藏书，让人觉得好像来到了20世纪初的欧洲私人图书馆，沉浸在阅读的欢愉中，与外面的都市喧嚣全然隔绝。<br></p><img src="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_r.jpg"><p>房间的厨房小巧玲珑，但可以称得上是空间利用的典范，即便是在这小小的空间里，做出一顿法式大餐也是完全可能的。<br></p><img src="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_r.jpg"><p>4米挑高阁楼上的卧室既保有整个房间的古朴元素，又加入了一些现代的装饰，角落里摆放的埃菲尔铁塔懒人沙发在昭示着这间房子与法国千丝万缕的关联。<br></p><img src="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_b.jpg" data-rawwidth="852" data-rawheight="640" class="origin_image zh-lightbox-thumb" width="852" data-original="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_r.jpg"><p>房子对面就有法租界里有名的酒吧和咖啡馆，如果觉得一个人在屋里无聊的话，买杯咖啡，在对街看看这栋有一百年历史的老房子，读一读《上海法租界史》，说不定你住的民宿还会出现在书里某张泛黄的照片里哦。</p><br><p><b>2、法租界优雅的孔雀吱屋</b></p><img src="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_r.jpg"><p>这间位于石库门洋房一楼的loft民宿有一个特别的名字，叫“雀吱”。跟孔雀那高傲的美艳一样，这家民宿也是大有来头，曾经风靡上海滩的大明星胡蝶就曾居住于此。</p><img src="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_r.jpg"><p>为了方便房客入住，房子的主人特意改造了独门独户的入口，门厅的设计也满满都是中式古朴感，两侧镂雕花卉纹的木质柜子，装饰以铜制吊扣和拉手，散发着时间流逝的芳香。</p></div>',
+									datetime: "2015-07-13 08:05",
+								},{
+									user_id: 2574,
+									user_name: "刘美义",
+									user_img: "Moment/user2-160x160.jpg",
+									
+									to_id: -1, //回复用户id
+									to_name: "", //回复用户姓名
+									content: '<div>作者：Airbnb<br>链接：https://zhuanlan.zhihu.com/p/23528322<br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br><br><p>在风云变幻的都市上海，有这样的一块地方，完整地保留了民国时期的浮华与沧桑，那就是今天旅行者都不会错过的上海原法租界。虽然我们已经远离了那个年代，但只要在Airbnb上预定一间上海原法租界的房子，你就可以瞬间穿越回斑驳的1943，感受民国租界里的生活的滋味。</p><p><b>1、复古挑高华美百年洋房</b></p><img src="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_r.jpg"><p>这间被称作“时间胶囊”的民宿凭借优越的地理位置以及独特的室内装潢，吸引了不少Airbnb的房客。虽然面积不大，但空间布局和每一处细小的装潢都独具特色。</p><img src="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_r.jpg"><p>房间里的罗马柱和清一色地木质家具，仿佛重回1943的老上海。房东大量的藏书，让人觉得好像来到了20世纪初的欧洲私人图书馆，沉浸在阅读的欢愉中，与外面的都市喧嚣全然隔绝。<br></p><img src="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_r.jpg"><p>房间的厨房小巧玲珑，但可以称得上是空间利用的典范，即便是在这小小的空间里，做出一顿法式大餐也是完全可能的。<br></p><img src="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_r.jpg"><p>4米挑高阁楼上的卧室既保有整个房间的古朴元素，又加入了一些现代的装饰，角落里摆放的埃菲尔铁塔懒人沙发在昭示着这间房子与法国千丝万缕的关联。<br></p><img src="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_b.jpg" data-rawwidth="852" data-rawheight="640" class="origin_image zh-lightbox-thumb" width="852" data-original="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_r.jpg"><p>房子对面就有法租界里有名的酒吧和咖啡馆，如果觉得一个人在屋里无聊的话，买杯咖啡，在对街看看这栋有一百年历史的老房子，读一读《上海法租界史》，说不定你住的民宿还会出现在书里某张泛黄的照片里哦。</p><br><p><b>2、法租界优雅的孔雀吱屋</b></p><img src="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_r.jpg"><p>这间位于石库门洋房一楼的loft民宿有一个特别的名字，叫“雀吱”。跟孔雀那高傲的美艳一样，这家民宿也是大有来头，曾经风靡上海滩的大明星胡蝶就曾居住于此。</p><img src="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_r.jpg"><p>为了方便房客入住，房子的主人特意改造了独门独户的入口，门厅的设计也满满都是中式古朴感，两侧镂雕花卉纹的木质柜子，装饰以铜制吊扣和拉手，散发着时间流逝的芳香。</p></div>',
+									datetime: "2015-07-13 08:05",
+								},{
+									user_id: 2574,
+									user_name: "刘美义",
+									user_img: "Moment/user2-160x160.jpg",
+									
+									to_id: -1, //回复用户id
+									to_name: "", //回复用户姓名
+									content: '<div>作者：Airbnb<br>链接：https://zhuanlan.zhihu.com/p/23528322<br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br><br><p>在风云变幻的都市上海，有这样的一块地方，完整地保留了民国时期的浮华与沧桑，那就是今天旅行者都不会错过的上海原法租界。虽然我们已经远离了那个年代，但只要在Airbnb上预定一间上海原法租界的房子，你就可以瞬间穿越回斑驳的1943，感受民国租界里的生活的滋味。</p><p><b>1、复古挑高华美百年洋房</b></p><img src="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_r.jpg"><p>这间被称作“时间胶囊”的民宿凭借优越的地理位置以及独特的室内装潢，吸引了不少Airbnb的房客。虽然面积不大，但空间布局和每一处细小的装潢都独具特色。</p><img src="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_r.jpg"><p>房间里的罗马柱和清一色地木质家具，仿佛重回1943的老上海。房东大量的藏书，让人觉得好像来到了20世纪初的欧洲私人图书馆，沉浸在阅读的欢愉中，与外面的都市喧嚣全然隔绝。<br></p><img src="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_r.jpg"><p>房间的厨房小巧玲珑，但可以称得上是空间利用的典范，即便是在这小小的空间里，做出一顿法式大餐也是完全可能的。<br></p><img src="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_r.jpg"><p>4米挑高阁楼上的卧室既保有整个房间的古朴元素，又加入了一些现代的装饰，角落里摆放的埃菲尔铁塔懒人沙发在昭示着这间房子与法国千丝万缕的关联。<br></p><img src="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_b.jpg" data-rawwidth="852" data-rawheight="640" class="origin_image zh-lightbox-thumb" width="852" data-original="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_r.jpg"><p>房子对面就有法租界里有名的酒吧和咖啡馆，如果觉得一个人在屋里无聊的话，买杯咖啡，在对街看看这栋有一百年历史的老房子，读一读《上海法租界史》，说不定你住的民宿还会出现在书里某张泛黄的照片里哦。</p><br><p><b>2、法租界优雅的孔雀吱屋</b></p><img src="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_r.jpg"><p>这间位于石库门洋房一楼的loft民宿有一个特别的名字，叫“雀吱”。跟孔雀那高傲的美艳一样，这家民宿也是大有来头，曾经风靡上海滩的大明星胡蝶就曾居住于此。</p><img src="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_r.jpg"><p>为了方便房客入住，房子的主人特意改造了独门独户的入口，门厅的设计也满满都是中式古朴感，两侧镂雕花卉纹的木质柜子，装饰以铜制吊扣和拉手，散发着时间流逝的芳香。</p></div>',
+									datetime: "2015-07-13 08:05",
+								}] // 评论
+							};
+						
+						$('h4[class="modal-title"]').html('<div class="user-block"> \
+															<img class="img-circle img-bordered-sm" src="' + data.user_img + '" alt="user image"> \
+																<span class="username"> \
+																  <a href="#">' + data.user_name + '</a> \
+																  <a href="#" class="btn btn-success btn-sm pull-right" style="margin-right: 15px;" value="' + data.user_id + '"><i class="fa fa-plus"></i> 关注</a> \
+																</span> \
+															<span class="description">关注人数： ' + data.user_followers + '</span> \
+														  </div>');
+						$('h4[class="moment-title"]').text(data.title);
+						//datetime格式要优化
+						$('h4[class="moment-datetime"]').text(data.datetime);
+						$('#momentModal .modal-body .content').html(data.content);
+						$('#momentModal .modal-body .tags').empty();
+						$.each(data.tags,function(index, tag){
+							$('#momentModal .modal-body .tags').append('<a class="btn btn-primary btn-xs" style="margin-left: 5px;"><span class="fa fa-tag"></span> ' + tag + '</a>');
+						});
+						
+
+						
+						$('#momentModal .modal-footer .editor-block').html('<div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor-' + data.id + '"> \
+										  <div class="btn-group"> \
+											<a class="btn dropdown-toggle" data-toggle="dropdown" title="字体"><i class="icon-font"></i><b class="caret"></b></a> \
+											  <ul class="dropdown-menu"> \
+											  </ul> \
+											</div> \
+										  <div class="btn-group"> \
+											<a class="btn dropdown-toggle" data-toggle="dropdown" title="字体大小"><i class="icon-text-height"></i>&nbsp;<b class="caret"></b></a> \
+											  <ul class="dropdown-menu"> \
+											  <li><a data-edit="fontSize 5"><font size="5">大</font></a></li> \
+											  <li><a data-edit="fontSize 3"><font size="3">中</font></a></li> \
+											  <li><a data-edit="fontSize 1"><font size="1">小</font></a></li> \
+											  </ul> \
+										  </div> \
+										  <div class="btn-group"> \
+											<a class="btn" data-edit="bold" title="加粗 (Ctrl/Cmd+B)"><i class="icon-bold"></i></a> \
+											<a class="btn" data-edit="italic" title="斜体 (Ctrl/Cmd+I)"><i class="icon-italic"></i></a> \
+											<a class="btn" data-edit="strikethrough" title="（加） 删除线"><i class="icon-strikethrough"></i></a> \
+											<a class="btn" data-edit="underline" title="下划线 (Ctrl/Cmd+U)"><i class="icon-underline"></i></a> \
+										  </div> \
+										  <div class="btn-group"> \
+											<a class="btn" data-edit="insertunorderedlist" title="项目列表"><i class="icon-list-ul"></i></a> \
+											<a class="btn" data-edit="insertorderedlist" title="数字列表"><i class="icon-list-ol"></i></a> \
+											<a class="btn" data-edit="outdent" title="清除缩进 (Shift+Tab)"><i class="icon-indent-left"></i></a> \
+											<a class="btn" data-edit="indent" title="缩进 (Tab)"><i class="icon-indent-right"></i></a> \
+										  </div> \
+										  <div class="btn-group"> \
+											<a class="btn" data-edit="justifyleft" title="居左 (Ctrl/Cmd+L)"><i class="icon-align-left"></i></a> \
+											<a class="btn" data-edit="justifycenter" title="居中 (Ctrl/Cmd+E)"><i class="icon-align-center"></i></a> \
+											<a class="btn" data-edit="justifyright" title="居右 (Ctrl/Cmd+R)"><i class="icon-align-right"></i></a> \
+											<a class="btn" data-edit="justifyfull" title="正常 (Ctrl/Cmd+J)"><i class="icon-align-justify"></i></a> \
+										  </div> \
+										  <div class="btn-group"> \
+											  <a class="btn dropdown-toggle" data-toggle="dropdown" title="超链接"><i class="icon-link"></i></a> \
+												<div class="dropdown-menu input-append"> \
+													<input class="span2" placeholder="URL" type="text" data-edit="createLink"/> \
+													<button class="btn" type="button">添加</button> \
+											</div> \
+											<a class="btn" data-edit="unlink" title="去除链接"><i class="icon-cut"></i></a> \
+										  </div> \
+										  <div class="btn-group"> \
+											<a class="btn" title="浏览或拖拽添加图片" id="pictureBtn' + data.id + '"><i class="icon-picture"></i></a> \
+											<input type="file" data-role="magic-overlay" data-target="#pictureBtn' + data.id + '" data-edit="insertImage" /> \
+										  </div> \
+										  <div class="btn-group"> \
+											<a class="btn" data-edit="undo" title="撤消 (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a> \
+											<a class="btn" data-edit="redo" title="重复 (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a> \
+										  </div> \
+										</div> \
+										<div id="editor-' + data.id + '" class="editor"> \
+										</div> \
+										<div style="text-align: right; margin-top:5px;"><a class="btn btn-primary btn-flat btn-xs reply-btn" value="' + data.id + '">回复</a> </div>');
+						$('#momentModal .modal-footer .comments').empty();
+						$.each(data.comments,function(index, comment){
+							$('#momentModal .modal-footer .comments').append('<div class="post" style="border-bottom: 1px solid #ddd;"> \
+										  <div class="user-block"> \
+											<img class="img-circle img-bordered-sm" src="' + comment.user_img + '" alt="user image"> \
+												<span class="username"> \
+												  <a href="#">' + comment.user_name + '</a> \
+												  <a href="#" class="pull-right btn-box-tool">回复</a> \
+												</span> \
+											<span class="description">' + getDate_Trans(comment.datetime) + ' ' + getTime_Trans(comment.datetime) +'</span> \
+										  </div> \
+										  <div class="reply reply-fold">' + comment.content + '</div> \
+										</div>');
+						});
+						
+						$('#momentModal .reply').on('click', function(event){
+							$(this).toggleClass('reply-fold');
+						});
+					
+						<!-- 加载editor -->
+						  $(function(){
+							function initToolbarBootstrapBindings() {
+							  var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier', 
+									'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
+									'Times New Roman', 'Verdana','SimHei'],
+									fontTarget = $('[title=字体]').siblings('.dropdown-menu');
+							  $.each(fonts, function (idx, fontName) {
+								  fontTarget.append($('<li><a data-edit="fontName ' + fontName +'" style="font-family:\''+ fontName +'\'">'+fontName + '</a></li>'));
+							  });
+							  $('a[title]').tooltip({container:'body'});
+								$('.dropdown-menu input').click(function() {return false;})
+									.change(function () {$(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');})
+								.keydown('esc', function () {this.value='';$(this).change();});
+
+							  $('[data-role=magic-overlay]').each(function () { 
+								var overlay = $(this), target = $(overlay.data('target')); 
+								overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
+							  });
+							  /*
+							  if ("onwebkitspeechchange"  in document.createElement("input")) {
+								var editorOffset = $('#editor').offset();
+								$('#voiceBtn').css('position','absolute').offset({top: editorOffset.top, left: editorOffset.left+$('#editor').innerWidth()-35});
+							  } else {
+								$('#voiceBtn').hide();
+							  }
+							  */
+							};
+							function showErrorAlert (reason, detail) {
+								var msg='';
+								if (reason==='unsupported-file-type') { msg = "Unsupported format " +detail; }
+								else {
+									console.log("error uploading file", reason, detail);
+								}
+								$('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>'+ 
+								 '<strong>File upload error</strong> '+msg+' </div>').prependTo('#alerts');
+							};
+							initToolbarBootstrapBindings();  
+							$('.editor').wysiwyg({ fileUploadError: showErrorAlert} );
+							window.prettyPrint && prettyPrint();
+						  });
+						
+						
+						  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+						  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+						  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+						  })(window,document,'script','http://www.google-analytics.com/analytics.js','ga');
+						  ga('create', 'UA-37452180-6', 'github.io');
+						  ga('send', 'pageview');
+						
+						(function(d, s, id) {
+						  var js, fjs = d.getElementsByTagName(s)[0];
+						  if (d.getElementById(id)) return;
+						  js = d.createElement(s); js.id = id;
+						  js.src = "http://connect.facebook.net/en_GB/all.js#xfbml=1";
+						  fjs.parentNode.insertBefore(js, fjs);
+						  }(document, 'script', 'facebook-jssdk'));
+
+
+						!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="http://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+							//回复动态
+							$('.reply-btn').click(function(){
+								id = $(this).attr('value');
+								data = {};
+								data['id'] = id
+								data['content'] = $('#editor-'+id).html();
+								
+								//存储
+								console.log(data);
+							});
+						});
+				</script>
+				<style>
+					#momentModal img {
+						max-width: 500px;
+					};
+				</style>
+				<!-- modal 结束 -->
+				
+				<script>
+				//加载动态
+				/*
+				data = [
+				{
+					id: ,
+					user_id: ,
+					user_name: ,
+					user_img:,
+					user_followers: , //关注者总人数
+					user_blogs: , //发表总文章数
+					user_bestblogs: , //用户精华帖
+					
+					//个人详细信息
+					user_introduction:  //个人简介
+					user_topic_genres: [] //父类话题
+					user_topic_tags: [] //父类话题
+					
+					title: , //标题
+					content: , //内容
+					datetime: , //时间
+					genre: , // 大分类
+					tags: [], // 小标签
+					sharedwith: [], //分享范围，是否需要？？？
+					total_like: , //总点赞人数
+					like: (0 or 1), //我是否点赞
+					star: (0 or 1), //我是否加星
+					
+					comments: [{
+						user_id: ,
+						user_name: ,
+						user_img:,
+						
+						to_id: , //回复用户id
+						to_name: , //回复用户姓名
+						content: , //内容
+						datetime:  //时间
+					}] // 评论
+				}];
+				*/
+						
+						
+				var loadMoment = function(data){
+					pre_date = "";
+					$.each(data,function(index, moment){
+						date = getDate_Trans(moment['datetime']);
+						if(date != pre_date){
+							pre_date = date;
+							$('#personalMoments').append('<li class="time-label"> \
+														  <span class="bg-red"> \
+															' + pre_date + ' \
+														  </span> \
+													</li>');
+						}
+						// data-toggle="modal" data-target="#momentModal
+						html_text = ' \
+									<li> \
+										<img data-container="body" data-trigger="hover" data-toggle="popover" data-placement="right" data-html="true" \
+										data-content=\' \
+												  <div class="box box-primary" style="width:200px;"> \
+													<div class="box-body box-profile"> \
+													  <img class="profile-user-img img-responsive img-circle" src="' + moment.user_img + '" alt="User profile picture"> \
+													  <h3 class="profile-username text-center">' + moment.user_name + '</h3> \
+													  <ul class="list-group list-group-unbordered"> \
+														<li class="list-group-item"> \
+														  <b>动态</b> <a class="pull-right">' + moment.user_blogs + '</a>\
+														</li> \
+														<li class="list-group-item"> \
+														  <b>精华</b> <a class="pull-right">' + moment.user_bestblogs + '</a> \
+														</li> \
+														<li class="list-group-item"> \
+														  <b>关注者</b> <a class="pull-right">' + moment.user_followers +'</a> \
+														</li> \
+													  </ul> \
+													  <a href="#" class="btn btn-primary btn-block"><b>关注</b></a> \
+													</div> \
+												  </div>\' \
+										class="img-circle img-bordered-sm" src="' + moment.user_img + '" alt="user image" style="width: 30px;height: 30px;font-size: 15px;line-height: 30px;position: absolute;color: #666;background: #d2d6de;border-radius: 50%;text-align: center;left: 18px;top: 0;"> \
+										<div class="timeline-item"> \
+											<span class="time"><i class="fa fa-clock-o"></i> ' + getTime_Trans(moment.datetime) + ' </span> \
+											<h3 class="timeline-header"><a href="#">' + moment.user_name + '</a> <small><span class="fa fa-chevron-right"></span> <a href="#">' + moment.genre + '</a></small></h3> \
+											<div class="timeline-body"> \
+												<h3><a href="#" data-toggle="modal" data-target="#momentModal">' + moment.title + '</a></h3> \
+												<div class="moment moment-fold">' + moment.content + '</div> \
+											</div> \
+											<div class="timeline-footer clearfix" > \
+											  <a class="pull-right" style="margin-right:15px;"><span class="fa ' + (moment.star==0 ? "fa-star-o" : "fa-star") + '"></span></a> \
+											  <a class="pull-right" style="margin-right:15px;"><span class="fa ' + (moment.like==0 ? "fa-thumbs-o-up" : "fa-thumbs-up") + '"></span> ' + moment.total_like + '</a> \
+											  <a class="pull-right" style="margin-right:15px;" data-toggle="collapse" href="#collapse-tag-' + (index+1) + '"><span class="fa fa-tag"></span> ' + $(moment.tags).size() + '</a> \
+											  <a class="pull-right" style="margin-right:15px;" data-toggle="collapse" href="#collapse-' + (index+1) + '"><span class="fa fa-comment"></span>  ' + $(moment.comments).size() + '</a> \
+											</div> \
+											<div id="collapse-tag-' + (index+1) + '" class="timeline-footer panel-collapse collapse"> \
+									';
+						$.each(moment.tags,function(index, tag){
+							html_text += '<a class="btn btn-primary btn-xs" style="margin-left: 5px;"><span class="fa fa-tag"></span> ' + tag + ' &times;</a>'
+						});
+						html_text += '<a class="btn btn-success btn-xs" style="margin-left: 5px;">添加</a> \
+									</div> \
+									<div id="collapse-' + (index+1) + '" class="timeline-footer panel-collapse collapse" style="background: #f5f5f5;"> \
+										<div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor-' + (index+1) + '"> \
+										  <div class="btn-group"> \
+											<a class="btn dropdown-toggle" data-toggle="dropdown" title="字体"><i class="icon-font"></i><b class="caret"></b></a> \
+											  <ul class="dropdown-menu"> \
+											  </ul> \
+											</div> \
+										  <div class="btn-group"> \
+											<a class="btn dropdown-toggle" data-toggle="dropdown" title="字体大小"><i class="icon-text-height"></i>&nbsp;<b class="caret"></b></a> \
+											  <ul class="dropdown-menu"> \
+											  <li><a data-edit="fontSize 5"><font size="5">大</font></a></li> \
+											  <li><a data-edit="fontSize 3"><font size="3">中</font></a></li> \
+											  <li><a data-edit="fontSize 1"><font size="1">小</font></a></li> \
+											  </ul> \
+										  </div> \
+										  <div class="btn-group"> \
+											<a class="btn" data-edit="bold" title="加粗 (Ctrl/Cmd+B)"><i class="icon-bold"></i></a> \
+											<a class="btn" data-edit="italic" title="斜体 (Ctrl/Cmd+I)"><i class="icon-italic"></i></a> \
+											<a class="btn" data-edit="strikethrough" title="（加） 删除线"><i class="icon-strikethrough"></i></a> \
+											<a class="btn" data-edit="underline" title="下划线 (Ctrl/Cmd+U)"><i class="icon-underline"></i></a> \
+										  </div> \
+										  <div class="btn-group"> \
+											<a class="btn" data-edit="insertunorderedlist" title="项目列表"><i class="icon-list-ul"></i></a> \
+											<a class="btn" data-edit="insertorderedlist" title="数字列表"><i class="icon-list-ol"></i></a> \
+											<a class="btn" data-edit="outdent" title="清除缩进 (Shift+Tab)"><i class="icon-indent-left"></i></a> \
+											<a class="btn" data-edit="indent" title="缩进 (Tab)"><i class="icon-indent-right"></i></a> \
+										  </div> \
+										  <div class="btn-group"> \
+											<a class="btn" data-edit="justifyleft" title="居左 (Ctrl/Cmd+L)"><i class="icon-align-left"></i></a> \
+											<a class="btn" data-edit="justifycenter" title="居中 (Ctrl/Cmd+E)"><i class="icon-align-center"></i></a> \
+											<a class="btn" data-edit="justifyright" title="居右 (Ctrl/Cmd+R)"><i class="icon-align-right"></i></a> \
+											<a class="btn" data-edit="justifyfull" title="正常 (Ctrl/Cmd+J)"><i class="icon-align-justify"></i></a> \
+										  </div> \
+										  <div class="btn-group"> \
+											  <a class="btn dropdown-toggle" data-toggle="dropdown" title="超链接"><i class="icon-link"></i></a> \
+												<div class="dropdown-menu input-append"> \
+													<input class="span2" placeholder="URL" type="text" data-edit="createLink"/> \
+													<button class="btn" type="button">添加</button> \
+											</div> \
+											<a class="btn" data-edit="unlink" title="去除链接"><i class="icon-cut"></i></a> \
+										  </div> \
+										  <div class="btn-group"> \
+											<a class="btn" title="浏览或拖拽添加图片" id="pictureBtn' + (index+1) + '"><i class="icon-picture"></i></a> \
+											<input type="file" data-role="magic-overlay" data-target="#pictureBtn' + (index+1) + '" data-edit="insertImage" /> \
+										  </div> \
+										  <div class="btn-group"> \
+											<a class="btn" data-edit="undo" title="撤消 (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a> \
+											<a class="btn" data-edit="redo" title="重复 (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a> \
+										  </div> \
+										</div> \
+										<div id="editor-' + moment.id + '" class="editor"> \
+										</div> \
+										<div style="text-align: right; margin-top:5px;"><a class="btn btn-primary btn-flat btn-xs reply-btn" value="' + moment.id + '">回复</a> </div> \
+										<div style="margin: 5px 30px;">';
+						$.each(moment.comments,function(index, comment){
+							html_text += '<div class="post" style="border-bottom: 1px solid #ddd;"> \
+										  <div class="user-block"> \
+											<img class="img-circle img-bordered-sm" src="' + comment.user_img + '" alt="user image"> \
+												<span class="username"> \
+												  <a href="#">' + comment.user_name + '</a> \
+												  <a href="#" class="pull-right btn-box-tool">回复</a> \
+												</span> \
+											<span class="description">' + getDate_Trans(comment.datetime) + ' ' + getTime_Trans(comment.datetime) +'</span> \
+										  </div> \
+										  <div class="reply reply-fold">' + comment.content + '</div> \
+										</div>';
+						});
+						html_text += '</div> \
+									</div> \
+								</li>';
+						$('#personalMoments').append(html_text);
+					});	
+					$('#personalMoments').append('<li><i class="fa fa-clock-o bg-gray"></i>');
+				};
+				
+			    var loadUserInfo = function(data){
+					//Load Individual Info
+					$('#userInfo .widget-user-username').text(data.user_name);
+					$('#userInfo .widget-user-image img').attr('src',data.user_img);
+					$('#userInfo .box-footer .description-header:eq(0)').text(data.user_blogs);
+					$('#userInfo .box-footer .description-header:eq(1)').text(data.user_bestblogs);
+					$('#userInfo .box-footer .description-header:eq(2)').text(data.user_followers);
+					$('#userInfo .box-primary .text-muted').text(data.user_introduction);
+					
+					$('#topicGenres').empty();
+					$.each(data.user_topic_genres, function (idx, genre){
+						$('#topicGenres').append('<span class="label ' + randomPicker(colors) + '" style="margin-left: 3px;">' + genre + '</span>');
+					});
+					
+					$('#topicTags').empty();
+					$.each(data.user_topic_tags, function (idx, tag){
+						$('#topicTags').append('<span class="label ' + randomPicker(colors) + '" style="margin-left: 3px;">' + tag + '</span>');
+					});
+					
+				};
+			  
+				//辅助方法
+				var colors = ['label-danger', 'label-success', 'label-info', 'label-warning', 'label-primary'];
+				var randomPicker = function(array){
+					var random = Math.floor(Math.random() * (array.length));
+					return array[random];
+				}
+				var getDate_Trans = function(datetime){
+					return "2015年10月23号";
+				};
+				var getTime_Trans = function(datetime){
+					return "09:18";
+				};
+				
+				$("#collapse-0").on('show.bs.collapse', function () {
+						$("a[href='#collapse-0'] i").removeClass('fa-plus').addClass('fa-minus');
+					})
+					.on('hide.bs.collapse', function () {
+						$("a[href='#collapse-0'] i").removeClass('fa-minus').addClass('fa-plus');
+					});
+			  </script>
+			  <script>
+				$(function () {
+					//Initialize Select2 Elements
+					var senders = [
+						{text: '个人',
+							children: [{
+								id  : 0,
+								text: '自己'
+							}]
+						},
+						{text: '群组',
+							children: [{
+								id  : 1,
+								text: '交托帮'
+							},{
+								id  : 2,
+								text: '测试'
+							},{
+								id  : 3,
+								text: '测试2'
+							},{
+								id  : 4,
+								text: '测试3'
+							},{
+								id  : 5,
+								text: '测试4'
+							}]
+						},
+				
+					];
+
+					var genres = [{ id: 0, text: '资讯' }, { id: 1, text: '日记' }, { id: 2, text: '资源' }, { id: 3, text: '知识' }, 
+									{ id: 4, text: '工具' }, { id: 5, text: '教学' }, { id: 6, text: '提问' }, { id: 7, text: '产品' }, { id: 8, text: '直播' }];
+					var tags = [{ id: 0, text: '交叉口设计' }, { id: 1, text: '城市规划' }, { id: 2, text: '交通流量统计' }, { id: 3, text: '绘图' }, { id: 4, text: '设计' }];
+					
+					var sharedwith = [{ id: 0, text: '交托帮' }, { id: 1, text: '测试' }, { id: 2, text: '测试2' }, { id: 3, text: '测试3' }, { id: 4, text: '测试4' }];
+					
+					
+					
+					
+					
+					$("#select-sender").select2({
+					  data: senders
+					});
+					$("#select-genre").select2({
+					  data: genres
+					});
+					$("#select-tags").select2({
+					  data: tags,
+					  maximumSelectionLength: 5
+					});
+					$("#select-sharedwith").select2({
+					  data: sharedwith
+					});
+					
+					$('.select2-selection__rendered').on('change', function (evt) {
+					  // Do something
+					  //console.log($(this).children().text());
+					});
+					
+					test_data = [{
+								id: 54315,
+								user_id: 123,
+								user_name: "张振宇",
+								user_img: "Moment/user1-128x128.jpg",
+								user_followers: 123,
+								user_blogs: 456, //发表总文章数
+								user_bestblogs: 789, //用户精华帖
+								
+								title: "这是一个标题",
+								content: '<div>作者：Airbnb<br>链接：https://zhuanlan.zhihu.com/p/23528322<br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br><br><p>在风云变幻的都市上海，有这样的一块地方，完整地保留了民国时期的浮华与沧桑，那就是今天旅行者都不会错过的上海原法租界。虽然我们已经远离了那个年代，但只要在Airbnb上预定一间上海原法租界的房子，你就可以瞬间穿越回斑驳的1943，感受民国租界里的生活的滋味。</p><p><b>1、复古挑高华美百年洋房</b></p><img src="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_r.jpg"><p>这间被称作“时间胶囊”的民宿凭借优越的地理位置以及独特的室内装潢，吸引了不少Airbnb的房客。虽然面积不大，但空间布局和每一处细小的装潢都独具特色。</p><img src="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_r.jpg"><p>房间里的罗马柱和清一色地木质家具，仿佛重回1943的老上海。房东大量的藏书，让人觉得好像来到了20世纪初的欧洲私人图书馆，沉浸在阅读的欢愉中，与外面的都市喧嚣全然隔绝。<br></p><img src="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_r.jpg"><p>房间的厨房小巧玲珑，但可以称得上是空间利用的典范，即便是在这小小的空间里，做出一顿法式大餐也是完全可能的。<br></p><img src="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_r.jpg"><p>4米挑高阁楼上的卧室既保有整个房间的古朴元素，又加入了一些现代的装饰，角落里摆放的埃菲尔铁塔懒人沙发在昭示着这间房子与法国千丝万缕的关联。<br></p><img src="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_b.jpg" data-rawwidth="852" data-rawheight="640" class="origin_image zh-lightbox-thumb" width="852" data-original="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_r.jpg"><p>房子对面就有法租界里有名的酒吧和咖啡馆，如果觉得一个人在屋里无聊的话，买杯咖啡，在对街看看这栋有一百年历史的老房子，读一读《上海法租界史》，说不定你住的民宿还会出现在书里某张泛黄的照片里哦。</p><br><p><b>2、法租界优雅的孔雀吱屋</b></p><img src="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_r.jpg"><p>这间位于石库门洋房一楼的loft民宿有一个特别的名字，叫“雀吱”。跟孔雀那高傲的美艳一样，这家民宿也是大有来头，曾经风靡上海滩的大明星胡蝶就曾居住于此。</p><img src="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_r.jpg"><p>为了方便房客入住，房子的主人特意改造了独门独户的入口，门厅的设计也满满都是中式古朴感，两侧镂雕花卉纹的木质柜子，装饰以铜制吊扣和拉手，散发着时间流逝的芳香。</p></div>',
+								datetime: "2015-07-13 08:05", //时间
+								genre: "资讯", // 大分类
+								tags: ["绘图","资讯"], // 小标签
+								sharedwith: [], //分享范围，是否需要？？？
+								total_like: 8056, //总点赞人数
+								like: 0, //我是否点赞
+								star: 1, //我是否加星
+								
+								comments: [{
+									user_id: 2574,
+									user_name: "刘美义",
+									user_img: "Moment/user2-160x160.jpg",
+									
+									to_id: -1, //回复用户id
+									to_name: "", //回复用户姓名
+									content: '<div>作者：Airbnb<br>链接：https://zhuanlan.zhihu.com/p/23528322<br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br><br><p>在风云变幻的都市上海，有这样的一块地方，完整地保留了民国时期的浮华与沧桑，那就是今天旅行者都不会错过的上海原法租界。虽然我们已经远离了那个年代，但只要在Airbnb上预定一间上海原法租界的房子，你就可以瞬间穿越回斑驳的1943，感受民国租界里的生活的滋味。</p><p><b>1、复古挑高华美百年洋房</b></p><img src="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_r.jpg"><p>这间被称作“时间胶囊”的民宿凭借优越的地理位置以及独特的室内装潢，吸引了不少Airbnb的房客。虽然面积不大，但空间布局和每一处细小的装潢都独具特色。</p><img src="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_r.jpg"><p>房间里的罗马柱和清一色地木质家具，仿佛重回1943的老上海。房东大量的藏书，让人觉得好像来到了20世纪初的欧洲私人图书馆，沉浸在阅读的欢愉中，与外面的都市喧嚣全然隔绝。<br></p><img src="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_r.jpg"><p>房间的厨房小巧玲珑，但可以称得上是空间利用的典范，即便是在这小小的空间里，做出一顿法式大餐也是完全可能的。<br></p><img src="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_r.jpg"><p>4米挑高阁楼上的卧室既保有整个房间的古朴元素，又加入了一些现代的装饰，角落里摆放的埃菲尔铁塔懒人沙发在昭示着这间房子与法国千丝万缕的关联。<br></p><img src="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_b.jpg" data-rawwidth="852" data-rawheight="640" class="origin_image zh-lightbox-thumb" width="852" data-original="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_r.jpg"><p>房子对面就有法租界里有名的酒吧和咖啡馆，如果觉得一个人在屋里无聊的话，买杯咖啡，在对街看看这栋有一百年历史的老房子，读一读《上海法租界史》，说不定你住的民宿还会出现在书里某张泛黄的照片里哦。</p><br><p><b>2、法租界优雅的孔雀吱屋</b></p><img src="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_r.jpg"><p>这间位于石库门洋房一楼的loft民宿有一个特别的名字，叫“雀吱”。跟孔雀那高傲的美艳一样，这家民宿也是大有来头，曾经风靡上海滩的大明星胡蝶就曾居住于此。</p><img src="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_r.jpg"><p>为了方便房客入住，房子的主人特意改造了独门独户的入口，门厅的设计也满满都是中式古朴感，两侧镂雕花卉纹的木质柜子，装饰以铜制吊扣和拉手，散发着时间流逝的芳香。</p></div>',
+									datetime: "2015-07-13 08:05",
+								},{
+									user_id: 2574,
+									user_name: "刘美义",
+									user_img: "Moment/user2-160x160.jpg",
+									
+									to_id: -1, //回复用户id
+									to_name: "", //回复用户姓名
+									content: '<div>作者：Airbnb<br>链接：https://zhuanlan.zhihu.com/p/23528322<br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br><br><p>在风云变幻的都市上海，有这样的一块地方，完整地保留了民国时期的浮华与沧桑，那就是今天旅行者都不会错过的上海原法租界。虽然我们已经远离了那个年代，但只要在Airbnb上预定一间上海原法租界的房子，你就可以瞬间穿越回斑驳的1943，感受民国租界里的生活的滋味。</p><p><b>1、复古挑高华美百年洋房</b></p><img src="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_r.jpg"><p>这间被称作“时间胶囊”的民宿凭借优越的地理位置以及独特的室内装潢，吸引了不少Airbnb的房客。虽然面积不大，但空间布局和每一处细小的装潢都独具特色。</p><img src="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_r.jpg"><p>房间里的罗马柱和清一色地木质家具，仿佛重回1943的老上海。房东大量的藏书，让人觉得好像来到了20世纪初的欧洲私人图书馆，沉浸在阅读的欢愉中，与外面的都市喧嚣全然隔绝。<br></p><img src="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_r.jpg"><p>房间的厨房小巧玲珑，但可以称得上是空间利用的典范，即便是在这小小的空间里，做出一顿法式大餐也是完全可能的。<br></p><img src="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_r.jpg"><p>4米挑高阁楼上的卧室既保有整个房间的古朴元素，又加入了一些现代的装饰，角落里摆放的埃菲尔铁塔懒人沙发在昭示着这间房子与法国千丝万缕的关联。<br></p><img src="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_b.jpg" data-rawwidth="852" data-rawheight="640" class="origin_image zh-lightbox-thumb" width="852" data-original="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_r.jpg"><p>房子对面就有法租界里有名的酒吧和咖啡馆，如果觉得一个人在屋里无聊的话，买杯咖啡，在对街看看这栋有一百年历史的老房子，读一读《上海法租界史》，说不定你住的民宿还会出现在书里某张泛黄的照片里哦。</p><br><p><b>2、法租界优雅的孔雀吱屋</b></p><img src="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_r.jpg"><p>这间位于石库门洋房一楼的loft民宿有一个特别的名字，叫“雀吱”。跟孔雀那高傲的美艳一样，这家民宿也是大有来头，曾经风靡上海滩的大明星胡蝶就曾居住于此。</p><img src="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_r.jpg"><p>为了方便房客入住，房子的主人特意改造了独门独户的入口，门厅的设计也满满都是中式古朴感，两侧镂雕花卉纹的木质柜子，装饰以铜制吊扣和拉手，散发着时间流逝的芳香。</p></div>',
+									datetime: "2015-07-13 08:05",
+								},{
+									user_id: 2574,
+									user_name: "刘美义",
+									user_img: "Moment/user2-160x160.jpg",
+									
+									to_id: -1, //回复用户id
+									to_name: "", //回复用户姓名
+									content: '<div>作者：Airbnb<br>链接：https://zhuanlan.zhihu.com/p/23528322<br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br><br><p>在风云变幻的都市上海，有这样的一块地方，完整地保留了民国时期的浮华与沧桑，那就是今天旅行者都不会错过的上海原法租界。虽然我们已经远离了那个年代，但只要在Airbnb上预定一间上海原法租界的房子，你就可以瞬间穿越回斑驳的1943，感受民国租界里的生活的滋味。</p><p><b>1、复古挑高华美百年洋房</b></p><img src="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_r.jpg"><p>这间被称作“时间胶囊”的民宿凭借优越的地理位置以及独特的室内装潢，吸引了不少Airbnb的房客。虽然面积不大，但空间布局和每一处细小的装潢都独具特色。</p><img src="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_r.jpg"><p>房间里的罗马柱和清一色地木质家具，仿佛重回1943的老上海。房东大量的藏书，让人觉得好像来到了20世纪初的欧洲私人图书馆，沉浸在阅读的欢愉中，与外面的都市喧嚣全然隔绝。<br></p><img src="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_r.jpg"><p>房间的厨房小巧玲珑，但可以称得上是空间利用的典范，即便是在这小小的空间里，做出一顿法式大餐也是完全可能的。<br></p><img src="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_r.jpg"><p>4米挑高阁楼上的卧室既保有整个房间的古朴元素，又加入了一些现代的装饰，角落里摆放的埃菲尔铁塔懒人沙发在昭示着这间房子与法国千丝万缕的关联。<br></p><img src="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_b.jpg" data-rawwidth="852" data-rawheight="640" class="origin_image zh-lightbox-thumb" width="852" data-original="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_r.jpg"><p>房子对面就有法租界里有名的酒吧和咖啡馆，如果觉得一个人在屋里无聊的话，买杯咖啡，在对街看看这栋有一百年历史的老房子，读一读《上海法租界史》，说不定你住的民宿还会出现在书里某张泛黄的照片里哦。</p><br><p><b>2、法租界优雅的孔雀吱屋</b></p><img src="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_r.jpg"><p>这间位于石库门洋房一楼的loft民宿有一个特别的名字，叫“雀吱”。跟孔雀那高傲的美艳一样，这家民宿也是大有来头，曾经风靡上海滩的大明星胡蝶就曾居住于此。</p><img src="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_r.jpg"><p>为了方便房客入住，房子的主人特意改造了独门独户的入口，门厅的设计也满满都是中式古朴感，两侧镂雕花卉纹的木质柜子，装饰以铜制吊扣和拉手，散发着时间流逝的芳香。</p></div>',
+									datetime: "2015-07-13 08:05",
+								}] // 评论
+							},{
+								id: "543dasfasdfasf",
+								user_id: 123,
+								user_name: "张振宇",
+								user_img: "Moment/user1-128x128.jpg",
+								user_followers: 123,
+								user_blogs: 456, //发表总文章数
+								user_bestblogs: 789, //用户精华帖
+								
+								title: "这是一个标题",
+								content: '<div>作者：Airbnb<br>链接：https://zhuanlan.zhihu.com/p/23528322<br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br><br><p>在风云变幻的都市上海，有这样的一块地方，完整地保留了民国时期的浮华与沧桑，那就是今天旅行者都不会错过的上海原法租界。虽然我们已经远离了那个年代，但只要在Airbnb上预定一间上海原法租界的房子，你就可以瞬间穿越回斑驳的1943，感受民国租界里的生活的滋味。</p><p><b>1、复古挑高华美百年洋房</b></p><img src="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_r.jpg"><p>这间被称作“时间胶囊”的民宿凭借优越的地理位置以及独特的室内装潢，吸引了不少Airbnb的房客。虽然面积不大，但空间布局和每一处细小的装潢都独具特色。</p><img src="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_r.jpg"><p>房间里的罗马柱和清一色地木质家具，仿佛重回1943的老上海。房东大量的藏书，让人觉得好像来到了20世纪初的欧洲私人图书馆，沉浸在阅读的欢愉中，与外面的都市喧嚣全然隔绝。<br></p><img src="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_r.jpg"><p>房间的厨房小巧玲珑，但可以称得上是空间利用的典范，即便是在这小小的空间里，做出一顿法式大餐也是完全可能的。<br></p><img src="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_r.jpg"><p>4米挑高阁楼上的卧室既保有整个房间的古朴元素，又加入了一些现代的装饰，角落里摆放的埃菲尔铁塔懒人沙发在昭示着这间房子与法国千丝万缕的关联。<br></p><img src="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_b.jpg" data-rawwidth="852" data-rawheight="640" class="origin_image zh-lightbox-thumb" width="852" data-original="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_r.jpg"><p>房子对面就有法租界里有名的酒吧和咖啡馆，如果觉得一个人在屋里无聊的话，买杯咖啡，在对街看看这栋有一百年历史的老房子，读一读《上海法租界史》，说不定你住的民宿还会出现在书里某张泛黄的照片里哦。</p><br><p><b>2、法租界优雅的孔雀吱屋</b></p><img src="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_r.jpg"><p>这间位于石库门洋房一楼的loft民宿有一个特别的名字，叫“雀吱”。跟孔雀那高傲的美艳一样，这家民宿也是大有来头，曾经风靡上海滩的大明星胡蝶就曾居住于此。</p><img src="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_r.jpg"><p>为了方便房客入住，房子的主人特意改造了独门独户的入口，门厅的设计也满满都是中式古朴感，两侧镂雕花卉纹的木质柜子，装饰以铜制吊扣和拉手，散发着时间流逝的芳香。</p></div>',
+								datetime: "2015-07-13 08:05", //时间
+								genre: "资讯", // 大分类
+								tags: ["绘图","资讯"], // 小标签
+								sharedwith: [], //分享范围，是否需要？？？
+								total_like: 8056, //总点赞人数
+								like: 0, //我是否点赞
+								star: 1, //我是否加星
+								
+								comments: [{
+									user_id: 2574,
+									user_name: "刘美义",
+									user_img: "Moment/user2-160x160.jpg",
+									
+									to_id: -1, //回复用户id
+									to_name: "", //回复用户姓名
+									content: '<div>作者：Airbnb<br>链接：https://zhuanlan.zhihu.com/p/23528322<br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br><br><p>在风云变幻的都市上海，有这样的一块地方，完整地保留了民国时期的浮华与沧桑，那就是今天旅行者都不会错过的上海原法租界。虽然我们已经远离了那个年代，但只要在Airbnb上预定一间上海原法租界的房子，你就可以瞬间穿越回斑驳的1943，感受民国租界里的生活的滋味。</p><p><b>1、复古挑高华美百年洋房</b></p><img src="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_r.jpg"><p>这间被称作“时间胶囊”的民宿凭借优越的地理位置以及独特的室内装潢，吸引了不少Airbnb的房客。虽然面积不大，但空间布局和每一处细小的装潢都独具特色。</p><img src="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_r.jpg"><p>房间里的罗马柱和清一色地木质家具，仿佛重回1943的老上海。房东大量的藏书，让人觉得好像来到了20世纪初的欧洲私人图书馆，沉浸在阅读的欢愉中，与外面的都市喧嚣全然隔绝。<br></p><img src="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_r.jpg"><p>房间的厨房小巧玲珑，但可以称得上是空间利用的典范，即便是在这小小的空间里，做出一顿法式大餐也是完全可能的。<br></p><img src="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_r.jpg"><p>4米挑高阁楼上的卧室既保有整个房间的古朴元素，又加入了一些现代的装饰，角落里摆放的埃菲尔铁塔懒人沙发在昭示着这间房子与法国千丝万缕的关联。<br></p><img src="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_b.jpg" data-rawwidth="852" data-rawheight="640" class="origin_image zh-lightbox-thumb" width="852" data-original="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_r.jpg"><p>房子对面就有法租界里有名的酒吧和咖啡馆，如果觉得一个人在屋里无聊的话，买杯咖啡，在对街看看这栋有一百年历史的老房子，读一读《上海法租界史》，说不定你住的民宿还会出现在书里某张泛黄的照片里哦。</p><br><p><b>2、法租界优雅的孔雀吱屋</b></p><img src="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_r.jpg"><p>这间位于石库门洋房一楼的loft民宿有一个特别的名字，叫“雀吱”。跟孔雀那高傲的美艳一样，这家民宿也是大有来头，曾经风靡上海滩的大明星胡蝶就曾居住于此。</p><img src="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_r.jpg"><p>为了方便房客入住，房子的主人特意改造了独门独户的入口，门厅的设计也满满都是中式古朴感，两侧镂雕花卉纹的木质柜子，装饰以铜制吊扣和拉手，散发着时间流逝的芳香。</p></div>',
+									datetime: "2015-07-13 08:05",
+								},{
+									user_id: 2574,
+									user_name: "刘美义",
+									user_img: "Moment/user2-160x160.jpg",
+									
+									to_id: -1, //回复用户id
+									to_name: "", //回复用户姓名
+									content: '<div>作者：Airbnb<br>链接：https://zhuanlan.zhihu.com/p/23528322<br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br><br><p>在风云变幻的都市上海，有这样的一块地方，完整地保留了民国时期的浮华与沧桑，那就是今天旅行者都不会错过的上海原法租界。虽然我们已经远离了那个年代，但只要在Airbnb上预定一间上海原法租界的房子，你就可以瞬间穿越回斑驳的1943，感受民国租界里的生活的滋味。</p><p><b>1、复古挑高华美百年洋房</b></p><img src="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_r.jpg"><p>这间被称作“时间胶囊”的民宿凭借优越的地理位置以及独特的室内装潢，吸引了不少Airbnb的房客。虽然面积不大，但空间布局和每一处细小的装潢都独具特色。</p><img src="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_r.jpg"><p>房间里的罗马柱和清一色地木质家具，仿佛重回1943的老上海。房东大量的藏书，让人觉得好像来到了20世纪初的欧洲私人图书馆，沉浸在阅读的欢愉中，与外面的都市喧嚣全然隔绝。<br></p><img src="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_r.jpg"><p>房间的厨房小巧玲珑，但可以称得上是空间利用的典范，即便是在这小小的空间里，做出一顿法式大餐也是完全可能的。<br></p><img src="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_r.jpg"><p>4米挑高阁楼上的卧室既保有整个房间的古朴元素，又加入了一些现代的装饰，角落里摆放的埃菲尔铁塔懒人沙发在昭示着这间房子与法国千丝万缕的关联。<br></p><img src="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_b.jpg" data-rawwidth="852" data-rawheight="640" class="origin_image zh-lightbox-thumb" width="852" data-original="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_r.jpg"><p>房子对面就有法租界里有名的酒吧和咖啡馆，如果觉得一个人在屋里无聊的话，买杯咖啡，在对街看看这栋有一百年历史的老房子，读一读《上海法租界史》，说不定你住的民宿还会出现在书里某张泛黄的照片里哦。</p><br><p><b>2、法租界优雅的孔雀吱屋</b></p><img src="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_r.jpg"><p>这间位于石库门洋房一楼的loft民宿有一个特别的名字，叫“雀吱”。跟孔雀那高傲的美艳一样，这家民宿也是大有来头，曾经风靡上海滩的大明星胡蝶就曾居住于此。</p><img src="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_r.jpg"><p>为了方便房客入住，房子的主人特意改造了独门独户的入口，门厅的设计也满满都是中式古朴感，两侧镂雕花卉纹的木质柜子，装饰以铜制吊扣和拉手，散发着时间流逝的芳香。</p></div>',
+									datetime: "2015-07-13 08:05",
+								},{
+									user_id: 2574,
+									user_name: "刘美义",
+									user_img: "Moment/user2-160x160.jpg",
+									
+									to_id: -1, //回复用户id
+									to_name: "", //回复用户姓名
+									content: '<div>作者：Airbnb<br>链接：https://zhuanlan.zhihu.com/p/23528322<br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br><br><p>在风云变幻的都市上海，有这样的一块地方，完整地保留了民国时期的浮华与沧桑，那就是今天旅行者都不会错过的上海原法租界。虽然我们已经远离了那个年代，但只要在Airbnb上预定一间上海原法租界的房子，你就可以瞬间穿越回斑驳的1943，感受民国租界里的生活的滋味。</p><p><b>1、复古挑高华美百年洋房</b></p><img src="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_r.jpg"><p>这间被称作“时间胶囊”的民宿凭借优越的地理位置以及独特的室内装潢，吸引了不少Airbnb的房客。虽然面积不大，但空间布局和每一处细小的装潢都独具特色。</p><img src="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_r.jpg"><p>房间里的罗马柱和清一色地木质家具，仿佛重回1943的老上海。房东大量的藏书，让人觉得好像来到了20世纪初的欧洲私人图书馆，沉浸在阅读的欢愉中，与外面的都市喧嚣全然隔绝。<br></p><img src="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_r.jpg"><p>房间的厨房小巧玲珑，但可以称得上是空间利用的典范，即便是在这小小的空间里，做出一顿法式大餐也是完全可能的。<br></p><img src="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_r.jpg"><p>4米挑高阁楼上的卧室既保有整个房间的古朴元素，又加入了一些现代的装饰，角落里摆放的埃菲尔铁塔懒人沙发在昭示着这间房子与法国千丝万缕的关联。<br></p><img src="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_b.jpg" data-rawwidth="852" data-rawheight="640" class="origin_image zh-lightbox-thumb" width="852" data-original="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_r.jpg"><p>房子对面就有法租界里有名的酒吧和咖啡馆，如果觉得一个人在屋里无聊的话，买杯咖啡，在对街看看这栋有一百年历史的老房子，读一读《上海法租界史》，说不定你住的民宿还会出现在书里某张泛黄的照片里哦。</p><br><p><b>2、法租界优雅的孔雀吱屋</b></p><img src="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_r.jpg"><p>这间位于石库门洋房一楼的loft民宿有一个特别的名字，叫“雀吱”。跟孔雀那高傲的美艳一样，这家民宿也是大有来头，曾经风靡上海滩的大明星胡蝶就曾居住于此。</p><img src="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_r.jpg"><p>为了方便房客入住，房子的主人特意改造了独门独户的入口，门厅的设计也满满都是中式古朴感，两侧镂雕花卉纹的木质柜子，装饰以铜制吊扣和拉手，散发着时间流逝的芳香。</p></div>',
+									datetime: "2015-07-13 08:05",
+								}] // 评论
+							},{
+								id: "543dasfasdfasf",
+								user_id: 123,
+								user_name: "张振宇",
+								user_img: "Moment/user1-128x128.jpg",
+								user_followers: 123,
+								user_blogs: 456, //发表总文章数
+								user_bestblogs: 789, //用户精华帖
+								
+								title: "这是一个标题",
+								content: '<div>作者：Airbnb<br>链接：https://zhuanlan.zhihu.com/p/23528322<br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br><br><p>在风云变幻的都市上海，有这样的一块地方，完整地保留了民国时期的浮华与沧桑，那就是今天旅行者都不会错过的上海原法租界。虽然我们已经远离了那个年代，但只要在Airbnb上预定一间上海原法租界的房子，你就可以瞬间穿越回斑驳的1943，感受民国租界里的生活的滋味。</p><p><b>1、复古挑高华美百年洋房</b></p><img src="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_r.jpg"><p>这间被称作“时间胶囊”的民宿凭借优越的地理位置以及独特的室内装潢，吸引了不少Airbnb的房客。虽然面积不大，但空间布局和每一处细小的装潢都独具特色。</p><img src="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_r.jpg"><p>房间里的罗马柱和清一色地木质家具，仿佛重回1943的老上海。房东大量的藏书，让人觉得好像来到了20世纪初的欧洲私人图书馆，沉浸在阅读的欢愉中，与外面的都市喧嚣全然隔绝。<br></p><img src="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_r.jpg"><p>房间的厨房小巧玲珑，但可以称得上是空间利用的典范，即便是在这小小的空间里，做出一顿法式大餐也是完全可能的。<br></p><img src="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_r.jpg"><p>4米挑高阁楼上的卧室既保有整个房间的古朴元素，又加入了一些现代的装饰，角落里摆放的埃菲尔铁塔懒人沙发在昭示着这间房子与法国千丝万缕的关联。<br></p><img src="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_b.jpg" data-rawwidth="852" data-rawheight="640" class="origin_image zh-lightbox-thumb" width="852" data-original="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_r.jpg"><p>房子对面就有法租界里有名的酒吧和咖啡馆，如果觉得一个人在屋里无聊的话，买杯咖啡，在对街看看这栋有一百年历史的老房子，读一读《上海法租界史》，说不定你住的民宿还会出现在书里某张泛黄的照片里哦。</p><br><p><b>2、法租界优雅的孔雀吱屋</b></p><img src="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_r.jpg"><p>这间位于石库门洋房一楼的loft民宿有一个特别的名字，叫“雀吱”。跟孔雀那高傲的美艳一样，这家民宿也是大有来头，曾经风靡上海滩的大明星胡蝶就曾居住于此。</p><img src="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_r.jpg"><p>为了方便房客入住，房子的主人特意改造了独门独户的入口，门厅的设计也满满都是中式古朴感，两侧镂雕花卉纹的木质柜子，装饰以铜制吊扣和拉手，散发着时间流逝的芳香。</p></div>',
+								datetime: "2015-07-13 08:05", //时间
+								genre: "资讯", // 大分类
+								tags: ["绘图","资讯"], // 小标签
+								sharedwith: [], //分享范围，是否需要？？？
+								total_like: 8056, //总点赞人数
+								like: 0, //我是否点赞
+								star: 1, //我是否加星
+								
+								comments: [{
+									user_id: 2574,
+									user_name: "刘美义",
+									user_img: "Moment/user2-160x160.jpg",
+									
+									to_id: -1, //回复用户id
+									to_name: "", //回复用户姓名
+									content: '<div>作者：Airbnb<br>链接：https://zhuanlan.zhihu.com/p/23528322<br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br><br><p>在风云变幻的都市上海，有这样的一块地方，完整地保留了民国时期的浮华与沧桑，那就是今天旅行者都不会错过的上海原法租界。虽然我们已经远离了那个年代，但只要在Airbnb上预定一间上海原法租界的房子，你就可以瞬间穿越回斑驳的1943，感受民国租界里的生活的滋味。</p><p><b>1、复古挑高华美百年洋房</b></p><img src="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_r.jpg"><p>这间被称作“时间胶囊”的民宿凭借优越的地理位置以及独特的室内装潢，吸引了不少Airbnb的房客。虽然面积不大，但空间布局和每一处细小的装潢都独具特色。</p><img src="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_r.jpg"><p>房间里的罗马柱和清一色地木质家具，仿佛重回1943的老上海。房东大量的藏书，让人觉得好像来到了20世纪初的欧洲私人图书馆，沉浸在阅读的欢愉中，与外面的都市喧嚣全然隔绝。<br></p><img src="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_r.jpg"><p>房间的厨房小巧玲珑，但可以称得上是空间利用的典范，即便是在这小小的空间里，做出一顿法式大餐也是完全可能的。<br></p><img src="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_r.jpg"><p>4米挑高阁楼上的卧室既保有整个房间的古朴元素，又加入了一些现代的装饰，角落里摆放的埃菲尔铁塔懒人沙发在昭示着这间房子与法国千丝万缕的关联。<br></p><img src="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_b.jpg" data-rawwidth="852" data-rawheight="640" class="origin_image zh-lightbox-thumb" width="852" data-original="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_r.jpg"><p>房子对面就有法租界里有名的酒吧和咖啡馆，如果觉得一个人在屋里无聊的话，买杯咖啡，在对街看看这栋有一百年历史的老房子，读一读《上海法租界史》，说不定你住的民宿还会出现在书里某张泛黄的照片里哦。</p><br><p><b>2、法租界优雅的孔雀吱屋</b></p><img src="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_r.jpg"><p>这间位于石库门洋房一楼的loft民宿有一个特别的名字，叫“雀吱”。跟孔雀那高傲的美艳一样，这家民宿也是大有来头，曾经风靡上海滩的大明星胡蝶就曾居住于此。</p><img src="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_r.jpg"><p>为了方便房客入住，房子的主人特意改造了独门独户的入口，门厅的设计也满满都是中式古朴感，两侧镂雕花卉纹的木质柜子，装饰以铜制吊扣和拉手，散发着时间流逝的芳香。</p></div>',
+									datetime: "2015-07-13 08:05",
+								},{
+									user_id: 2574,
+									user_name: "刘美义",
+									user_img: "Moment/user2-160x160.jpg",
+									
+									to_id: -1, //回复用户id
+									to_name: "", //回复用户姓名
+									content: '<div>作者：Airbnb<br>链接：https://zhuanlan.zhihu.com/p/23528322<br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br><br><p>在风云变幻的都市上海，有这样的一块地方，完整地保留了民国时期的浮华与沧桑，那就是今天旅行者都不会错过的上海原法租界。虽然我们已经远离了那个年代，但只要在Airbnb上预定一间上海原法租界的房子，你就可以瞬间穿越回斑驳的1943，感受民国租界里的生活的滋味。</p><p><b>1、复古挑高华美百年洋房</b></p><img src="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_r.jpg"><p>这间被称作“时间胶囊”的民宿凭借优越的地理位置以及独特的室内装潢，吸引了不少Airbnb的房客。虽然面积不大，但空间布局和每一处细小的装潢都独具特色。</p><img src="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_r.jpg"><p>房间里的罗马柱和清一色地木质家具，仿佛重回1943的老上海。房东大量的藏书，让人觉得好像来到了20世纪初的欧洲私人图书馆，沉浸在阅读的欢愉中，与外面的都市喧嚣全然隔绝。<br></p><img src="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_r.jpg"><p>房间的厨房小巧玲珑，但可以称得上是空间利用的典范，即便是在这小小的空间里，做出一顿法式大餐也是完全可能的。<br></p><img src="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_r.jpg"><p>4米挑高阁楼上的卧室既保有整个房间的古朴元素，又加入了一些现代的装饰，角落里摆放的埃菲尔铁塔懒人沙发在昭示着这间房子与法国千丝万缕的关联。<br></p><img src="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_b.jpg" data-rawwidth="852" data-rawheight="640" class="origin_image zh-lightbox-thumb" width="852" data-original="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_r.jpg"><p>房子对面就有法租界里有名的酒吧和咖啡馆，如果觉得一个人在屋里无聊的话，买杯咖啡，在对街看看这栋有一百年历史的老房子，读一读《上海法租界史》，说不定你住的民宿还会出现在书里某张泛黄的照片里哦。</p><br><p><b>2、法租界优雅的孔雀吱屋</b></p><img src="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_r.jpg"><p>这间位于石库门洋房一楼的loft民宿有一个特别的名字，叫“雀吱”。跟孔雀那高傲的美艳一样，这家民宿也是大有来头，曾经风靡上海滩的大明星胡蝶就曾居住于此。</p><img src="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_r.jpg"><p>为了方便房客入住，房子的主人特意改造了独门独户的入口，门厅的设计也满满都是中式古朴感，两侧镂雕花卉纹的木质柜子，装饰以铜制吊扣和拉手，散发着时间流逝的芳香。</p></div>',
+									datetime: "2015-07-13 08:05",
+								},{
+									user_id: 2574,
+									user_name: "刘美义",
+									user_img: "Moment/user2-160x160.jpg",
+									
+									to_id: -1, //回复用户id
+									to_name: "", //回复用户姓名
+									content: '<div>作者：Airbnb<br>链接：https://zhuanlan.zhihu.com/p/23528322<br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br><br><p>在风云变幻的都市上海，有这样的一块地方，完整地保留了民国时期的浮华与沧桑，那就是今天旅行者都不会错过的上海原法租界。虽然我们已经远离了那个年代，但只要在Airbnb上预定一间上海原法租界的房子，你就可以瞬间穿越回斑驳的1943，感受民国租界里的生活的滋味。</p><p><b>1、复古挑高华美百年洋房</b></p><img src="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_r.jpg"><p>这间被称作“时间胶囊”的民宿凭借优越的地理位置以及独特的室内装潢，吸引了不少Airbnb的房客。虽然面积不大，但空间布局和每一处细小的装潢都独具特色。</p><img src="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_r.jpg"><p>房间里的罗马柱和清一色地木质家具，仿佛重回1943的老上海。房东大量的藏书，让人觉得好像来到了20世纪初的欧洲私人图书馆，沉浸在阅读的欢愉中，与外面的都市喧嚣全然隔绝。<br></p><img src="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_r.jpg"><p>房间的厨房小巧玲珑，但可以称得上是空间利用的典范，即便是在这小小的空间里，做出一顿法式大餐也是完全可能的。<br></p><img src="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_r.jpg"><p>4米挑高阁楼上的卧室既保有整个房间的古朴元素，又加入了一些现代的装饰，角落里摆放的埃菲尔铁塔懒人沙发在昭示着这间房子与法国千丝万缕的关联。<br></p><img src="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_b.jpg" data-rawwidth="852" data-rawheight="640" class="origin_image zh-lightbox-thumb" width="852" data-original="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_r.jpg"><p>房子对面就有法租界里有名的酒吧和咖啡馆，如果觉得一个人在屋里无聊的话，买杯咖啡，在对街看看这栋有一百年历史的老房子，读一读《上海法租界史》，说不定你住的民宿还会出现在书里某张泛黄的照片里哦。</p><br><p><b>2、法租界优雅的孔雀吱屋</b></p><img src="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_r.jpg"><p>这间位于石库门洋房一楼的loft民宿有一个特别的名字，叫“雀吱”。跟孔雀那高傲的美艳一样，这家民宿也是大有来头，曾经风靡上海滩的大明星胡蝶就曾居住于此。</p><img src="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_r.jpg"><p>为了方便房客入住，房子的主人特意改造了独门独户的入口，门厅的设计也满满都是中式古朴感，两侧镂雕花卉纹的木质柜子，装饰以铜制吊扣和拉手，散发着时间流逝的芳香。</p></div>',
+									datetime: "2015-07-13 08:05",
+								}] // 评论
+							},{
+								id: "543dasfasdfasf",
+								user_id: 123,
+								user_name: "张振宇",
+								user_img: "Moment/user1-128x128.jpg",
+								user_followers: 123,
+								user_blogs: 456, //发表总文章数
+								user_bestblogs: 789, //用户精华帖
+								
+								title: "这是一个标题",
+								content: '<div>作者：Airbnb<br>链接：https://zhuanlan.zhihu.com/p/23528322<br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br><br><p>在风云变幻的都市上海，有这样的一块地方，完整地保留了民国时期的浮华与沧桑，那就是今天旅行者都不会错过的上海原法租界。虽然我们已经远离了那个年代，但只要在Airbnb上预定一间上海原法租界的房子，你就可以瞬间穿越回斑驳的1943，感受民国租界里的生活的滋味。</p><p><b>1、复古挑高华美百年洋房</b></p><img src="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_r.jpg"><p>这间被称作“时间胶囊”的民宿凭借优越的地理位置以及独特的室内装潢，吸引了不少Airbnb的房客。虽然面积不大，但空间布局和每一处细小的装潢都独具特色。</p><img src="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_r.jpg"><p>房间里的罗马柱和清一色地木质家具，仿佛重回1943的老上海。房东大量的藏书，让人觉得好像来到了20世纪初的欧洲私人图书馆，沉浸在阅读的欢愉中，与外面的都市喧嚣全然隔绝。<br></p><img src="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_r.jpg"><p>房间的厨房小巧玲珑，但可以称得上是空间利用的典范，即便是在这小小的空间里，做出一顿法式大餐也是完全可能的。<br></p><img src="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_r.jpg"><p>4米挑高阁楼上的卧室既保有整个房间的古朴元素，又加入了一些现代的装饰，角落里摆放的埃菲尔铁塔懒人沙发在昭示着这间房子与法国千丝万缕的关联。<br></p><img src="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_b.jpg" data-rawwidth="852" data-rawheight="640" class="origin_image zh-lightbox-thumb" width="852" data-original="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_r.jpg"><p>房子对面就有法租界里有名的酒吧和咖啡馆，如果觉得一个人在屋里无聊的话，买杯咖啡，在对街看看这栋有一百年历史的老房子，读一读《上海法租界史》，说不定你住的民宿还会出现在书里某张泛黄的照片里哦。</p><br><p><b>2、法租界优雅的孔雀吱屋</b></p><img src="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_r.jpg"><p>这间位于石库门洋房一楼的loft民宿有一个特别的名字，叫“雀吱”。跟孔雀那高傲的美艳一样，这家民宿也是大有来头，曾经风靡上海滩的大明星胡蝶就曾居住于此。</p><img src="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_r.jpg"><p>为了方便房客入住，房子的主人特意改造了独门独户的入口，门厅的设计也满满都是中式古朴感，两侧镂雕花卉纹的木质柜子，装饰以铜制吊扣和拉手，散发着时间流逝的芳香。</p></div>',
+								datetime: "2015-07-13 08:05", //时间
+								genre: "资讯", // 大分类
+								tags: ["绘图","资讯"], // 小标签
+								sharedwith: [], //分享范围，是否需要？？？
+								total_like: 8056, //总点赞人数
+								like: 0, //我是否点赞
+								star: 1, //我是否加星
+								
+								comments: [{
+									user_id: 2574,
+									user_name: "刘美义",
+									user_img: "Moment/user2-160x160.jpg",
+									
+									to_id: -1, //回复用户id
+									to_name: "", //回复用户姓名
+									content: '<div>作者：Airbnb<br>链接：https://zhuanlan.zhihu.com/p/23528322<br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br><br><p>在风云变幻的都市上海，有这样的一块地方，完整地保留了民国时期的浮华与沧桑，那就是今天旅行者都不会错过的上海原法租界。虽然我们已经远离了那个年代，但只要在Airbnb上预定一间上海原法租界的房子，你就可以瞬间穿越回斑驳的1943，感受民国租界里的生活的滋味。</p><p><b>1、复古挑高华美百年洋房</b></p><img src="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_r.jpg"><p>这间被称作“时间胶囊”的民宿凭借优越的地理位置以及独特的室内装潢，吸引了不少Airbnb的房客。虽然面积不大，但空间布局和每一处细小的装潢都独具特色。</p><img src="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_r.jpg"><p>房间里的罗马柱和清一色地木质家具，仿佛重回1943的老上海。房东大量的藏书，让人觉得好像来到了20世纪初的欧洲私人图书馆，沉浸在阅读的欢愉中，与外面的都市喧嚣全然隔绝。<br></p><img src="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_r.jpg"><p>房间的厨房小巧玲珑，但可以称得上是空间利用的典范，即便是在这小小的空间里，做出一顿法式大餐也是完全可能的。<br></p><img src="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_r.jpg"><p>4米挑高阁楼上的卧室既保有整个房间的古朴元素，又加入了一些现代的装饰，角落里摆放的埃菲尔铁塔懒人沙发在昭示着这间房子与法国千丝万缕的关联。<br></p><img src="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_b.jpg" data-rawwidth="852" data-rawheight="640" class="origin_image zh-lightbox-thumb" width="852" data-original="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_r.jpg"><p>房子对面就有法租界里有名的酒吧和咖啡馆，如果觉得一个人在屋里无聊的话，买杯咖啡，在对街看看这栋有一百年历史的老房子，读一读《上海法租界史》，说不定你住的民宿还会出现在书里某张泛黄的照片里哦。</p><br><p><b>2、法租界优雅的孔雀吱屋</b></p><img src="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_r.jpg"><p>这间位于石库门洋房一楼的loft民宿有一个特别的名字，叫“雀吱”。跟孔雀那高傲的美艳一样，这家民宿也是大有来头，曾经风靡上海滩的大明星胡蝶就曾居住于此。</p><img src="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_r.jpg"><p>为了方便房客入住，房子的主人特意改造了独门独户的入口，门厅的设计也满满都是中式古朴感，两侧镂雕花卉纹的木质柜子，装饰以铜制吊扣和拉手，散发着时间流逝的芳香。</p></div>',
+									datetime: "2015-07-13 08:05",
+								},{
+									user_id: 2574,
+									user_name: "刘美义",
+									user_img: "Moment/user2-160x160.jpg",
+									
+									to_id: -1, //回复用户id
+									to_name: "", //回复用户姓名
+									content: '<div>作者：Airbnb<br>链接：https://zhuanlan.zhihu.com/p/23528322<br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br><br><p>在风云变幻的都市上海，有这样的一块地方，完整地保留了民国时期的浮华与沧桑，那就是今天旅行者都不会错过的上海原法租界。虽然我们已经远离了那个年代，但只要在Airbnb上预定一间上海原法租界的房子，你就可以瞬间穿越回斑驳的1943，感受民国租界里的生活的滋味。</p><p><b>1、复古挑高华美百年洋房</b></p><img src="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_r.jpg"><p>这间被称作“时间胶囊”的民宿凭借优越的地理位置以及独特的室内装潢，吸引了不少Airbnb的房客。虽然面积不大，但空间布局和每一处细小的装潢都独具特色。</p><img src="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_r.jpg"><p>房间里的罗马柱和清一色地木质家具，仿佛重回1943的老上海。房东大量的藏书，让人觉得好像来到了20世纪初的欧洲私人图书馆，沉浸在阅读的欢愉中，与外面的都市喧嚣全然隔绝。<br></p><img src="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_r.jpg"><p>房间的厨房小巧玲珑，但可以称得上是空间利用的典范，即便是在这小小的空间里，做出一顿法式大餐也是完全可能的。<br></p><img src="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_r.jpg"><p>4米挑高阁楼上的卧室既保有整个房间的古朴元素，又加入了一些现代的装饰，角落里摆放的埃菲尔铁塔懒人沙发在昭示着这间房子与法国千丝万缕的关联。<br></p><img src="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_b.jpg" data-rawwidth="852" data-rawheight="640" class="origin_image zh-lightbox-thumb" width="852" data-original="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_r.jpg"><p>房子对面就有法租界里有名的酒吧和咖啡馆，如果觉得一个人在屋里无聊的话，买杯咖啡，在对街看看这栋有一百年历史的老房子，读一读《上海法租界史》，说不定你住的民宿还会出现在书里某张泛黄的照片里哦。</p><br><p><b>2、法租界优雅的孔雀吱屋</b></p><img src="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_r.jpg"><p>这间位于石库门洋房一楼的loft民宿有一个特别的名字，叫“雀吱”。跟孔雀那高傲的美艳一样，这家民宿也是大有来头，曾经风靡上海滩的大明星胡蝶就曾居住于此。</p><img src="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_r.jpg"><p>为了方便房客入住，房子的主人特意改造了独门独户的入口，门厅的设计也满满都是中式古朴感，两侧镂雕花卉纹的木质柜子，装饰以铜制吊扣和拉手，散发着时间流逝的芳香。</p></div>',
+									datetime: "2015-07-13 08:05",
+								},{
+									user_id: 2574,
+									user_name: "刘美义",
+									user_img: "Moment/user2-160x160.jpg",
+									
+									to_id: -1, //回复用户id
+									to_name: "", //回复用户姓名
+									content: '<div>作者：Airbnb<br>链接：https://zhuanlan.zhihu.com/p/23528322<br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br><br><p>在风云变幻的都市上海，有这样的一块地方，完整地保留了民国时期的浮华与沧桑，那就是今天旅行者都不会错过的上海原法租界。虽然我们已经远离了那个年代，但只要在Airbnb上预定一间上海原法租界的房子，你就可以瞬间穿越回斑驳的1943，感受民国租界里的生活的滋味。</p><p><b>1、复古挑高华美百年洋房</b></p><img src="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_r.jpg"><p>这间被称作“时间胶囊”的民宿凭借优越的地理位置以及独特的室内装潢，吸引了不少Airbnb的房客。虽然面积不大，但空间布局和每一处细小的装潢都独具特色。</p><img src="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_r.jpg"><p>房间里的罗马柱和清一色地木质家具，仿佛重回1943的老上海。房东大量的藏书，让人觉得好像来到了20世纪初的欧洲私人图书馆，沉浸在阅读的欢愉中，与外面的都市喧嚣全然隔绝。<br></p><img src="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_r.jpg"><p>房间的厨房小巧玲珑，但可以称得上是空间利用的典范，即便是在这小小的空间里，做出一顿法式大餐也是完全可能的。<br></p><img src="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_r.jpg"><p>4米挑高阁楼上的卧室既保有整个房间的古朴元素，又加入了一些现代的装饰，角落里摆放的埃菲尔铁塔懒人沙发在昭示着这间房子与法国千丝万缕的关联。<br></p><img src="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_b.jpg" data-rawwidth="852" data-rawheight="640" class="origin_image zh-lightbox-thumb" width="852" data-original="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_r.jpg"><p>房子对面就有法租界里有名的酒吧和咖啡馆，如果觉得一个人在屋里无聊的话，买杯咖啡，在对街看看这栋有一百年历史的老房子，读一读《上海法租界史》，说不定你住的民宿还会出现在书里某张泛黄的照片里哦。</p><br><p><b>2、法租界优雅的孔雀吱屋</b></p><img src="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_r.jpg"><p>这间位于石库门洋房一楼的loft民宿有一个特别的名字，叫“雀吱”。跟孔雀那高傲的美艳一样，这家民宿也是大有来头，曾经风靡上海滩的大明星胡蝶就曾居住于此。</p><img src="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_r.jpg"><p>为了方便房客入住，房子的主人特意改造了独门独户的入口，门厅的设计也满满都是中式古朴感，两侧镂雕花卉纹的木质柜子，装饰以铜制吊扣和拉手，散发着时间流逝的芳香。</p></div>',
+									datetime: "2015-07-13 08:05",
+								}] // 评论
+							}];
+						
+					var test_data2 = {
+						user_name: '张振宇',
+						user_img: 'Moment/user2-160x160.jpg',
+						user_blogs: 153,
+						user_bestblogs: 23,
+						user_followers: 18,
+						user_introduction: '在风云变幻的都市上海，有这样的一块地方，完整地保留了民国时期的浮华与沧桑，那就是今天旅行者都不会错过的上海原法租界。虽然我们已经远离了那个年代，但只要在Airbnb上预定一间上海原法租界的房子，你就可以瞬间穿越回斑驳的1943，感受民国租界里的生活的滋味。',
+						user_topic_genres: ['资讯','日记','资源', '知识', '工具', '教学', '提问', '产品', '直播'],
+						user_topic_tags: ['交叉口设计','城市规划', '交通流量统计', '绘图', '设计']
+					};
+					
+					//加载动态
+					loadMoment(test_data);
+					loadUserInfo(test_data2);
+					
+					//发布动态
+					$('#shareMomentBtn').click(function(){
+						data = {};
+						data['content'] = $('#editor').html();
+						data['title'] = $('#moment-title').val();
+						data['sender'] = $('#select-sender').val();
+						data['genre'] = $('#select-genre').val();
+						data['tags'] = $('#select-tags').val();
+						data['sharedwith'] = $('#select-sharedwith').val();
+						
+						//在此储存 data， 需要添加 1发布者信息 2时间
+					});
+					
+					//回复动态
+					$('.reply-btn').click(function(){
+						id = $(this).attr('value');
+						data = {};
+						data['id'] = id
+						data['content'] = $('#editor-'+id).html();
+						
+					});
+					
+					
+					$('.moment').on('click', function(event){
+						$(this).toggleClass('moment-fold');
+					});
+					$('.reply').on('click', function(event){
+						$(this).toggleClass('reply-fold');
+					});
+					$(function (){
+						$("[data-toggle='popover']").popover();
+						$(".popover").mouseover(function(){
+						});
+					});
+					
+					//修改
+					$('#test').click(function(){
+						$("#editor").html('<div>作者：Airbnb<br>链接：https://zhuanlan.zhihu.com/p/23528322<br>来源：知乎<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br><br><p>在风云变幻的都市上海，有这样的一块地方，完整地保留了民国时期的浮华与沧桑，那就是今天旅行者都不会错过的上海原法租界。虽然我们已经远离了那个年代，但只要在Airbnb上预定一间上海原法租界的房子，你就可以瞬间穿越回斑驳的1943，感受民国租界里的生活的滋味。</p><p><b>1、复古挑高华美百年洋房</b></p><img src="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-7d3c427193fffc7f98a3eebd4430386a_r.jpg"><p>这间被称作“时间胶囊”的民宿凭借优越的地理位置以及独特的室内装潢，吸引了不少Airbnb的房客。虽然面积不大，但空间布局和每一处细小的装潢都独具特色。</p><img src="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic1.zhimg.com/v2-5ff476b80d341c47cb4711d25b0813cc_r.jpg"><p>房间里的罗马柱和清一色地木质家具，仿佛重回1943的老上海。房东大量的藏书，让人觉得好像来到了20世纪初的欧洲私人图书馆，沉浸在阅读的欢愉中，与外面的都市喧嚣全然隔绝。<br></p><img src="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-fb48bac01e7fb47c071770f06981312e_r.jpg"><p>房间的厨房小巧玲珑，但可以称得上是空间利用的典范，即便是在这小小的空间里，做出一顿法式大餐也是完全可能的。<br></p><img src="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_b.jpg" data-rawwidth="1651" data-rawheight="1101" class="origin_image zh-lightbox-thumb" width="1651" data-original="https://pic3.zhimg.com/v2-e4860954a3e40065011af7fb8b2de0c6_r.jpg"><p>4米挑高阁楼上的卧室既保有整个房间的古朴元素，又加入了一些现代的装饰，角落里摆放的埃菲尔铁塔懒人沙发在昭示着这间房子与法国千丝万缕的关联。<br></p><img src="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_b.jpg" data-rawwidth="852" data-rawheight="640" class="origin_image zh-lightbox-thumb" width="852" data-original="https://pic2.zhimg.com/v2-2b0a8a5972b6a407c696b1aa9190c8f5_r.jpg"><p>房子对面就有法租界里有名的酒吧和咖啡馆，如果觉得一个人在屋里无聊的话，买杯咖啡，在对街看看这栋有一百年历史的老房子，读一读《上海法租界史》，说不定你住的民宿还会出现在书里某张泛黄的照片里哦。</p><br><p><b>2、法租界优雅的孔雀吱屋</b></p><img src="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-0533dd82c7f4b5f0996345ecd3d46f5f_r.jpg"><p>这间位于石库门洋房一楼的loft民宿有一个特别的名字，叫“雀吱”。跟孔雀那高傲的美艳一样，这家民宿也是大有来头，曾经风靡上海滩的大明星胡蝶就曾居住于此。</p><img src="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_b.jpg" data-rawwidth="4200" data-rawheight="2804" class="origin_image zh-lightbox-thumb" width="4200" data-original="https://pic4.zhimg.com/v2-346b8d7d80af1403ea71a5cee61f3b6f_r.jpg"><p>为了方便房客入住，房子的主人特意改造了独门独户的入口，门厅的设计也满满都是中式古朴感，两侧镂雕花卉纹的木质柜子，装饰以铜制吊扣和拉手，散发着时间流逝的芳香。</p></div>')
+					});
+				});
+				</script>
+				<!-- wysiwyg -->
+				<script>
+				  $(function(){
+					function initToolbarBootstrapBindings() {
+					  var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier', 
+							'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
+							'Times New Roman', 'Verdana','SimHei'],
+							fontTarget = $('[title=字体]').siblings('.dropdown-menu');
+					  $.each(fonts, function (idx, fontName) {
+						  fontTarget.append($('<li><a data-edit="fontName ' + fontName +'" style="font-family:\''+ fontName +'\'">'+fontName + '</a></li>'));
+					  });
+					  $('a[title]').tooltip({container:'body'});
+						$('.dropdown-menu input').click(function() {return false;})
+							.change(function () {$(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');})
+						.keydown('esc', function () {this.value='';$(this).change();});
+
+					  $('[data-role=magic-overlay]').each(function () { 
+						var overlay = $(this), target = $(overlay.data('target')); 
+						overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
+					  });
+					  /*
+					  if ("onwebkitspeechchange"  in document.createElement("input")) {
+						var editorOffset = $('#editor').offset();
+						$('#voiceBtn').css('position','absolute').offset({top: editorOffset.top, left: editorOffset.left+$('#editor').innerWidth()-35});
+					  } else {
+						$('#voiceBtn').hide();
+					  }
+					  */
+					};
+					function showErrorAlert (reason, detail) {
+						var msg='';
+						if (reason==='unsupported-file-type') { msg = "Unsupported format " +detail; }
+						else {
+							console.log("error uploading file", reason, detail);
+						}
+						$('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>'+ 
+						 '<strong>File upload error</strong> '+msg+' </div>').prependTo('#alerts');
+					};
+					initToolbarBootstrapBindings();  
+					$('.editor').wysiwyg({ fileUploadError: showErrorAlert} );
+					window.prettyPrint && prettyPrint();
+				  });
+				</script>
+				<script>
+				  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+				  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+				  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+				  })(window,document,'script','http://www.google-analytics.com/analytics.js','ga');
+				  ga('create', 'UA-37452180-6', 'github.io');
+				  ga('send', 'pageview');
+				</script>
+				<script>(function(d, s, id) {
+				  var js, fjs = d.getElementsByTagName(s)[0];
+				  if (d.getElementById(id)) return;
+				  js = d.createElement(s); js.id = id;
+				  js.src = "http://connect.facebook.net/en_GB/all.js#xfbml=1";
+				  fjs.parentNode.insertBefore(js, fjs);
+				  }(document, 'script', 'facebook-jssdk'));
+				 </script>
+
+				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="http://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+				<!-- End of wysiwyg -->
+				<style>
+				/* wysiwyg */
+				.editor {
+					min-height: 100px;
+					background-color: white;
+					border-collapse: separate; 
+					border: 1px solid rgb(204, 204, 204); 
+					padding: 4px; 
+					box-sizing: content-box; 
+					-webkit-box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px inset; 
+					box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px inset;
+					border-top-right-radius: 3px; border-bottom-right-radius: 3px;
+					border-bottom-left-radius: 3px; border-top-left-radius: 3px;
+					overflow-y: scroll;
+					outline: none;
+					-webkit-transition: min-height 2s; /* Safari */
+					transition: min-height 1s;
+				}
+				.editor:focus {
+					min-height: 200px;
+				}
+
+				div[data-role="editor-toolbar"] {
+				  -webkit-user-select: none;
+				  -moz-user-select: none;
+				  -ms-user-select: none;
+				  user-select: none;
+				}
+
+				.dropdown-menu a {
+				  cursor: pointer;
+				}
+				/* end of wysiwyg */
+				
+				.moment {
+					
+				}
+				.moment-fold {
+					height: 150px;
+					overflow-y: hidden;
+				}
+				#momentModal img, .moment img {
+					max-width: 500px;
+				};
+				.reply {
+					
+				}
+				.reply-fold {
+					height:150px;
+					overflow-y:hidden;
+				}
+				.reply img {
+					max-width: 500px;
+				};
+				</style>
+			  
+            </section>
+			
+            <!-- /.content-wrapper -->
+            <footer class="main-footer">
+                <div class="pull-right hidden-xs">
+                    <b>Version</b> 2.3.5
+                </div>
+                <strong>Copyright &copy; 2014-2017 <a href="http://almsaeedstudio.com">Transtopia</a>.</strong> All rights
+                reserved.
+            </footer>
+
+            <!-- Control Sidebar -->
+            <aside class="control-sidebar control-sidebar-dark">
+                <!-- Create the tabs -->
+                <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+                    <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <!-- Settings tab content -->
+                    <div class="tab-pane" id="control-sidebar-home-tab">
+                        <!-- /.control-sidebar-menu -->
+
+                    </div>
+                    <!-- /.tab-pane -->
+                </div>
+            </aside>
+            <!-- /.control-sidebar -->
+            <!-- Add the sidebar's background. This div must be placed
+                 immediately after the control sidebar -->
+            <div class="control-sidebar-bg"></div>
+        </div>
+        <!-- ./wrapper -->
+
+        <!-- jQuery 2.2.3 -->
+    <script src="../JS/sideRow.js"></script>
+
+    </body>
+</html>

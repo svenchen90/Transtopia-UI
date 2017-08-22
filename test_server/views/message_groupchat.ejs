@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Transtopia-alpha | 消息 </title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="plugins/bootstrap-3.3.6/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="plugins/font-awesome-4.7.0/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="plugins/ionicons-2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="plugins/AdminLTE-2.3.11/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="plugins/AdminLTE-2.3.11/css/skins/skin-purple.min.css">
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body class="skin-purple sidebar-mini">
+<div class="wrapper">
+  <!-- Main Header -->
+  <header class="main-header">
+    <!-- Logo -->
+    <a href="#" class="logo">
+	  <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><b>T</b></span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><b>Transtopia</b></span>
+    </a>
+
+    <!-- Header Navbar -->
+    <nav class="navbar navbar-default" role="navigation">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"></a>
+			<!-- Navbar Left Menu -->
+				<!-- fill it here -->
+			<!-- /.Navbar Left Menu -->
+			
+			<!-- Navbar Right Menu -->
+				<!-- fill it here -->
+			<!-- /.Navbar Right Menu -->
+    </nav>
+  </header>
+	
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- search form (Optional) -->
+      <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+          <input type="text" name="q" class="form-control" placeholder="搜索...">
+              <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                </button>
+              </span>
+        </div>
+      </form>
+      <!-- /.search form -->
+			<div class="sidebar-form" style="border: none;">
+				<span class="col-xs-3"><a href="#" title="消息栏"><i class="fa fa-comment fa-2x"></i></a></span>
+				<span class="col-xs-3"><a href="#" title="个人消息"><i class="fa fa-user fa-2x"></i></a></span>
+				<span class="col-xs-3"><a href="#" title="群组消息"><i class="fa fa-users fa-2x"></i></a></span>
+				<span class="col-xs-3"><a href="#" title="商品消息"><i class="fa fa-list fa-2x"></i></a></span>
+			</div>
+      <!-- Sidebar Menu -->
+      <ul class="sidebar-menu sidebar-message">		
+				<li class="header"><% 消息类型 %></li>
+				<!-- Sidebar Tag for Message -->
+      </ul>
+      <!-- /.sidebar-menu -->
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+			<div class="panel-groupchat">
+				<nav class="navbar panel-groupchat-header" role="navigation">
+					<div class="container-fluid">
+						<div class="navbar-header" style="padding: 10px 0;">
+							<a class="navbar-brand" href="#"></a>
+						</div>
+							<ul class="nav navbar-nav navbar-right"> 
+								<li><a href="#" style="color: #b0b0b0!important;"><i class="fa fa-bell"></i></a></li> 
+								<li><a href="#" style="color: #b0b0b0!important;"><i class="fa fa-gear"></i></a></li> 
+								<li><a href="#" style="color: #b0b0b0!important;"><i class="fa fa-list"></i></a></li> 
+							</ul> 
+							<form class="navbar-form navbar-right" role="search">
+								<div class="form-group">
+									<input type="text" class="form-control" placeholder="Search">
+								</div>
+								<button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+							</form>
+					</div>
+				</nav>
+				<div class="panel-groupchat-leftblock">
+					<div class="panel-groupchat-content">
+						<!-- 聊天内容 -->
+					</div>
+					<div class="panel-groupchat-input">
+						<div class="panel-groupchat-input-toolbar">
+							<a href="#"><i class="fa fa-smile-o"></i></a>
+							<a href="#" data-toggle="modal" data-target="#modalGroupChatSendFile"><i class="fa fa-paperclip"></i></a>
+							<a href="#"><i class="fa fa-send-o"></i></a>
+							<a href="#"><i class="fa fa-plus-circle"></i></a>
+						</div>
+					</div>
+					<textarea placeholder="说些什么..."></textarea>
+					<div class="enter"> 使用Ctrl + Enter发送</div>
+				</div>
+				<div class="panel-groupchat-rightblock">
+					<div class="public-message-block" style="height: 192px;">
+						<span class="groupchat-block-title">群公告</span>
+						<span style="float:right;"><a href="#" class="fade-text" data-toggle="modal" data-target="#modaleditgrouppublicmessage"><i class="fa fa-pencil-square-o"></i></a></span>
+						<p style="margin: 5px auto;"></p>
+					</div>
+					<div class="group-members-block" style="height: 142px">
+						<span class="groupchat-block-title">成员</span>
+						<span style="float:right;"><a href="#" class="fade-text">所有成员<i class="fa fa-chevron-right"></i></a></span>
+						<div class="group-members-block-content">
+						</div>
+					</div>
+					<div class="activities-block" style="height: 206px;">
+						<span class="groupchat-block-title">动态</span>
+						<span style="float:right;"><a href="#" class="fade-text">所有动态<i class="fa fa-chevron-right"></i></a></span>
+					</div>
+					<div class="files-block" style="height: 210px; border-bottom: none;">
+						<span class="groupchat-block-title">文件</span>
+						<span style="float:right; margin-right: 15px;"><a href="#" class="fade-text">所有文件<i class="fa fa-chevron-right"></i></a></span>
+						<p>
+							<!-- 加载文件 -->
+						</p>
+					</div>
+					<div class="panel-groupchat-rightblock-details">
+						<!-- start -->
+						<div class="box-header with-border">
+							<a href="#" class="fade-text"><i class="fa fa-arrow-left"></i> 返回</a>
+							<span style="margin-left: 90px; color: #999;font-size: 13px;"><i class="fa fa-files-o"></i> 文件列表</span>
+							<a href="#" class="pull-right fade-text" style="font-size: 13px;" data-toggle="modal" data-target="#modalecreatefolder"><i class="fa fa-plus"></i> 文件夹</a>
+						</div>
+						<div class="box-header">				
+						</div>
+						<p>
+						
+						</p>
+					</div>
+				</div>
+			</div>
+			
+			<!-- 模态框 修改群公告 -->
+			<div class="modal fade" id="modaleditgrouppublicmessage">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">×</span></button>
+							<h4 class="modal-title">修改群公告</h4>
+						</div>
+						<div class="modal-body">
+							<textarea class="form-control" placeholder="请填写群公告"></textarea>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary">提交</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						</div>
+					</div>
+					<!-- /.modal-content -->
+				</div>
+				<!-- /.modal-dialog -->
+			</div>
+			
+			<!-- 模态框 新增文件夹 -->
+			<div class="modal fade" id="modalecreatefolder">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">×</span></button>
+							<h4 class="modal-title">新增文件夹</h4>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<label>文件夹名称</label>
+								<input class="form-control" placeholder="请填写文件夹名称">
+							</div>
+							
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary">提交</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						</div>
+					</div>
+					<!-- /.modal-content -->
+				</div>
+				<!-- /.modal-dialog -->
+			</div>
+			
+			<!-- 模态框 上传文件 -->
+			<div id="modalGroupChatSendFile" class="modal fade">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">×</span></button>
+							<h4 class="modal-title">发送文件</h4>
+						</div>
+						<div class="modal-body">
+							<div class="nav-tabs-custom">
+								<ul class="nav nav-tabs pull-right">
+									<li><a href="#chatsendfile_cloud" data-toggle="tab"> 云盘云盘</a></li>
+									<li class="active"><a href="#chatsendfile_local" data-toggle="tab"> 本地文件</a></li>
+									<li class="pull-left header"><i class="fa fa-th"></i> 文件源位置</li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane" id="chatsendfile_cloud">
+										<b>云盘文件：</b>
+										<p style="text-align: center; margin: 100px auto;">云盘上传文件</p>
+									</div>
+									<div class="tab-pane active" id="chatsendfile_local">
+										<div class="form-group">
+											<div class="form-group">
+												<label>发布者</label>
+												<select id="folder_groupchatsendfile" class="form-control" style="width: 100%;">
+												</select>
+											</div>
+											<input name="chatsendfile[]" id="fileinput_groupchatsendfile" type="file" multiple>
+											<br>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+	<style>
+		.panel-groupchat-rightblock-details {
+			position: absolute;
+			top: 1px;
+			right: 0;
+			width: 0;
+			height: 100%;
+			background: white;
+			border-top: 1px solid #ddd;
+			overflow: hidden;
+			-webkit-transition: width 1s; /* For Safari 3.1 to 6.0 */
+			transition: width 0.5s;
+		}
+		
+		.width-full {
+			width: 100%;
+		}
+	</style>
+
+	<!-- <div class="panel-groupchat">
+		<nav class="navbar panel-groupchat-header" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#"></a>
+				</div>
+					<ul class="nav navbar-nav navbar-right"> 
+						<li><a href="#" style="color: #b0b0b0!important;"><i class="fa fa-bell"></i></a></li> 
+						<li><a href="#" style="color: #b0b0b0!important;"><i class="fa fa-gear"></i></a></li> 
+						<li><a href="#" style="color: #b0b0b0!important;"><i class="fa fa-list"></i></a></li> 
+					</ul> 
+					<form class="navbar-form navbar-right" role="search">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Search">
+						</div>
+						<button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+					</form>
+			</div>
+		</nav>
+		<div class="">
+			<a href="#"></a>
+			<div></div>
+		</div>
+		<div class="panel-groupchat-leftblock">
+			<div class="panel-groupchat-content">
+
+			</div>
+			<div class="panel-groupchat-input">
+				<div class="panel-groupchat-input-toolbar">
+					<a href="#"><i class="fa fa-smile-o"></i></a>
+					<a href="#"><i class="fa fa-paperclip"></i></a>
+					<a href="#"><i class="fa fa-send-o"></i></a>
+					<a href="#"><i class="fa fa-plus-circle"></i></a>
+				</div>
+			</div>
+			<textarea placeholder="说些什么..."></textarea>
+			<div class="enter"> 使用Enter发送</div>
+		</div>
+		<div class="panel-groupchat-rightblock">
+			<div class="public-message-block" style="height: 192px; ">
+				<span class="groupchat-block-title">群公告</span>
+				<p class="fade-text">暂无群公告</p>
+			</div>
+			<div class="group-members-block" style="height: 142px; ">
+				<span class="groupchat-block-title">成员</span>
+				<span style="float:right;"><a href="#" class="fade-text">所有成员<i class="fa fa-chevron-right"></i></a></span>
+				<div class="group-members-block-content">
+					
+				</div>
+			</div>
+			<div class="activities-block" style="height: 206px;; ">
+				<span class="groupchat-block-title">动态</span>
+				<span style="float:right;"><a href="#" class="fade-text">所有动态<i class="fa fa-chevron-right"></i></a></span>
+			</div>
+			<div class="files-block" style="height: 210px;">
+				<span class="groupchat-block-title">文件</span>
+				<p class="fade-text">暂无群公告</p>
+			</div>
+		</div>
+	</div> -->
+	
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <!-- To the right -->
+    <div class="pull-right hidden-xs">
+      <!-- Anything you want -->
+    </div>
+    <!-- Default to the left -->
+    <strong>Copyright &copy; 2017 <a href="#">Transtopia</a>.</strong> All rights reserved.
+  </footer>
+
+  <!-- Control Sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED JS SCRIPTS -->
+<!-- jQuery 2.2.3 -->
+<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="plugins/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="plugins/AdminLTE-2.3.11/js/app.min.js"></script>
+<!-- Slimscroll -->
+<script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="plugins/fastclick/fastclick.min.js"></script>
+<!-- FileInput -->
+<link href="plugins/bootstrap-fileinput/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
+<link href="plugins/bootstrap-fileinput/themes/explorer/theme.css" media="all" rel="stylesheet" type="text/css"/>
+<script src="plugins/bootstrap-fileinput/js/plugins/sortable.js" type="text/javascript"></script>
+<script src="plugins/bootstrap-fileinput/js/fileinput.js" type="text/javascript"></script>
+<script src="plugins/bootstrap-fileinput/themes/explorer/theme.js" type="text/javascript"></script>
+<script src="plugins/bootstrap-fileinput/js/locales/zh.js" type="text/javascript"></script>
+<!-- Select2 -->
+<link href="plugins/select2/select2.min.css" rel="stylesheet" />
+<script src="plugins/select2/select2.min.js"></script>
+
+<!-- 我的JS & CSS -->
+<style>
+	/* 模态框居中 */
+	.modal {
+		text-align: center;
+		padding: 0!important;
+	}
+
+	.modal:before {
+		content: '';
+		display: inline-block;
+		height: 100%;
+		vertical-align: middle;
+		margin-right: -4px;
+	}
+
+	.modal-dialog {
+		display: inline-block;
+		text-align: left;
+		vertical-align: middle;
+	}
+	/* 模态框居中（结束） */
+.panel-groupchat-rightblock {
+	width: 359px; 
+	height:750px;
+	position:absolute;
+	right:0;
+	top:50px;
+	border-left:1px solid #ddd;
+}
+.public-message-block, .group-members-block, .activities-block {
+	padding: 16px 15px;
+}
+.files-block {
+	padding: 16px 0 16px 15px;;
+}
+.public-message-block, .group-members-block, .activities-block {
+	border-bottom:1px solid #ddd; 
+}
+.groupchat-block-title {
+	color: #000;
+	font-size: 14px;
+	font-weight: bolder;
+}
+.fade-text {
+	color: #bdbdbd;
+	font-size: 13px;
+}
+.panel-groupchat {
+	width:1080px;
+	height:800px;
+	background-color: rgb(255,255,255);
+	border-radius: 3px;
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%)
+}
+.panel-groupchat-leftblock {
+	width: 100%;
+	height:750px;
+	padding-right:359px;
+}
+.panel-groupchat-header {
+	border-bottom: 1px solid #ddd;
+}
+.panel-groupchat-header a {
+	 font-size: 18px;
+	 color: #333;
+}
+.panel-groupchat-content {
+	height: 550px;
+	width: 100%;
+	border-bottom: 1px solid #ddd;
+	padding:14px 16px;
+}
+.panel-groupchat-message-time {
+	font-size: 12px;
+	color: #bbb;
+	text-align: center;
+}
+.panel-groupchat-content-item {
+	margin: 15px auto;
+}
+.panel-groupchat-content-item img{
+	width:45px;
+	height:auto;
+	vertical-align: top
+}
+.panel-groupchat-personal-message-text {
+	line-height: 1.6;
+	margin-left: 15px;
+	padding: 8px 13px;
+	display: inline-block;
+	font-size: 14px;
+	word-break: break-all;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+	max-width: 300px;
+}
+.panel-groupchat-mine-message-text {
+	line-height: 1.6;
+	padding: 8px 13px;
+	display: inline-block;
+	font-size: 14px;
+	word-break: break-all;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+	max-width: 300px;
+	background-color: #f3f3f3;
+}
+.panel-groupchat-system-message-text {
+	font-size: 12px;
+	color: #bbb;
+	text-align: center;
+}
+.panel-groupchat-input-toolbar {
+	height: 40px;
+	padding: 4px 15px;
+	font-size: 20px;
+}
+.panel-groupchat-input-toolbar > a {
+	margin-left: 15px;
+	font-size: 21px;
+	color: rgba(0,0,0,.5);
+}
+.panel-groupchat textarea {
+	z-index: auto;
+	position: relative;
+	line-height: 21px;
+	font-size: 14px;
+	transition: none;
+	background: transparent !important;
+	display: block;
+	width: 100%;
+	height: 110px;
+	border: 0;
+	resize: none;
+	padding: 10px;
+	outline: none;overflow-x: hidden;
+	overflow-y: auto;
+	box-sizing: border-box;
+	border-radius: 4px;
+}
+.enter {
+	color: rgba(0,0,0,.35);
+	font-size: 13px;
+	float: right;
+	margin-right:15px;
+	cursor: pointer;
+}
+.group-members-block-content {
+	width: 100%;
+	margin:25px 0;
+	white-space: nowrap; 
+	overflow: hidden;
+	//text-overflow: ellipsis; 
+}
+.group-members-block-img-holder {
+	width: 40px;
+	margin-right: 15px;
+}
+.group-members-block-img-member {
+	width: 40px;
+	position: relative;
+}
+</style>
+<script>
+$(document).on("ready", function(){
+	$("[data-toggle='popover']").popover();
+});
+
+//加载标题
+var loadGroupChatHeader = function(data){
+
+	//$(".panel-groupchat .panel-groupchat-header .navbar-header a").text(data.name);
+	
+	$(".panel-groupchat .panel-groupchat-header .navbar-header a").remove();
+	$(".panel-groupchat .panel-groupchat-header .navbar-header").append('<a href="#" style="margin: 5px auto;" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-html="true" \
+			data-content=\' \
+						<div class="box box-primary" style="width:200px;"> \
+						<div class="box-body box-profile"> \
+							<img class="profile-user-img img-responsive img-circle" src="' + data.img + '" alt="User profile picture"> \
+							<h3 class="profile-username text-center">' + data.name + '</h3> \
+							<ul class="list-group list-group-unbordered"> \
+							<li class="list-group-item"> \
+								<b>动态</b> <a class="pull-right">' + data.blogs + '</a>\
+							</li> \
+							<li class="list-group-item"> \
+								<b>精华</b> <a class="pull-right">' + data.popularblogs + '</a> \
+							</li> \
+							<li class="list-group-item"> \
+								<b>关注者</b> <a class="pull-right">' + data.followers +'</a> \
+							</li> \
+							</ul> \
+							<a href="#" class="btn btn-primary btn-block"><b>关注</b></a> \
+						</div> \
+						</div>\'><img class="img-circle" src="' + data.img + '" style="width: 30px;"> ' + data.name + '</a>');
+};
+
+var test_data_folder = [{ id: 0, text: '文件夹1' }, { id: 1, text: '文件夹2' }, { id: 2, text: '文件夹3' }, { id: 3, text: '文件夹4' }, { id: 4, text: '文件夹5' }];
+//加载工具栏
+var loadGroupChatToolBar = function(){
+	$("#fileinput_groupchatsendfile").fileinput({
+			language: "zh",
+			theme: 'explorer',
+			uploadUrl: '/',
+			overwriteInitial: false,
+			initialPreviewAsData: false,
+			uploadExtraData: {
+				//在此添加ID 等等
+			}
+	});
+	
+	$("#folder_groupchatsendfile").select2({
+		//AJAX此处加载folder
+		data: test_data_folder,
+		language: 'zh-CN'
+	}).on('change', function(){
+		$("#fileinput_groupchatsendfile").fileinput('destroy');
+		$("#fileinput_groupchatsendfile").fileinput({
+				language: "zh",
+				theme: 'explorer',
+				uploadUrl: '/',
+				overwriteInitial: false,
+				initialPreviewAsData: false,
+				uploadExtraData: {
+					//在此添加ID 等等
+				}
+		});
+	});
+};
+
+
+
+//加载聊天栏
+var loadGroupChatContent = function(data){
+	//$(".panel-groupchat .panel-groupchat-header .navbar-header a").text(name);
+	//$(".panel-groupchat-content").empty();
+	
+	//根据内容类型加载不同样式
+	var loadChatMsg = function(data){
+		if(data.type == 0)
+			return data.text;
+		else{
+			var ext = data.src.substr(data.src.lastIndexOf('.') +1);
+			if($.inArray(ext, ['jpg', 'png', 'gif']) != -1)
+				return '<img class="img-responsive" src="' + data.src + '" style="width:500px;">'; //loadChatFile({filename: '这是一个文件.txt', src: 'dist/img/user7-128x128.jpg'})
+			else
+				return '<div class="info-box" style="margin:0;">\
+									<span class="info-box-icon bg-yellow"><i class="fa fa-files-o"></i></span>\
+									<div class="info-box-content" style="min-width:150px;">\
+										<span class="info-box-number">' + data.filename + '</span>\
+										<span class="info-box-text pull-right" style="margin-top: 20px;">\
+											<a href="' + data.src + '" download style="margin: 10px;"><i class="fa fa-download"></i> 下载</a>\
+											<a href="' + data.src + '" target="_blank><i class="fa fa-search"></i> 查看</a></span>\
+								 </div>\
+								</div>';
+		}
+	};
+	
+	$.each(data,function(index, chat){
+		if(chat.user_role == 0){
+			$(".panel-groupchat-content").append(
+				'<div class="panel-groupchat-content-item">\
+					<p class="panel-groupchat-message-time">' + chat.time + '</p>\
+					<img class="img-circle" src="' + chat.user_img + '" title="' + chat.user_name + '">\
+					<div class="panel-groupchat-personal-message-text">' + loadChatMsg(chat.content) + '</div>\
+				</div>');
+		}else if(chat.user_role == 1){
+			$(".panel-groupchat-content").append(
+				'<div class="panel-groupchat-content-item">\
+					<p class="panel-groupchat-message-time">' + chat.time + '</p>\
+					<div style="text-align: right;">\
+						<div class="panel-groupchat-mine-message-text">' + loadChatMsg(chat.content) + '</div>\
+					<div>\
+				</div>');
+		}else{
+			$(".panel-groupchat-content").append(
+				'<div class="panel-groupchat-content-item">\
+					<p class="panel-groupchat-message-time">' + chat.time + '</p>\
+					<p class="panel-groupchat-system-message-text">' + loadChatMsg(chat.content) + '</p>\
+				</div>');
+		}
+		
+		$('.panel-groupchat-content').slimScroll({
+			scrollTo: $(this).scrollHeight
+		});
+	});
+	
+	$(".panel-groupchat-content")
+	
+	
+	$('.panel-groupchat-content').slimScroll({
+		height: '550px',
+		opacity: 0
+	}).mouseover(function() {
+		$(this).next('.slimScrollBar').css('opacity', 0.4);
+	});
+	
+	
+};
+
+//加载公告栏
+var loadGroupChatPublicMessageBlock = function(data){
+	if(data == '')
+		$('.public-message-block p').html('暂无群公告');
+	else
+		$('.public-message-block p').html(data);
+	
+
+	$('.public-message-block').slimScroll({
+		height: '192px',
+		opacity: 0
+	}).mouseover(function() {
+		$(this).next('.slimScrollBar').css('opacity', 0.4);
+	});
+};
+
+//加载群成员
+var loadGroupChatMemberBlock = function(data){
+	$(".group-members-block-content").empty();
+	$.each(data,function(index,member){
+		if(index == 0)
+			$(".group-members-block-content").append(
+			'<img style="border: 1px solid #ddd;" class="img-circle group-members-block-img-holder" src="' + member.img + '" title="' + member.name + '" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="' + member.email +'">');
+		else
+			$(".group-members-block-content").append(
+			'<img style="box-shadow: 0 0 1px 0 rgba(0,0,0,.5);right:' + (index-1) * 8 + 'px;" class="img-circle group-members-block-img-member" src="' + member.img + '" title="' + member.name + '" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="' + member.email +'">');
+	});
+	
+};
+
+//加载文件
+var loadGroupChatFileBlock = function(data){
+	$('.files-block p').empty();
+	//1: folder else: file
+	$.each(data, function(index, f){
+		if(f.type == 1){
+			$('.files-block p').prepend(
+				'<span class="btn btn-block btn-social btn-default" style="margin:5px auto;">\
+					<i class="fa fa-folder-o"></i> ' + f.name + '\
+				</span>'
+			);
+		}else{
+			$('.files-block p').append(
+				'<span class="btn btn-block btn-social btn-default" style="margin:5px 0 0 auto; width: 95%; ">\
+					<i class="fa fa-file-pdf-o"></i> ' + f.name + '\
+					<a class="pull-right" href="' + f.src + '" style="margin-left: 10px;" download><i class="fa fa-download"></i> 下载</a>\
+					<a class="pull-right" href="' + f.src + '" target="_blank"><i class="fa fa-search"></i> 查看</a>\
+				</span>'
+			);
+		}
+	});
+	
+	$('.files-block .fade-text').on('click', function(){
+		//加载文件
+		//loadGroupChatFileDetailsBlock
+		$('.panel-groupchat-rightblock-details').toggleClass('width-full');
+		
+	});
+	
+	$('.files-block p').slimScroll({
+		height: '170px',
+		opacity: 0
+	}).mouseover(function() {
+		$(this).next('.slimScrollBar').css('opacity', 0.4);
+	});
+};
+
+var test_data_file2 = {
+	directions: [{
+		id: 'asfasdf',
+		name: '一级文件夹'
+	}],
+	files:[{
+		id: 'adfasdf',
+		type: 1,
+		name: "文件夹 abc",
+	}]
+};
+
+//加载详细文件
+var loadGroupChatFileDetailsBlock = function(data){
+	$('.panel-groupchat-rightblock-details p').empty();
+	$('.panel-groupchat-rightblock-details .box-header:eq(1)').empty();
+	//加载导航 direction
+	$('.panel-groupchat-rightblock-details .box-header:eq(1)').append('<i class="fa fa-folder-o fade-text"></i>');
+		
+	$.each(data.directions, function(index, dir){
+		$('.panel-groupchat-rightblock-details .box-header:eq(1)').append('<a href="#" class="fade-text" data-id="' + dir.id + '"> ' + dir.name + '</a> \\');
+		
+		if(index == data.directions.length-1 && index != 0){
+			$('.panel-groupchat-rightblock-details .box-header:eq(1)').append('<a href="#" class="fade-text pull-right" data-id="' + dir.id + '"> <i class="fa fa-arrow-left"><i> 返回</a>');
+		}
+	});
+	
+	
+	//加载文件  1: folder else: file
+	$.each(data.files, function(index, f){
+		if(f.type == 1){
+			$('.panel-groupchat-rightblock-details p').prepend(
+				'<span class="btn btn-block btn-social btn-default" style="margin:5px auto;">\
+					<i class="fa fa-folder-o"></i> ' + f.name + '\
+					<a class="pull-right" href="#" data_type="1" data-id="' + f.id + '"><i class="fa fa-search"></i> 查看</a>\
+				</span>'
+			);
+		}else{
+			$('.panel-groupchat-rightblock-details p').append(
+				'<span class="btn btn-block btn-social btn-default" style="margin:5px 0 0 auto; width: 95%; ">\
+					<i class="fa fa-file-pdf-o"></i> ' + f.name + '\
+					<a class="pull-right" href="' + f.src + '" style="margin-left: 10px;" download><i class="fa fa-download"></i> 下载</a>\
+					<a class="pull-right" href="' + f.src + '" target="_blank"><i class="fa fa-search"></i> 查看</a>\
+				</span>'
+			);
+		}
+	});
+	
+	$('.panel-groupchat-rightblock-details p').slimScroll({
+		height: '660px',
+		opacity: 0
+	}).mouseover(function() {
+		$(this).next('.slimScrollBar').css('opacity', 0.4);
+	});
+};
+
+
+
+$('.panel-groupchat textarea').keypress(function(event){
+	if(event.keyCode == 10){
+		var text = $(this).val();
+		$(this).val('');
+		console.log(text);
+		//发送消息
+	}else{}
+});
+//发送消息（结束）
+
+
+<!-- 消息测试数据 -->
+var test_data_group_header = {
+	'id': 123,
+	'name': '交托帮',
+	'img': 'dist/img/default6.png',
+	'blogs': 95,
+	'popularblogs': 15,
+	'followers': 3751
+};
+loadGroupChatHeader(test_data_group_header);
+
+loadGroupChatToolBar();
+
+var test_data_content = [{
+		user_id: 5,
+		user_name: '六月',
+		user_img: 'dist/img/user7-128x128.jpg',
+		time:'2016/05/31 - 15:07:05',
+		content: {
+			type: 0, //0: text; 1: file or picture;
+			text:'这是我的第一条消息这是我的第一条消息这是我的第一条消息这是我的第一条消息这是我的第一条消息这是我的第一条消息这是我的第一条消息这是我的第一条消息这是我的第一条消息这是我的第一条消息这是我的第一条消息这是我的第一条消息'
+		},
+		user_role: 1
+	},{
+		user_id: 5,
+		user_name: '六月',
+		user_img: 'dist/img/user7-128x128.jpg',
+		time:'2016/05/31 - 15:07:04',
+		content: {
+			type: 0, //0: text; 1: file or picture;
+			text:'这是我的第一条消息这是我的第一条消息这是我的第一条消息这是我的第一条消息这是我的第一条消息这是我的第一条消息这是我的第一条消息这是我的第一条消息这是我的第一条消息这是我的第一条消息这是我的第一条消息这是我的第一条消息'
+		},
+		user_role: 0
+	},{
+		user_id: 5,
+		user_name: '六月',
+		user_img: 'dist/img/user7-128x128.jpg',
+		time:'2016/05/31 - 15:07:04',
+		content: {
+			type: 1, //0: text; 1: file or picture;
+			filename:'这是一个文件.txt',
+			src: 'dist/img/test/HELP-US-OUT.txt'
+		},
+		user_role: 1
+	},{
+		user_id: 5,
+		user_name: '六月',
+		user_img: 'dist/img/user7-128x128.jpg',
+		time:'2016/05/31 - 15:07:04',
+		content: {
+			type: 0, //0: text; 1: file or picture;
+			text:'这是一条系统消息'
+		},
+		user_role: 2
+	},{
+		user_id: 5,
+		user_name: '六月',
+		user_img: 'dist/img/user7-128x128.jpg',
+		time:'2016/05/31 - 15:07:04',
+		content: {
+			type: 1, //0: text; 1: file or picture;
+			filename:'这是一个文件.png',
+			src: 'dist/img/photo1.png'
+		},
+		user_role: 0
+	}];
+
+loadGroupChatContent(test_data_content);
+
+
+loadGroupChatPublicMessageBlock('');
+
+
+test_data_member = [{
+	img: "dist/img/avatar.png",
+	name: "刘芳宇",
+	email: "liu.fangyu@gmail.com"
+},{
+	img: "dist/img/avatar2.png",
+	name: "刘芳宇",
+	email: "liu.fangyu@gmail.com"
+},{
+	img: "dist/img/avatar3.png",
+	name: "刘芳宇",
+	email: "liu.fangyu@gmail.com"
+},{
+	img: "dist/img/avatar04.png",
+	name: "刘芳宇",
+	email: "liu.fangyu@gmail.com"
+},{
+	img: "dist/img/avatar5.png",
+	name: "刘芳宇",
+	email: "liu.fangyu@gmail.com"
+}];
+
+loadGroupChatMemberBlock(test_data_member);
+
+var test_data_file = {
+	directions: [{
+		id: 'asfasdf',
+		name: '一级文件夹'
+	},{
+		id: 'asfasdf',
+		name: '二级文件夹'
+	},{
+		id: 'asfasdf',
+		name: '三级文件夹'
+	}],
+	files:[{
+		id: 'adfasdf',
+		type: 1,
+		name: "文件夹 abc",
+	},{
+		id: 'adfasdf',
+		type: 0,
+		name: "文件def",
+		src: 'dist/img/avatar.png',
+	},{
+		id: 'adfasdf',
+		type: 1,
+		name: "文件夹 abc",
+	},{
+		id: 'adfasdf',
+		type: 0,
+		name: "文件def",
+		src: 'dist/img/avatar.png',
+	},{
+		id: 'adfasdf',
+		type: 1,
+		name: "文件夹 abc",
+	},{
+		id: 'adfasdf',
+		type: 0,
+		name: "文件def",
+		src: 'dist/img/avatar.png',
+	},{
+		id: 'adfasdf',
+		type: 1,
+		name: "文件夹 abc",
+	},{
+		id: 'adfasdf',
+		type: 0,
+		name: "文件def",
+		src: 'dist/img/avatar.png',
+	},{
+		id: 'adfasdf',
+		type: 1,
+		name: "文件夹 abc",
+	},{
+		id: 'adfasdf',
+		type: 0,
+		name: "文件def",
+		src: 'dist/img/avatar.png',
+	},{
+		id: 'adfasdf',
+		type: 1,
+		name: "文件夹 abc",
+	},{
+		id: 'adfasdf',
+		type: 0,
+		name: "文件def",
+		src: 'dist/img/avatar.png',
+	},{
+		id: 'adfasdf',
+		type: 1,
+		name: "文件夹 abc",
+	},{
+		id: 'adfasdf',
+		type: 0,
+		name: "文件def",
+		src: 'dist/img/avatar.png',
+	},{
+		id: 'adfasdf',
+		type: 1,
+		name: "文件夹 abc",
+	},{
+		id: 'adfasdf',
+		type: 0,
+		name: "文件def",
+		src: 'dist/img/avatar.png',
+	},{
+		id: 'adfasdf',
+		type: 1,
+		name: "文件夹 abc",
+	},{
+		id: 'adfasdf',
+		type: 0,
+		name: "文件def",
+		src: 'dist/img/avatar.png',
+	},{
+		id: 'adfasdf',
+		type: 0,
+		name: "文件def",
+		src: 'dist/img/avatar.png',
+	},{
+		id: 'adfasdf',
+		type: 1,
+		name: "文件夹 abc",
+	},{
+		id: 'adfasdf',
+		type: 0,
+		name: "文件def",
+		src: 'dist/img/avatar.png',
+	}]
+};
+
+loadGroupChatFileBlock(test_data_file.files);
+
+loadGroupChatFileDetailsBlock(test_data_file);
+</script>		 
+
+<script>
+$('.panel-groupchat-rightblock-details .box-header a:eq(0)').on('click', function(){
+	$('.panel-groupchat-rightblock-details > p').empty();
+	$('.panel-groupchat-rightblock-details').toggleClass('width-full');
+});
+
+$('[data_type="1"], .panel-groupchat-rightblock-details .box-header:eq(1) a').on('click', function(){
+	var folder_id = $(this).attr('data-id');
+	console.log(folder_id);
+	//ajax 跳转
+	loadGroupChatFileDetailsBlock(test_data_file2);
+});
+$('#modalGroupChatSendFile').on('show.bs.modal',function(){
+		$("#fileinput_groupchatsendfile").fileinput('clear');
+});
+</script>
+
+
+</body>
+</html>

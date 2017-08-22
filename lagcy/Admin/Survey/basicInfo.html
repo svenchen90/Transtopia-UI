@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <link href="./css/jquery-ui.css" type="text/css" rel="stylesheet">
+        <link href="./css/bootstrap.min.css" type="text/css" rel="stylesheet">
+        <link href="./css/font-awesome.min.css" type="text/css" rel="stylesheet">
+        <link href="./css/test.css" type="text/css" rel="stylesheet">
+        <link href="./css/mine.css" type="text/css" rel="stylesheet">
+        <script type="text/javascript" src="./js/jquery-2.0.3.min.js"></script>
+        <script type="text/javascript" src="./js/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="./js/jquery.sortable5.min.js"></script>
+        <script type="text/javascript" src="./js/fabric.js"></script>
+        <script type="text/javascript" src="./js/mine.js"></script>
+    </head>
+    <body>
+        <div class="container" style='text-align: center'>          
+            <table class="table table-condensed" style="border:none; text-align: center;">
+                <tbody>
+                    <tr >
+                        <td style="border:none">项目名称:</td>
+                        <td style="border:none"><input type="text" name="pName"></td>
+                    </tr>
+                    <tr style="border:none"> 
+                        <td style="border:none">项目描述:</td>
+                        <td style="border:none"><textarea name="pName"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td style="border:none">项目地点:</td>
+                        <td style="border:none"><select name="province">
+                                <option value="volvo">省份</option>
+                                <option value="saab">Saab</option>
+                                <option value="fiat">Fiat</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                            <select name="city">
+                                <option value="volvo">城市</option>
+                                <option value="saab">Saab</option>
+                                <option value="fiat">Fiat</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                            <select name="area">
+                                <option value="volvo">区县</option>
+                                <option value="saab">Saab</option>
+                                <option value="fiat">Fiat</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border:none">项目节点:</td>
+                        <td style="border:none"><input type="datetime-local" name="ptime_s" id="pstime"> 到 
+                            <input type="datetime-local" name="ptime_e" id="petime"></td>
+                    </tr>
+                    <tr>
+                        <td style="border:none">项目预算:</td>
+                        <td style="border:none"><input type="text" name="pPrice"></td>
+                    </tr>
+                    <tr>
+                        <td style="border:none">项目甲方:</td>
+                        <td style="border:none"><input type="text" name="pName">&nbsp;&nbsp;或&nbsp;&nbsp;<button type="button" class="btn btn-success">+发送邀请</button></td>
+                    </tr>
+                    <tr>
+                        <td style="border:none">项目负责:</td>
+                        <td style="border:none"><input type="text" name="pName">&nbsp;&nbsp;或&nbsp;&nbsp;<button type="button" class="btn btn-success">+发送邀请</button></td>
+                    </tr>
+                    <tr>
+                        <td style="border:none">项目存储位置:</td>
+                        <td style="border:none"><input type="text" name="pName">&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-success">浏览</button></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="border:none"><button type="button" class="btn btn-success" onclick="goMap()">确定</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

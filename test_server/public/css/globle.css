@@ -1,0 +1,139 @@
+/* Font */
+body {
+ font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+}
+
+/* 模态框居中 */
+.modal {
+	text-align: center;
+	padding: 0!important;
+}
+
+.modal:before {
+	content: '';
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+	margin-right: -4px;
+}
+
+.modal-dialog {
+	display: inline-block;
+	text-align: left;
+	vertical-align: middle;
+}
+/* !模态框居中 */
+
+/* Multi-Menu */
+.dropdown-submenu {
+   position: relative;
+}
+
+.dropdown-submenu .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -1px;
+}
+/* !Multi-Menu */
+
+
+/* left-block */
+.block-left {
+	position: absolute;
+	width:360px;
+	height: calc(100% - 100px);
+	background-color: #fff;
+	z-index: 900;
+	box-shadow: 0 0 4px 0 rgba(0,0,0,0.14);
+}
+
+.block-left .menu-top {
+	position: absolute;
+	padding: 15px;
+	width: 100%;
+}
+
+.block-left .menu-top .dropdown-menu {
+	border-radius: 2px;
+	box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.2);
+}
+
+.block-left .img-background img {
+	width:360px;
+	height: 200px;
+}
+
+.block-left .main-content{
+	padding-left: 25px;
+	padding-right: 25px;
+}
+
+.block-left .main-content .img-block {
+	position: relative;
+	margin-top: -18px;
+	margin-bottom: -4px;
+	width: 100%;
+}
+
+.block-left .main-content .img-block img{
+	top:-5px;
+	width: 32px;
+	height: 32px;
+	border-color: #fff;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.block-left .main-content .sign-block{
+	margin-top: 8px;
+	margin-bottom: 42px;
+}
+
+.block-left .main-content .sign-block span{
+	color: rgba(0,0,0,0.54);
+	font-size: 12px;
+	font-weight: 400;
+}
+
+.block-left .main-content .name {
+	color: rgba(0,0,0,0.87);
+	font-size: 34px;
+	font-weight: 500;
+	line-height: 40px;
+	margin-bottom: -6px;
+	overflow: hidden;
+}
+
+.block-left .main-content .detail {
+	margin-top: 30px;
+}
+
+.block-left .main-content .detail > span {
+	font-weight: 700;color: #777;
+}
+
+.block-left .main-content .detail > p {
+	margin: 0 0 10px;
+}
+
+.block-left .main-content .search-block {
+	margin-left: -25px; 
+	margin-right: -25px; 
+	margin-top: 30px;
+	padding-top: 8px;
+	padding-left: 30px;
+	height: 50px;
+	font-size: 20px; 
+	border-top: 1px solid rgba(0,0,0,0.1);
+	border-bottom: 1px solid rgba(0,0,0,0.1); 
+	color: rgba(0,0,0,0.54);
+}
+
+.block-left .main-content .search-block input {
+	border: none;
+}
+.block-left .main-content .search-block input:focus {
+	outline: none;
+}
+/* !left-block */
+

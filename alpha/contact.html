@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Transtopia-alpha | 消息 </title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="plugins/bootstrap-3.3.6/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="plugins/font-awesome-4.7.0/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="plugins/ionicons-2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="plugins/AdminLTE-2.3.11/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="plugins/AdminLTE-2.3.11/css/skins/skin-purple.min.css">
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body class="skin-purple sidebar-mini">
+<div class="wrapper">
+  <!-- Main Header -->
+  <header class="main-header">
+    <!-- Logo -->
+    <a href="#" class="logo">
+	  <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><b>T</b></span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><b>Transtopia</b></span>
+    </a>
+
+    <!-- Header Navbar -->
+    <nav class="navbar navbar-default" role="navigation">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"></a>
+			<!-- Navbar Left Menu -->
+				<!-- fill it here -->
+			<!-- /.Navbar Left Menu -->
+			
+			<!-- Navbar Right Menu -->
+				<!-- fill it here -->
+			<!-- /.Navbar Right Menu -->
+    </nav>
+  </header>
+	
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- search form (Optional) -->
+      <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+          <input type="text" name="q" class="form-control" placeholder="搜索...">
+              <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                </button>
+              </span>
+        </div>
+      </form>
+      <ul class="sidebar-menu sidebar-contact">		
+				<li class="header">通信录</li>
+				<li><a href="#tab_addfriend" data-toggle="tab"><i class="fa fa-plus"></i> <span>添加好友</span></a></li>
+				<li><a href="#"><i class="fa fa-plus"></i> <span>创建群组</span></a></li>
+				<li><a href="#tab_friendlist" data-toggle="tab"><i class="fa fa-plus"></i> <span>我的好友</span></a></li>
+				<li><a href="#tab_grouplist" data-toggle="tab"><i class="fa fa-plus"></i> <span>我的群组</span></a></li>
+				<!-- Sidebar Tag for Message -->
+      </ul>
+      <!-- /.sidebar-menu -->
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+			<div class="tab-content">
+				<!-- 添加好友 -->
+				<div id="tab_addfriend" class="tab-pane panel-full">
+					<div class="newfriend-centre">
+						<div class="newfriend-centre-title">
+							还没有新的联系人，通过下面的方式邀请吧！
+						</div>
+						<ul class="newfriend-centre-list">
+							<li class="newfriend-centre-list-item" value="0">
+								<i class="newfriend-centre-list-item-icon fa fa-wechat" style="background-color:#8bc34a;"></i>
+								<div class="newfriend-centre-list-item-text">微信邀请</div>
+							</li>
+							<li class="newfriend-centre-list-item" value="1">
+								<i class="newfriend-centre-list-item-icon fa fa-qq" style="background-color:#03a9f4;"></i>
+								<div class="newfriend-centre-list-item-text">QQ邀请</div>
+							</li>
+							<li class="newfriend-centre-list-item" value="2">
+								<i class="newfriend-centre-list-item-icon fa fa-weibo" style="background-color:#00bcd4;"></i>
+								<div class="newfriend-centre-list-item-text">微博邀请</div>
+							</li>
+							<li class="newfriend-centre-list-item" value="3">
+								<i class="newfriend-centre-list-item-icon fa fa-envelope" style="background-color:#f9ce1d;"></i>
+								<div class="newfriend-centre-list-item-text">电子邮箱邀请</div>
+							</li>
+							<li class="newfriend-centre-list-item" value="4">
+								<i class="newfriend-centre-list-item-icon fa fa-mobile" style="background-color:#f98b19;"></i>
+								<div class="newfriend-centre-list-item-text">手机邀请</div>
+							</li>
+							<li class="newfriend-centre-list-item" value="5">
+								<i class="newfriend-centre-list-item-icon fa fa-link" style="background-color:#607d8b;"></i>
+								<div class="newfriend-centre-list-item-text">二维码邀请</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="modal fade" id="modal_addfriend">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<div class="newfriend-centre-list-item">
+									
+								</div>
+							</div>
+							<div class="modal-body">
+								
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 添加好友结束 -->
+				
+				<!-- 好友列表 -->
+				<div id="tab_friendlist" class="tab-pane">
+					<div class="container">
+						<div class="nav-tabs-custom">
+							<ul class="nav nav-tabs">
+								<li class="active"><a href="#tab_1" data-toggle="tab">全部好友</a></li>
+								<li><a href="#tab_2" data-toggle="tab">好友请求</a></li>
+								<li><a href="#tab_3" data-toggle="tab">Tab 3</a></li>
+								<li class="dropdown">
+									<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+										Dropdown <span class="caret"></span>
+									</a>
+									<ul class="dropdown-menu">
+										<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+										<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+										<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+										<li role="presentation" class="divider"></li>
+										<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+									</ul>
+								</li>
+								<li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-gear"></i></a></li>
+							</ul>
+							<div class="tab-content" style="min-height: 800px;">
+								<div class="tab-pane active" id="tab_1">
+									<div class="col-md-2">
+										<div class="box box-widget widget-user">
+											<!-- Add the bg color to the header using any of the bg-* classes -->
+											<div class="widget-user-header bg-black" style=" background: url('dist/img/photo1.png') center center;">
+											</div>
+											<div class="widget-user-image">
+												<img class="img-circle" src="dist/img/user3-128x128.jpg" alt="User Avatar">
+											</div>
+											<div class="box-footer">
+												<p style="text-align: center;margin-top: 15px;"><a href="#">张震宇</a></p>
+												<div class="dropdown pull-right">
+														<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+																<i class="fa fa-gear"></i> 设置
+																<b class="caret"></b>
+														</a>
+														<ul class="dropdown-menu">
+																<li><a href="#">查看</a></li>
+																<li><a href="#">删除好友</a></li>
+														</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /.tab-pane -->
+								<div class="tab-pane" id="tab_2">
+									<div class="col-md-2">
+										<div class="box box-widget widget-user">
+											<!-- Add the bg color to the header using any of the bg-* classes -->
+											<div class="widget-user-header bg-black" style=" background: url('dist/img/photo1.png') center center;">
+											</div>
+											<div class="widget-user-image">
+												<img class="img-circle" src="dist/img/user3-128x128.jpg" alt="User Avatar">
+											</div>
+											<div class="box-footer">
+												<p style="text-align: center;margin-top: 15px;"><a href="#">张震宇</a></p>
+												<p style="text-align: right;margin-top: 15px;"><a href="#" style="margin-right:5px;"><i class="fa fa-plus"></i> 接受</a><a href="#" ><i class="fa fa-minus"></i> 拒绝</a></p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /.tab-pane -->
+								<div class="tab-pane" id="tab_3">
+									
+								</div>
+								<!-- /.tab-pane -->
+							</div>
+							<!-- /.tab-content -->
+						</div>
+					</div>
+				</div>
+				<!-- 好友列表结束 -->
+				
+				<!-- 群组列表 -->
+				<div id="tab_grouplist" class="tab-pane">
+					<div class="container">
+						<div class="nav-tabs-custom">
+							<ul class="nav nav-tabs">
+								<li class="active"><a href="#tab_1" data-toggle="tab">全部好友</a></li>
+								<li><a href="#tab_2" data-toggle="tab">好友请求</a></li>
+								<li><a href="#tab_3" data-toggle="tab">Tab 3</a></li>
+								<li class="dropdown">
+									<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+										Dropdown <span class="caret"></span>
+									</a>
+									<ul class="dropdown-menu">
+										<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+										<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+										<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+										<li role="presentation" class="divider"></li>
+										<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+									</ul>
+								</li>
+								<li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-gear"></i></a></li>
+							</ul>
+							<div class="tab-content" style="min-height: 800px;">
+								<div class="tab-pane active" id="tab_1">
+									<div class="col-md-2">
+										<div class="box box-widget widget-user">
+											<!-- Add the bg color to the header using any of the bg-* classes -->
+											<div class="widget-user-header bg-black" style=" background: url('dist/img/photo1.png') center center;">
+											</div>
+											<div class="widget-user-image">
+												<img class="img-circle" src="dist/img/user3-128x128.jpg" alt="User Avatar">
+											</div>
+											<div class="box-footer">
+												<p style="text-align: center;margin-top: 15px;"><a href="#">张震宇</a></p>
+												<div class="dropdown pull-right">
+														<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+																<i class="fa fa-gear"></i> 设置
+																<b class="caret"></b>
+														</a>
+														<ul class="dropdown-menu">
+																<li><a href="#">查看</a></li>
+																<li><a href="#">删除好友</a></li>
+														</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /.tab-pane -->
+								<div class="tab-pane" id="tab_2">
+									<div class="col-md-2">
+										<div class="box box-widget widget-user">
+											<!-- Add the bg color to the header using any of the bg-* classes -->
+											<div class="widget-user-header bg-black" style=" background: url('dist/img/photo1.png') center center;">
+											</div>
+											<div class="widget-user-image">
+												<img class="img-circle" src="dist/img/user3-128x128.jpg" alt="User Avatar">
+											</div>
+											<div class="box-footer">
+												<p style="text-align: center;margin-top: 15px;"><a href="#">张震宇</a></p>
+												<p style="text-align: right;margin-top: 15px;"><a href="#" style="margin-right:5px;"><i class="fa fa-plus"></i> 接受</a><a href="#" ><i class="fa fa-minus"></i> 拒绝</a></p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /.tab-pane -->
+								<div class="tab-pane" id="tab_3">
+									
+								</div>
+								<!-- /.tab-pane -->
+							</div>
+							<!-- /.tab-content -->
+						</div>
+					</div>
+				</div>
+				<!-- 群组列表结束 -->
+				
+			</div>
+			
+			
+			
+			
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <!-- To the right -->
+    <div class="pull-right hidden-xs">
+      <!-- Anything you want -->
+    </div>
+    <!-- Default to the left -->
+    <strong>Copyright &copy; 2017 <a href="#">Transtopia</a>.</strong> All rights reserved.
+  </footer>
+
+  <!-- Control Sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED JS SCRIPTS -->
+<!-- jQuery 2.2.3 -->
+<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="plugins/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="plugins/AdminLTE-2.3.11/js/app.min.js"></script>
+<!-- Slimscroll -->
+<script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="plugins/fastclick/fastclick.min.js"></script>
+<!-- FileInput -->
+<link href="plugins/bootstrap-fileinput/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
+<link href="plugins/bootstrap-fileinput/themes/explorer/theme.css" media="all" rel="stylesheet" type="text/css"/>
+<script src="plugins/bootstrap-fileinput/js/plugins/sortable.js" type="text/javascript"></script>
+<script src="plugins/bootstrap-fileinput/js/fileinput.js" type="text/javascript"></script>
+<script src="plugins/bootstrap-fileinput/themes/explorer/theme.js" type="text/javascript"></script>
+<script src="plugins/bootstrap-fileinput/js/locales/zh.js" type="text/javascript"></script>
+
+<!-- 我的JS & CSS -->
+<style>
+/* 模态框居中 */
+.modal {
+	text-align: center;
+	padding: 0!important;
+}
+
+.modal:before {
+	content: '';
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+	margin-right: -4px;
+}
+
+.modal-dialog {
+	display: inline-block;
+	text-align: left;
+	vertical-align: middle;
+}
+/* Panel Add Friend */
+.panel-full {
+	height: 901px;
+	background-color: rgb(255,255,255);
+	border-radius: 3px;
+}
+.newfriend-centre {
+	width: 452px;
+	height: 400px;
+	position: relative;
+	top: 50%;left: 50%;
+	transform: translateX(-50%) translateY(-50%);
+}
+.newfriend-centre-title {
+	font-size: 20px;
+	margin-bottom: 70px;
+	text-align: center;
+	color: #333;
+}
+.newfriend-centre-list {
+	padding-left: 0;
+}
+.newfriend-centre-list-item {
+	float:left;
+	width: 150px;
+	height: 115px;
+	margin-bottom: 40px;
+	list-style: none;
+	cursor: pointer;
+	text-align: center;
+}
+.newfriend-centre-list-item-icon {
+	width: 77px;
+	height:77px;
+	padding-top: 14px;
+	font-size: 50px;
+	color:rgb(255,255,255);
+	border-radius: 50%;
+}
+.newfriend-centre-list-item-text {
+	font-size: 14px;
+	margin-top: 20px;
+	color: #555;
+}
+#modal_addfriend .modal-content {
+	width: 500px;
+}
+#modal_addfriend .modal-content .modal-header {
+	height: 210px;
+	background-color: #fff;
+}
+#modal_addfriend .newfriend-centre-list-item {
+	position: relative;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%);
+}
+#modal_addfriend .modal-body {
+	background-color: #eee;
+}
+#modal_addfriend .modal-body img,
+#modal_addfriend .modal-body input{
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+}
+#modal_addfriend .modal-body p{
+	text-align: center;
+}
+#modal_addfriend input[type=text]{
+	box-sizing: border-box;
+	width: 290px;
+	height: 35px;
+	padding: 5px;
+	margin-bottom: 15px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+</style>
+<script>
+//添加好友
+$(".newfriend-centre-list-item").on("click",function(){
+	$('#modal_addfriend .modal-header .newfriend-centre-list-item').html($(this).html());
+	if([0,1,2,5].indexOf($(this).val()) >= 0){
+		$("#modal_addfriend .modal-body").html(
+		'<img src="' + 'dist/img/Test_addFriend.jpg' + '">\
+			<p>使用微信“扫一扫”</p>\
+			<p>将打开的页面通过右上角分享功能发送给您的好友</p>\
+			<input class="btn btn-primary" value="完成">');
+	}else if($(this).val() == 3){
+		$("#modal_addfriend .modal-body").html(
+		'<input class="form-control" type="text" placeholder="请输入Email地址">\
+		<input class="btn btn-primary btn-submit" value="完成">');
+		$("#modal_addfriend .modal-body btn-submit").on('click', function(){
+			alert(1);
+		});
+	}else if($(this).val() == 4){
+		$("#modal_addfriend .modal-body").html(
+		'<input class="form-control" type="text" placeholder="请输入电话号码">\
+		<input class="btn btn-primary" value="完成">');
+	}else{
+	
+	}
+	
+	$('#modal_addfriend').modal('toggle');
+});
+</script>
+</body>
+</html>

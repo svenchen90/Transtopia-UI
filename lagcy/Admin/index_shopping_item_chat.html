@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>我的Transtopia</title>
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <!-- Bootstrap 3.3.6 -->
+        <link rel="stylesheet" href="../CSS/bootstrap.min.css" />
+        <link href="../CSS/font-awesome.css" type="text/css" rel="stylesheet">
+        <!-- Font Awesome -->
+        <!-- Theme style -->
+        <link rel="stylesheet" href="../CSS/AdminLTE.min.css">
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+             folder instead of downloading all of them to reduce the load. -->
+        <link rel="stylesheet" href="../CSS/skins/_all-skins.min.css">
+        <!-- iCheck -->
+        <link rel="stylesheet" href="../CSS/blue.css">
+        <!-- Morris chart -->
+        <link rel="stylesheet" href="../CSS/morris.css">
+        <link rel="shortcut icon" href="./Img/logo.png">
+        <script src="../JS/jquery.min.js"></script>
+        <!-- jQuery UI 1.11.4 -->
+        <script src="../JS/jquery-ui.min.js"></script>
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+		<!-- Select2 -->
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+		
+		<!-- bootstrap-wysiwyg -->
+		<link href="Moment/bootstrap-wysiwyg/external/google-code-prettify/prettify.css" rel="stylesheet">
+		<!-- <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+		<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet"> -->
+		<link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+		<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script> -->
+		<script src="Moment/bootstrap-wysiwyg/external/jquery.hotkeys.js"></script>
+		<!-- <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script> -->
+		<script src="Moment/bootstrap-wysiwyg/external/google-code-prettify/prettify.js"></script>
+		<script src="Moment/bootstrap-wysiwyg/bootstrap-wysiwyg.js"></script>
+		
+        <script>
+            $.widget.bridge('uibutton', $.ui.button);
+        </script>
+        <!-- Bootstrap 3.3.6 -->
+        <script src="../JS/bootstrap.min.js"></script>
+        <script src="../JS/raphael-min.js"></script>
+        <script src="../JS/morris.min.js"></script>
+        <script src="../JS/fastclick.min.js"></script>
+        <script src="../JS/app.min.js"></script>
+        <script src="../JS/Admin_Head/mine.js"></script>
+    </head>
+
+
+    <body class="hold-transition skin-blue sidebar-mini">
+        <div class="wrapper">
+
+            <header class="main-header">
+                <!-- Logo -->
+<!--                <a href="index2.html" class="logo">
+                     mini logo for sidebar mini 50x50 pixels 
+                    <span class="logo-mini"><b>T</b></span>
+                     logo for regular state and mobile devices 
+                    <span class="logo-lg"><b>Transtopia</b></span>
+                </a>-->
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top">
+                    <!-- Sidebar toggle button-->
+                    <div class="navbar-custom-menu-left">
+                        <ul class="nav navbar-nav">
+                    <li><a id="head1" href="javascript:void(0);" class="admin_a" onclick="showMainContent('1')">消息</a></li>
+                    <li><a id="head2" href="javascript:void(0);" class="admin_a" onclick="showMainContent('2')">动态</a></li>
+                    <li><a id="head3" href="javascript:void(0);" class="admin_a" onclick="showMainContent('3')">项目管理</a></li>
+                    <li><a id="head4" href="javascript:void(0);" class="admin_a" onclick="showMainContent('4')">应用管理</a></li>
+                    <li><a id="head5" href="javascript:void(0);" class="admin_a" onclick="showMainContent('5')">论坛</a></li>
+                    <li><a id="head5" href="javascript:void(0);" class="admin_a" onclick="showMainContent('5')">商城</a></li>
+                </ul>
+                    </div>
+
+                    <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav">
+                            <!-- Messages: style can be found in dropdown.less-->
+                            <li class="dropdown messages-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-envelope-o"></i>
+                                    <span class="label label-success">4</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header">You have 4 messages</li>
+                                    <li>
+                                        <!-- inner menu: contains the actual data -->
+                                        <ul class="menu">
+                                            <li><!-- start message -->
+                                                <a href="#">
+                                                    <div class="pull-left">
+                                                        <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                                    </div>
+                                                    <h4>
+                                                        Support Team
+                                                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                                                    </h4>
+                                                    <p>Why not buy a new awesome theme?</p>
+                                                </a>
+                                            </li>
+                                            <!-- end message -->
+                                            <li>
+                                                <a href="#">
+                                                    <div class="pull-left">
+                                                        <img src="dist/img/user3-128x128.jpg" class="img-circle" alt="User Image">
+                                                    </div>
+                                                    <h4>
+                                                        AdminLTE Design Team
+                                                        <small><i class="fa fa-clock-o"></i> 2 hours</small>
+                                                    </h4>
+                                                    <p>Why not buy a new awesome theme?</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <div class="pull-left">
+                                                        <img src="dist/img/user4-128x128.jpg" class="img-circle" alt="User Image">
+                                                    </div>
+                                                    <h4>
+                                                        Developers
+                                                        <small><i class="fa fa-clock-o"></i> Today</small>
+                                                    </h4>
+                                                    <p>Why not buy a new awesome theme?</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <div class="pull-left">
+                                                        <img src="dist/img/user3-128x128.jpg" class="img-circle" alt="User Image">
+                                                    </div>
+                                                    <h4>
+                                                        Sales Department
+                                                        <small><i class="fa fa-clock-o"></i> Yesterday</small>
+                                                    </h4>
+                                                    <p>Why not buy a new awesome theme?</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <div class="pull-left">
+                                                        <img src="dist/img/user4-128x128.jpg" class="img-circle" alt="User Image">
+                                                    </div>
+                                                    <h4>
+                                                        Reviewers
+                                                        <small><i class="fa fa-clock-o"></i> 2 days</small>
+                                                    </h4>
+                                                    <p>Why not buy a new awesome theme?</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="footer"><a href="#">See All Messages</a></li>
+                                </ul>
+                            </li>
+                            <!-- Notifications: style can be found in dropdown.less -->
+                            <li class="dropdown notifications-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-bell-o"></i>
+                                    <span class="label label-warning">10</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header">You have 10 notifications</li>
+                                    <li>
+                                        <!-- inner menu: contains the actual data -->
+                                        <ul class="menu">
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
+                                                    page and may cause design problems
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-users text-red"></i> 5 new members joined
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-shopping-cart text-green"></i> 25 sales made
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-user text-red"></i> You changed your username
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="footer"><a href="#">View all</a></li>
+                                </ul>
+                            </li>
+                            <!-- Tasks: style can be found in dropdown.less -->
+                            <li class="dropdown tasks-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-flag-o"></i>
+                                    <span class="label label-danger">9</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header">You have 9 tasks</li>
+                                    <li>
+                                        <!-- inner menu: contains the actual data -->
+                                        <ul class="menu">
+                                            <li><!-- Task item -->
+                                                <a href="#">
+                                                    <h3>
+                                                        Design some buttons
+                                                        <small class="pull-right">20%</small>
+                                                    </h3>
+                                                    <div class="progress xs">
+                                                        <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                                            <span class="sr-only">20% Complete</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <!-- end task item -->
+                                            <li><!-- Task item -->
+                                                <a href="#">
+                                                    <h3>
+                                                        Create a nice theme
+                                                        <small class="pull-right">40%</small>
+                                                    </h3>
+                                                    <div class="progress xs">
+                                                        <div class="progress-bar progress-bar-green" style="width: 40%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                                            <span class="sr-only">40% Complete</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <!-- end task item -->
+                                            <li><!-- Task item -->
+                                                <a href="#">
+                                                    <h3>
+                                                        Some task I need to do
+                                                        <small class="pull-right">60%</small>
+                                                    </h3>
+                                                    <div class="progress xs">
+                                                        <div class="progress-bar progress-bar-red" style="width: 60%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                                            <span class="sr-only">60% Complete</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <!-- end task item -->
+                                            <li><!-- Task item -->
+                                                <a href="#">
+                                                    <h3>
+                                                        Make beautiful transitions
+                                                        <small class="pull-right">80%</small>
+                                                    </h3>
+                                                    <div class="progress xs">
+                                                        <div class="progress-bar progress-bar-yellow" style="width: 80%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                                            <span class="sr-only">80% Complete</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <!-- end task item -->
+                                        </ul>
+                                    </li>
+                                    <li class="footer">
+                                        <a href="#">View all tasks</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- User Account: style can be found in dropdown.less -->
+                            <li class="dropdown user user-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                                    <span class="hidden-xs">付志成</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <!-- User image -->
+                                    <li class="user-header">
+                                        <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+
+                                        <p>
+                                           Zhicheng Fu - Web Developer
+                                            <small>Member since Nov. 2012</small>
+                                        </p>
+                                    </li>
+                                    <!-- Menu Body -->
+                                    <li class="user-body">
+                                        <div class="row">
+                                            <div class="col-xs-4 text-center">
+                                                <a href="#">Followers</a>
+                                            </div>
+                                            <div class="col-xs-4 text-center">
+                                                <a href="#">Sales</a>
+                                            </div>
+                                            <div class="col-xs-4 text-center">
+                                                <a href="#">Friends</a>
+                                            </div>
+                                        </div>
+                                        <!-- /.row -->
+                                    </li>
+                                    <!-- Menu Footer-->
+                                    <li class="user-footer">
+                                        <div class="pull-left">
+                                            <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                        </div>
+                                        <div class="pull-right">
+                                            <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- Control Sidebar Toggle Button -->
+                            <li>
+                                <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+            <!-- Left side column. contains the logo and sidebar -->
+            <aside class="main-sidebar">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar" id="sideBar_Transtopia">
+					
+					<form action="#" method="get" class="sidebar-form">
+						<div class="input-group">
+							<input type="text" name="q" class="form-control" placeholder="Search...">
+								<span class="input-group-btn">
+									<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+									</button>
+								</span>
+						</div>
+					</form>
+					
+				  <ul class="sidebar-menu">
+					<!-- Optionally, you can add icons to the links -->
+					<li class="active"><a href="index_shopping_list.html"><i class="fa fa-list-alt"></i> <span>商品列表</span>
+						<span class="pull-right-container">
+						  <small class="label pull-right bg-blue">34</small>
+						</span>
+					</a></li>
+					<li><a href="index_shopping_management.html"><i class="fa fa-user"></i> <span>我的商品</span>
+						<span class="pull-right-container">
+						  <small class="label pull-right bg-yellow">5</small>
+						</span>
+					</a></li>
+					<li><a href="index_shopping_history.html"><i class="fa fa-user"></i> <span>已购买</span>
+						<span class="pull-right-container">
+						  <small class="label pull-right bg-green">5</small>
+						</span>
+					</a></li>
+					<li><a href="index_shopping_cart.html"><i class="fa fa-shopping-cart"></i> <span>购物车</span>
+						<span class="pull-right-container">
+						  <small class="label pull-right bg-red">5</small>
+						</span>
+					</a></li>
+				  </ul>
+				  <ul class="sidebar-menu">
+					<li class="header">商品分类</li>
+					<!-- Optionally, you can add icons to the links -->
+					<li class="active"><a href="#"><i class="fa fa-list-alt"></i> <span>资讯</span>
+						<span class="pull-right-container">
+						  <small class="label pull-right bg-blue">34</small>
+						</span>
+					</a></li>
+					<li><a href="#"><i class="fa fa-user"></i> <span>日记</span>
+						<span class="pull-right-container">
+						  <small class="label pull-right bg-green">5</small>
+						</span>
+					</a></li>
+					<li><a href="#"><i class="fa fa-shopping-cart"></i> <span>知识</span>
+						<span class="pull-right-container">
+						  <small class="label pull-right bg-red">5</small>
+						</span>
+					</a></li>
+					<li class="active"><a href="#"><i class="fa fa-list-alt"></i> <span>工具</span>
+						<span class="pull-right-container">
+						  <small class="label pull-right bg-yellow">4</small>
+						</span>
+					</a></li>
+					<li><a href="#"><i class="fa fa-user"></i> <span>教学</span>
+						<span class="pull-right-container">
+						  <small class="label pull-right bg-orange">5</small>
+						</span>
+					</a></li>
+					<li><a href="#"><i class="fa fa-shopping-cart"></i> <span>提问</span>
+						<span class="pull-right-container">
+						  <small class="label pull-right bg-red">5</small>
+						</span>
+					</a></li>
+					<li><a href="#"><i class="fa fa-user"></i> <span>产品</span>
+						<span class="pull-right-container">
+						  <small class="label pull-right bg-green">5</small>
+						</span>
+					</a></li>
+					<li><a href="#"><i class="fa fa-shopping-cart"></i> <span>直播</span>
+						<span class="pull-right-container">
+						  <small class="label pull-right bg-red">5</small>
+						</span>
+					</a></li>
+				  </ul>	
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+			
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper" id="content_Transtopia">
+							<section class="content-header">
+								<h1>
+								商品主页
+								</h1>
+								<ol class="breadcrumb">
+								<li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+								<li><a href="#"> 商品主页</a></li>
+								</ol>
+							</section>
+							<div class="panel-groupchat">
+								<nav class="navbar panel-groupchat-header" role="navigation">
+									<div class="container-fluid">
+										<div class="navbar-header">
+											<a class="navbar-brand" href="#"></a>
+										</div>
+											<ul class="nav navbar-nav navbar-right"> 
+												<li><a href="#" style="color: #b0b0b0!important;"><i class="fa fa-bell"></i></a></li> 
+												<li><a href="index_shopping_item_management_modify.html" style="color: #b0b0b0!important;"><i class="fa fa-gear"></i></a></li> 
+												<li><a href="#" style="color: #b0b0b0!important;"><i class="fa fa-list"></i></a></li> 
+											</ul> 
+											<form class="navbar-form navbar-right" role="search">
+												<div class="form-group">
+													<input type="text" class="form-control" placeholder="Search">
+												</div>
+												<button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+											</form>
+									</div>
+								</nav>
+								<div class="">
+									<a href="#"></a>
+									<div></div>
+								</div>
+								<div class="panel-groupchat-leftblock">
+									<div class="panel-groupchat-content">
+										<!-- 聊天内容 -->
+									</div>
+									<div class="panel-groupchat-input">
+										<div class="panel-groupchat-input-toolbar">
+											<a href="#"><i class="fa fa-smile-o"></i></a>
+											<a href="#"><i class="fa fa-paperclip"></i></a>
+											<a href="#"><i class="fa fa-send-o"></i></a>
+											<a href="#"><i class="fa fa-plus-circle"></i></a>
+										</div>
+									</div>
+									<textarea placeholder="说些什么..."></textarea>
+									<div class="enter"> 使用Enter发送</div>
+								</div>
+								<div class="panel-groupchat-rightblock">
+									<div class="public-message-block" style="height: 192px; ">
+										<span class="groupchat-block-title">群公告</span>
+										<p class="fade-text">
+											<!-- 群公告 -->
+										</p>
+									</div>
+									<div class="group-members-block" style="height: 142px; ">
+										<span class="groupchat-block-title">成员</span>
+										<span style="float:right;"><a href="#" class="fade-text">所有成员<i class="fa fa-chevron-right"></i></a></span>
+										<div class="group-members-block-content">
+											
+										</div>
+									</div>
+
+									<div class="files-block" style="height: 415px;">
+										<span class="groupchat-block-title">文件</span>
+										<p class="fade-text">暂无群公告</p>
+									</div>
+								</div>
+							</div>
+							<style>
+								.panel-groupchat-rightblock {
+									width: 359px; 
+									height:750px;
+									position:absolute;
+									right:0;
+									top:50px;
+									border-left:1px solid #ddd;
+								}
+								.panel-groupchat-rightblock > div {
+									border-bottom:1px solid #ddd; 
+									padding: 16px 15px;
+								}
+								.groupchat-block-title {
+									color: #000;
+									font-size: 14px;
+									font-weight: bolder;
+								}
+								.fade-text {
+									color: #bdbdbd;
+									font-size: 13px;
+								}
+
+
+								a, p, span{
+									font-family: Helvetica Neue,Helvetica,Nimbus Sans L,Arial,Liberation Sans,Hiragino Sans GB,Source Han Sans CN Normal,Microsoft YaHei,Wenquanyi Micro Hei,WenQuanYi Zen Hei,ST Heiti,SimHei,WenQuanYi Zen Hei Sharp,sans-serif;
+
+								}
+								.panel-groupchat {
+									width:1080px;
+									height:800px;
+									background-color: rgb(255,255,255);
+									border: 1px solid #ddd;
+									border-radius: 3px;
+									position: relative;
+									left: 50%;
+									transform: translateX(-50%)
+								}
+								.panel-groupchat-leftblock {
+									width: 100%;
+									height:750px;
+									padding-right:359px;
+								}
+								.panel-groupchat-header {
+									border-bottom: 1px solid #ddd;
+								}
+								.panel-groupchat-header a {
+									 font-size: 18px;
+									 color: #333;
+								}
+								.panel-groupchat-content {
+									height: 550px;
+									width: 100%;
+									border-bottom: 1px solid #ddd;
+									padding:14px 16px;
+								}
+								.panel-groupchat-message-time {
+									font-size: 12px;
+									color: #bbb;
+									text-align: center;
+								}
+								.panel-groupchat-content-item {
+									margin: 15px auto;
+								}
+								.panel-groupchat-content-item img{
+									width:45px;
+									height:auto;
+									vertical-align: top
+								}
+								.panel-groupchat-personal-message-text {
+									line-height: 1.6;
+									margin-left: 15px;
+									padding: 8px 13px;
+									display: inline-block;
+									font-size: 14px;
+									word-break: break-all;
+									border-radius: 6px;
+									border: 1px solid #ccc;
+									max-width: 250px;
+								}
+								.panel-groupchat-mine-message-text {
+									line-height: 1.6;
+									padding: 8px 13px;
+									display: inline-block;
+									font-size: 14px;
+									word-break: break-all;
+									border-radius: 6px;
+									border: 1px solid #ccc;
+									max-width: 250px;
+									background-color: #f3f3f3;
+								}
+								.panel-groupchat-system-message-text {
+									font-size: 12px;
+									color: #bbb;
+									text-align: center;
+								}
+								.panel-groupchat-input-toolbar {
+									height: 40px;
+									padding: 4px 15px;
+									font-size: 20px;
+								}
+								.panel-groupchat-input-toolbar > a {
+									margin-left: 15px;
+									font-size: 21px;
+									color: rgba(0,0,0,.5);
+								}
+								.panel-groupchat textarea {
+									z-index: auto;
+									position: relative;
+									line-height: 21px;
+									font-size: 14px;
+									transition: none;
+									background: transparent !important;
+									display: block;
+									width: 100%;
+									height: 110px;
+									border: 0;
+									resize: none;
+									padding: 10px;
+									outline: none;overflow-x: hidden;
+									overflow-y: auto;
+									box-sizing: border-box;
+									border-radius: 4px;
+								}
+								.enter {
+									color: rgba(0,0,0,.35);
+									font-size: 13px;
+									float: right;
+									margin-right:15px;
+									cursor: pointer;
+								}
+								.group-members-block-content {
+									width: 100%;
+									margin:25px auto;
+								}
+								.group-members-block-img-holder {
+									width: 40px;
+									margin-right: 15px;
+								}
+								.group-members-block-img-member {
+									width: 40px;
+									position: relative;
+								}
+							</style>
+							<script>
+							$(document).on("ready", function(){
+								$("[data-toggle='popover']").popover();
+							});
+								
+							//加载聊天栏聊天栏
+							var loadGroupChatContent = function(data, name){
+								$(".panel-groupchat .panel-groupchat-header .navbar-header a").text(name);
+								$(".panel-groupchat-content").empty();
+								$.each(data,function(index, chat){
+									if(chat.user_role == 0){
+										$(".panel-groupchat-content").append(
+											'<div class="panel-groupchat-content-item">\
+												<p class="panel-groupchat-message-time">' + chat.time + '</p>\
+												<img class="img-circle" src="' + chat.user_img + '" title="' + chat.user_name + '" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="' + chat.user_email + '">\
+												<div class="panel-groupchat-personal-message-text">' + chat.text + '</div>\
+											</div>');
+									}else if(chat.user_role == 1){
+										$(".panel-groupchat-content").append(
+											'<div class="panel-groupchat-content-item">\
+												<p class="panel-groupchat-message-time">' + chat.time + '</p>\
+												<div style="text-align: right;">\
+													<div class="panel-groupchat-mine-message-text">' + chat.text + '</div>\
+												<div>\
+											</div>');
+									}else{
+										$(".panel-groupchat-content").append(
+											'<div class="panel-groupchat-content-item">\
+												<p class="panel-groupchat-message-time">' + chat.time + '</p>\
+												<p class="panel-groupchat-system-message-text">' + chat.text + '</p>\
+											</div>');
+									}
+								});
+							};
+
+							//加载群成员
+							var loadGroupChatMemberBlock = function(data){
+								$(".group-members-block-content").empty();
+								$.each(data,function(index,member){
+									if(index == 0)
+										$(".group-members-block-content").append(
+										'<img class="img-circle group-members-block-img-holder" src="' + member.img + '" title="' + member.name + '" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="' + member.email +'">');
+									else
+										$(".group-members-block-content").append(
+										'<img style="right:' + (index-1) * 8 + 'px;" class="img-circle group-members-block-img-member" src="' + member.img + '" title="' + member.name + '" data-container="body" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="' + member.email +'">');
+								});
+							};
+							
+							//加载群公告
+							var loadGroupChatMessageBlock = function(data){
+								$(".public-message-block .fade-text").html(data);
+							};
+							loadGroupChatMessageBlock("<h4>探秘 ASO：应用商店搜索优化</h4>我是马力，不只是超过 10 年经验的产品经理和设计师，同时在应用分发、流量获取方面有丰富经验。最美应用创始人，创新工场早期成员，豌豆荚创始成员、产品经理， IBM 用户体验设计师。")
+							
+							//加载文件
+							var loadGroupChatFileBlock = function(data){
+								$('.files-block .fade-text').empty();
+								$.each(data, function(index, file){
+									$('.files-block .fade-text').append('<div style="margin-top:5px;"><a class="btn btn-default" href="' + file.link + '"><i class="fa fa-file-o"></i> ' + file.name + '</a><div>');
+								});
+							};
+							
+							test_data_file = [{
+								name: '第一个文件.pdf',
+								link: '#'
+							},{
+								name: '第二个文件.pdf',
+								link: '#'
+							},{
+								name: '第三个文件.pdf',
+								link: '#'
+							}];
+							
+							loadGroupChatFileBlock(test_data_file);
+							
+							
+							//发送消息
+							$(".panel-groupchat textarea").keypress(function(e) {
+								if(e.which == 13) {
+									//内容为： $(this).val()
+								}
+							});
+
+
+
+							<!-- 消息测试数据 -->
+							test_data_chat = [{
+									user_id: 123,
+									user_name: "Sven",
+									user_img: "Img/Logo.png",
+									user_email: "svenchen@gmail.com",
+									user_role:5,
+									time:"2017年1月18日",
+									text:"这是一条系统消息"
+								},{
+									user_id: 123,
+									user_name: "Sven",
+									user_img: "Img/Logo.png",
+									user_email: "svenchen@gmail.com",
+									user_role:1,
+									time:"2017年2月1日",
+									text:"这是我的第一条消息"
+								},{
+									user_id: 123,
+									user_name: "Sven",
+									user_img: "Img/Logo.png",
+									user_email: "svenchen@gmail.com",
+									user_role:0,
+									time:"2017年2月2日",
+									text:"Hello， 您好！"
+								},{
+									user_id: 123,
+									user_name: "Sven",
+									user_img: "Img/Logo.png",
+									user_email: "svenchen@gmail.com",
+									user_role:1,
+									time:"2017年2月5日 17:59:05",
+									text:"这是我的第二条消息"
+								}];
+							loadGroupChatContent(test_data_chat, "探秘 ASO：应用商店搜索优化");
+
+							test_data_member = [{
+								img: "ChatGroup/img/default_avatar_male.jpg",
+								name: "刘芳宇",
+								email: "liu.fangyu@gmail.com"
+							},{
+								img: "ChatGroup/img/default_avatar_male.jpg",
+								name: "刘芳宇",
+								email: "liu.fangyu@gmail.com"
+							},{
+								img: "ChatGroup/img/default_avatar_male.jpg",
+								name: "刘芳宇",
+								email: "liu.fangyu@gmail.com"
+							},{
+								img: "ChatGroup/img/default_avatar_male.jpg",
+								name: "刘芳宇",
+								email: "liu.fangyu@gmail.com"
+							},{
+								img: "ChatGroup/img/default_avatar_male.jpg",
+								name: "刘芳宇",
+								email: "liu.fangyu@gmail.com"
+							}];
+
+							loadGroupChatMemberBlock(test_data_member);
+							</script>
+						</div>
+            <!-- /.content-wrapper -->
+            <footer class="main-footer">
+                <div class="pull-right hidden-xs">
+                    <b>Version</b> 2.3.5
+                </div>
+                <strong>Copyright &copy; 2014-2017 <a href="http://almsaeedstudio.com">Transtopia</a>.</strong> All rights
+                reserved.
+            </footer>
+
+            <!-- Control Sidebar -->
+            <aside class="control-sidebar control-sidebar-dark">
+                <!-- Create the tabs -->
+                <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+                    <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <!-- Settings tab content -->
+                    <div class="tab-pane" id="control-sidebar-home-tab">
+                        <!-- /.control-sidebar-menu -->
+
+                    </div>
+                    <!-- /.tab-pane -->
+                </div>
+            </aside>
+            <!-- /.control-sidebar -->
+            <!-- Add the sidebar's background. This div must be placed
+                 immediately after the control sidebar -->
+            <div class="control-sidebar-bg"></div>
+        </div>
+        <!-- ./wrapper -->
+
+        <!-- jQuery 2.2.3 -->
+    <script src="../JS/sideRow.js"></script>
+
+    </body>
+</html>

@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>我的Transtopia</title>
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <!-- Bootstrap 3.3.6 -->
+        <link rel="stylesheet" href="../CSS/bootstrap.min.css" />
+        <link href="../CSS/font-awesome.css" type="text/css" rel="stylesheet">
+        <!-- Font Awesome -->
+        <!-- Theme style -->
+        <link rel="stylesheet" href="../CSS/AdminLTE.min.css">
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+             folder instead of downloading all of them to reduce the load. -->
+        <link rel="stylesheet" href="../CSS/skins/_all-skins.min.css">
+        <!-- iCheck -->
+        <link rel="stylesheet" href="../CSS/blue.css">
+        <!-- Morris chart -->
+        <link rel="stylesheet" href="../CSS/morris.css">
+        <link rel="shortcut icon" href="./Img/logo.png">
+        <script src="../JS/jquery.min.js"></script>
+        <!-- jQuery UI 1.11.4 -->
+        <script src="../JS/jquery-ui.min.js"></script>
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+		<!-- Select2 -->
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+		
+		<!-- bootstrap-wysiwyg -->
+		<link href="Moment/bootstrap-wysiwyg/external/google-code-prettify/prettify.css" rel="stylesheet">
+		<!-- <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+		<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet"> -->
+		<link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+		<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script> -->
+		<script src="Moment/bootstrap-wysiwyg/external/jquery.hotkeys.js"></script>
+		<!-- <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script> -->
+		<script src="Moment/bootstrap-wysiwyg/external/google-code-prettify/prettify.js"></script>
+		<script src="Moment/bootstrap-wysiwyg/bootstrap-wysiwyg.js"></script>
+		
+        <script>
+            $.widget.bridge('uibutton', $.ui.button);
+        </script>
+        <!-- Bootstrap 3.3.6 -->
+        <script src="../JS/bootstrap.min.js"></script>
+        <script src="../JS/raphael-min.js"></script>
+        <script src="../JS/morris.min.js"></script>
+        <script src="../JS/fastclick.min.js"></script>
+        <script src="../JS/app.min.js"></script>
+        <script src="../JS/Admin_Head/mine.js"></script>
+    </head>
+
+
+    <body class="hold-transition skin-blue sidebar-mini">
+        <div class="wrapper">
+
+            <header class="main-header">
+                <!-- Logo -->
+<!--                <a href="index2.html" class="logo">
+                     mini logo for sidebar mini 50x50 pixels 
+                    <span class="logo-mini"><b>T</b></span>
+                     logo for regular state and mobile devices 
+                    <span class="logo-lg"><b>Transtopia</b></span>
+                </a>-->
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top">
+                    <!-- Sidebar toggle button-->
+                    <div class="navbar-custom-menu-left">
+                        <ul class="nav navbar-nav">
+                    <li><a id="head1" href="javascript:void(0);" class="admin_a" onclick="showMainContent('1')">消息</a></li>
+                    <li><a id="head2" href="javascript:void(0);" class="admin_a" onclick="showMainContent('2')">动态</a></li>
+                    <li><a id="head3" href="javascript:void(0);" class="admin_a" onclick="showMainContent('3')">项目管理</a></li>
+                    <li><a id="head4" href="javascript:void(0);" class="admin_a" onclick="showMainContent('4')">应用管理</a></li>
+                    <li><a id="head5" href="javascript:void(0);" class="admin_a" onclick="showMainContent('5')">论坛</a></li>
+                    <li><a id="head5" href="javascript:void(0);" class="admin_a" onclick="showMainContent('5')">商城</a></li>
+                </ul>
+                    </div>
+
+                    <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav">
+                            <!-- Messages: style can be found in dropdown.less-->
+                            <li class="dropdown messages-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-envelope-o"></i>
+                                    <span class="label label-success">4</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header">You have 4 messages</li>
+                                    <li>
+                                        <!-- inner menu: contains the actual data -->
+                                        <ul class="menu">
+                                            <li><!-- start message -->
+                                                <a href="#">
+                                                    <div class="pull-left">
+                                                        <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                                    </div>
+                                                    <h4>
+                                                        Support Team
+                                                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                                                    </h4>
+                                                    <p>Why not buy a new awesome theme?</p>
+                                                </a>
+                                            </li>
+                                            <!-- end message -->
+                                            <li>
+                                                <a href="#">
+                                                    <div class="pull-left">
+                                                        <img src="dist/img/user3-128x128.jpg" class="img-circle" alt="User Image">
+                                                    </div>
+                                                    <h4>
+                                                        AdminLTE Design Team
+                                                        <small><i class="fa fa-clock-o"></i> 2 hours</small>
+                                                    </h4>
+                                                    <p>Why not buy a new awesome theme?</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <div class="pull-left">
+                                                        <img src="dist/img/user4-128x128.jpg" class="img-circle" alt="User Image">
+                                                    </div>
+                                                    <h4>
+                                                        Developers
+                                                        <small><i class="fa fa-clock-o"></i> Today</small>
+                                                    </h4>
+                                                    <p>Why not buy a new awesome theme?</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <div class="pull-left">
+                                                        <img src="dist/img/user3-128x128.jpg" class="img-circle" alt="User Image">
+                                                    </div>
+                                                    <h4>
+                                                        Sales Department
+                                                        <small><i class="fa fa-clock-o"></i> Yesterday</small>
+                                                    </h4>
+                                                    <p>Why not buy a new awesome theme?</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <div class="pull-left">
+                                                        <img src="dist/img/user4-128x128.jpg" class="img-circle" alt="User Image">
+                                                    </div>
+                                                    <h4>
+                                                        Reviewers
+                                                        <small><i class="fa fa-clock-o"></i> 2 days</small>
+                                                    </h4>
+                                                    <p>Why not buy a new awesome theme?</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="footer"><a href="#">See All Messages</a></li>
+                                </ul>
+                            </li>
+                            <!-- Notifications: style can be found in dropdown.less -->
+                            <li class="dropdown notifications-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-bell-o"></i>
+                                    <span class="label label-warning">10</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header">You have 10 notifications</li>
+                                    <li>
+                                        <!-- inner menu: contains the actual data -->
+                                        <ul class="menu">
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
+                                                    page and may cause design problems
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-users text-red"></i> 5 new members joined
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-shopping-cart text-green"></i> 25 sales made
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-user text-red"></i> You changed your username
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="footer"><a href="#">View all</a></li>
+                                </ul>
+                            </li>
+                            <!-- Tasks: style can be found in dropdown.less -->
+                            <li class="dropdown tasks-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-flag-o"></i>
+                                    <span class="label label-danger">9</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header">You have 9 tasks</li>
+                                    <li>
+                                        <!-- inner menu: contains the actual data -->
+                                        <ul class="menu">
+                                            <li><!-- Task item -->
+                                                <a href="#">
+                                                    <h3>
+                                                        Design some buttons
+                                                        <small class="pull-right">20%</small>
+                                                    </h3>
+                                                    <div class="progress xs">
+                                                        <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                                            <span class="sr-only">20% Complete</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <!-- end task item -->
+                                            <li><!-- Task item -->
+                                                <a href="#">
+                                                    <h3>
+                                                        Create a nice theme
+                                                        <small class="pull-right">40%</small>
+                                                    </h3>
+                                                    <div class="progress xs">
+                                                        <div class="progress-bar progress-bar-green" style="width: 40%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                                            <span class="sr-only">40% Complete</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <!-- end task item -->
+                                            <li><!-- Task item -->
+                                                <a href="#">
+                                                    <h3>
+                                                        Some task I need to do
+                                                        <small class="pull-right">60%</small>
+                                                    </h3>
+                                                    <div class="progress xs">
+                                                        <div class="progress-bar progress-bar-red" style="width: 60%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                                            <span class="sr-only">60% Complete</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <!-- end task item -->
+                                            <li><!-- Task item -->
+                                                <a href="#">
+                                                    <h3>
+                                                        Make beautiful transitions
+                                                        <small class="pull-right">80%</small>
+                                                    </h3>
+                                                    <div class="progress xs">
+                                                        <div class="progress-bar progress-bar-yellow" style="width: 80%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                                            <span class="sr-only">80% Complete</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <!-- end task item -->
+                                        </ul>
+                                    </li>
+                                    <li class="footer">
+                                        <a href="#">View all tasks</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- User Account: style can be found in dropdown.less -->
+                            <li class="dropdown user user-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                                    <span class="hidden-xs">付志成</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <!-- User image -->
+                                    <li class="user-header">
+                                        <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+
+                                        <p>
+                                           Zhicheng Fu - Web Developer
+                                            <small>Member since Nov. 2012</small>
+                                        </p>
+                                    </li>
+                                    <!-- Menu Body -->
+                                    <li class="user-body">
+                                        <div class="row">
+                                            <div class="col-xs-4 text-center">
+                                                <a href="#">Followers</a>
+                                            </div>
+                                            <div class="col-xs-4 text-center">
+                                                <a href="#">Sales</a>
+                                            </div>
+                                            <div class="col-xs-4 text-center">
+                                                <a href="#">Friends</a>
+                                            </div>
+                                        </div>
+                                        <!-- /.row -->
+                                    </li>
+                                    <!-- Menu Footer-->
+                                    <li class="user-footer">
+                                        <div class="pull-left">
+                                            <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                        </div>
+                                        <div class="pull-right">
+                                            <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- Control Sidebar Toggle Button -->
+                            <li>
+                                <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+            <!-- Left side column. contains the logo and sidebar -->
+            <aside class="main-sidebar">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar" id="sideBar_Transtopia">
+					
+					<form action="#" method="get" class="sidebar-form">
+						<div class="input-group">
+							<input type="text" name="q" class="form-control" placeholder="Search...">
+								<span class="input-group-btn">
+									<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+									</button>
+								</span>
+						</div>
+					</form>
+					
+				  <ul class="sidebar-menu">
+					<!-- Optionally, you can add icons to the links -->
+					<li><a href="index_shopping_list.html"><i class="fa fa-list-alt"></i> <span>商品列表</span>
+						<span class="pull-right-container">
+						  <small class="label pull-right bg-blue">34</small>
+						</span>
+					</a></li>
+					<li><a href="index_shopping_management.html"><i class="fa fa-user"></i> <span>我的商品</span>
+						<span class="pull-right-container">
+						  <small class="label pull-right bg-yellow">5</small>
+						</span>
+					</a></li>
+					<li><a href="index_shopping_history.html"><i class="fa fa-user"></i> <span>已购买</span>
+						<span class="pull-right-container">
+						  <small class="label pull-right bg-green">5</small>
+						</span>
+					</a></li>
+					<li><a href="index_shopping_cart.html"><i class="fa fa-shopping-cart"></i> <span>购物车</span>
+						<span class="pull-right-container">
+						  <small class="label pull-right bg-red">5</small>
+						</span>
+					</a></li>
+				  </ul>
+				  <ul class="sidebar-menu">
+					<li class="header">商品分类</li>
+					<!-- Optionally, you can add icons to the links -->
+					<li><a href="#"><i class="fa fa-list-alt"></i> <span>资讯</span>
+						<span class="pull-right-container">
+						  <small class="label pull-right bg-blue">34</small>
+						</span>
+					</a></li>
+					<li><a href="#"><i class="fa fa-user"></i> <span>日记</span>
+						<span class="pull-right-container">
+						  <small class="label pull-right bg-green">5</small>
+						</span>
+					</a></li>
+					<li><a href="#"><i class="fa fa-shopping-cart"></i> <span>知识</span>
+						<span class="pull-right-container">
+						  <small class="label pull-right bg-red">5</small>
+						</span>
+					</a></li>
+					<li><a href="#"><i class="fa fa-list-alt"></i> <span>工具</span>
+						<span class="pull-right-container">
+						  <small class="label pull-right bg-yellow">4</small>
+						</span>
+					</a></li>
+					<li><a href="#"><i class="fa fa-user"></i> <span>教学</span>
+						<span class="pull-right-container">
+						  <small class="label pull-right bg-orange">5</small>
+						</span>
+					</a></li>
+					<li><a href="#"><i class="fa fa-shopping-cart"></i> <span>提问</span>
+						<span class="pull-right-container">
+						  <small class="label pull-right bg-red">5</small>
+						</span>
+					</a></li>
+					<li><a href="#"><i class="fa fa-user"></i> <span>产品</span>
+						<span class="pull-right-container">
+						  <small class="label pull-right bg-green">5</small>
+						</span>
+					</a></li>
+					<li><a href="#"><i class="fa fa-shopping-cart"></i> <span>直播</span>
+						<span class="pull-right-container">
+						  <small class="label pull-right bg-red">5</small>
+						</span>
+					</a></li>
+				  </ul>	
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+			
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper" id="content_Transtopia">
+							<section class="content-header">
+								<h1>
+								管理商品
+								</h1>
+								<ol class="breadcrumb">
+								<li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+								<li><a href="#"> 管理商品</a></li>
+								</ol>
+							</section>
+							<div class="container">
+								<div class="box box-info">
+									<div class="box-header">
+										<h3 class="box-title">探秘 ASO：应用商店搜索优化</h3>
+									</div>
+									<div class="box-body">
+										<div class="col-xs-2"  id="initial-btn">
+											<a target="initial-brief" class="form-control btn btn-default" style="margin-bottom:10px;">商品信息</a>
+											<a target="initial-detail" class="form-control btn btn-default" style="margin-bottom:10px;">商品详情</a>
+											<a target="initial-upload" class="form-control btn btn-default" style="margin-bottom:10px;">上传商品</a>
+											<a target="initial-price" class="form-control btn btn-default" style="margin-bottom:10px;">商品价格</a>
+											<a class="form-control btn btn-default" style="margin-bottom:10px;">成员管理</a>
+											<a class="form-control btn btn-default" style="margin-bottom:10px;">其他</a>
+										</div>
+										<script>
+											$("#initial-btn a").click(function(){
+												target = $(this).attr('target');
+												$('#initial-block .in').removeClass('in');
+												$('#initial-block #' + target).collapse('show');
+											});
+											$(function () {
+												$('#initial-block .collapse').on('show.bs.collapse shown.bs.collapse', function () {
+													$("#initial-btn a").toggleClass('disabled');
+												});
+											});
+										</script>
+										<form method="post" enctype="multipart/form-data" id="initial-product">
+											<div class="col-xs-10" id="initial-block">
+												<div id="initial-brief" class="panel-collapse collapse in">
+													<div class="panel-body">
+														<!-- 商品名字 -->
+														<div class="form-group">
+														<label>商品名称：</label>
+															<input name="product_name" type="text" class="form-control" placeholder="请输入商品名称" value="探秘 ASO：应用商店搜索优化" />
+														</div>
+														
+														<div class="form-group">
+															<label>分类</label>
+															<select name="product_genre" id="select-genre" class="form-control" style="width: 100%;">
+															</select>
+														</div>
+														<div class="form-group">
+															<label>标签</label>
+															<select name="product_tags" id="select-tags" class="form-control" multiple="multiple" data-placeholder="请选择标签" style="width: 100%;">
+																<option selected="selected">前端设计</option>
+																<option selected="selected">便携式设备变成</option>
+															</select>
+														</div>
+														<script>
+														var genres = [{ id: 0, text: '资讯' }, { id: 1, text: '日记' }, { id: 2, text: '资源' }, { id: 3, text: '知识' }, 
+																{ id: 4, text: '工具' }, { id: 5, text: '教学' }, { id: 6, text: '提问' }, { id: 7, text: '产品' }, { id: 8, text: '直播' }];
+														var tags = [{ id: 0, text: '交叉口设计' }, { id: 1, text: '城市规划' }, { id: 2, text: '交通流量统计' }, { id: 3, text: '绘图' }, { id: 4, text: '设计' }];
+														
+														$("#select-genre").select2({
+															data: genres
+														});
+														$("#select-tags").select2({
+															data: tags
+														});
+														</script>
+														
+														
+														<!-- 上传商品封面 -->
+														<div class="form-group">
+														<label>上传商品封面：</label>
+															<div class="input-group">
+																<input type="text" class="form-control">
+																<div class="input-group-addon btn btn-default btn-file post-file">
+																	<i class="fa fa-image"></i> 上传图片 <input name="product_poster" type="file" single>
+																</div>
+															</div>
+															<img id="myImg" class="img-thumbnail col-md-6" src="https://pic4.zhimg.com/v2-4d54e22fd8f2cb531b721587e8f03fbb_r.jpg" style="margin-top:10px;"/>
+															<div class="clearfix"></div>
+														</div>
+														
+														<script>
+														
+
+
+															$(document).ready( function() {
+																$('.post-file :file').on('change', function(){
+																	var input = $(this),
+																		numFiles = input.get(0).files ? input.get(0).files.length : 1,
+																		label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+																	input.trigger('fileselect', [numFiles, label]);
+																});
+																
+																$('.post-file :file').on('fileselect', function(event, numFiles, label) {
+																		
+																		var input = $(this).parents('.input-group').find(':text'),
+																				log = numFiles > 1 ? numFiles + ' files selected' : label;
+																		
+																		if( input.length ) {
+																				input.val(log);
+																		} else {
+																				if( log ) alert(log);
+																		}
+																		
+																});
+															});
+															
+															$(function () {
+																	$(".post-file :file").change(function () {
+																			if (this.files && this.files[0]) {
+																					var reader = new FileReader();
+																					reader.onload = imageIsLoaded;
+																					reader.readAsDataURL(this.files[0]);
+																			}
+																	});
+															});
+
+															function imageIsLoaded(e) {
+																	$('#myImg').attr('src', e.target.result);
+																	$('#myImg').removeClass("hide");
+															};
+														</script>
+														
+														<!-- 商品名字 -->
+														<div class="form-group">
+														<label>商品简介: </label>
+															<textarea name="product_introduction" type="text" class="form-control" placeholder="请输入商品简介 不多于50字">
+																我是马力，不只是超过 10 年经验的产品经理和设计师，同时在应用分发、流量获取方面有丰富经验。最美应用创始人，创新工场早期成员，豌豆荚创始成员、产品经理， IBM 用户体验设计师。
+															</textarea>
+														</div>
+														
+													</div>
+												</div>
+												<div id="initial-detail" class="panel-collapse collapse">
+													<div class="panel-body">
+														<!-- 商品详情 -->
+														<div class="form-group">
+															<label>商品详情：</label>
+															<div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
+																<div class="btn-group">
+																<a class="btn dropdown-toggle" data-toggle="dropdown" title="字体"><i class="icon-font"></i><b class="caret"></b></a>
+																	<ul class="dropdown-menu">
+																	</ul>
+																</div>
+																<div class="btn-group">
+																<a class="btn dropdown-toggle" data-toggle="dropdown" title="字体大小"><i class="icon-text-height"></i>&nbsp;<b class="caret"></b></a>
+																	<ul class="dropdown-menu">
+																	<li><a data-edit="fontSize 5"><font size="5">大</font></a></li>
+																	<li><a data-edit="fontSize 3"><font size="3">中</font></a></li>
+																	<li><a data-edit="fontSize 1"><font size="1">小</font></a></li>
+																	</ul>
+																</div>
+																<div class="btn-group">
+																<a class="btn" data-edit="bold" title="加粗 (Ctrl/Cmd+B)"><i class="icon-bold"></i></a>
+																<a class="btn" data-edit="italic" title="斜体 (Ctrl/Cmd+I)"><i class="icon-italic"></i></a>
+																<a class="btn" data-edit="strikethrough" title="（加） 删除线"><i class="icon-strikethrough"></i></a>
+																<a class="btn" data-edit="underline" title="下划线 (Ctrl/Cmd+U)"><i class="icon-underline"></i></a>
+																</div>
+																<div class="btn-group">
+																<a class="btn" data-edit="insertunorderedlist" title="项目列表"><i class="icon-list-ul"></i></a>
+																<a class="btn" data-edit="insertorderedlist" title="数字列表"><i class="icon-list-ol"></i></a>
+																<a class="btn" data-edit="outdent" title="清除缩进 (Shift+Tab)"><i class="icon-indent-left"></i></a>
+																<a class="btn" data-edit="indent" title="缩进 (Tab)"><i class="icon-indent-right"></i></a>
+																</div>
+																<div class="btn-group">
+																<a class="btn" data-edit="justifyleft" title="居左 (Ctrl/Cmd+L)"><i class="icon-align-left"></i></a>
+																<a class="btn" data-edit="justifycenter" title="居中 (Ctrl/Cmd+E)"><i class="icon-align-center"></i></a>
+																<a class="btn" data-edit="justifyright" title="居右 (Ctrl/Cmd+R)"><i class="icon-align-right"></i></a>
+																<a class="btn" data-edit="justifyfull" title="正常 (Ctrl/Cmd+J)"><i class="icon-align-justify"></i></a>
+																</div>
+																<div class="btn-group">
+																	<a class="btn dropdown-toggle" data-toggle="dropdown" title="超链接"><i class="icon-link"></i></a>
+																	<div class="dropdown-menu input-append">
+																		<input class="span2" placeholder="URL" type="text" data-edit="createLink"/>
+																		<button class="btn" type="button">添加</button>
+																</div>
+																<a class="btn" data-edit="unlink" title="去除链接"><i class="icon-cut"></i></a>
+																</div>
+																
+																<div class="btn-group">
+																<a class="btn" title="浏览或拖拽添加图片" id="pictureBtn-0"><i class="icon-picture"></i></a>
+																<input type="file" data-role="magic-overlay" data-target="#pictureBtn-0" data-edit="insertImage" />
+																</div>
+																<div class="btn-group">
+																<a class="btn" data-edit="undo" title="撤消 (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>
+																<a class="btn" data-edit="redo" title="重复 (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a>
+																</div>
+																
+															</div>
+
+															<div id="editor" class='editor'>
+																<section id="item-details" class="">手机电脑年年更新，换下来的旧手机该怎么办？不知道你们怎么想，我每年看着一堆手机盒都会头疼半天，从 iPhone 3GS 一直到 iPhone 6s 每一代旧手机都被我装到盒子里存起来吃灰。<ul><li>送人？用了久了有感情；<br></li><li>卖了？隐私泄露有风险；<br></li><li>放着？每天吃灰太可惜。<br></li></ul><p>直到最近，突然看到还留着一片空白的墙，我就一直在想：为什么不发挥一下拆机强项，把旧手机都拆掉做成标本呢？如果拆完还能做得好看，正好一举两得。</p><p>经过一天的劳动，最后的成果如下图：</p><img src="https://pic3.zhimg.com/v2-edc184fec9a697cadeef8df425782986_b.jpg" data-rawwidth="3802" data-rawheight="2423" class="origin_image zh-lightbox-thumb" data-original="https://pic3.zhimg.com/v2-edc184fec9a697cadeef8df425782986_r.jpg"><p>iPhone 4, 在当年横空出世，相信大部分人的第一台 iPhone 是从此开始的。iPhone 4 的工业设计也已经成为了一种 icon: 四边方正有棱，四角圆润柔和，上中下的 屏幕-机身-后盖 三明治结构即便在今天也有很多模仿者。</p><p>这篇文既是纪念第一次的成功制作，也是作为半个教程，写下了制作的过程，还有可能会出现的问题。如果你也想自己尝试，欢迎评论留言与我们交流。</p><h2>准备材料</h2><p><b>首先，你要有一个手机。而且，你要能够把它拆掉而不破坏主要部件。</b></p><p>拆机的过程在这里就不赘述了，在其他地方已经有相当多的实例教程。</p><p><b>然后，你需要一套工具。除了上边要用到的拆机工具，还需要粘合胶。</b></p><p>一定多准备几种不同的粘合胶，不要问我是怎么知道的我不会告诉你。</p><p><b>最后，选择一个大小合适的框架，网上慢慢找，或者干脆去宜家皆可。</b></p><p>不过在你兴冲冲开始拆机之前，一定要仔细检查好相框上有没有瑕疵。</p><img src="https://pic2.zhimg.com/v2-be3a15f6d4c002ac0f400b6fcb462005_b.jpg" data-rawwidth="3802" data-rawheight="2534" class="origin_image zh-lightbox-thumb" data-original="https://pic2.zhimg.com/v2-be3a15f6d4c002ac0f400b6fcb462005_r.jpg"><p>当材料都准备齐之后，就可以进入第二节阶段了。</p><h2>摆列组合</h2><p>这其实是个说难不难，说易不易的环节。不难是因为想怎么排都可以，不易在于想要达到摆得有规律而且好看很难。Jony Ive 曾经在描述 iOS 7 设计时用到了一句话：<b>在纷繁中建立秩序</b>。</p><p>所以我在摆列的时候，尽量遵循两个原则：</p><ul><li><b>机身主体在正中，前后背板处在左右<br></b></li><li><b>尽量保留各个部件原本的位置和排列</b></li></ul><p>根据这两个原则，在不断地改动中，得到了下面的设计图：<img src="https://pic4.zhimg.com/v2-7dd24061740e481dc32ec4a7da29fb93_b.jpg" data-rawwidth="2217" data-rawheight="1561" class="origin_image zh-lightbox-thumb" data-original="https://pic4.zhimg.com/v2-7dd24061740e481dc32ec4a7da29fb93_r.jpg"></p><p>最终确定的摆列，还是达到了我的基本预期。并没有拆得太零碎，主要的几个部件也很好的保留了下来。主次分明，各个区域的归类也比较合理。</p><p>在这个阶段有一个非常重要的问题需要注意，就是一定要确定好所需要的空间，否则可能会出现摆好了，粘好了，但是没办法装到木框里的悲惨结局。</p><h2>粘贴安装</h2>整个过程中最难的就是这个部分了，这也是在动手之前我没有想到的。<p>我推荐你先按照上一阶段里已经设计好的摆列，把各个部件都摆到你要安装的背板上。这样可以最为直观的感受到真实的效果，以便做出调整。<br></p><p><img src="https://pic1.zhimg.com/v2-a34c8bd99b13584a63f4008ca68cb8ec_b.jpg" data-rawwidth="3526" data-rawheight="2351" class="origin_image zh-lightbox-thumb" data-original="https://pic1.zhimg.com/v2-a34c8bd99b13584a63f4008ca68cb8ec_r.jpg">对于一些没有足够用于粘合的表面的部件（比如屏幕和后盖），也需要提前找好解决方案。最方便的方法就是找几个桌腿或者椅子腿的缓冲垫作为中介，用来粘合部件和背板，这个阶段记得时刻拿尺子量，控制好高度。</p><p><img src="https://pic2.zhimg.com/v2-3990db2889fa599bbf6e9585c9ed14e9_b.jpg" data-rawwidth="3168" data-rawheight="2112" class="origin_image zh-lightbox-thumb" data-original="https://pic2.zhimg.com/v2-3990db2889fa599bbf6e9585c9ed14e9_r.jpg">初步摆好，看起来效果还不错，在这个环节需要多多做些微调，防止粘合之后发现问题，那样就比较尴尬了，后期的补救会非常困难，甚至只能重头再来。</p><img src="https://pic3.zhimg.com/v2-c5b503999594b4910f71bcdebcadfac6_b.jpg" data-rawwidth="3456" data-rawheight="2304" class="origin_image zh-lightbox-thumb" data-original="https://pic3.zhimg.com/v2-c5b503999594b4910f71bcdebcadfac6_r.jpg"><p>体积较大的部件比较好解决，最为困难的就是螺丝垫圈这样的小东西，除了用镊子一个一个的摆，目前我没有找到什么别的好方法。特别是数量多的时候，相当考验人的耐心，也算是一个修生养性的好方法了。<br></p><h2>组装完成</h2><p>经过上边几部的艰难困苦，是时候收获劳动成果了，在粘贴完成之后，一定要放在通风处，让它们充分粘合，这个时间需要自己掌握了，不同种类的胶粘合需要的时间也不一样。</p><p><img src="https://pic3.zhimg.com/v2-f67f78465ca7b89f5f4084df2e81529e_b.jpg" data-rawwidth="3660" data-rawheight="1706" class="origin_image zh-lightbox-thumb" data-original="https://pic3.zhimg.com/v2-f67f78465ca7b89f5f4084df2e81529e_r.jpg">小心翼翼的安装，注意不要有磕碰，要不然也毁了...这也是检验之前厚度控制的时候。<br><img src="https://pic3.zhimg.com/v2-0ac721dabd06e5660e14a1074c115826_b.jpg" data-rawwidth="3168" data-rawheight="2112" class="origin_image zh-lightbox-thumb" data-original="https://pic3.zhimg.com/v2-0ac721dabd06e5660e14a1074c115826_r.jpg"></p><p>加上了一层玻璃之后，看起来更有感觉了一些。</p><img src="https://pic4.zhimg.com/v2-ca96a718902dee6dfd3b90a17cddb8b3_b.jpg" data-rawwidth="2050" data-rawheight="1098" class="origin_image zh-lightbox-thumb" data-original="https://pic4.zhimg.com/v2-ca96a718902dee6dfd3b90a17cddb8b3_r.jpg"><p>整个过程像是回到了小时候上的手工课，不过这个完全是自己愿意做的东西，所以虽然过程中也有小麻烦，不过看到最后的成果还是挺开心的，长大之后越来越难有这种闲情逸致了。</p><p>最后来一张定妆照：</p><img src="https://pic4.zhimg.com/v2-6eb9372308da37c0d8c7b36e2f69384b_b.jpg" data-rawwidth="2201" data-rawheight="1506" class="origin_image zh-lightbox-thumb" data-original="https://pic4.zhimg.com/v2-6eb9372308da37c0d8c7b36e2f69384b_r.jpg"><p>下回，除了手机之外，让我们想想还有什么别的东西能放上去。</p></section>
+															</div>
+															<input name="product_details" type="text" class="hide" />
+														</div>
+														<style>
+														/* wysiwyg */
+														.editor {
+															min-height: 100px;
+															background-color: white;
+															border-collapse: separate; 
+															border: 1px solid rgb(204, 204, 204); 
+															padding: 4px; 
+															box-sizing: content-box; 
+															-webkit-box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px inset; 
+															box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px inset;
+															border-top-right-radius: 3px; border-bottom-right-radius: 3px;
+															border-bottom-left-radius: 3px; border-top-left-radius: 3px;
+															overflow-y: scroll;
+															outline: none;
+															
+															-webkit-transition: min-height 2s; /* Safari */
+															transition: min-height 1s;
+														}
+														.editor:focus {
+															min-height: 200px;
+														}
+
+														div[data-role="editor-toolbar"] {
+															-webkit-user-select: none;
+															-moz-user-select: none;
+															-ms-user-select: none;
+															user-select: none;
+														}
+
+														.dropdown-menu a {
+															cursor: pointer;
+														}
+														/* end of wysiwyg */
+														</style>
+														<!-- wysiwyg -->
+														<script>
+															$(function(){
+															function initToolbarBootstrapBindings() {
+																var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier', 
+																	'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
+																	'Times New Roman', 'Verdana','SimHei'],
+																	fontTarget = $('[title=字体]').siblings('.dropdown-menu');
+																$.each(fonts, function (idx, fontName) {
+																	fontTarget.append($('<li><a data-edit="fontName ' + fontName +'" style="font-family:\''+ fontName +'\'">'+fontName + '</a></li>'));
+																});
+																$('a[title]').tooltip({container:'body'});
+																$('.dropdown-menu input').click(function() {return false;})
+																	.change(function () {$(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');})
+																.keydown('esc', function () {this.value='';$(this).change();});
+
+																$('[data-role=magic-overlay]').each(function () { 
+																var overlay = $(this), target = $(overlay.data('target')); 
+																overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
+																});
+																/*
+																if ("onwebkitspeechchange"  in document.createElement("input")) {
+																var editorOffset = $('#editor').offset();
+																$('#voiceBtn').css('position','absolute').offset({top: editorOffset.top, left: editorOffset.left+$('#editor').innerWidth()-35});
+																} else {
+																$('#voiceBtn').hide();
+																}
+																*/
+															};
+															function showErrorAlert (reason, detail) {
+																var msg='';
+																if (reason==='unsupported-file-type') { msg = "Unsupported format " +detail; }
+																else {
+																	console.log("error uploading file", reason, detail);
+																}
+																$('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>'+ 
+																 '<strong>File upload error</strong> '+msg+' </div>').prependTo('#alerts');
+															};
+															initToolbarBootstrapBindings();  
+															$('.editor').wysiwyg({ fileUploadError: showErrorAlert} );
+															window.prettyPrint && prettyPrint();
+															});
+														</script>
+														<script>
+															(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+															(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+															m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+															})(window,document,'script','http://www.google-analytics.com/analytics.js','ga');
+															ga('create', 'UA-37452180-6', 'github.io');
+															ga('send', 'pageview');
+														</script>
+														<script>(function(d, s, id) {
+															var js, fjs = d.getElementsByTagName(s)[0];
+															if (d.getElementById(id)) return;
+															js = d.createElement(s); js.id = id;
+															js.src = "http://connect.facebook.net/en_GB/all.js#xfbml=1";
+															fjs.parentNode.insertBefore(js, fjs);
+															}(document, 'script', 'facebook-jssdk'));
+														 </script>
+
+														<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="http://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+														<!-- End of wysiwyg -->
+													</div>
+												</div>
+												<div id="initial-upload" class="panel-collapse collapse">
+													<div class="panel-body">
+														<div class="form-group">
+														<label>本地文件： </label>
+																<input name="product_upload[]" id="kv-explorer" type="file" multiple>
+																<br>
+														</div>
+														
+														<label>上传云盘：</label>
+															<div class="input-group">
+																<input type="text" class="form-control">
+																<div class="input-group-addon btn btn-default btn-file">
+																	<i class="fa fa-cloud"></i> 云盘上传 <input type="file" single>
+																</div>
+															</div>
+															<img id="myImg" class="img-thumbnail col-md-6 hide" src="#" style="margin-top:10px;"/>
+														<div class="clearfix"></div>
+														
+														<link href="Shopping/plugins/bootstrap-fileinput/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
+														<link href="Shopping/plugins/bootstrap-fileinput/themes/explorer/theme.css" media="all" rel="stylesheet" type="text/css"/>
+														<script src="Shopping/plugins/bootstrap-fileinput/js/plugins/sortable.js" type="text/javascript"></script>
+														<script src="Shopping/plugins/bootstrap-fileinput/js/fileinput.js" type="text/javascript"></script>
+														<script src="Shopping/plugins/bootstrap-fileinput/themes/explorer/theme.js" type="text/javascript"></script>
+														<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+														<script src="Shopping/plugins/bootstrap-fileinput/js/locales/zh.js" type="text/javascript"></script>
+														<script>
+															$("#kv-explorer").fileinput({
+																	language: "zh",
+																	theme: 'explorer',
+																	showUpload: false,
+																	showRemove: false,
+																	//uploadUrl: '#',
+																	overwriteInitial: false,
+																	initialPreviewAsData: true,
+																	initialPreview: [
+																		"http://lorempixel.com/1920/1080/nature/1",
+																		"http://lorempixel.com/1920/1080/nature/2",
+																		"http://lorempixel.com/1920/1080/nature/3",
+																],
+																initialPreviewConfig: [
+																		{caption: "nature-1.jpg", size: 329892, width: "120px", url: "{$url}", key: 1},
+																		{caption: "nature-2.jpg", size: 872378, width: "120px", url: "{$url}", key: 2},
+																		{caption: "nature-3.jpg", size: 632762, width: "120px", url: "{$url}", key: 3},
+																	]
+															});
+															$(function(){
+																$('#kv-explorer').on('change', function(event) {
+																	//测试
+																});
+															});
+														</script>
+													</div>
+												</div>
+												<div id="initial-price" class="panel-collapse collapse">
+													<div class="panel-body">
+														<div class="form-group">
+															<label>使用人数： </label>
+
+															<div class="input-group">
+																<div class="input-group-addon">
+																<i class="fa fa-users"></i>
+																</div>
+																<input name="product_usernum" type="text" class="form-control" placeholder="使用人数限制" data-mask="" value="15" />
+															</div>
+														</div>
+														
+														<!-- InputMask -->
+														<script src="Shopping/plugins/input-mask/jquery.inputmask.js"></script>
+														<script src="Shopping/plugins/input-mask/jquery.inputmask.regex.extensions.js"></script>
+														<script src="Shopping/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+														<script>
+															$("[data-mask]").inputmask("99");
+															//$("#user_number").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+														</script>
+														
+														
+														<!-- 商品有效期 -->
+														<div class="form-group">
+															<label>有效期: </label>
+
+															<div class="input-group">
+																<div class="input-group-addon">
+																	<i class="fa fa-calendar"></i>
+																</div>
+																<input name="product_expiration" type="text" class="form-control pull-right" id="reservation">
+															</div>
+															<!-- /.input group -->
+														</div>
+														
+														<!-- date-range-picker -->
+														<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+														<script src="Shopping/plugins/daterangepicker/daterangepicker.js"></script>
+														<link rel="stylesheet" href="Shopping/plugins/daterangepicker/daterangepicker.css">
+														<script>
+															
+															$('#reservation').daterangepicker({
+																"locale": {
+																		"format": "MM/DD/YYYY",
+																		"separator": " 至 ",
+																		"applyLabel": "提交",
+																		"cancelLabel": "取消",
+																		"fromLabel": "从",
+																		"toLabel": "至",
+																		"customRangeLabel": "Custom",
+																		"daysOfWeek": [
+																				"天",
+																				"一",
+																				"二",
+																				"三",
+																				"四",
+																				"五",
+																				"六"
+																		],
+																		"monthNames": [
+																				"一月",
+																				"二月",
+																				"三月",
+																				"四月",
+																				"五月",
+																				"六月",
+																				"七月",
+																				"八月",
+																				"九月",
+																				"十月",
+																				"十一月",
+																				"十二月"
+																		],
+																		"firstDay": 1
+																}
+															});
+														</script>
+														
+														<!-- 商品价格 -->
+														<div class="form-group">
+															<label>商品价格：</label>
+
+															<div class="input-group">
+																<div class="input-group-addon">
+																<i class="fa fa-rmb"></i>
+																</div>
+																<input name="product_price" type="text" class="form-control" data-mask="" value="128.5" />
+																<div class="input-group-addon">
+																元
+																</div>
+															</div>
+														</div>
+														<input type="submit" value="提交" class="btn btn-primary pull-right"/>
+													</div>
+												</div>
+											</div>
+										</form>
+										<script>
+											$( "#initial-product" ).submit(function( event ) {
+												$("[name=product_details]").val($("#editor").html());
+											  $.ajax({
+													url: "", //在此处添加action地址
+													type: 'POST',
+													data: new FormData(this),
+													async: false,
+													success: function (data) {
+														//如果成功，在此跳转	
+														alert("成功上传！");
+													},
+													cache: false,
+													contentType: false,
+													processData: false
+												});
+												event.preventDefault();
+												//console.log($("[name=product_details]").html());
+												//console.log($(this).serialize());
+												//console.log(new FormData(this));
+											});
+										</script>
+									</div>
+									<!-- /.box-body -->
+								</div>
+								<!-- /.box -->
+							</div>
+						</div>
+            <!-- /.content-wrapper -->
+            <footer class="main-footer">
+                <div class="pull-right hidden-xs">
+                    <b>Version</b> 2.3.5
+                </div>
+                <strong>Copyright &copy; 2014-2017 <a href="http://almsaeedstudio.com">Transtopia</a>.</strong> All rights
+                reserved.
+            </footer>
+
+            <!-- Control Sidebar -->
+            <aside class="control-sidebar control-sidebar-dark">
+                <!-- Create the tabs -->
+                <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+                    <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <!-- Settings tab content -->
+                    <div class="tab-pane" id="control-sidebar-home-tab">
+                        <!-- /.control-sidebar-menu -->
+
+                    </div>
+                    <!-- /.tab-pane -->
+                </div>
+            </aside>
+            <!-- /.control-sidebar -->
+            <!-- Add the sidebar's background. This div must be placed
+                 immediately after the control sidebar -->
+            <div class="control-sidebar-bg"></div>
+        </div>
+        <!-- ./wrapper -->
+
+        <!-- jQuery 2.2.3 -->
+    <script src="../JS/sideRow.js"></script>
+
+    </body>
+</html>

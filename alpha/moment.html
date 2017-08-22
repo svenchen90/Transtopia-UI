@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Transtopia-alpha | 消息 </title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="plugins/bootstrap-3.3.6/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="plugins/font-awesome-4.7.0/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="plugins/ionicons-2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="plugins/AdminLTE-2.3.11/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="plugins/AdminLTE-2.3.11/css/skins/skin-purple.min.css">
+	<!-- FileInput -->
+	<link href="plugins/bootstrap-fileinput/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
+	<link href="plugins/bootstrap-fileinput/themes/explorer/theme.css" media="all" rel="stylesheet" type="text/css"/>
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body class="skin-purple sidebar-mini">
+<div class="wrapper">
+  <!-- Main Header -->
+  <header class="main-header">
+    <!-- Logo -->
+    <a href="#" class="logo">
+	  <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><b>T</b></span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><b>Transtopia</b></span>
+    </a>
+
+    <!-- Header Navbar -->
+    <nav class="navbar navbar-default" role="navigation">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"></a>
+			<!-- Navbar Left Menu -->
+				<!-- fill it here -->
+			<!-- /.Navbar Left Menu -->
+			
+			<!-- Navbar Right Menu -->
+				<!-- fill it here -->
+			<!-- /.Navbar Right Menu -->
+    </nav>
+  </header>
+	
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+			<form action="#" method="get" class="sidebar-form">
+				<div class="input-group">
+					<input type="text" name="q" class="form-control" placeholder="Search...">
+						<span class="input-group-btn">
+							<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+							</button>
+						</span>
+				</div>
+			</form>
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+		<!-- Main content -->
+    <section class="content">
+			<!-- 动态栏 -->
+			<div class="container-fuild">
+				<ul id="allMoments" class="timeline hidden">
+					<!-- 动态发布框 -->
+					<li class="time-label">
+							<span class="bg-blue">
+							此时此刻
+							</span>
+					</li>
+					<li>
+						<div class="timeline-item">
+							<div class="timeline-body">
+								<div id="postmoment">
+									<div class="form-group">
+										<label>标题</label>
+										<input id="moment-title" class="form-control">
+									</div>
+									<div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
+										<div class="btn-group">
+											<a class="btn dropdown-toggle" data-toggle="dropdown" title="字体"><i class="icon-font"></i><b class="caret"></b></a>
+											<ul class="dropdown-menu">
+											</ul>
+										</div>
+										<div class="btn-group">
+											<a class="btn dropdown-toggle" data-toggle="dropdown" title="字体大小"><i class="icon-text-height"></i>&nbsp;<b class="caret"></b></a>
+											<ul class="dropdown-menu">
+												<li><a data-edit="fontSize 5"><font size="5">大</font></a></li>
+												<li><a data-edit="fontSize 3"><font size="3">中</font></a></li>
+												<li><a data-edit="fontSize 1"><font size="1">小</font></a></li>
+											</ul>
+										</div>
+										<div class="btn-group">
+											<a class="btn" data-edit="bold" title="加粗 (Ctrl/Cmd+B)"><i class="icon-bold"></i></a>
+											<a class="btn" data-edit="italic" title="斜体 (Ctrl/Cmd+I)"><i class="icon-italic"></i></a>
+											<a class="btn" data-edit="strikethrough" title="（加） 删除线"><i class="icon-strikethrough"></i></a>
+											<a class="btn" data-edit="underline" title="下划线 (Ctrl/Cmd+U)"><i class="icon-underline"></i></a>
+										</div>
+										<div class="btn-group">
+											<a class="btn" data-edit="insertunorderedlist" title="项目列表"><i class="icon-list-ul"></i></a>
+											<a class="btn" data-edit="insertorderedlist" title="数字列表"><i class="icon-list-ol"></i></a>
+											<a class="btn" data-edit="outdent" title="清除缩进 (Shift+Tab)"><i class="icon-indent-left"></i></a>
+											<a class="btn" data-edit="indent" title="缩进 (Tab)"><i class="icon-indent-right"></i></a>
+										</div>
+										<div class="btn-group">
+											<a class="btn" data-edit="justifyleft" title="居左 (Ctrl/Cmd+L)"><i class="icon-align-left"></i></a>
+											<a class="btn" data-edit="justifycenter" title="居中 (Ctrl/Cmd+E)"><i class="icon-align-center"></i></a>
+											<a class="btn" data-edit="justifyright" title="居右 (Ctrl/Cmd+R)"><i class="icon-align-right"></i></a>
+											<a class="btn" data-edit="justifyfull" title="正常 (Ctrl/Cmd+J)"><i class="icon-align-justify"></i></a>
+										</div>
+										<div class="btn-group">
+											<a class="btn dropdown-toggle" data-toggle="dropdown" title="超链接"><i class="icon-link"></i></a>
+											<div class="dropdown-menu input-append">
+												<input class="span2" placeholder="URL" type="text" data-edit="createLink"/>
+												<button class="btn" type="button">添加</button>
+											</div>
+											<a class="btn" data-edit="unlink" title="去除链接"><i class="icon-cut"></i></a>
+										</div>
+										<div class="btn-group">
+											<a class="btn" title="浏览或拖拽添加图片" id="pictureBtn-0"><i class="icon-picture"></i></a>
+											<input type="file" data-role="magic-overlay" data-target="#pictureBtn-0" data-edit="insertImage" />
+										</div>
+										<div class="btn-group">
+											<a class="btn" data-edit="undo" title="撤消 (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>
+											<a class="btn" data-edit="redo" title="重复 (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a>
+										</div>
+									</div>
+
+									<div id="editor" class='editor'>
+									</div>
+									<!-- 更多选项 -->
+									<div id="collapse-moment_option" class="timeline-footer panel-collapse collapse" style="">
+										<div class="form-group">
+										<label>发布者</label>
+											<select id="select-sender" class="form-control" style="width: 100%;">
+											</select>
+										</div>
+										<div class="form-group">
+											<label>分类</label>
+											<select id="select-genre" class="form-control" style="width: 100%;">
+											</select>
+										</div>
+										<div >
+											<label>标签</label>
+											<select id="select-tags" class="form-control" multiple="multiple" data-placeholder="请选择标签" style="width: 100%;">
+											</select>
+										</div>
+										<div>
+											<label>分享范围</label>
+											<select id="select-sharedwith" class="form-control" multiple="multiple" data-placeholder="请选择分享范围" style="width: 100%;">
+											</select>
+										</div>
+									</div>
+									<div class="clearfix" style="margin-top:5px;">
+										<a data-toggle="collapse" href="#collapse-moment_option"><i class="fa fa-plus"></i> 更多选项</a>
+										<a id="shareMoment-btn" class="btn btn-primary btn-flat btn-xs pull-right">分享</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</li>
+					
+					<!-- 动态内容 继续 -->
+				</ul>
+				
+				<!-- 个人动态主页 -->
+				<div id="block_personalmoment" class="row hidden">
+					<div id="userInfo" class="col-md-3 ">
+						<div class="box box-widget widget-user">
+						<!-- Add the bg color to the header using any of the bg-* classes -->
+						<div class="widget-user-header bg-black" style="background: url('Moment/photo1.png') center center;">
+							<h3 class="widget-user-username"></h3>
+							<!-- <h5 class="widget-user-desc">软件工程师</h5> -->
+						</div>
+						<div class="widget-user-image">
+							<img class="img-circle" alt="User Avatar">
+						</div>
+						<div class="box-footer">
+							<div class="row">
+							<div class="col-sm-4 border-right">
+								<div class="description-block">
+								<h5 class="description-header"></h5>
+								<span class="description-text">动态</span>
+								</div>
+								<!-- /.description-block -->
+							</div>
+							<!-- /.col -->
+							<div class="col-sm-4 border-right">
+								<div class="description-block">
+								<h5 class="description-header"></h5>
+								<span class="description-text">精华</span>
+								</div>
+								<!-- /.description-block -->
+							</div>
+							<!-- /.col -->
+							<div class="col-sm-4">
+								<div class="description-block">
+								<h5 class="description-header"></h5>
+								<span class="description-text">关注者</span>
+								</div>
+								<!-- /.description-block -->
+							</div>
+							<!-- /.col -->
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+								<a href="#" class="btn btn-primary btn-block follow-btn"><b>关注</b></a>
+							</div>
+							</div>
+							<!-- /.row -->
+						</div>
+						</div>
+				
+						<!-- About Me Box -->
+						<div class="box box-primary">
+						<div class="box-header with-border">
+							<h3 class="box-title">个人信息</h3>
+						</div>
+						<!-- /.box-header -->
+						<div class="box-body">
+							<strong><i class="fa fa-book margin-r-5"></i> 个人介绍</strong>
+
+							<p class="text-muted">
+							</p>
+
+							<hr>
+
+							<strong><i class="fa fa-pencil margin-r-5"></i> 父话题</strong>
+
+							<p id="topicGenres">
+							<!-- 父话题 -->
+							</p>
+
+							<hr>
+
+							<strong><i class="fa fa-file-text-o margin-r-5"></i> 子话题</strong>
+							
+							<p id="topicTags">
+							<!-- 子话题 -->
+							</p>
+						</div>
+						<!-- /.box-body -->
+						</div>
+						<!-- /.box -->
+					</div>
+					<div class="col-md-9">
+						<!-- The time line -->
+						<ul id="personalMoments" class="timeline">
+
+						</ul>
+					</div>
+				</div>
+			</div>
+				
+				
+			<!-- modal 开始 -->
+			<div class="modal fade" id="momentModal" tabindex="-1">
+				<div class="modal-dialog" style="width: 60%;">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+								&times;
+							</button>
+							<h4 class="modal-title">
+								<!-- 用户信息 -->
+							</h4>
+						</div>
+						<div class="modal-body">
+							<h4 class="moment-title">
+							<!-- 标题 -->
+							</h4>
+							<h6 class="moment-datetime">
+							<!-- 时间 -->
+							</h6>
+							<div class="content">
+							<!-- 内容 -->
+							</div>
+							<div class="clearfix" style="float: right;">
+								<a class="btn btn-default btn-xs" style="margin-left: 5px;"><span class="fa fa-tag"></span> 分享</a>
+								<a class="btn btn-default btn-xs" style="margin-left: 5px;"><span class="fa fa-tag"></span> 举报</a>
+							</div>
+							<div class="tags">
+								<!-- 标签 -->
+							</div>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal -->
+			</div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <!-- To the right -->
+    <div class="pull-right hidden-xs">
+      <!-- Anything you want -->
+    </div>
+    <!-- Default to the left -->
+    <strong>Copyright &copy; 2017 <a href="#">Transtopia</a>.</strong> All rights reserved.
+  </footer>
+
+  <!-- Control Sidebar -->
+</div>
+<!-- ./wrapper -->
+
+
+<!-- REQUIRED JS SCRIPTS -->
+<!-- jQuery 2.2.3 -->
+<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="plugins/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="plugins/AdminLTE-2.3.11/js/app.min.js"></script>
+<!-- Slimscroll -->
+<script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="plugins/fastclick/fastclick.min.js"></script>
+<!-- FileInput -->
+<script src="plugins/bootstrap-fileinput/js/plugins/sortable.js" type="text/javascript"></script>
+<script src="plugins/bootstrap-fileinput/js/fileinput.js" type="text/javascript"></script>
+<script src="plugins/bootstrap-fileinput/themes/explorer/theme.js" type="text/javascript"></script>
+<script src="plugins/bootstrap-fileinput/js/locales/zh.js" type="text/javascript"></script>
+<!-- Select2 -->
+<script src="plugins/select2/select2.min.js" type="text/javascript"></script>
+<link href="plugins/select2/select2.min.css" rel="stylesheet" />
+<!-- bootstrap-wysiwyg -->
+<link href="plugins/bootstrap-wysiwyg/external/google-code-prettify/prettify.css" rel="stylesheet">
+<!-- <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet"> -->
+<link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script> -->
+<script src="plugins/bootstrap-wysiwyg/external/jquery.hotkeys.js"></script>
+<!-- <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script> -->
+<script src="plugins/bootstrap-wysiwyg/external/google-code-prettify/prettify.js"></script>
+<script src="plugins/bootstrap-wysiwyg/bootstrap-wysiwyg.js"></script>
+
+
+<!-- 我的JS和CSS -->
+<script>
+//写给老付
+/*
+post = [{
+	id: ,
+	user_id: ,
+	user_name: ,
+	user_img:,
+	user_followers: , //关注者总人数
+	user_blogs: , //发表总文章数
+	user_bestblogs: , //用户精华帖
+	
+	title: , //标题
+	content: , //内容
+	datetime: , //时间
+	genre: , // 大分类
+	tags: [], // 小标签
+	sharedwith: [], //分享范围，是否需要？？？
+	total_like: , //总点赞人数
+	like: (0 or 1), //我是否点赞
+	star: (0 or 1), //我是否加星
+	
+	comments: [{
+		user_id: ,
+		user_name: ,
+		user_img:,
+		
+		to_id: , //回复用户id
+		to_name: , //回复用户姓名
+		content: , //内容
+		datetime:  //时间
+	}] // 评论
+}];
+*/
+var ACTION_MAP = {
+	getMomentByID: 'getmomentbyid', //通告id获取一条动态 || input: {moment_id} || output: post
+	getMomentByUserID: 'getmomentbyuserid', //获取摸一个用户的动态列表
+	getFollowedMomentByUserID: 'getfollowedmomentbyuserid?uid=', //获取摸一个用户follow的动态列表
+	getOption: 'getOption?uid=', //获取静态的参数，发布新动态时候的OPTION
+	postMoment: 'postMoment?uid=', //发送动态
+	postReplyToMoment: 'postReplyToMoment?uid=', //回复动态
+	starMoment: 'starMoment?uid=', //星标或取消
+	likeMoment: 'likeMoment?uid=', //喜欢或取消
+	removeTagOfMoment: 'removeTagOfMoment?uid=', //移除tag
+	getUserInfobyID: 'getuserinfobyid?uid=', //通过ID获取用户资料
+	follow: 'follow', //关注或取消
+	getContactInfo: 'getcontactinfo?uid' //获取用户好友和组列表
+};
+//PS: 上述都需要你添加当前用户的ID
+</script>
+
+<script>
+$(document).ready(function(){
+	$.get(ACTION_MAP.getContactInfo, function(data){
+		console.log(data);
+		$('.sidebar').append(
+		'<ul class="sidebar-menu">\
+			<li><a href="javascript:void(0);" data-link="allmoments"><i class="fa fa-list-alt"></i> <span>全部动态</span></a></li>\
+			<li><a href="javascript:void(0);" data-link="personalmoments" data-uid="' + data.myid + '"><i class="fa fa-user"></i> <span>我的动态</span></a></li>\
+			<li><a href="javascript:void(0);" data-link="personalmoments" data-uid="' + data.myid + '" data-star="1"><i class="fa fa-star"></i> <span>星标动态</span></a></li>\
+		</ul>\
+		<ul class="sidebar-menu moment-contacts">\
+				<li class="header">联系人动态</li>\
+		</ul>');
+		
+		$.each(data.contacts, function(index, c){
+				$('.moment-contacts').append('<li><a href="javascript:void(0);" data-link="personalmoments" data-uid="' + c.user_id + '"><i class="fa fa-star"></i> <span>' + c.user_name + '</span></a></li>');
+		});
+		$('.sidebar-menu li a').on('click', function(){
+			$('.sidebar-menu li	').removeClass('active');
+			var blocks = [$('#allMoments'), $('#block_personalmoment')];
+			$.each(blocks, function(index, block){
+				console.log(block);
+				if(!block.hasClass('hidden'))
+					block.addClass('hidden');
+			});
+			
+					//关注
+			
+			switch($(this).attr('data-link')) {
+				case 'allmoments':
+					//全部消息
+					$('#allMoments > li:gt(1)').remove();
+					initialMoment('#allMoments', ACTION_MAP.getFollowedMomentByUserID);
+					$(this).parent('li').addClass('active');
+					$('#allMoments').removeClass('hidden');
+					break;
+				case 'personalmoments':
+					//我的消息
+					$('#personalMoments > li').remove();
+					initialMoment('#personalMoments', ACTION_MAP.getMomentByUserID);
+					$.get(ACTION_MAP.getUserInfobyID, {id: $(this).attr('data-uid'), star: $(this).attr('data-star'), genre: $(this).attr('data-genre')}, function(data){
+						loadUserInfo(data);
+					})
+					.fail(function() {
+						console.log('Err: tag');
+					});
+					$(this).parent('li').addClass('active');
+					$('#block_personalmoment').removeClass('hidden');
+					break;
+				case '3':
+					break;
+				case '4':
+					break;
+				case '5':
+					break;
+				default:
+					console.log('err!');	
+			}
+	});
+		
+	})
+	.fail(function() {
+		console.log('Err: moment-sidebar')
+	});
+	
+});
+</script>
+<script>
+//加载所有动态
+var initialMoment = function(block, query){
+	
+	//加载动态
+	$.get( query, function(data) {
+		//console.log(data);
+		loadMoment(data, block);
+		
+		//加载editor
+		loadWysiwyg();
+		//回复动态
+		$('.replyMoment-btn').click(function(){
+			id = $(this).attr('value');
+			var reply = {};
+			reply['id'] = id
+			reply['content'] = $('#editor-'+id).html();
+			console.log(reply);
+			$.post(ACTION_MAP.postReplyToMoment, reply ,function(data) {
+				//console.log(data);
+				//loadMoment(data, '#allMoments');
+				location.reload();
+			})
+			.fail(function() {
+				console.log('Err: reply')
+			});
+		});
+		
+		$('.timeline-moment .moment, .timeline-moment .timeline-body h3 a').on('click', function(event){
+			$.get(ACTION_MAP.getMomentByID, {moment_id: $(this).attr('data-id')}, function(data){
+				//加载模态框
+				$('h4[class="modal-title"]').html('<div class="user-block"> \
+																		<img class="img-circle img-bordered-sm" src="' + data.user_img + '" alt="user image"> \
+																			<span class="username"> \
+																				<a href="#">' + data.user_name + '</a> \
+																				<a href="#" class="btn btn-success btn-sm pull-right follow-btn" style="margin-right: 15px;" value="' + data.user_id + '">关注</a> \
+																			</span> \
+																		<span class="description" style="display: inline;">发表动态： ' + data.user_blogs + '</span> \
+																		<span class="description" style="display: inline;">精华动态： ' + data.user_bestblogs + '</span> \
+																		<span class="description" style="display: inline;">关注人数： ' + data.user_followers + '</span> \
+																		</div>');
+				$('h4[class="moment-title"]').text(data.title);
+				//datetime格式要优化
+				$('h4[class="moment-datetime"]').text(data.datetime);
+				$('#momentModal .modal-body .content').html(data.content);
+				$('#momentModal .modal-body .tags').empty();
+				$.each(data.tags,function(index, tag){
+					$('#momentModal .modal-body .tags').append('<a class="btn btn-primary btn-xs" style="margin-left: 5px;"><span class="fa fa-tag"></span> ' + tag + '</a>');
+				});
+				if(data.followed == '0')
+					$('.modal .follow-btn').attr('data-follow', 1).text('关注');
+				else
+					$('.modal .follow-btn').attr('data-follow', 2).text('取消关注');
+				$('.follow-btn').on('click', function(){
+					$.get(ACTION_MAP.follow, {followed_id: $(this).attr('value'), value: $(this).attr('data-follow')}, function(data){
+						location.reload();
+					}).fail(function() {
+						console.log('Err: follow')
+					});
+				});
+				$('#momentModal').modal('show');
+			})
+			.fail(function() {
+				console.log('Err: star');
+			});
+			
+			console.log();
+		});
+		//放缩 （禁用）
+		$('.moment').on('click', function(event){
+			//$(this).toggleClass('moment-fold');
+			
+		});
+		//回复框选定放大
+		$('.reply').on('click', function(event){
+			$(this).toggleClass('reply-fold');
+		});
+		//popover
+		$("[data-toggle='popover']").popover();
+		//星标
+		$('.moment-star').on('click',function(){
+			var val = (parseInt($(this).attr('data-star'))+1)%2;
+			$.get(ACTION_MAP.starMoment, {moment_id: $(this).attr('data-id'), star: val}, function(){
+				location.reload();
+			})
+			.fail(function() {
+				console.log('Err: star');
+			});
+		});
+		//喜欢
+		$('.moment-like').on('click',function(){
+			$.get(ACTION_MAP.likeMoment, {moment_id: $(this).attr('data-id'), like: (parseInt($(this).attr('data-like'))+1)%2}, function(){
+				location.reload();
+			})
+			.fail(function() {
+				console.log('Err: like');
+			});
+		});
+		//取消tag
+		$('.moment-tag').on('click',function(){
+			$.get(ACTION_MAP.removeTagOfMoment, {moment_id: $(this).attr('data-id'), like: $(this).attr('data-tag')}, function(){
+				location.reload();
+			})
+			.fail(function() {
+				console.log('Err: tag');
+			});
+		});
+	})
+  .fail(function() {
+    console.log('Err: faild to load comment')
+  });
+	
+	//加载更多选项
+	$.get( ACTION_MAP.getOption, function(data) {
+		//console.log(data);
+		//加载类型和tag
+		$("#select-genre").select2({
+			data: data.genres
+		});
+		$("#select-tags").select2({
+			data: data.tags
+		});
+		$("#select-sender").select2({
+			data: data.senders
+		});
+		$("#select-sharedwith").select2({
+			data: data.sharedwith
+		});
+	})
+  .fail(function() {
+    console.log('Err: option')
+  });
+	//更多选项框Toggle +/-
+	$("#collapse-moment_option").on('show.bs.collapse', function () {
+		$("a[href='#collapse-moment_option'] i").removeClass('fa-plus').addClass('fa-minus');
+	})
+	.on('hide.bs.collapse', function () {
+		$("a[href='#collapse-moment_option'] i").removeClass('fa-minus').addClass('fa-plus');
+	});
+	
+	//发布动态
+	$('#shareMoment-btn').click(function(){
+		var moment = {};
+		moment['content'] = $('#postmoment #editor').html();
+		moment['title'] = $('#postmoment #moment-title').val();
+		moment['sender'] = $('#postmoment #select-sender').val();
+		moment['genre'] = $('#postmoment #select-genre').val();
+		moment['tags'] = $('#postmoment #select-tags').val();
+		moment['sharedwith'] = $('#postmoment #select-sharedwith').val();
+		
+		$.post(ACTION_MAP.postMoment, moment ,function(data) {
+			//console.log(data);
+			//loadMoment(data, '#allMoments');
+			location.reload();
+		})
+		.fail(function() {
+			console.log('Err: post moment')
+		});
+		//console.log(data)
+	});
+	
+	loadWysiwyg();
+}
+
+//加载用户弹框
+var appendUserPopup = function(data, appendto){
+	$(appendto).attr({
+		'data-container': 'body',
+		'data-trigger': 'hover', 
+		'data-toggle': 'popover', 
+		'data-placement': 'right', 
+		'data-html': 'true',
+		'data-content': '<div class="box box-primary" style="width:200px;">\
+										<div class="box-body box-profile">\
+											<img class="profile-user-img img-responsive img-circle" src="' + data.user_img + '" alt="User profile picture">\
+											<h3 class="profile-username text-center">' + data.user_name + '</h3>\
+											<ul class="list-group list-group-unbordered">\
+												<li class="list-group-item">\
+													<b>动态</b> <a class="pull-right">' + data.user_blogs + '</a>\
+												</li>\
+												<li class="list-group-item">\
+													<b>精华</b> <a class="pull-right">' + data.user_bestblogs + '</a>\
+												</li>\
+												<li class="list-group-item">\
+													<b>关注者</b> <a class="pull-right">' + data.user_followers +'</a>\
+												</li>\
+											</ul>\
+											<a href="#" class="btn btn-primary btn-block follow-btn" value="' + data.user_id + '"><b>关注</b></a>\
+										</div>\
+									</div>'
+	});							
+};
+//加载editor
+var appendWysiwygEditor = function(id, appendto, location){
+	var html = '<div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor-' + id + '">\
+								<div class="btn-group">\
+								<a class="btn dropdown-toggle" data-toggle="dropdown" title="字体"><i class="icon-font"></i><b class="caret"></b></a>\
+									<ul class="dropdown-menu">\
+									</ul>\
+								</div>\
+								<div class="btn-group">\
+								<a class="btn dropdown-toggle" data-toggle="dropdown" title="字体大小"><i class="icon-text-height"></i>&nbsp;<b class="caret"></b></a>\
+									<ul class="dropdown-menu">\
+									<li><a data-edit="fontSize 5"><font size="5">大</font></a></li>\
+									<li><a data-edit="fontSize 3"><font size="3">中</font></a></li>\
+									<li><a data-edit="fontSize 1"><font size="1">小</font></a></li>\
+									</ul>\
+								</div>\
+								<div class="btn-group">\
+								<a class="btn" data-edit="bold" title="加粗 (Ctrl/Cmd+B)"><i class="icon-bold"></i></a>\
+								<a class="btn" data-edit="italic" title="斜体 (Ctrl/Cmd+I)"><i class="icon-italic"></i></a>\
+								<a class="btn" data-edit="strikethrough" title="（加） 删除线"><i class="icon-strikethrough"></i></a>\
+								<a class="btn" data-edit="underline" title="下划线 (Ctrl/Cmd+U)"><i class="icon-underline"></i></a>\
+								</div>\
+								<div class="btn-group">\
+								<a class="btn" data-edit="insertunorderedlist" title="项目列表"><i class="icon-list-ul"></i></a>\
+								<a class="btn" data-edit="insertorderedlist" title="数字列表"><i class="icon-list-ol"></i></a>\
+								<a class="btn" data-edit="outdent" title="清除缩进 (Shift+Tab)"><i class="icon-indent-left"></i></a>\
+								<a class="btn" data-edit="indent" title="缩进 (Tab)"><i class="icon-indent-right"></i></a>\
+								</div>\
+								<div class="btn-group">\
+								<a class="btn" data-edit="justifyleft" title="居左 (Ctrl/Cmd+L)"><i class="icon-align-left"></i></a>\
+								<a class="btn" data-edit="justifycenter" title="居中 (Ctrl/Cmd+E)"><i class="icon-align-center"></i></a>\
+								<a class="btn" data-edit="justifyright" title="居右 (Ctrl/Cmd+R)"><i class="icon-align-right"></i></a>\
+								<a class="btn" data-edit="justifyfull" title="正常 (Ctrl/Cmd+J)"><i class="icon-align-justify"></i></a>\
+								</div>\
+								<div class="btn-group">\
+									<a class="btn dropdown-toggle" data-toggle="dropdown" title="超链接"><i class="icon-link"></i></a>\
+									<div class="dropdown-menu input-append">\
+										<input class="span2" placeholder="URL" type="text" data-edit="createLink"/>\
+										<button class="btn" type="button">添加</button>\
+								</div>\
+								<a class="btn" data-edit="unlink" title="去除链接"><i class="icon-cut"></i></a>\
+								</div>\
+								<div class="btn-group">\
+								<a class="btn" title="浏览或拖拽添加图片" id="pictureBtn' + id + '"><i class="icon-picture"></i></a>\
+								<input type="file" data-role="magic-overlay" data-target="#pictureBtn' + id + '" data-edit="insertImage" />\
+								</div>\
+								<div class="btn-group">\
+								<a class="btn" data-edit="undo" title="撤消 (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>\
+								<a class="btn" data-edit="redo" title="重复 (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a>\
+								</div>\
+							</div>\
+							<div id="editor-' +id + '" class="editor">\
+							</div>\
+							<div style="text-align: right; margin-top:5px;"><a class="btn btn-primary btn-flat btn-xs replyMoment-btn" value="' + id + '">回复</a> </div>'
+		
+	if(location == 'pre')
+			$(appendto).prepend(html);
+	else
+		$(appendto).append(html);
+};
+//加载动态
+var loadMoment = function(data, loadto){
+	//all data must be sort by date in desending order
+	var pre_date = "";
+	$.each(data,function(index, moment){
+		var date = getDate_Trans(moment.datetime);
+		if(date != pre_date){
+			pre_date = date;
+			$(loadto).append(
+				'<li class="time-label">\
+						<span class="bg-red">\
+						' + pre_date + '\
+						</span>\
+				</li>'
+			);
+		}
+		// data-toggle="modal" data-target="#momentModal
+		
+		//加载基本信息
+		$(loadto).append(
+			'<li>\
+				<img class="img-circle img-bordered-sm timeline-moment-img" src="' + moment.user_img + '" style="width: 30px;height: 30px;font-size: 15px;line-height: 30px;position: absolute;color: #666;background: #d2d6de;border-radius: 50%;text-align: center;left: 18px;top: 0;">\
+				<div class="timeline-item timeline-moment">\
+					<span class="time"><i class="fa fa-clock-o"></i> ' + getTime_Trans(moment.datetime) + ' </span>\
+					<h3 class="timeline-header"><a href="javascript:void(0);" data-link="personalmoments" data-uid="' + data.user_id + '" >' + moment.user_name + '</a> <small><span class="fa fa-chevron-right"></span> <a href="#">' + moment.genre + '</a></small></h3>\
+					<div class="timeline-body">\
+						<h3><a href="javascript:void(0);" data-id="' + moment.id + '">' + moment.title + '</a></h3>\
+						<div class="moment moment-fold" data-id="' + moment.id + '">' + moment.content + '</div>\
+					</div>\
+					<div class="timeline-footer clearfix" >\
+						<a href="javascript:void(0)" class="pull-right moment-star" style="margin-right:15px;" data-id="' + moment.id + '" data-star="' + moment.star + '"><span class="fa ' + (moment.star==0 ? "fa-star-o" : "fa-star") + '"></span></a>\
+						<a href="javascript:void(0)" class="pull-right moment-like" style="margin-right:15px;" data-id="' + moment.id + '" data-like="' + moment.like + '"><span class="fa ' + (moment.like==0 ? "fa-thumbs-o-up" : "fa-thumbs-up") + '"></span> ' + moment.total_like + '</a>\
+						<a class="pull-right" style="margin-right:15px;" data-toggle="collapse" href="#collapse-tag-' + moment.id + '"><span class="fa fa-tag"></span> ' + $(moment.tags).length + '</a>\
+						<a class="pull-right" style="margin-right:15px;" data-toggle="collapse" href="#collapse-review-' + moment.id + '"><span class="fa fa-comment"></span>  ' + $(moment.comments).length + '</a>\
+					</div>\
+					<div id="collapse-tag-' + moment.id + '" class="timeline-footer panel-collapse collapse">\
+						<!-- <a href="javascript:void(0)" class="btn btn-success btn-xs moment-addtag" style="margin-left: 5px;">添加</a> --\>\
+					</div>\
+					<div id="collapse-review-' + moment.id + '" class="timeline-footer panel-collapse collapse" style="background: #f5f5f5;">\
+						<div class="comment-review-item" style="margin: 5px 30px;">\
+						</div>\
+					</div>\
+				</li>'
+		);
+		//加载标签
+		$.each(moment.tags,function(index, tag){
+			$('#collapse-tag-' + moment.id).prepend('<a href="javascript:void(0)" class="btn btn-primary btn-xs moment-tag" style="margin-left: 5px;" data-id="' + moment.id + '" data-tag="' + tag + '"><span class="fa fa-tag"></span> ' + tag + ' &times;</a>');
+		});
+		//添加编辑框
+		appendWysiwygEditor(moment.id, '#collapse-review-' + moment.id, 'pre');
+		//添加回复信息
+		$.each(moment.comments,function(index, comment){
+			 $('#collapse-review-' + moment.id + ' .comment-review-item').append(
+				'<div class="post" style="border-bottom: 1px solid #ddd;">\
+					<div class="user-block">\
+					<img class="img-circle img-bordered-sm" src="' + comment.user_img + '" alt="user image">\
+						<span class="username">\
+							<a href="#">' + comment.user_name + '</a>\
+							<!-- <a href="#" class="pull-right btn-box-tool">回复</a> --\>\
+						</span>\
+					<span class="description">' + getDate_Trans(comment.datetime) + ' ' + getTime_Trans(comment.datetime) +'</span>\
+					</div>\
+					<div class="reply reply-fold">' + comment.content + '</div>\
+				</div>'
+			 );
+			 
+		});
+		//$(loadto).append(html_text);
+		//加载用户的信息弹框
+		appendUserPopup(moment, '.timeline-moment-img');
+		//加载评论编辑框
+
+	});	
+	$(loadto).append('<li><i class="fa fa-clock-o bg-gray"></i>');
+};
+ var loadUserInfo = function(data){
+	//Load Individual Info
+	$('#userInfo .widget-user-username').text(data.user_name);
+	$('#userInfo .widget-user-image img').attr('src',data.user_img);
+	$('#userInfo .box-footer .description-header:eq(0)').text(data.user_blogs);
+	$('#userInfo .box-footer .description-header:eq(1)').text(data.user_bestblogs);
+	$('#userInfo .box-footer .description-header:eq(2)').text(data.user_followers);
+	$('#userInfo .follow-btn').attr('value', data.user_id);
+	$('#userInfo .box-primary .text-muted').text(data.user_introduction);
+	if(data.followed == '0')
+		$('#userInfo .follow-btn').attr('data-follow', 1).find('b').text('关注');
+	else
+		$('#userInfo .follow-btn').attr('data-follow', 2).find('b').text('取消关注');
+	
+	$('#topicGenres').empty();
+	$.each(data.user_topic_genres, function (idx, genre){
+		$('#topicGenres').append('<span class="label ' + randomPicker(colors) + '" style="margin-left: 3px;">' + genre + '</span>');
+	});
+	
+	$('#topicTags').empty();
+	$.each(data.user_topic_tags, function (idx, tag){
+		$('#topicTags').append('<span class="label ' + randomPicker(colors) + '" style="margin-left: 3px;">' + tag + '</span>');
+	});
+	$('.follow-btn').on('click', function(){
+		$.get(ACTION_MAP.follow, {followed_id: $(this).attr('value'), value: $(this).attr('data-follow')}, function(data){
+			location.reload();
+		}).fail(function() {
+			console.log('Err: follow')
+		});
+	});
+};
+<!-- wysiwyg -->
+var loadWysiwyg = function(){
+	$(function(){
+	function initToolbarBootstrapBindings() {
+		var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier', 
+			'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
+			'Times New Roman', 'Verdana','SimHei'],
+			fontTarget = $('[title=字体]').siblings('.dropdown-menu');
+		$.each(fonts, function (idx, fontName) {
+			fontTarget.append($('<li><a data-edit="fontName ' + fontName +'" style="font-family:\''+ fontName +'\'">'+fontName + '</a></li>'));
+		});
+		$('a[title]').tooltip({container:'body'});
+		$('.dropdown-menu input').click(function() {return false;})
+			.change(function () {$(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');})
+		.keydown('esc', function () {this.value='';$(this).change();});
+
+		$('[data-role=magic-overlay]').each(function () { 
+		var overlay = $(this), target = $(overlay.data('target')); 
+		overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
+		});
+		/*
+		if ("onwebkitspeechchange"  in document.createElement("input")) {
+		var editorOffset = $('#editor').offset();
+		$('#voiceBtn').css('position','absolute').offset({top: editorOffset.top, left: editorOffset.left+$('#editor').innerWidth()-35});
+		} else {
+		$('#voiceBtn').hide();
+		}
+		*/
+	};
+	function showErrorAlert (reason, detail) {
+		var msg='';
+		if (reason==='unsupported-file-type') { msg = "Unsupported format " +detail; }
+		else {
+			console.log("error uploading file", reason, detail);
+		}
+		$('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>'+ 
+		 '<strong>File upload error</strong> '+msg+' </div>').prependTo('#alerts');
+	};
+	initToolbarBootstrapBindings();  
+	$('.editor').wysiwyg({ fileUploadError: showErrorAlert} );
+	window.prettyPrint && prettyPrint();
+	});
+	
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','http://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-37452180-6', 'github.io');
+	ga('send', 'pageview');
+	(function(d, s, id) {
+	var js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) return;
+	js = d.createElement(s); js.id = id;
+	js.src = "http://connect.facebook.net/en_GB/all.js#xfbml=1";
+	fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+	!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="http://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+};
+<!-- End of wysiwyg -->
+
+//辅助方法
+var getDate_Trans = function(datetime){
+	return "2015年10月23号";
+};
+var getTime_Trans = function(datetime){
+	return "09:18";
+};
+var colors = ['label-danger', 'label-success', 'label-info', 'label-warning', 'label-primary'];
+var randomPicker = function(array){
+	var random = Math.floor(Math.random() * (array.length));
+	return array[random];
+}
+</script>
+<style>
+/* wysiwyg */
+.editor {
+	min-height: 100px;
+	background-color: white;
+	border-collapse: separate; 
+	border: 1px solid rgb(204, 204, 204); 
+	padding: 4px; 
+	box-sizing: content-box; 
+	-webkit-box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px inset; 
+	box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px inset;
+	border-top-right-radius: 3px; border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px; border-top-left-radius: 3px;
+	overflow-y: scroll;
+	outline: none;
+	-webkit-transition: min-height 2s; /* Safari */
+	transition: min-height 1s;
+}
+.editor:focus {
+	min-height: 200px;
+}
+
+div[data-role="editor-toolbar"] {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.dropdown-menu a {
+	cursor: pointer;
+}
+/* end of wysiwyg */
+
+.moment {
+	
+}
+.moment-fold {
+	height: 150px;
+	overflow-y: hidden;
+}
+#momentModal img, .moment img {
+	max-width: 500px;
+};
+.reply {
+	
+}
+.reply-fold {
+	height:150px;
+	overflow-y:hidden;
+}
+.reply img {
+	max-width: 500px;
+};
+#momentModal img {
+	max-width: 500px;
+};
+</style>
+</body>
+</html>

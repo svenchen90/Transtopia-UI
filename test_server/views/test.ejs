@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Post</title>
+		<!-- Tell the browser to be responsive to screen width -->
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<!-- Bootstrap 3.3.6 -->
+		<link rel="stylesheet" href="plugins/bootstrap-3.3.6/css/bootstrap.min.css" />
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" />
+		<!-- Ionicons -->
+		<link rel="stylesheet" href="plugins/ionicons-2.0.1/css/ionicons.min.css" />
+
+		<!-- Theme style -->
+		<link rel="stylesheet" href="plugins/AdminLTE-2.3.11/css/AdminLTE.min.css" />
+		<link rel="stylesheet" href="plugins/AdminLTE-2.3.11/css/skins/_all-skins.min.css" />
+		<link rel="stylesheet" href="plugins/AdminLTE-2.3.11/css/skins/skin-red-light.min.css" />
+		<!-- <link rel="shortcut icon" href="./Img/logo.png"> -->
+		<link href="plugins/bootstrap-fileinput/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="plugins/bootstrap-fileinput/themes/explorer/theme.css" media="all" rel="stylesheet" type="text/css" />
+
+
+		<!--用户自定义的CSS-->
+
+		<link rel="stylesheet" href="plugins/iCheck/all.css" />
+		<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet /">
+		<!-- <link rel="shortcut icon" href="./Img/logo.png"> -->
+		<!-- <link href="css/mine.css" rel="stylesheet" /> -->
+		<!-- Google Font -->
+		<link href="plugins/material-icons/icon.css" rel="stylesheet">
+		
+		<!-- 样式 20170506 -->
+		<!-- <link href="css/style_20170506.css" rel="stylesheet" /> -->
+	</head>
+    
+	<body class="hold-transition sidebar-mini skin-green-light" id="post_main_page" type="post_info" data-currentPage="0">
+		
+		<div id="abcsdfasdf341234234234">SingleRow</div>
+		<div id="abcsdfasdf1131312">TwinRow</div>
+		
+	</body>
+		
+	<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+	<script src="plugins/jQueryUI/jquery-ui.min.js"></script>
+	<!-- Bootstrap 3.3.6 -->
+	<script src="plugins/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+	<!-- AdminLTE App -->
+	<script src="plugins/AdminLTE-2.3.11/js/app.min.js"></script>
+	<!-- Slimscroll -->
+	<script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+	<!-- FastClick -->
+	<!-- <script src="JS/raphael-min.js"></script> -->
+	<script src="plugins/morris/morris.min.js"></script>
+	<script src="plugins/fastclick/fastclick.min.js"></script>
+	<script src="plugins/bootstrap-fileinput/js/plugins/sortable.js" type="text/javascript"></script>
+	<script src="plugins/bootstrap-fileinput/js/fileinput.js" type="text/javascript"></script>
+	<script src="plugins/bootstrap-fileinput/themes/explorer/theme.js" type="text/javascript"></script>
+	<script src="plugins/bootstrap-fileinput/js/locales/zh.js" type="text/javascript"></script>
+	
+	<script src="plugins/bootstrap-wysiwyg/external/jquery.hotkeys.js"></script>
+	<!-- <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script> -->
+	<script src="plugins/bootstrap-wysiwyg/external/google-code-prettify/prettify.js"></script>
+	<script src="plugins/bootstrap-wysiwyg/bootstrap-wysiwyg.js"></script>
+
+	<!-- <script src="JS/sideRow.js"></script> -->
+	<!--    <script src="JS/Admin_Head/mine.js"></script>-->
+	<script>
+		$.widget.bridge('uibutton', $.ui.button);
+	</script>
+	<!-- custome javascript and css-->
+	<script src="plugins/iCheck/icheck.min.js"></script>
+	
+	<link href="plugins/select2/select2.min.css" rel="stylesheet" />
+	<link href="plugins/select2/select2-bootstrap.css" rel="stylesheet" />
+	<script src="plugins/select2/select2.full.min.js"></script>
+	<script src="plugins/select2/i18n/zh-CN.js"></script>
+	<!-- JQuery Confirm -->
+	<link rel="stylesheet" href="plugins/jquery-confirm/jquery-confirm.min.css">
+	<script src="plugins/jquery-confirm/jquery-confirm.min.js"></script>
+	
+	<!-- <script src="js/mine.js"></script> -->
+	<!-- <script src="js/javascript_beta.js"></script> -->
+
+	<style>
+	.modal-card {
+		
+		margin: 10px 0 10px;
+		box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
+		border: none;
+		border-radius: 3px;
+		cursor: pointer;
+	}
+	
+	.modal-card:before, .modal-card:after{
+		content: "";
+		display: block;
+		padding-top: 25%; 	/* initial ratio of 1:1*/
+	}
+	
+	.modal-card .card-body {
+		text-align: center;
+		color: rgba(255,255,255,0.8);
+	}
+	
+	/* 
+		保持和content-default 一致 
+		to do list:
+		1. what if content-default is not 85px;
+	*/
+	.modal-card:hover .card-body .content-hover {
+		min-height: 85px; 
+	}
+	
+	.modal-card .card-body i{
+		font-size: 60px;
+	}
+	
+	.modal-card .card-body .content-hover {
+		display: none;
+	}
+	
+	.modal-card:hover .card-body .content-hover {
+		display : block;
+	}
+	.modal-card:hover .card-body .content-default {
+		display : none;
+	}
+	</style>
+	
+	<style>
+	/* 模态框居中 */
+	.modal {
+		text-align: center;
+		padding: 0!important;
+	}
+
+	.modal:before {
+		content: '';
+		display: inline-block;
+		height: 100%;
+		vertical-align: middle;
+		margin-right: -4px;
+	}
+
+	.modal-dialog {
+		display: inline-block;
+		text-align: left;
+		vertical-align: middle;
+	}
+	
+	body {
+	 font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+	}
+	
+	</style>
+	
+	
+	<script>
+	var googleColorRandomPicker = function(){
+		var color_list = ['rgb(55, 141, 59)', 'rgb(65, 65, 65)', 'rgb(29, 135, 228)', 'rgb(119, 143, 155)', 'rgb(91, 106, 191)', 'rgb(125, 86, 193)', 'rgb(248, 167, 36)', 
+			'rgb(255, 111, 66)', 'rgb(235, 63, 121)', 'rgb(229, 57, 53)', 'rgb(140, 109, 98)'];
+		var random = Math.floor(Math.random() * (color_list.length));
+		//console.log(color_list[random]);
+		return color_list[random];
+	};
+	
+	var callAlert = function(text, icon){
+		var html = $(
+			'<div class="modal fade" id="modal-alert">\n' +
+			'	<div class="modal-dialog" style="width: 150px; opacity: 0.6">\n' +
+			'		<div class="modal-content">\n' +
+			'			<div class="modal-body" style="padding: 0;  height: 150px; background-color: rgba(0,0,0,1);">\n' +
+			'				<i class="material-icons" style="margin-left: 25px; font-size: 100px; color: rgba(255,255,255, 1)">' + icon + '</i>\n' +
+			'				<p style="color: rgba(255,255,255, 1); font-size: 16px; text-align: center;">' + text + '</p>\n' +
+			'			</div>\n' +
+			'		</div>\n' +
+			'	</div>\n' +
+			'</div>'
+		);
+	
+		$(html).modal('show');
+		setTimeout(function(){
+			$(html).modal('hide');
+		}, 1500);
+	};
+	
+	
+	(
+		function($){
+			$.fn.twinRowModal = function(inputs){
+				/*
+					input schema 
+					{
+						title:
+						dataTop:
+						dataBot:
+						test:
+						actionSubmit:
+						
+					}
+				*/
+				var twinRowHTML = $(
+					'<div class="modal fade" id="' + $(this).attr('id') + '">\n' +
+					'	<div class="modal-dialog">\n' +
+					'		<div class="modal-content">\n' +
+					'			<div class="modal-header">\n' +
+					'				<button type="button" class="close btn-close" data-dismiss="modal">&times;</button>\n' +
+					'				<h4 class="modal-title">' + inputs.title + '</h4>\n' +
+					'			</div>\n' +
+					'			<div class="modal-body">\n' +
+					'				<div style="display: inline-block; line-height: 34px;"></div>\n' +
+					'				<div class="form-group pull-right" style="width: 250px;">\n' +
+					'					<div class="input-group">\n' +
+					'						<input type="text" class="form-control" placeholder="搜索..." />\n' +
+					'						<div class="input-group-addon" style="cursor: pointer;">\n' +
+					'							<i class="fa fa-search"></i>\n' +
+					'						</div>\n' +
+					'					</div>\n' +
+					'				</div>\n' +
+					'				<div class="clearfix"></div>\n' +
+					'				<div class="row-top">\n' +
+					'					<!-- 上排数据 -->\n' +
+					'				</div>\n' +
+					'				<div class=="divider" style="margin-top:10px; margin-bottom:10px; border-bottom: 1px solid #ddd;"></div>\n' +
+					'				<div class="row-bot">\n' +
+					'					<!-- 下排数据 -->\n' +
+					'				</div>\n' +
+					'				<div class="clearfix"></div>\n' +
+					'			</div>\n' +
+					'			<div class="modal-footer">\n' +
+					'				<a href="javascript: void(0);" class="btn-submit">确定</a>\n' +
+					'				<a href="javascript: void(0);" data-dismiss="modal">关闭</a>\n' +
+					'			</div>\n' +
+					'		</div>\n' +
+					'	</div>\n' + 
+					'</div>\n');
+					
+					//console.log($(this).attr('id'));
+				
+				//component
+				var rowTop = $(twinRowHTML).find('.row-top');
+				var rowBot = $(twinRowHTML).find('.row-bot');
+				
+				// CSS
+				$(rowTop).slimScroll({
+						height: '20vh'
+				});
+				
+				$(rowBot).slimScroll({
+						height: '40vh'
+				});
+				
+				$(twinRowHTML).find('.modal-dialog').css({width: '50vw'});
+				
+				
+				//加载function card
+				inputs.funcCardInput2['rowTop'] = rowTop;
+				inputs.funcCardInput2['rowBot'] = rowBot;
+				$(rowTop).append(inputs.funcCard2(inputs.funcCardInput2));
+				
+				//加载top row 数据
+				$.each(inputs.dataTop, function(i, d){
+					//console.log(i);
+					//console.log(d);
+					d['rowTop'] = rowTop;
+					d['rowBot'] = rowBot;
+					var item = inputs.funcCard1(d);
+					$(rowTop).append(item);
+				});
+				
+				
+				
+				//加载bot row 数据
+				$.each(inputs.dataBot, function(i, d){
+					//console.log(i);
+					//console.log(d);
+					d['rowTop'] = rowTop;
+					d['rowBot'] = rowBot;
+					d['iconHover1'] = 'highlight_off';
+					var item = inputs.funcCard1(d);
+					$(rowBot).append(item);
+				});
+				
+				//Btn function
+				//关闭后删除模态框 - Reset
+				$(twinRowHTML).on('hidden.bs.modal', function(){
+					$(this).remove();
+				});
+				
+				//submit
+				$(twinRowHTML).find('.btn-submit').on('click', function(){
+					var list =  [];
+					$(rowBot).find('[data-type="name"]').each(function(i){
+						list.push($(this).text());
+					});
+					
+					$.ajax({
+						url : inputs.actionSubmit,
+						data: {list: list},
+						cache : false, 
+						async : false,
+						type : "GET",
+						dataType : 'json',
+						success : function (result){
+							if(result == 1){
+								$(twinRowHTML).modal('hide');
+								callAlert('修改成功','done');
+							}else{
+								//error
+								callAlert('错误','highlight_off');
+							}
+						}
+					});
+					
+					
+				});
+				
+				$(twinRowHTML).modal('show');
+			};
+		}
+	)(jQuery);
+	
+	var createModalCardHTML = function(data){
+		/* 
+			data: {
+				id: ,
+				name: ,
+				size: ,
+				iconDefault: ,
+				iconHover1: ,
+				iconHover2: ,
+				msg: ,
+				bgcolor: ,
+				rowTop: 
+			}
+
+			to do list:
+			1. what if id and name is null
+		*/
+		//样式
+		var html = $(
+			'<div class="col-lg-2 col-md-3 col-sm-4">\n' +
+			'	<div class="modal-card" style="background-color: ' + (data.bgcolor ? data.bgcolor : googleColorRandomPicker()) + ';" data-id="' + data.id + '">\n'+
+			'		<div class="card-body">\n'+
+			'			<div class="content-default">\n'+
+			'				<i class="material-icons">' + (data.iconDefault ? data.iconDefault : 'face') + '</i>\n'+
+			'				<div data-type="name">' + data.name + '</div>\n'+		
+			'			</div>\n'+
+			'			<div class="content-hover">\n'+
+			'				<i class="material-icons">' + (data.iconHover1 ? data.iconHover1 : 'add_circle_outline') + '</i>\n'+
+			'				<div>' + (data.msg ? data.msg : '') + '</div>\n'+
+			'			</div>\n' +
+			'		</div>\n' +
+			'	</div>\n' +
+			'</div>'
+		);
+		
+		//Switch between top row and bot row
+		$(html).on('click', function(){
+			var signal = $(html).closest(data.rowTop).length;
+			
+			if(signal == 0){
+				$(html).find('.content-hover i').text(data.iconHover1 ? data.iconHover1 : 'add_circle_outline');
+				$(data.rowTop).append(html);
+			}else if(signal == 1){
+				$(html).find('.content-hover i').text(data.iconHover1 ? data.iconHover1 : 'highlight_off');
+				$(data.rowBot).append(html);
+			}else{
+				//Error
+			}
+		});
+		
+		return html
+	};
+
+	var createModalFunctionCardHTML1 = function(data){
+		/*
+			data: {
+				cardTitle: ,
+				cardIcon: ,
+				title: ,
+				action: ,
+				
+			}
+		*/
+		var html = $(
+			'<div class="col-lg-2 col-md-3 col-sm-4">\n' +
+			'	<div class="modal-card" style="background-color: rgba(255,255,255,1);">\n'+
+			'		<div class="card-body" style="color: rgba(0,0,0,0.5)">\n'+
+			'			<div>\n'+
+			'				<i class="material-icons">' + 'add_circle_outline' + '</i>\n'+
+			'				<div>' + data.cardTitle + '</div>\n'+		
+			'			</div>\n'+
+			'		</div>\n' +
+			'	</div>\n' +
+			'</div>'
+		);
+		
+		
+		
+		$(html).on('click', function(){
+			var html2 = $(
+			'<div class="modal fade" id="modal-function1">\n' +
+			'	<div class="modal-dialog">\n' +
+			'		<div class="modal-content">\n' +
+			'			<div class="modal-header">\n' +
+			'				<button type="button" class="close btn-close" data-dismiss="modal">&times;</button>\n' +
+			'				<h4 class="modal-title">' + data.title + '</h4>\n' +
+			'			</div>\n' +
+			'			<div class="modal-body">\n' +
+			'				<div class="form-group">\n' +
+			'					<input type="text" class="form-control" placeholder="请输入新增头衔名称" />\n' +
+			'				</div>\n' +
+			'			</div>\n' +
+			'			<div class="modal-footer">\n' +
+			'				<a href="javascript: void(0);" class="btn-submit">确定</a>\n' +
+			'				<a href="javascript: void(0);" data-dismiss="modal">关闭</a>\n' +
+			'			</div>\n' +
+			'		</div>\n' +
+			'	</div>\n' + 
+			'</div>\n');
+			
+			$(html2).find('.btn-submit').on('click', function(){
+				$.ajax({
+					url : data.action,
+					data:{name: $(html2).find('input').val()},
+					cache : false, 
+					async : false,
+					type : "GET",
+					dataType : 'json',
+					success : function (result){
+						if(result == 1){
+							$(data.rowTop).append(createModalCardHTML({
+								name: $(html2).find('input').val(),
+								rowTop: data.rowTop,
+								rowBot: data.rowBot
+							}));
+							$(html2).modal('hide');
+						}else{
+							//error
+						}
+					}
+				});
+			});
+			
+			$(html2).modal('show');
+
+			//reset
+			$(html2).on('hidden.bs.modal', function(){
+				$(this).remove();
+			});
+		});
+		
+		return html
+	};
+	
+	
+	var data_title_1 = [
+		{	id: 1,
+			name: '软件工程师'
+		}
+	];
+
+	var data_title_2 = [
+		{	id: 2,
+			name: '教授'
+		},{	id: 3,
+			name: 'TA'
+		},{	id: 4,
+			name: '自由作者'
+		},{	id: 5,
+			name: '编辑'
+		},{	id: 6,
+			name: '律师'
+		},{	id: 7,
+			name: '中学老师'
+		},{	id: 8,
+			name: '学生'
+		},{	id: 9,
+			name: '自由职业者'
+		},{	id: 8,
+			name: '学生'
+		},{	id: 9,
+			name: '自由职业者'
+		},{	id: 8,
+			name: '学生'
+		},{	id: 9,
+			name: '自由职业者'
+		}
+	];
+	
+	
+	$('#abcsdfasdf1131312').on('click', function(){
+		$().twinRowModal({
+			title: '测试窗口',
+			dataTop: data_title_1,
+			dataBot: data_title_2,
+			funcCard1: createModalCardHTML,
+			funcCard2: createModalFunctionCardHTML1,
+			funcCardInput2: {
+				title: '新增头衔',
+				cardTitle: '添加头衔',
+				action: '/test123'
+			},
+			actionSubmit: '/test456'
+		});
+	});
+	
+	
+	
+	
+	//initModalTag('兴趣话题', 'face', data_title_1, data_title_2, 'action1', 'action2');
+	(
+		function($){
+			$.fn.singleRowModal = function(inputs){
+				/*
+					input schema 
+					{
+						title:
+						dataTop:
+						dataBot:
+						test:
+						actionSubmit:
+						
+					}
+				*/
+				var singleRowHTML = $(
+					'<div class="modal fade" id="' + $(this).attr('id') + '">\n' +
+					'	<div class="modal-dialog" style="width: 50vw;">\n' +
+					'		<div class="modal-content">\n' +
+					'			<div class="modal-header">\n' +
+					'				<button type="button" class="close" data-dismiss="modal">&times;</button>\n' +
+					'				<h4 class="modal-title">' + inputs.title + '</h4>\n' +
+					'			</div>\n' +
+					'			<div class="modal-body">\n' +
+					'				<div style="display: inline-block; line-height: 34px;"></div>\n' +
+					'				<div class="form-group pull-right" style="width: 250px;">\n' +
+					'					<div class="input-group">\n' +
+					'						<input type="text" class="form-control" placeholder="搜索..." />\n' +
+					'						<div class="input-group-addon" style="cursor: pointer;">\n' +
+					'							<i class="fa fa-search"></i>\n' +
+					'						</div>\n' +
+					'					</div>\n' +
+					'				</div>\n' +
+					'				<div class="clearfix"></div>\n' +
+					'				<div class="row-single">\n' +
+					'				</div>\n' +
+					'			</div>\n' +
+					'			<div class="modal-footer">\n' +
+					'				<a href="javascript:void(0)" data-dismiss="modal">关闭</a>\n' +
+					'			</div>\n' +
+					'		</div>\n' +
+					'	</div>\n' +
+					'</div>\n'
+				);
+					
+					//console.log($(this).attr('id'));
+				
+				//component
+				var rowSingle = $(singleRowHTML).find('.row-single');
+				var replaced = $(this);
+				// CSS
+				$(rowSingle).slimScroll({
+						height: '60vh'
+				});
+				
+				$(singleRowHTML).find('.modal-dialog').css({width: '50vw'});
+				
+				
+				//加载function card
+				//inputs.funcCardInput['rowTop'] = rowTop;
+				//inputs.funcCardInput['rowBot'] = rowBot;
+				//$(rowTop).append(inputs.funcCard(inputs.funcCardInput));
+				
+				//加载bot row 数据
+				$.each(inputs.data, function(i, d){
+					d['rowTop'] = rowSingle;
+					var item = inputs.funcCard1(d, inputs.actionMenu);
+					$(rowSingle).append(item);
+				});
+				
+				//Btn function
+				//关闭后删除模态框 - Reset
+				$(singleRowHTML).on('hidden.bs.modal', function(){
+					$(this).remove();
+				});
+				
+				//submit
+				$(singleRowHTML).find('.btn-submit').on('click', function(){
+					var list =  [];
+					$(rowBot).find('[data-type="name"]').each(function(i){
+						list.push($(this).text());
+					});
+					
+					$.ajax({
+						url : inputs.actionSubmit,
+						data: {list: list},
+						cache : false, 
+						async : false,
+						type : "GET",
+						dataType : 'json',
+						success : function (result){
+							if(result == 1){
+								$(twinRowHTML).modal('hide');
+								callAlert('修改成功','done');
+							}else{
+								//error
+								callAlert('错误','highlight_off');
+							}
+						}
+					});
+				});
+				
+				$(singleRowHTML).modal('show');
+			};
+		}
+	)(jQuery);
+	
+	var data_userlist_2 = [
+		{
+			id: 1,
+			name: '刘明',
+			image: 'dist/img/avatar04.png',
+			bg: 'dist/img/default_group_bg.jpg',
+			gender: 1,
+			sign: '成長要學會獨處　雖然有一點孤獨',
+			commonFriends: ['江方怡', '王钊'],
+			commonGenres: ['资讯', '日记', '视频'],
+			commonTopics: ['设计', '交叉口设计', '信号灯设计', '统计', '软件工程']
+		},{
+			id: 1,
+			name: '付强',
+			image: 'dist/img/avatar04.png',
+			bg: 'dist/img/default_group_bg.jpg',
+			gender: 1,
+			sign: '成長要學會獨處　雖然有一點孤獨',
+			commonFriends: ['江方怡', '王钊'],
+			commonGenres: ['资讯', '日记', '视频'],
+			commonTopics: ['设计', '交叉口设计', '信号灯设计', '统计', '软件工程']
+		}
+	];
+	
+	
+	var createUserCard = function(data, actions){
+		//加载基本信息
+		var card = $(
+			'<div class="col-lg-3 col-md-6">\n'+
+			'	<div class="card-user" style="background-color: ' + googleColorRandomPicker() + ';">\n' +
+			'		<div class="card-user-header" style="background: url(\'' + data.bg + '\') no-repeat center center;">\n' +
+			'			<div class="dropdown pull-right">\n' +
+			'				<a href="#" class="dropdown-toggle" data-toggle="dropdown">\n' +
+			'					<i class="fa fa-gear"></i>\n' +
+			'				</a>\n' +
+			'				<ul class="dropdown-menu">\n' +
+			'				</ul>\n' +
+			'			</div>\n' +
+			'			<div class="clearfix">\n' +
+			'			</div>\n' +
+			'			<div style="text-align: center; margin-top: 10px;">\n' +
+			'				<img src="' + data.image + '" class="img-circle" />\n' +
+			'			</div>\n' +
+			'		</div>\n' +
+			'		<div class="card-user-body">\n' +
+			'			<div class="name">' + data.name + '</div>\n' +
+			'		</div>\n' +
+			'	</div>\n' +
+			'</div>'
+		);
+
+		//加载共同好友
+		if(data.commonFriends.length != 0) {
+			var commonFriends = $(
+				'<div class="list" >\n' +
+				'	<span>' + data.commonFriends.length + ' 位共同好友</span>\n' +
+				'</div>'
+			);
+			bindHoverTo(data.commonFriends, commonFriends.find('span'));
+			card.find('.card-user-body').append(commonFriends);
+		}
+			
+		//加载共同兴趣类别
+		if(data.commonGenres.length != 0){
+			var commonGenres = $(
+				'<div class="list">\n' +
+				'	<span>' + data.commonGenres.length + ' 个共同兴趣类别</span>\n' +
+				'</div>'
+			);
+			bindHoverTo(data.commonGenres, commonGenres.find('span'));
+			card.find('.card-user-body').append(commonGenres);
+		}
+			
+		//加载共同好友
+		if(data.commonTopics.length != 0){
+			var commonTopics = $(
+				'<div class="list">\n' +
+				'	<span>' + data.commonTopics.length + ' 个共同兴趣话题</span>\n' +
+				'</div>'
+			);
+			bindHoverTo(data.commonTopics, commonTopics.find('span'));
+			card.find('.card-user-body').append(commonTopics);
+		}
+		
+		$.each(actions, function(index, item){
+			var itemMenu = $('<li><a href="javascript:void(0)">' + item.name + '</a></li>');
+			$(itemMenu).on('click', function(){
+				$.ajax({
+						url : item.action,
+						data: {id: data.id},
+						cache : false, 
+						async : false,
+						type : "GET",
+						dataType : 'json',
+						success : function (result){
+							if(result == 1){
+								$(card).remove();
+								callAlert('操作完成','done');
+							}else{
+								//error
+								callAlert('错误','highlight_off');
+							}
+						}
+					});
+				
+				console.log();
+			});
+			card.find('.dropdown-menu').append(itemMenu); 
+		});
+		
+		//更具不同用户权限加载不同菜单
+		if(actions == 1) {
+			card.find('.dropdown-menu').append(
+				'				<li><a href="#">查看</a></li>\n' +
+				'				<li class="divider"></li>\n' +
+				'				<li><a href="javascript:void(0);">加为好友</a></li>\n' +
+				'				<li><a href="javascript:void(0);">删除好友</a></li>\n' +
+				'				<li class="divider"></li>\n' +
+				'				<li><a href="javascript:void(0);">添加关注</a></li>\n' +
+				'				<li><a href="javascript:void(0);">取消关注</a></li>\n' +
+				'				<li class="divider"></li>\n' +
+				'				<li><a href="javascript:void(0);">移出该标签组</a></li>\n'
+			);
+			
+		}else if(actions == 2) {
+			card.find('.dropdown-menu').append(
+				'<li><a href="javascript:void(0);" onClick="callConfirm(\'确定要移除黑名单吗？\');">从黑名单中移除</a></li>'
+			);
+		}else if(actions == 3){
+			card.find('.dropdown-menu').append(
+				'<li><a href="javascript:void(0);" onClick="callConfirm(\'确定要通过申请吗？\');">通过申请</a></li>'
+			);
+			card.find('.dropdown-menu').append(
+				'<li><a href="javascript:void(0);" onClick="callConfirm(\'确定要拒绝申请吗？\');">拒绝申请</a></li>'
+			);
+		}else {
+			
+		}
+
+		return card;
+	};
+	
+	var bindHoverTo = function(data, target) {
+		var content = '';
+		$.each(data, function(i,d){
+			content += '<a href="#"><span class="label" style="margin-right: 5px; background-color: ' + googleColorRandomPicker() + ';">' + d + '</span></a>\n';
+		});
+		
+		target.attr('data-container', 'body');
+		target.attr('data-toggle', 'popover');
+		target.attr('data-content', '<h4 style="line-height: 30px;">' + content + '</h4>');
+
+		target.popover({html : true, trigger: 'hover'});
+	}
+	
+	
+	$('#abcsdfasdf341234234234').on('click', function(){
+		$().singleRowModal({
+			title: '测试窗口',
+			data: data_userlist_2,
+			funcCard1: createUserCard,
+			actionMenu: [
+				{
+					name: '移出黑名单',
+					action: '/test123'
+				}
+			],
+			funcCard2: createModalFunctionCardHTML1,
+			funcCardInput2: {
+				title: '新增头衔',
+				cardTitle: '添加头衔',
+				action: '/test123'
+			},
+		});
+	});
+	
+	</script>
+	<style>
+	/* User-card */
+	.card-user {
+		position: relative;
+		box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
+		width: 100%;
+		border: none;
+		border-radius: 3px;
+		background: #ffffff;
+		margin-bottom: 30px;
+		display: inline-block;
+	}
+
+	.card-user-header {
+		height: 142px;
+		position: relative;
+		//border-bottom: 1px solid #f4f4f4;
+		color: #444;
+		box-sizing: border-box;
+		border-top-right-radius: 3px;
+		border-top-left-radius: 3px;
+	}
+
+
+
+	.card-user-header .dropdown {
+		padding: 5px;
+	}
+
+	.card-user-header img {
+		width: 90px;
+		height: 90px;
+		border-color: #fff;
+		border-style: solid;
+		border-width: 2px
+	}
+
+
+	.card-user-body {
+		height: 160px;
+		display: block;
+		text-align: left;
+		padding: 15px;
+	}
+
+	.card-user-body .name {
+		font-size: 20px;
+		line-height: 20px;
+		max-height: 20px;
+		margin-top: 4px;
+		margin-bottom: 20px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		word-break: break-word;
+		white-space: nowrap;
+		color: #fff;
+		font-weight:600;
+		text-align: center;
+	}
+
+	.card-user-body .list{
+		font-size: 16px;
+		line-height: 20px;
+		max-height: 40px;
+		margin-top: 4px;
+		margin-bottom: 10px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		word-break: break-word;
+		white-space: nowrap;
+		color:rgba(255,255,255,0.54);
+		text-align: center;
+	}
+	.card-user-body .list span {
+		cursor: pointer;
+	}
+	/* !User-card */
+	</style>
+	
+</html>
+
+

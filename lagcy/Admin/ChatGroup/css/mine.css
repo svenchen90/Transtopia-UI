@@ -1,0 +1,141 @@
+.panel-groupchat-rightblock {
+	width: 359px; 
+	height:750px;
+	position:absolute;
+	right:0;
+	top:50px;
+	border-left:1px solid #ddd;
+}
+.panel-groupchat-rightblock > div {
+	border-bottom:1px solid #ddd; 
+	padding: 16px 15px;
+}
+.groupchat-block-title {
+	color: #000;
+	font-size: 14px;
+	font-weight: bolder;
+}
+.fade-text {
+	color: #bdbdbd;
+	font-size: 13px;
+}
+
+
+a, p, span{
+	font-family: Helvetica Neue,Helvetica,Nimbus Sans L,Arial,Liberation Sans,Hiragino Sans GB,Source Han Sans CN Normal,Microsoft YaHei,Wenquanyi Micro Hei,WenQuanYi Zen Hei,ST Heiti,SimHei,WenQuanYi Zen Hei Sharp,sans-serif;
+
+}
+.panel-groupchat {
+	width:1080px;
+	height:800px;
+	background-color: rgb(255,255,255);
+	border-radius: 3px;
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%)
+}
+.panel-groupchat-leftblock {
+	width: 100%;
+	height:750px;
+	padding-right:359px;
+}
+.panel-groupchat-header {
+	border-bottom: 1px solid #ddd;
+}
+.panel-groupchat-header a {
+	 font-size: 18px;
+	 color: #333;
+}
+.panel-groupchat-content {
+	height: 550px;
+	width: 100%;
+	border-bottom: 1px solid #ddd;
+	padding:14px 16px;
+}
+.panel-groupchat-message-time {
+	font-size: 12px;
+	color: #bbb;
+	text-align: center;
+}
+.panel-groupchat-content-item {
+	margin: 15px auto;
+}
+.panel-groupchat-content-item img{
+	width:45px;
+	height:auto;
+	vertical-align: top
+}
+.panel-groupchat-personal-message-text {
+	line-height: 1.6;
+	margin-left: 15px;
+	padding: 8px 13px;
+	display: inline-block;
+	font-size: 14px;
+	word-break: break-all;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+	max-width: 250px;
+}
+.panel-groupchat-mine-message-text {
+	line-height: 1.6;
+	padding: 8px 13px;
+	display: inline-block;
+	font-size: 14px;
+	word-break: break-all;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+	max-width: 250px;
+	background-color: #f3f3f3;
+}
+.panel-groupchat-system-message-text {
+	font-size: 12px;
+	color: #bbb;
+	text-align: center;
+}
+.panel-groupchat-input-toolbar {
+	height: 40px;
+	padding: 4px 15px;
+	font-size: 20px;
+}
+.panel-groupchat-input-toolbar > a {
+	margin-left: 15px;
+	font-size: 21px;
+	color: rgba(0,0,0,.5);
+}
+.panel-groupchat textarea {
+	z-index: auto;
+	position: relative;
+	line-height: 21px;
+	font-size: 14px;
+	transition: none;
+	background: transparent !important;
+	display: block;
+	width: 100%;
+	height: 110px;
+	border: 0;
+	resize: none;
+	padding: 10px;
+	outline: none;overflow-x: hidden;
+	overflow-y: auto;
+	box-sizing: border-box;
+	border-radius: 4px;
+}
+.enter {
+	color: rgba(0,0,0,.35);
+	font-size: 13px;
+	float: right;
+	margin-right:15px;
+	cursor: pointer;
+}
+.group-members-block-content {
+	width: 100%;
+	margin:25px auto;
+}
+.group-members-block-img-holder {
+	width: 40px;
+	margin-right: 15px;
+}
+.group-members-block-img-member {
+	width: 40px;
+	position: relative;
+}

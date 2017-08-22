@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="./css/jquery-ui.css" type="text/css" rel="stylesheet">
+        <link href="./css/bootstrap.min.css" type="text/css" rel="stylesheet">
+        <link href="./css/font-awesome.min.css" type="text/css" rel="stylesheet">
+        <link href="./css/test.css" type="text/css" rel="stylesheet">
+        <link rel="stylesheet" href="./css/calendar.css">
+        <link rel="stylesheet" href="./css/calendar_full.css">   
+        <link href="./css/mine.css" type="text/css" rel="stylesheet">        
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=21MEGr0gZhVgqGF8VDlX2kjQ"></script>
+        
+        <script type="text/javascript" src="./js/jquery-2.0.3.min.js"></script>
+        <script type="text/javascript" src="./js/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="./js/jquery.cityselect.js"></script>
+        <script type="text/javascript" src="./js/bootstrap.min.js"></script>  
+        <script type="text/javascript" src="./js/randomColor.js"></script>
+        <script type="text/javascript" src="./js/cn.js"></script>
+        <script type="text/javascript" src="./js/calendar.js"></script>
+        
+    </head>
+    <body id="project_body" st_id="2">
+         <div id="tb-map" style="width:450px;height:350px;">
+                        </div>
+    </body>
+    <script>
+        var data1='{"sid":"1","id":"3","mdate":"2016-07-20","slanes":"","name":"","lat":"39.933859","lng":"116.350658","working_status":"0","img_path":"../../TempImage/Img/4_71_2016_07_20_03_28_20.jpg?1469003300488","type":"1","laneinfo":"1_道路1_0_0#0_0_4_5_7L2_道路2_90_0#0_0_4_5_7L3_道路3_180_0#0_0_4_5_7L4_道路4_270_0#0_0_4_5_7","lanes":[{"id":"1","name":"道路1","degree":"0","laneinfo":"0_0_4_5_7"},{"id":"2","name":"道路1","degree":"90","laneinfo":"0_0_4_5_7"},{"id":"3","name":"道路1","degree":"180","laneinfo":"0_0_4_5_7"},{"id":"4","name":"道路1","degree":"270","laneinfo":"0_0_4_5_7"}],"task_items":[{"stime":"02:00","alllanes":"1_道路1_0_0#0_0_4_5_7L2_道路2_90_0#0_0_4_5_7L3_道路3_180_0#0_0_4_5_7L4_道路4_270_0#0_0_4_5_7","stm_id":"3","id":"1","type":"1","duration":"60","img_path":"../../TempImage/Img/4_71_2016_07_20_03_29_01.jpg?t=1469003341867","etime":"03:00","img_index":"0","slanes":"3S5_0_23#4_0_2","c_status":"4","name":" 流量, 2016年07月20日, 02:00, 60分钟","method":"1","light_type":"0","peizhi":[{"id":1,"sti_id":1,"name":"奔驰","car_min_length":1,"car_max_length":2,"car_min_weight":1,"car_max_weight":2,"car_factor":1,"carType":1,"status":0,"type_name":"小汽车"}]},{"stime":"02:00","tdate":"2016-07-20","alllanes":"1_道路1_0_0#0_0_4_5_7L2_道路2_90_0#0_0_4_5_7L3_道路3_180_0#0_0_4_5_7L4_道路4_270_0#0_0_4_5_7","stm_id":"1","id":"0","type":"1","duration":"60","img_path":"../../TempImage/Img/4_71_2016_08_10_02_07_34.jpg?t=1470812854993","etime":"03:00","slanes":"2S4_0_2#7_0_3","c_status":"0","name":"时间段:02:00--03:00, 60分钟","method":"1","light_type":"0","peizhi":[{"carType":"1","type_name":"小汽车","name":"1","car_min_length":"1","car_max_length":"2","car_min_weight":"1","car_max_weight":"2","car_factor":"1"}]}]}';
+        $.ajax({
+                url: "../../HandleAddSurvey_Task_Model",
+                data: {"data":data1},
+                type: "GET",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Content-Type", "text/html;charset=UTF-8");
+                },
+                success: function (result) {
+                    if (result === "0")
+                    {
+                        alert(result);
+                    }
+                    else
+                    {
+                        
+                    }
+                }
+            });
+    </script>
+</html>

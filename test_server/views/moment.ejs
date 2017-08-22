@@ -1,0 +1,2272 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Transtopia-alpha | 消息 </title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="plugins/bootstrap-3.3.6/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="plugins/font-awesome-4.7.0/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="plugins/ionicons-2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="plugins/AdminLTE-2.3.11/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="plugins/AdminLTE-2.3.11/css/skins/skin-purple.min.css">
+	<!-- FileInput -->
+	<link href="plugins/bootstrap-fileinput/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
+	<link href="plugins/bootstrap-fileinput/themes/explorer/theme.css" media="all" rel="stylesheet" type="text/css"/>
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body class="skin-purple sidebar-mini">
+<div class="wrapper">
+  <!-- Main Header -->
+  <header class="main-header">
+    <!-- Logo -->
+    <a href="#" class="logo">
+	  <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><b>T</b></span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><b>Transtopia</b></span>
+    </a>
+
+    <!-- Header Navbar -->
+    <nav class="navbar navbar-default" role="navigation">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button"></a>
+			<!-- Navbar Left Menu -->
+				<!-- fill it here -->
+			<!-- /.Navbar Left Menu -->
+			
+			<!-- Navbar Right Menu -->
+				<!-- fill it here -->
+			<!-- /.Navbar Right Menu -->
+    </nav>
+  </header>
+	
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+			<!-- 修改20170317 #13 -->
+			<div class="form-group" style="margin: 15px;">
+				<select name="search" class="form-control" placeholder="搜索...">
+				</select>
+			</div>
+			<!-- 修改20170317 #13结束 -->
+			<ul class="sidebar-menu">
+				<!-- Optionally, you can add icons to the links -->
+				<li><a href="#tab_featured" data-toggle="tab"><i class="fa fa-list-alt"></i> <span>探索发现</span></a></li>
+				<li><a href="#tab_moment" data-toggle="tab"><i class="fa fa-list-alt"></i> <span>全部动态</span></a></li>
+				<li><a href="#tab_moment" data-toggle="tab" data-filter='{"star": 1}'><i class="fa fa-list-alt"></i> <span>星标动态</span></a></li>
+				<li><a href="#tab_customerhome" data-toggle="tab"><i class="fa fa-list-alt"></i> <span>个人动态</span></a></li>
+				<li class="header">联系人动态</li>
+				<li><a href="#tab_moment" data-toggle="tab" data-filter='{"friend": 1}'><i class="fa fa-list-alt"></i> <span>好友动态</span></a></li>
+				<li><a href="#tab_moment" data-toggle="tab" data-filter='{"group": 1}'><i class="fa fa-list-alt"></i> <span>群组动态</span></a></li>
+				<li><a href="#tab_moment" data-toggle="tab" data-filter='{"group": 1}'><i class="fa fa-list-alt"></i> <span>商品动态</span></a></li>
+			</ul>
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+		<!-- Main content -->
+    <section class="content">
+			<div class="tab-content">
+				<!-- 动态页面Layout -->
+				<div id="tab_moment" class="tab-pane container-fluid">
+
+				</div>
+				<!-- 动态页面Layout -->
+				<!-- 个人页面 Layout -->
+				<div id="tab_customerhome" class="tab-pane container">
+					<!-- 用户信息 -->
+					<div id="userInfo">
+						<div class="box box-widget widget-user">
+							<!-- Add the bg color to the header using any of the bg-* classes -->
+							<div data-type="bg" class="widget-user-header bg-black">
+								<!-- <h3 class="widget-user-username"></h3> -->
+								<!-- <h5 class="widget-user-desc">软件工程师</h5> -->
+							</div>
+							<div class="widget-user-image" style="top: 100px; left: 0; margin-left: 15px;">
+								<img data-type="img" class="img-thumbnail" style="border">
+							</div>
+							<div class="box-footer" style="padding-top: 10px;">
+								<div class="row" style="margin-left: 120px;">
+									<span data-type="name" style="font-size: 20px;"></span>
+									<span data-type="title" class="" style="margin-left: 10px;"></span>
+									<span style="margin-left: 10px;">
+										<a href="#" class="btn btn-primary btn-xs" data-type="follow"><b><i class="fa fa-plus"></i> 关注</b></a>
+										<a href="#" class="btn btn-primary btn-xs" data-type="modifyprofile"><b><i class="fa fa-gear"></i> 修改个人信息</b></a>
+									</span>
+									<div>
+										<strong><i class="fa fa-book margin-r-5"></i> 个人介绍</strong>
+										<p data-type="introduction">
+											<!-- 个人简介 -->
+										</p>
+
+										<strong><i class="fa fa-pencil margin-r-5"></i> 父话题</strong>
+
+										<p data-type="topic-genres">
+											
+										</p>
+
+										<strong><i class="fa fa-file-text-o margin-r-5"></i> 子话题</strong>
+										
+										<p data-type="topic-tags">
+										 
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- /.用户信息 -->
+					<!-- 动态框 -->
+					<div class="nav-tabs-custom">
+						<!-- tab -->
+						<ul class="nav nav-tabs">
+							<li><a href="#tab_1" data-toggle="tab">动态 <span data-type="moment-count" style="color: #bdbdbd"> 4</span></a></li>
+							<li class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+									关注 <span class="caret"></span>
+								</a>
+								<ul class="dropdown-menu">
+									<li><a href="#tab_2" data-toggle="tab" data-type="following" data-filter='{"individual": 1}'>关注的人 <span data-type="following-individual" style="color: #bdbdbd"> 4</span></a></li>
+									<li><a href="#tab_2" data-toggle="tab" data-type="following"  data-filter='{"group": 1}'>关注的群组 <span data-type="following-group" style="color: #bdbdbd"> 4</span></a></li>
+									<li class="divider"></li>
+									<li><a href="#tab_2" data-toggle="tab" data-type="followed">关注我的人 <span data-type="followed-by" style="color: #bdbdbd"> 4</span></a></li>
+								</ul>
+							</li>
+						</ul>
+						<!-- /. tab -->
+						<!-- tab-content -->
+						<div class="tab-content">
+							<div class="tab-pane container-fluid" id="tab_1">
+								
+							</div>
+							<div class="tab-pane container-fluid" id="tab_2">
+
+							</div>
+						</div>
+						<!-- /. tab-content -->
+					</div>
+					<!-- /. 动态框 -->
+				</div>
+				<!-- /. 个人页面Layout -->
+				<!-- 修改20110317 #10 -->
+				<!-- 20170318 -->
+				<div id="tab_featured" class="tab-pane container">
+				</div>
+				<!-- 修改20110317 #10结束 -->
+			</div>
+			
+			<!-- modal 开始 -->
+			<div class="modal fade" id="momentModal" tabindex="-1">
+				<div class="modal-dialog" style="width: 60%;">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+								&times;
+							</button>
+							<h4 class="modal-title">
+								<!-- 用户信息 -->
+							</h4>
+						</div>
+						<div class="modal-body">
+							<h4 class="moment-title">
+							<!-- 标题 -->
+							</h4>
+							<h6 class="moment-datetime">
+							<!-- 时间 -->
+							</h6>
+							<div class="content">
+							<!-- 内容 -->
+							</div>
+							<div class="clearfix" style="float: right;">
+								<a class="btn btn-default btn-xs" style="margin-left: 5px;"><span class="fa fa-tag"></span> 分享</a>
+								<a class="btn btn-default btn-xs" style="margin-left: 5px;"><span class="fa fa-tag"></span> 举报</a>
+							</div>
+							<div class="tags">
+								<!-- 标签 -->
+							</div>
+							<div class="comments" style="margin-top: 15px; border-top: 1px solid #f4f4f4;">
+								<!-- 回复 -->
+							</div>
+							<div class="edit-block">
+							
+							</div>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal -->
+			</div>
+			
+			<div class="modal fade" id="newpost_beta" tabindex="-1">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header" style="padding-bottom: 5px;">
+							<button type="button" class="close" data-dismiss="modal">
+								&times;
+							</button>
+							<h4 class="modal-title">
+								<img src="" class="img-circle img-bordered-sm" style="width: 50px; height: 50px;">
+								<span id="user-block" class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									</a>
+									<ul class="dropdown-menu">
+
+									</ul>
+								</span>
+								<b class="fa fa-caret-right" style="font-size: 16px; margin-left:5px;"></b>
+								<span style="margin-left: 5px; font-weight: 500;">
+									<a href="#modal_sharedwith" data-toggle="modal"><i class="fa fa-globe" style="color: #757575;"></i></a>
+									<span id="sharedwith_span" data-sharedwith="" style="font-size: 12px;"></span>
+								</span>
+							</h4>
+						</div>
+						<div class="modal-body">
+							<div id="moment-content">
+								<div class="form-group">
+									<label>标题</label>
+									<input id="moment-title" class="form-control" placeholder="请输入标题">
+								</div>
+								<div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
+									<div class="btn-group">
+									<a class="btn dropdown-toggle" data-toggle="dropdown" title="字体"><i class="icon-font"></i><b class="caret"></b></a>
+										<ul class="dropdown-menu">
+										</ul>
+									</div>
+									<div class="btn-group">
+									<a class="btn dropdown-toggle" data-toggle="dropdown" title="字体大小"><i class="icon-text-height"></i>&nbsp;<b class="caret"></b></a>
+										<ul class="dropdown-menu">
+										<li><a data-edit="fontSize 5"><font size="5">大</font></a></li>
+										<li><a data-edit="fontSize 3"><font size="3">中</font></a></li>
+										<li><a data-edit="fontSize 1"><font size="1">小</font></a></li>
+										</ul>
+									</div>
+									<div class="btn-group">
+									<a class="btn" data-edit="bold" title="加粗 (Ctrl/Cmd+B)"><i class="icon-bold"></i></a>
+									<a class="btn" data-edit="italic" title="斜体 (Ctrl/Cmd+I)"><i class="icon-italic"></i></a>
+									<a class="btn" data-edit="strikethrough" title="（加） 删除线"><i class="icon-strikethrough"></i></a>
+									<a class="btn" data-edit="underline" title="下划线 (Ctrl/Cmd+U)"><i class="icon-underline"></i></a>
+									</div>
+									<div class="btn-group">
+									<a class="btn" data-edit="insertunorderedlist" title="项目列表"><i class="icon-list-ul"></i></a>
+									<a class="btn" data-edit="insertorderedlist" title="数字列表"><i class="icon-list-ol"></i></a>
+									<a class="btn" data-edit="outdent" title="清除缩进 (Shift+Tab)"><i class="icon-indent-left"></i></a>
+									<a class="btn" data-edit="indent" title="缩进 (Tab)"><i class="icon-indent-right"></i></a>
+									</div>
+									<div class="btn-group">
+									<a class="btn" data-edit="justifyleft" title="居左 (Ctrl/Cmd+L)"><i class="icon-align-left"></i></a>
+									<a class="btn" data-edit="justifycenter" title="居中 (Ctrl/Cmd+E)"><i class="icon-align-center"></i></a>
+									<a class="btn" data-edit="justifyright" title="居右 (Ctrl/Cmd+R)"><i class="icon-align-right"></i></a>
+									<a class="btn" data-edit="justifyfull" title="正常 (Ctrl/Cmd+J)"><i class="icon-align-justify"></i></a>
+									</div>
+									<div class="btn-group">
+										<a class="btn dropdown-toggle" data-toggle="dropdown" title="超链接"><i class="icon-link"></i></a>
+										<div class="dropdown-menu input-append">
+											<input class="span2" placeholder="URL" type="text" data-edit="createLink"/>
+											<button class="btn" type="button">添加</button>
+									</div>
+									<a class="btn" data-edit="unlink" title="去除链接"><i class="icon-cut"></i></a>
+									</div>
+									<div class="btn-group">
+									<a class="btn" title="浏览或拖拽添加图片" id="pictureBtn"><i class="icon-picture"></i></a>
+									<input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" />
+									</div>
+									<div class="btn-group">
+									<a class="btn" data-edit="undo" title="撤消 (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>
+									<a class="btn" data-edit="redo" title="重复 (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a>
+									</div>
+								</div>
+								<div id="editor" class="editor"></div>
+								<!-- 更多选项 -->
+								<div class="timeline-footer">
+									<div class="form-group">
+										<label>分类</label>
+										<select id="select-genre" class="form-control" style="width: 100%;">
+										</select>
+									</div>
+									<div >
+										<label>标签</label>
+										<select id="select-tags" class="form-control" multiple="multiple" data-placeholder="请选择标签" style="width: 100%;">
+										</select>
+									</div>
+								</div>
+								<div class="clearfix" style="margin-top:5px;">
+									<a id="shareMoment-btn" class="btn btn-primary btn-flat btn-xs pull-right">分享</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="modal fade" id="editmoment" tabindex="-1">
+				<div class="modal-dialog" style="width: 60%;">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+								&times;
+							</button>
+							<h4 class="modal-title">
+								发布新动态
+							</h4>
+						</div>
+						<div class="modal-body">
+							<div class="box-body">
+								<div class="form-group">
+									<label>标题</label>
+									<input id="moment-title" class="form-control">
+								</div>
+								<div id="moment-content">
+									<div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
+										<div class="btn-group">
+										<a class="btn dropdown-toggle" data-toggle="dropdown" title="字体"><i class="icon-font"></i><b class="caret"></b></a>
+											<ul class="dropdown-menu">
+											</ul>
+										</div>
+										<div class="btn-group">
+										<a class="btn dropdown-toggle" data-toggle="dropdown" title="字体大小"><i class="icon-text-height"></i>&nbsp;<b class="caret"></b></a>
+											<ul class="dropdown-menu">
+											<li><a data-edit="fontSize 5"><font size="5">大</font></a></li>
+											<li><a data-edit="fontSize 3"><font size="3">中</font></a></li>
+											<li><a data-edit="fontSize 1"><font size="1">小</font></a></li>
+											</ul>
+										</div>
+										<div class="btn-group">
+										<a class="btn" data-edit="bold" title="加粗 (Ctrl/Cmd+B)"><i class="icon-bold"></i></a>
+										<a class="btn" data-edit="italic" title="斜体 (Ctrl/Cmd+I)"><i class="icon-italic"></i></a>
+										<a class="btn" data-edit="strikethrough" title="（加） 删除线"><i class="icon-strikethrough"></i></a>
+										<a class="btn" data-edit="underline" title="下划线 (Ctrl/Cmd+U)"><i class="icon-underline"></i></a>
+										</div>
+										<div class="btn-group">
+										<a class="btn" data-edit="insertunorderedlist" title="项目列表"><i class="icon-list-ul"></i></a>
+										<a class="btn" data-edit="insertorderedlist" title="数字列表"><i class="icon-list-ol"></i></a>
+										<a class="btn" data-edit="outdent" title="清除缩进 (Shift+Tab)"><i class="icon-indent-left"></i></a>
+										<a class="btn" data-edit="indent" title="缩进 (Tab)"><i class="icon-indent-right"></i></a>
+										</div>
+										<div class="btn-group">
+										<a class="btn" data-edit="justifyleft" title="居左 (Ctrl/Cmd+L)"><i class="icon-align-left"></i></a>
+										<a class="btn" data-edit="justifycenter" title="居中 (Ctrl/Cmd+E)"><i class="icon-align-center"></i></a>
+										<a class="btn" data-edit="justifyright" title="居右 (Ctrl/Cmd+R)"><i class="icon-align-right"></i></a>
+										<a class="btn" data-edit="justifyfull" title="正常 (Ctrl/Cmd+J)"><i class="icon-align-justify"></i></a>
+										</div>
+										<div class="btn-group">
+											<a class="btn dropdown-toggle" data-toggle="dropdown" title="超链接"><i class="icon-link"></i></a>
+											<div class="dropdown-menu input-append">
+												<input class="span2" placeholder="URL" type="text" data-edit="createLink"/>
+												<button class="btn" type="button">添加</button>
+										</div>
+										<a class="btn" data-edit="unlink" title="去除链接"><i class="icon-cut"></i></a>
+										</div>
+										<div class="btn-group">
+										<a class="btn" title="浏览或拖拽添加图片" id="pictureBtn"><i class="icon-picture"></i></a>
+										<input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" />
+										</div>
+										<div class="btn-group">
+										<a class="btn" data-edit="undo" title="撤消 (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>
+										<a class="btn" data-edit="redo" title="重复 (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a>
+										</div>
+									</div>
+									<div class="editor"></div>
+								</div>
+								<!-- 更多选项 -->
+								<div id="eidt-collapse-moment_option" class="timeline-footer panel-collapse collapse" style="">
+									<div class="form-group">
+									<label>发布者</label>
+										<select id="select-sender" class="form-control" style="width: 100%;">
+										</select>
+									</div>
+									<div class="form-group">
+										<label>分类</label>
+										<select id="select-genre" class="form-control" style="width: 100%;">
+										</select>
+									</div>
+									<div >
+										<label>标签</label>
+										<select id="select-tags" class="form-control" multiple="multiple" data-placeholder="请选择标签" style="width: 100%;">
+										</select>
+									</div>
+									<div>
+										<label>分享范围 <a href="#modal_sharedwith" data-toggle="modal"><i class="fa fa-search"></i></a></label>
+										<select id="select-sharedwith" class="form-control" multiple="multiple" data-placeholder="请选择分享范围" style="width: 100%;">
+										</select>
+									</div>
+								</div>
+								<div class="clearfix" style="margin-top:5px;">
+									<a data-toggle="collapse" href="#eidt-collapse-moment_option"><i class="fa fa-plus"></i> 更多选项</a>
+									<a id="editMoment-btn" class="btn btn-primary btn-flat btn-xs pull-right">修改</a>
+								</div>
+							</div>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal -->
+			</div>
+			
+			<!-- 好友选项框 -->
+			<div class="modal fade" id="modal_sharedwith" tabindex="-1">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="myModalLabel">选择分享范围</h4>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+                <label>
+                  <input type="radio" name="r1" class="minimal" value="1" checked>
+									<span style="margin-left: 20px;"><i class="fa fa-globe"> </i> 公开</span>
+                </label>
+              </div>
+							<div class="form-group">
+                <label>
+                  <input type="radio" name="r1" class="minimal" value="2">
+									<span style="margin-left: 20px;"><i class="fa fa-check-square-o"> </i> 选择分享范围</span>
+                </label>
+              </div>
+							<div class="form-group">
+                <label>
+                  <input type="radio" name="r1" class="minimal" value="2">
+									<span style="margin-left: 20px;"><i class="fa fa-minus-square-o"> </i> 选择屏蔽用户</span>
+                </label>
+              </div>
+							
+							<div class="box hidden">
+								<div class="box-header">
+									<h3 class="box-title">分享列表</h3>
+
+									<div class="box-tools">
+										<div class="input-group input-group-sm" style="width: 150px;">
+											<input type="text" name="table_search" class="form-control pull-right" placeholder="搜索">
+
+											<div class="input-group-btn">
+												<button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /.box-header -->
+								<div class="box-body table-responsive no-padding" style="max-height: 400px;">
+									<table class="table table-hover" >
+										<tbody>
+										<tr class="friend-nav">
+											<td style="font-weight: 500;color: #9e9e9e;">
+												好友列表
+											</td>
+											<td></td>
+										</tr>
+										<tr class="group-nav">
+											<td style="font-weight: 500;color: #9e9e9e;">
+												群组列表
+											</td>
+											<td></td>
+										</tr>
+
+									</tbody></table>
+								</div>
+								<!-- /.box-body -->
+							</div>
+							
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+							<button type="button" class="btn btn-primary submit">确认</button>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal -->
+			</div>
+			<!-- 好友选项框结束 -->
+			
+			<!-- 修改20170317 #7 -->
+			<div class="modal fade" id="modal_modifyprofile" tabindex="-1">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="myModalLabel">选择分享范围</h4>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<label>姓名：</label>
+								<input type="text" name="name" class="form-control" disabled>
+							</div>
+							<div class="form-group">
+								<label>头衔：</label>
+								<input type="text" name="title" class="form-control">
+							</div>
+							<div class="form-group">
+								<label>上传头像：</label>
+								<div class="input-group">
+									<input type="text" class="form-control">
+									<div class="input-group-addon btn btn-default btn-file post-file">
+										<i class="fa fa-image"></i> 上传图片 <input name="avatar" type="file" single>
+									</div>
+								</div>
+								<img id="avatarImg" class="img-thumbnail col-md-6" src="#" style="margin-top:10px;"/>
+								<div class="clearfix"></div>
+							</div>
+							<div class="form-group">
+								<label>个人简介：</label>
+								<textarea type="text" name="introduction" class="form-control" rows=4>
+								<textarea type="text" name="introduction" class="form-control" rows=4>
+								</textarea>
+							</div>
+							<div class="form-group">
+								<label>父话题: </label>
+								<select type="text" name="genre[]" multiple>
+								</select>
+							</div>
+							<div class="form-group">
+								<label>子话题: </label>
+								<select type="text" name="tag[]" multiple>
+								</select>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+							<button type="button" class="btn btn-primary submit">确认</button>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal -->
+			</div>
+			<!-- 修改20170317 #7结束 -->
+			<!-- 修改20170317 #14 -->
+			<div class="modal fade" id="modal_searchresult" tabindex="-1">
+				<div class="modal-dialog" style="width: 60%;">
+					<div class="modal-content" >
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="myModalLabel">搜索结果： </h4>
+						</div>
+						<div class="modal-body" style="height: 800px; background-color: #f9f9f9; overflow-y: scroll;">
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal -->
+			</div>
+			<!-- 修改20170317 #14结束 -->
+		<a class="btn btn-danger btn-lg" style=" position: fixed; top: 90vh; right: 80px; z-index: 10000;   width: 50px;
+  height: 50px;
+  padding: 10px 16px;
+  font-size: 20px;
+  line-height: 1.33;
+  border-radius: 25px;" href="#newpost_beta" data-toggle="modal"><i class="fa fa-pencil"></i></a>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+
+	
+	
+	
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <!-- To the right -->
+    <div class="pull-right hidden-xs">
+      <!-- Anything you want -->
+    </div>
+    <!-- Default to the left -->
+    <strong>Copyright &copy; 2017 <a href="#">Transtopia</a>.</strong> All rights reserved.
+  </footer>
+
+  <!-- Control Sidebar -->
+</div>
+<!-- ./wrapper -->
+
+
+<!-- REQUIRED JS SCRIPTS -->
+<!-- jQuery 2.2.3 -->
+<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="plugins/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="plugins/AdminLTE-2.3.11/js/app.min.js"></script>
+<!-- Slimscroll -->
+<script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="plugins/fastclick/fastclick.min.js"></script>
+<!-- FileInput -->
+<script src="plugins/bootstrap-fileinput/js/plugins/sortable.js" type="text/javascript"></script>
+<script src="plugins/bootstrap-fileinput/js/fileinput.js" type="text/javascript"></script>
+<script src="plugins/bootstrap-fileinput/themes/explorer/theme.js" type="text/javascript"></script>
+<script src="plugins/bootstrap-fileinput/js/locales/zh.js" type="text/javascript"></script>
+<!-- 修改20170317 #4 -->
+<!-- Select 2 -->
+<link href="plugins/select2/select2.min.css" rel="stylesheet" />
+<link href="plugins/select2/select2-bootstrap.css" rel="stylesheet" />
+<script src="plugins/select2/select2.full.min.js"></script>
+<script src="plugins/select2/i18n/zh-CN.js"></script>
+<!-- 修改20170317 #4结束 -->
+<!-- bootstrap-wysiwyg -->
+<link href="plugins/bootstrap-wysiwyg/external/google-code-prettify/prettify.css" rel="stylesheet">
+<!-- <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet"> -->
+<link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script> -->
+<script src="plugins/bootstrap-wysiwyg/external/jquery.hotkeys.js"></script>
+<!-- <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script> -->
+<script src="plugins/bootstrap-wysiwyg/external/google-code-prettify/prettify.js"></script>
+<script src="plugins/bootstrap-wysiwyg/bootstrap-wysiwyg.js"></script>
+<!-- iCheck 1.0.1 -->
+<script src="plugins/iCheck/icheck.min.js"></script>
+<link rel="stylesheet" href="plugins/iCheck/all.css">
+
+
+<!-- 我的JS和CSS -->
+<script>
+//写给老付
+/*
+post = [{
+	id: ,
+	user_id: ,
+	user_name: ,
+	user_img:,
+	user_followers: , //关注者总人数
+	user_blogs: , //发表总文章数
+	user_bestblogs: , //用户精华帖
+	
+	title: , //标题
+	content: , //内容
+	datetime: , //时间
+	genre: , // 大分类
+	tags: [], // 小标签
+	sharedwith: [], //分享范围，是否需要？？？
+	total_like: , //总点赞人数
+	like: (0 or 1), //我是否点赞
+	star: (0 or 1), //我是否加星
+	
+	comments: [{
+		user_id: ,
+		user_name: ,
+		user_img:,
+		
+		to_id: , //回复用户id
+		to_name: , //回复用户姓名
+		content: , //内容
+		datetime:  //时间
+	}] // 评论
+}];
+*/
+var ACTION_MAP = {
+	//新增
+	getRelatedMoment: 'getrelatedmoment', //获取用户相关动态，其中包好一个{filter}
+	getUserInfobyID: 'getuserinfobyid', //通过ID获取用户资料
+	getMomentByUserID: 'getmomentbyuserid', //获取摸一个用户的动态列表
+	getFollowing: 'getfollowing', //获取关注的人和群
+	getFollowed: 'getfollowed', //获取关注的人和群
+	
+	getMomentByID: 'getmomentbyid', //通告id获取一条动态 || input: {moment_id} || output: post
+	
+	getFollowedMoment: 'getFollowedMoment?uid=', //获取摸一个用户follow的动态列表
+	getOption: 'getOption?uid=', //获取静态的参数，发布新动态时候的OPTION
+	postMoment: 'postMoment?uid=', //发送动态
+	postReplyToMoment: 'postReplyToMoment?uid=', //回复动态
+	starMoment: 'starMoment?uid=', //星标或取消
+	likeMoment: 'likeMoment?uid=', //喜欢或取消
+	removeTagOfMoment: 'removeTagOfMoment?uid=', //移除tag
+	
+	follow: 'follow', //关注或取消
+	getContactInfo: 'getcontactinfo', //获取用户好友和组列表
+	deleteMoment: 'deletemoment',
+	editMoment: 'editmoment',
+	getFriendList: 'getfriendlist',
+	getAllGroup: 'getallgroup',
+	//修改20170317 #9
+	editProfile: 'editprofile',
+	getFeatruedGroup: 'getfeatruedgroup',
+	//修改20170317 #9结束
+	//20170319
+	applyToJoinGroup: 'applytojoingroup',
+	reportMoment : 'reportmoment'
+};
+//PS: 上述都需要你添加当前用户的ID
+</script>
+
+<script>
+//好友选项框
+var initialModal_SharedWith = function(target){
+	$(target + ' input[type="checkbox"].minimal, ' + target + ' input[type="radio"].minimal').iCheck({
+		labelHover: true,
+		checkboxClass: 'icheckbox_minimal-blue',
+		radioClass: 'iradio_minimal-blue'
+	});
+
+	$(target + ' [type="radio"]').on('ifChecked', function(e){
+		if($(this).val() == 1){
+			$('#modal_sharedwith .box').addClass('hidden');
+		}else if($(this).val() == 2){
+			$('#modal_sharedwith .box').removeClass('hidden');
+			
+			//加载好友
+			$.get(ACTION_MAP.getFriendList, function(data){
+				$(target + ' .box .friend-item').remove();
+				$.each(data, function(index, d){
+					//console.log(d.id);
+					$('#modal_sharedwith .box .friend-nav').after(
+						'<tr class="friend-item">\
+							<td><img src="' + d.img + '" class="img-circle img-bordered-sm" style="width: 45px; height: 45px;">\
+								' + d.name + '\
+							</td>\
+							<td></td>\
+							<td style="vertical-align: middle; width: 15px;"><input type="checkbox" name="c1" class="minimal" value="' + d.id + '"></td>\
+						</tr>'
+					);
+				});
+				//加载Icheck
+				$(target + ' .friend-item input[type="checkbox"].minimal').iCheck({
+					labelHover: true,
+					checkboxClass: 'icheckbox_minimal-blue',
+					radioClass: 'iradio_minimal-blue'
+				});
+			}).fail(function(err){
+				console.log(err);
+			});
+			
+			//加载group
+			$.get(ACTION_MAP.getAllGroup, function(data){
+				$(target + ' .box .group-item').remove();
+				$.each(data, function(index, d){
+					$('#modal_sharedwith .box .group-nav').after(
+						'<tr class="group-item">\
+							<td><img src="' + d.img + '" class="img-circle img-bordered-sm" style="width: 45px; height: 45px;">\
+								' + d.name + '\
+							</td>\
+							<td style="vertical-align: middle;">\
+								' + d.member_count + '\
+							</td>\
+							<td style="vertical-align: middle; width: 15px;"><input type="checkbox" name="c1" class="minimal" value="' + d.id + '"></td>\
+						</tr>'
+					);
+				});
+				//加载Icheck
+				$(target + ' .group-item input[type="checkbox"].minimal').iCheck({
+					labelHover: true,
+					checkboxClass: 'icheckbox_minimal-blue',
+					radioClass: 'iradio_minimal-blue'
+				});
+			}).fail(function(err){
+				console.log(err);
+			});
+		}
+	});
+	
+	//获取上级窗口id
+	$('#modal_sharedwith').on('show.bs.modal', function(e){
+		var trigger_id = $(e.relatedTarget).closest('.modal').attr('id');
+		console.log(trigger_id);
+		console.log(e.relatedTarget);
+		$('#modal_sharedwith .submit').attr({target: trigger_id});
+	});
+	
+	$(target + ' .submit').on('click', function(e){
+		var trigger = $(target + ' .submit').attr('target');
+		if($(target + ' [type="radio"]:checked').val() == 1){
+			console.log(11);
+			$('#' + trigger + ' #sharedwith_span').attr('data-sharedwith', '');
+		}else if($(target + ' [type="radio"]:checked').val() == 2){
+			var ids = [];
+			$('#' + trigger + ' #sharedwith_span').empty();
+			$.each($("input[name='c1']:checked"), function(){
+				ids.push($(this).val());
+				$('#' + trigger + ' #sharedwith_span').append('<a class="btn btn-primary btn-xs" style="margin-right: 5px;">' + $(this).closest('tr').find('td:eq(0)').text()  + '</a>');
+			});
+			$('#' + trigger + ' #sharedwith_span').attr('data-sharedwith', ids);
+		}else{
+			console.log('err');
+		}
+		$(target).modal('hide');
+	});
+	
+};
+//好友选项框
+
+initialModal_SharedWith('#modal_sharedwith');
+
+//好友选项框结束
+
+//20170321
+var initialMomentPostBlock_beta = function(target){
+	loadWysiwyg(target + ' .editor');
+	
+	$('#shareMoment-btn').click(function(){
+		var moment = {};
+		moment['content'] = $(target + ' .editor').html();
+		moment['title'] = $(target + ' #moment-title').val();
+		moment['sender'] = $(target + ' #user-block > a').attr('data-id');
+		moment['genre'] = $(target + ' #select-genre').val();
+		moment['tags'] = $(target + ' #select-tags').val();
+		moment['sharedwith'] = $(target + ' #sharedwith_span').attr('data-sharedwith').split(',');
+		
+		console.log(moment['content']);
+		
+		$.post(ACTION_MAP.postMoment, moment ,function(data) {
+			$('#newpost select').select2().val('').trigger('change');
+			$('#newpost input').val('');
+			$('#newpost .editor').text('');
+			$('#newpost').modal('hide');
+			//$('a[href="#tab_moment"]').tab('show');
+			location.reload();
+		})
+		.fail(function() {
+			console.log('Err: post moment')
+		});
+		//console.log(data)
+	});
+	
+	
+	//加载更多选项
+	$.get( ACTION_MAP.getOption, function(data) {
+		$(target +" #select-genre").select2({
+			language: 'zh-CN',
+			data: data.genres
+		});
+		
+		$(target +" #select-tags").select2({
+			language: 'zh-CN',
+			tags: true,
+			data: data.tags
+		});
+		
+		var sender_block = $(target + ' #user-block .dropdown-menu');
+		sender_block.empty();
+		$.each(data.senders, function(index, sender){
+			if(sender.text == '个人'){
+				//individual
+				sender_block.append('<li class="dropdown-header">个人</li>');
+				sender_block.append('<li class="divider"></li>');
+				$.each(sender.children, function(index, item){
+					if(index == 0){
+						$(target + ' #user-block > a').attr('data-id', item.id);
+						$(target + ' #user-block > a').text(item.text);
+						$(target + ' .modal-title > img:eq(0)').attr('src', item.img);
+					}
+					sender_block.append('<li><a href="javascript:void(0);" data-id="' + item.id + '"><img src="' + item.img + '" class="img-circle img-bordered-sm" style="width: 25px; height: 25px; margin-right: 10px;">' + item.text + '</a></li>');
+				});
+			}else if(sender.text == '群组'){
+				//group
+				sender_block.append('<li class="divider"></li>');
+				sender_block.append(' <li class="dropdown-header">群组</li>');
+				sender_block.append('<li class="divider"></li>');
+				$.each(sender.children, function(index, item){
+					sender_block.append('<li><a href="javascript:void(0);" data-id="' + item.id + '"><img src="' + item.img + '" class="img-circle img-bordered-sm" style="width: 25px; height: 25px; margin-right: 10px;">' + item.text + '</a></li>');
+				});
+			}else{
+				console.log('err');
+			}
+			
+		});
+		
+		$(sender_block).find('a').on('click', function(e){
+			$(target + ' #user-block > a').attr('data-id', $(this).attr('data-id'));
+			$(target + ' #user-block > a').text($(this).text());
+			$(target + ' .modal-title > img:eq(0)').attr('src', $(this).find('img').attr('src'));
+		});
+		
+	})
+  .fail(function() {
+    console.log('Err: option')
+  });
+};
+
+//加载动态发布框
+//修改20170317 #3
+//修改内容: 添加tags
+//备注： 如果tags是已存在的tag，则传入值为id,若不存在，则传入值为名称
+var initialMomentPostBlock = function(target){
+	loadWysiwyg(target + ' .editor');
+	$('#shareMoment-btn').click(function(){
+		var moment = {};
+		moment['content'] = $(target + ' .editor').html();
+		moment['title'] = $(target + ' #moment-title').val();
+		moment['sender'] = $(target + ' #select-sender').val();
+		moment['genre'] = $(target + ' #select-genre').val();
+		moment['tags'] = $(target + ' #select-tags').val();
+		moment['sharedwith'] = $(target + ' #select-sharedwith').val();
+		
+		console.log(moment['content']);
+		
+		$.post(ACTION_MAP.postMoment, moment ,function(data) {
+			$('#newpost select').select2().val('').trigger('change');
+			$('#newpost input').val('');
+			$('#newpost .editor').text('');
+			$('#newpost').modal('hide');
+			//$('a[href="#tab_moment"]').tab('show');
+			location.reload();
+		})
+		.fail(function() {
+			console.log('Err: post moment')
+		});
+		//console.log(data)
+	});
+	//加载更多选项
+	$.get( ACTION_MAP.getOption, function(data) {
+		//console.log(data);
+		//加载类型和tag
+		$("#newpost #select-genre").select2({
+			language: 'zh-CN',
+			data: data.genres
+		});
+		$("#newpost #select-tags").select2({
+			language: 'zh-CN',
+			tags: true,
+			data: data.tags
+		});
+		$("#newpost #select-sender").select2({
+			language: 'zh-CN',
+			data: data.senders
+		});
+		$("#newpost #select-sharedwith").select2({
+			language: 'zh-CN',
+			data: data.sharedwith
+		});
+		
+	})
+  .fail(function() {
+    console.log('Err: option')
+  });
+};
+//修改20170317 #3结束
+
+var momentReviewBlockStyle = function(data){
+	//修改20170317 #2
+	//修改内容：回复用户(样式)
+	return '<div class="review-item fold">\
+						<div class="box-header">\
+							<span class="dropdown pull-right"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa  fa-angle-down"></i> </a>\
+								<ul class="dropdown-menu">\
+									<li><a href="javascript:void(0);" data-action="reply" data-id="' + data.user_id + '" data-name="' + data.user_name + '">回复</a></li>\
+								</ul>\
+							</span>\
+							<img src="' + data.user_img + '" class="img-circle img-bordered-sm">\
+							<span class="title"><a href="#tab_customerhome" data-toggle="tab" data-uid="' + data.user_id + '" >' + data.user_name + '</a></span>\
+							<span class="datetime">'+ getDateTime_Trans(data.datetime) +'</span>\
+						</div>\
+						<div class="box-content">\
+							' + data.content + '\
+						</div>\
+					</div>';
+	//修改20170317 #2结束
+};
+
+//加载动态
+//20170319 添加举报按钮
+var momentBlockStyle = function(data){
+	var content_brief = '';
+		if($(data.content).find('img').length != 0)
+			content_brief = '<div class="text fold">'+ data.content +'</div>\
+											<div class="fade-bottom"></div>\
+											<img class="img-thumbnail" src="' + $(data.content).find('img:eq(0)').attr('src') + '">';
+		else
+			content_brief = '<div class="text fold">'+ data.content +'</div>\
+											<div class="fade-bottom"></div>';
+			
+	var html = '<div class="box-moment" style="">\
+								<div class="box-header">\
+									<span class="dropdown pull-right"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa  fa-list-ul"></i> </a>\
+										<ul class="dropdown-menu">\
+											' + (data.authority == 1 ? '<li><a href="javascript:void(0);" data-action="edit-moment" data-id="' + data.id + '">修改</a></li>' : '') + '\
+											' + (data.authority == 1 ? '<li><a href="javascript:void(0);" data-action="delete-moment" data-id="' + data.id + '">删除</a></li>' : '') + '\
+											<li><a href="javascript:void(0);" data-action="report-moment" data-id="' + data.id + '">举报</a></li>\
+											<li><a href="javascript:void(0);">其它</a></li>\
+										</ul>\
+									</span>\
+									<img src="' + data.user_img + '" class="img-circle img-bordered-sm">\
+									<span class="title"><a href="#tab_customerhome" data-toggle="tab" data-uid="' + data.user_id + '" >' + data.user_name + '</a> <small><span class="fa fa-chevron-right"></span> <a href="#">' + data.genre + '</a></small></span>\
+									<span class="datetime">' + getDateTime_Trans(data.datetime) + '</span>\
+								</div>\
+								<div class="box-content">\
+									<div><a href="javascript:void(0);" class="moment-title" data-id="' + data.id + '">' + data.title + '</a></div>\
+									' + content_brief + '\
+								</div>\
+								<div class="box-nav-bottom">\
+									<a class="box-footer-item" data-toggle="collapse" href="#collapse-review-' + data.id + '"><span class="fa fa-comment"></span>  <i class="data"></i><i class="data">' + $(data.comments).length +'</i></a>\
+									<a class="box-footer-item" data-toggle="collapse" href="#collapse-tag-' + data.id + '"><span class="fa fa-tag"></span> <i class="data">' + $(data.tags).length + '</i></a>\
+									<a href="javascript:void(0)" class="moment-like box-footer-item" data-id="' + data.id + '" data-like="' + data.like + '"><span class="fa ' + (data.like==0 ? "fa-thumbs-o-up" : "fa-thumbs-up") + '"></span> <i class="data">' + data.total_like + '</i></a>\
+									<a href="javascript:void(0)" class="moment-star box-footer-item" data-id="' + data.id + '" data-star="' + data.star + '"><span class="fa ' + (data.star==0 ? "fa-star-o" : "fa-star") + '"></span></a>\
+								</div>\
+								<div id="collapse-tag-' + data.id + '" class="collapse box-footer">\
+								</div>\
+								<div id="collapse-review-' + data.id + '" class="collapse box-footer">\
+								</div>\
+							</div>';
+	return html;
+};
+var userBlockStyle = function(data){
+	console.log(123123123);
+	if(data.type == '1')
+		return '<div class="col-md-3">\
+							<div class="user-box">\
+								<div class="user-box-img">\
+									<img class="img-circle" src="' + data.img + '" alt="User Avatar">\
+								</div>\
+								<div class="name">\
+									' + data.name + '\
+								</div>\
+								<div class="title">\
+									' + data.title + '\
+								</div>\
+								<div class="follow">\
+									<a href="javascript:void(0);" data-type="follow" data-id="' + data.id + '" data-follow="' + data.followed + '"><i class="fa fa-plus"></i> 关注</a>\
+								</div>\
+							</div>\
+						</div>';
+	else 
+		return '<div class="col-md-3 col-sm-2">\
+						<div class="group-box">\
+							<div class="group-box-img" style="background: url(\'' + data.bg_img + '\') center center;">\
+								<img class="img-circle img-bordered-sm" src="' + data.img + '">\
+							</div>\
+							<div class="name">\
+								' + data.name + '\
+							</div>\
+							<div class="member-count">\
+								' + data.member_count + '\
+							</div>\
+							<div class="genre">\
+							' + data.genre + '\
+							</div>\
+							<div class="follow">\
+								<a href="javascript:void(0);" data-type="follow" data-id="' + data.id + '" data-follow="' + data.followed + '"><i class="fa fa-plus"></i> 关注</a>\
+							</div>\
+						</div>\
+					</div>';
+}
+//修改20170317 #11
+var groupBlockStyle = function(data, size, ref){
+	var genres = []
+	$.each(data.genre, function(index, id){
+		genres.push(getText(id, ref));
+	});
+	//console.log(genres);
+	return '<div class="' + size + '">\
+						<div class="group-box">\
+							<div class="group-box-img" style="background: url(\'' + data.bg_img + '\') center center;">\
+								<img class="img-circle img-bordered-sm" src="' + data.img + '">\
+							</div>\
+							<div class="name">\
+								' + data.name + '\
+							</div>\
+							<div class="member-count">\
+								' + data.member_count + '人\
+							</div>\
+							<div class="genre">\
+							' + genres + '\
+							</div>\
+							<div class="dropdown option" style="margin: 35px 5px 10px 0; text-align: center;">\
+								<a href="#" class="btn btn-default btn-sm" style="margin: 5px 5px;" data-action="follow" data-id="' + data.id + '"><i class="fa fa-plus"></i> 关注</a>\
+								<a href="#" class="btn btn-default btn-sm" style="margin: 5px 5px;" data-action="joingroup" data-id="' + data.id + '"><i class="fa fa-gear"></i> 加入群组</a>\
+							</div>\
+							<div class="clearfix"></div>\
+						</div>\
+					</div>'
+};
+
+//20170318
+$('.main-sidebar a[href="#tab_featured"]').on('show.bs.tab', function(e){
+	$('#tab_featured').empty();
+	var filter = {};
+	filter.genre = $(this).attr('data-genre') == undefined ? "" : $(this).attr('data-genre');
+	filter.tag = $(this).attr('data-tag') == undefined ? "" : $(this).attr('data-tag');
+	console.log(filter);
+	$.get(ACTION_MAP.getFeatruedGroup, filter, function(data){
+
+		$.get(ACTION_MAP.getOption, function(o){
+			$.each(data, function(index, d){
+				$('#tab_featured').append(groupBlockStyle(d, 'col-xs-6 col-sm-4 col-md-3', o.genres));
+			})
+			$('#tab_featured [data-action="follow"]').on('click', function(e){
+				var temp_block = $(this).closest('.col-md-3');
+				$.get(ACTION_MAP.follow, {followed_id: $(this).attr('data-id'), value: 1}, function(data){
+					alert('成功添加关注！');
+					temp_block.remove();
+				}).fail(function(err){
+					console.log(err);
+				});
+			});
+			//加入群组
+			//20170319
+			$('#tab_featured [data-action="joingroup"]').on('click', function(e){
+				var temp_block = $(this).closest('.col-md-3');
+				$.get(ACTION_MAP.applyToJoinGroup, {group_id: $(this).attr('data-id')}, function(data){
+					alert('成功申请加入群主！');
+					temp_block.remove();
+				}).fail(function(err){
+					console.log(err);
+				});
+			});
+			
+		}).fail(function(err){
+			console.log(err);
+		});
+		
+		
+	}).fail(function(err){
+		console.log(err);
+	});
+	
+});
+
+//修改20170317 #11结束
+
+var loadMoment = function(data, loadto){
+	$.each(data, function(index, moment){
+		//加载动态
+		$(loadto).append(momentBlockStyle(moment));
+		//加载回复
+		$.each(moment.comments, function(index, review){
+			$('#collapse-review-' + moment.id).prepend(momentReviewBlockStyle(review));
+		});
+		//加载编辑框
+		appendWysiwygEditor(moment.id, loadto + ' #collapse-review-' + moment.id, '');
+		//加载tag
+		$.each(moment.tags, function(index, tag){
+			$('#collapse-tag-' + moment.id).append('<span class="moment-tag" style="margin-right: 5px;"><a href="javascript:void(0);" class="btn btn-primary btn-xs"><i class="fa fa-tag">' + tag +'</i>&times;</a></span>');
+		});
+		//加载用户popup
+		appendUserPopup(moment, loadto +' .box-header img');
+	});
+	
+	//修改20170317 #1
+	//修改内容：回复用户
+	$('.review-item [data-action="reply"]').on('click', function(e){
+		//console.log($(this).attr('data-id'));
+		//动态id
+		var id = ($(this).closest('.collapse').attr('id')).replace(/collapse-review-/i, "");
+		//用户id
+		var replyto_id = $(this).attr('data-id');
+		var replyto_name = $(this).attr('data-name');
+		console.log(id, replyto_id, replyto_name);
+		
+		$('#collapse-review-' + id + ' #editor-' + id + ' [data-action="reply-to"]').remove();
+		$('#collapse-review-' + id + ' #editor-' + id + ' br:eq(0)').remove();
+		$('#collapse-review-' + id + ' #editor-' + id + ' hr:eq(0)').remove();
+		
+		$('#collapse-review-' + id + ' #editor-' + id).prepend('<div data-action="reply-to" data-id="' + replyto_id + '">@ ' + replyto_name + ' </div><hr style="margin:5px;"><br>');
+	});
+	
+	//回复动态
+	$(loadto + ' .replyMoment-btn').click(function(){
+		var id = $(this).attr('value');
+		var reply = {};
+		reply['id'] = id;
+		reply['replyto_id'] = $('#editor-' + id + ' [data-action="reply-to"]').attr('data-id');
+		reply['content'] = $('#editor-'+id).html();
+		//console.log(reply);
+		$.post(ACTION_MAP.postReplyToMoment, reply ,function(data) {
+			//console.log(data);
+			//loadMoment(data, '#allMoments');
+			//location.reload();
+			$(loadto + ' #collapse-review-' + id + ' .review-item').remove();
+			//重新加载回复
+			$.each(data.comments, function(index, review){
+				$('#collapse-review-' + id).prepend(momentReviewBlockStyle(review));
+			});
+			
+			//回复用户
+			$('#collapse-review-' + id + ' .review-item [data-action="reply"]').on('click', function(e){
+				//console.log($(this).attr('data-id'));
+				//动态id
+				var id = ($(this).closest('.collapse').attr('id')).replace(/collapse-review-/i, "");
+				//用户id
+				var replyto_id = $(this).attr('data-id');
+				var replyto_name = $(this).attr('data-name');
+				console.log(id, replyto_id, replyto_name);
+				
+				$('#collapse-review-' + id + ' #editor-' + id + ' [data-action="reply-to"]').remove();
+				$('#collapse-review-' + id + ' #editor-' + id + ' br:eq(0)').remove();
+				$('#collapse-review-' + id + ' #editor-' + id + ' hr:eq(0)').remove();
+				
+				$('#collapse-review-' + id + ' #editor-' + id).prepend('<div data-action="reply-to" data-id="' + replyto_id + '">@ ' + replyto_name + ' </div><hr style="margin:5px;"><br>');
+			});
+			$('#collapse-review-' + id + ' #editor-' + id).empty();
+		})
+		.fail(function() {
+			console.log('Err: reply')
+		});
+	});
+	//修改20170317 #1结束
+	
+	//20170321
+	//加载模态框
+	$(loadto + ' .moment-title').on('click', function(event){
+		$.get(ACTION_MAP.getMomentByID, {moment_id: $(this).attr('data-id')}, function(data){
+			$('#momentModal h4[class="modal-title"]').html('<div class="user-block"> \
+																	<img class="img-circle img-bordered-sm" src="' + data.user_img + '" alt="user image"> \
+																		<span class="username"> \
+																			<a href="#">' + data.user_name + '</a> \
+																			<a href="#" class="btn btn-success btn-sm pull-right follow-btn" style="margin-right: 15px;" value="' + data.user_id + '">关注</a> \
+																		</span> \
+																	<span class="description" style="display: inline;">发表动态： ' + data.user_blogs + '</span> \
+																	<span class="description" style="display: inline;">精华动态： ' + data.user_bestblogs + '</span> \
+																	<span class="description" style="display: inline;">关注人数： ' + data.user_followers + '</span> \
+																	</div>');
+			$('h4[class="moment-title"]').text(data.title);
+			//datetime格式要优化
+			$('h4[class="moment-datetime"]').text(data.datetime);
+			$('#momentModal .modal-body .content').html(data.content);
+			$('#momentModal .modal-body .tags').empty();
+			$.each(data.tags,function(index, tag){
+				$('#momentModal .modal-body .tags').append('<a class="btn btn-primary btn-xs" style="margin-left: 5px;"><span class="fa fa-tag"></span> ' + tag + '</a>');
+			});
+			console.log(data.followed );
+			if(data.followed == '0'){
+				$('.modal .follow-btn').remove();
+			}else{
+				if(data.followed == '1')
+					$('.modal .follow-btn').attr('data-follow', 2).text('取消关注');
+				else
+					$('.modal .follow-btn').attr('data-follow', 1).text('关注');
+				$('.follow-btn').on('click', function(){
+					$.get(ACTION_MAP.follow, {followed_id: $(this).attr('value'), value: $(this).attr('data-follow')}, function(data){
+						//location.reload();
+						if($('.modal .follow-btn').attr('data-follow') == 1)
+							$('.modal .follow-btn').attr('data-follow', 2).text('取消关注');
+						else
+							$('.modal .follow-btn').attr('data-follow', 1).text('关注');
+					}).fail(function() {
+						console.log('Err: follow')
+					});
+				});
+			}
+			
+			//加载回复
+			$('#momentModal .modal-body .comments').empty();
+			$.each(data.comments, function(index, comment){
+				$('#momentModal .modal-body .comments').append(momentReviewBlockStyle(comment));
+			});
+			appendWysiwygEditor(data.id, '#momentModal .edit-block', '');
+			$('#momentModal').modal('show');
+		})
+		.fail(function() {
+			console.log('Err: modal');
+		});
+	});
+	
+	//加载用户信息popover
+	$(loadto + " [data-toggle='popover']").popover();
+
+	//星标
+	$(loadto + ' .moment-star').on('click',function(){
+		var val = (parseInt($(this).attr('data-star'))+1)%2;
+		var temp = $(this);
+		$.get(ACTION_MAP.starMoment, {moment_id: $(this).attr('data-id'), star: val}, function(){
+			temp.find('span').toggleClass('fa-star-o').toggleClass('fa-star');
+			temp.attr('data-star', val);
+		})
+		.fail(function() {
+			console.log('Err: star');
+		});
+	});
+	
+	//喜欢
+	$(loadto + ' .moment-like').on('click',function(){
+		var val = (parseInt($(this).attr('data-like'))+1)%2;
+		var temp = $(this);
+		$.get(ACTION_MAP.likeMoment, {moment_id: $(this).attr('data-id'), like: val}, function(data){
+			temp.find('span').toggleClass('fa-thumbs-o-up').toggleClass('fa-thumbs-up');
+			temp.attr('data-like', val);
+			temp.find('.data').text(data.count);
+		})
+		.fail(function() {
+			console.log('Err: like');
+		});
+	});
+	//取消tag
+	$(loadto + ' .moment-tag').on('click',function(){
+		$(this).remove();
+		$.get(ACTION_MAP.removeTagOfMoment, {moment_id: $(this).attr('data-id'), tag: $(this).attr('data-tag')}, function(){
+			
+		})
+		.fail(function() {
+			console.log('Err: tag');
+		});
+	});
+	
+	//加载用户跳转
+	$(loadto + ' a[data-toggle="tab"][href="#tab_customerhome"]').on('show.bs.tab', function (e) {
+		$.get(ACTION_MAP.getUserInfobyID, {uid: $(this).attr('data-uid')}, function(data){
+				loadUserInfo(data, '#tab_customerhome');
+			})
+			.fail(function() {
+				console.log('Err: 用户跳转');
+			});
+	});
+	//删除动态
+	$(loadto + ' a[data-action="delete-moment"]').on('click', function (e){
+		var target = $(this).closest('.box-moment');
+		$.get(ACTION_MAP.deleteMoment, {id: $(this).attr('data-id')}, function(e){
+			//20170319
+			alert('已删除该动态');
+			target.remove();
+		}).fail(function(e){
+			
+		});
+	});
+	//20170319 举报动态
+	$(loadto + ' a[data-action="report-moment"]').on('click', function (e){
+		var target = $(this).closest('.box-moment');
+		$.get(ACTION_MAP.reportMoment, {id: $(this).attr('data-id')}, function(e){
+			alert('已举报该动态');
+		}).fail(function(e){
+			
+		});
+	});
+	//修改20170317 #6
+	//修改动态
+	$(loadto + ' a[data-action="edit-moment"]').on('click', function (e){
+		loadWysiwyg('#editmoment' + ' .editor');
+		//加载更多选项
+		$.get( ACTION_MAP.getOption, function(data) {
+			//console.log(data);
+			//加载类型和tag
+			$("#editmoment #select-genre").select2({
+				data: data.genres
+			});
+			$("#editmoment #select-tags").select2({
+				data: data.tags
+			});
+			$("#editmoment #select-sender").select2({
+				data: data.senders
+			});
+			$("#editmoment #select-sharedwith").select2({
+				data: data.sharedwith
+			});
+			
+			//加载内容
+			//var target = $(this).closest('.box-moment');
+			$.get(ACTION_MAP.editMoment, {id: $(this).attr('data-id')}, function(data){
+				//console.log(data);
+				$('#editmoment #moment-title').val(data.title);
+				$('#editmoment .editor').html(data.content);
+				$('#editmoment' + ' #select-sender').select2({language: 'zh-CN'}).val(data.user_id).trigger("change");
+				$('#editmoment' + ' #select-genre').select2({language: 'zh-CN'}).val(data.genre).trigger("change");
+				$('#editmoment' + ' #select-tags').select2({language: 'zh-CN',tags: true}).val(data.tags).trigger("change");
+				$('#editmoment' + ' #select-sharedwith').select2({language: 'zh-CN'}).val(data.sharedwith).trigger("change");
+				$('#editmoment').modal('show');
+			}).fail(function(e){
+				
+			});
+			
+			//点击发布修改
+			$('#editmoment #editMoment-btn').click(function(){
+				console.log(1);
+				var moment = {};
+				moment['content'] = $('#editmoment .editor').html();
+				moment['title'] = $('#editmoment #moment-title').val();
+				moment['sender'] = $('#editmoment #select-sender').val();
+				moment['genre'] = $('#editmoment #select-genre').val();
+				moment['tags'] = $('#editmoment #select-tags').val();
+				moment['sharedwith'] = $('#editmoment #select-sharedwith').val();
+				
+				console.log(moment['content']);
+				
+				$.post(ACTION_MAP.editMoment, moment ,function(data) {
+					$('#editmoment').modal('hide');
+					//需要修改
+					//20170319 alert
+					alert('成功修改动态！');
+					location.reload();
+				}).fail(function() {
+					console.log('Err: post moment')
+				});
+			});
+		}).fail(function() {
+			console.log('Err: option')
+		});
+	});
+	//修改20170317 #6结束
+};
+
+
+//用户跳转	
+				
+var loadUserInfo = function(data, target){
+	$(target+ ' [data-type="bg"]').css({'background': 'url("' + data.bg + '") center center'});
+	$(target+ ' [data-type="img"]').attr({'src': data.img});
+	$(target+ ' [data-type="name"]').html('<b>' + data.name + '</b>');
+	$(target+ ' [data-type="title"]').text(data.title);
+	//此处应完善
+	//修改20170317 #8
+	//修改内容： 修改个人信息
+	$(target+ ' [data-type="follow"]').attr({'data-id': data.id});
+	if(data.followed == '0'){
+		$(target+ ' [data-type="follow"]').hide();
+		$(target+ ' [data-type="modifyprofile"]').show();
+		//20170319
+		$(target+ ' [data-type="modifyprofile"]').unbind('click');
+		$(target+ ' [data-type="modifyprofile"]').on('click', function(){
+			//加载图片模块
+			$('.post-file :file').on('change', function(){
+				var input = $(this),
+					numFiles = input.get(0).files ? input.get(0).files.length : 1,
+					label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+				input.trigger('fileselect', [numFiles, label]);
+			});
+			
+			$('.post-file :file').on('fileselect', function(event, numFiles, label) {
+				var input = $(this).parents('.input-group').find(':text'),
+					log = numFiles > 1 ? numFiles + ' files selected' : label;
+				
+				if( input.length ) {
+					input.val(log);
+				} else {
+					if( log ) alert(log);
+				}
+			});
+			$(function () {
+				$(".post-file :file").change(function () {
+					if (this.files && this.files[0]) {
+						var reader = new FileReader();
+						reader.onload = imageIsLoaded;
+						reader.readAsDataURL(this.files[0]);
+					}
+				});
+			});
+			function imageIsLoaded(e) {
+				$('#avatarImg').attr('src', e.target.result);
+				$('#avatarImg').removeClass("hide");
+			};
+			
+			//加载genre和tag选项
+			$.get(ACTION_MAP.getOption, function(data){
+				$('#modal_modifyprofile [name="genre[]"]').select2({
+					data: data.genres
+				});
+				$('#modal_modifyprofile [name="tag[]"]').select2({
+					data: data.tags
+				});
+			});
+			
+			$.get(ACTION_MAP.getUserInfobyID, function(data){
+				//加载旧信息
+				$('#modal_modifyprofile [name="name"]').val(data.name);
+				$('#modal_modifyprofile [name="title"]').val(data.title);
+				$('#modal_modifyprofile [id="avatarImg"]').attr('src', data.img);
+				$('#modal_modifyprofile [name="introduction"]').text(data.introduction);
+				$('#modal_modifyprofile [name="genre[]"]').select2({language: 'zh-CN'}).val(data.topic_genres).trigger('change');
+				$('#modal_modifyprofile [name="tag[]"]').select2({tags:true, language: 'zh-CN'}).val(data.topic_genres).trigger('change');
+			});
+			
+			$('#modal_modifyprofile .submit').on('click', function(e){
+					var formData = new FormData();
+					formData.append("file",$('#modal_modifyprofile [name="avatar"]')[0].files[0]);
+					formData.append("title",$('#modal_modifyprofile [name="title"]').val());
+					formData.append("introduction",$('#modal_modifyprofile [name="introduction"]').val());
+					formData.append("genre[]",$('#modal_modifyprofile [name="genre[]"]').val());
+					formData.append("tag[]",$('#modal_modifyprofile [name="tag[]"]').val());
+					$.ajax({
+						url : ACTION_MAP.editProfile, 
+						type : 'POST', 
+						data : formData, 
+						// 告诉jQuery不要去处理发送的数据
+						processData : false, 
+						// 告诉jQuery不要去设置Content-Type请求头
+						contentType : false,
+						beforeSend:function(){
+							console.log("正在进行，请稍候");
+							//需要修改
+							
+						},
+						success : function(responseStr) { 
+							alert('成功修改个人信息');
+							//$('#tab_creategroup').modal('hide');
+							location.reload();
+							//$('#modal_modifyprofile').modal('hide');
+							$('a[href="#tab_customerhome"]').tab('show');
+							if(responseStr.status===200){
+								console.log("成功"+responseStr);
+							}else{
+								console.log("失败");
+							}
+						}, 
+						error : function(responseStr) { 
+							console.log("error");
+						} 
+					});
+			});
+			
+			$('#modal_modifyprofile').modal('show');
+		});
+
+	}else{
+		$(target+ ' [data-type="modifyprofile"]').hide();
+		$(target+ ' [data-type="follow"]').hide();
+		if(data.followed == '1')
+			$(target+ ' [data-type="follow"]').attr('data-follow', 2).text('取消关注').show();
+		else if(data.followed == '2')
+			$(target+ ' [data-type="follow"]').attr('data-follow', 1).text('关注').show();
+		else{
+			
+		}
+		$(target+ ' [data-type="follow"]').on('click', function(){
+			$.get(ACTION_MAP.follow, {followed_id: $(this).attr('data-id'), value: $(this).attr('data-follow')}, function(data){
+				//location.reload();
+				if($(target+ ' [data-type="follow"]').attr('data-follow') == 1)
+					$(target+ ' [data-type="follow"]').attr('data-follow', 2).text('取消关注');
+				else
+					$(target+ ' [data-type="follow"]').attr('data-follow', 1).text('关注');
+			}).fail(function() {
+				console.log('Err: follow')
+			});
+		});
+	}
+	
+	$(target+ ' [data-type="introduction"]').text(data.introduction);
+	//此处应完善
+
+	$.get(ACTION_MAP.getOption, function(option){
+		$(target+ ' [data-type="topic-genres"]').empty();
+		$.each(data.topic_genres, function(index, genre){
+			$(target+ ' [data-type="topic-genres"]').append('<a href="#tab_featured" data-action="follow" data-toggle="tab" data-genre="' + genre + '" class="label ' + randomPicker(colors) + '" style="margin-left: 3px;">' + getText(genre, option.genres) + '</a>');
+		});
+		//此处应完善
+		$(target+ ' [data-type="topic-tags"]').empty();
+		$.each(data.topic_tags, function(index, tag){
+			$(target+ ' [data-type="topic-tags"]').append('<a href="#tab_featured" data-action="follow" data-toggle="tab" data-tag="' + tag + '" class="label ' + randomPicker(colors) + '" style="margin-left: 3px;">' + getText(tag, option.tags) + '</a>');
+		});
+		//20180318
+		$('#userInfo a[href="#tab_featured"]').on('show.bs.tab', function(e){
+			$('#tab_featured').empty();
+			var filter = {};
+			filter.genre = $(this).attr('data-genre') == undefined ? "" : $(this).attr('data-genre');
+			filter.tag = $(this).attr('data-tag') == undefined ? "" : $(this).attr('data-tag');
+			console.log(filter);
+			$.get(ACTION_MAP.getFeatruedGroup, filter, function(data){
+				$.get(ACTION_MAP.getOption, function(o){
+					$.each(data, function(index, d){
+						$('#tab_featured').append(groupBlockStyle(d, 'col-md-3', o.genres));
+					})
+
+				$('#tab_featured [data-action="follow"]').on('click', function(e){
+					var temp_block = $(this).closest('.col-md-3');
+					$.get(ACTION_MAP.follow, {followed_id: $(this).attr('data-id'), value: 1}, function(data){
+						alert('成功添加关注！');
+						temp_block.remove();
+					}).fail(function(err){
+						console.log(err);
+					});
+				});
+				//20170319
+				$('#tab_featured [data-action="joingroup"]').on('click', function(e){
+					var temp_block = $(this).closest('.col-md-3');
+					$.get(ACTION_MAP.applyToJoinGroup, {group_id: $(this).attr('data-id')}, function(data){
+						alert('成功申请加入群主！');
+						temp_block.remove();
+					}).fail(function(err){
+						console.log(err);
+					});
+				});
+				//加入群组
+
+				}).fail(function(err){
+					console.log(err);
+				});
+			}).fail(function(err){
+				console.log(err);
+			});
+			
+		});
+	});
+	
+
+	//修改20170317 #8结束
+	
+	
+	$(target+ ' .nav-tabs-custom').attr({uid: data.id});
+	$(target+ ' [data-type="moment-count"]').text(' ' + data.moment_count);
+	$(target+ ' [data-type="following-individual"]').text(' ' + data.following_individual);
+	$(target+ ' [data-type="following-group"]').text(' ' + data.following_group);
+	$(target+ ' [data-type="followed-by"]').text(' ' + data.followed_by);
+	
+	$(target+ ' .nav-tabs-custom a[data-toggle="tab"]:eq(0)').tab('show');
+};
+
+var loadFollowList = function(data, target){
+	$(target).empty();
+	$.each(data, function(index, user){
+		$(target).append(userBlockStyle(user));
+		if(user.followed == '0'){
+			$(target+ ' [data-type="follow"]').last().text('')
+		}else{
+			if(user.followed == '1')
+				$(target+ ' [data-type="follow"]').last().attr('data-follow', 2).html('<i class="fa fa-minus"></i> 取消关注');
+			else
+				$(target+ ' [data-type="follow"]').last().attr('data-follow', 1).html('<i class="fa fa-plus"></i> 关注');
+		}
+	});
+	$(target+ ' [data-type="follow"]').on('click', function(){
+		if($(this).attr('data-follow') == 1)
+			$(this).attr('data-follow', 2).text('取消关注');
+		else
+			$(this).attr('data-follow', 1).text('关注');
+		$.get(ACTION_MAP.follow, {followed_id: $(this).attr('data-id'), value: $(this).attr('data-follow')}, function(data){
+			//location.reload();
+			
+		}).fail(function() {
+			console.log('Err: follow')
+		});
+	});
+};
+
+//加载editor
+var appendWysiwygEditor = function(id, appendto, location){
+	var html = '<div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor-' + id + '">\
+								<div class="btn-group">\
+								<a class="btn dropdown-toggle" data-toggle="dropdown" title="字体"><i class="icon-font"></i><b class="caret"></b></a>\
+									<ul class="dropdown-menu">\
+									</ul>\
+								</div>\
+								<div class="btn-group">\
+								<a class="btn dropdown-toggle" data-toggle="dropdown" title="字体大小"><i class="icon-text-height"></i>&nbsp;<b class="caret"></b></a>\
+									<ul class="dropdown-menu">\
+									<li><a data-edit="fontSize 5"><font size="5">大</font></a></li>\
+									<li><a data-edit="fontSize 3"><font size="3">中</font></a></li>\
+									<li><a data-edit="fontSize 1"><font size="1">小</font></a></li>\
+									</ul>\
+								</div>\
+								<div class="btn-group">\
+								<a class="btn" data-edit="bold" title="加粗 (Ctrl/Cmd+B)"><i class="icon-bold"></i></a>\
+								<a class="btn" data-edit="italic" title="斜体 (Ctrl/Cmd+I)"><i class="icon-italic"></i></a>\
+								<a class="btn" data-edit="strikethrough" title="（加） 删除线"><i class="icon-strikethrough"></i></a>\
+								<a class="btn" data-edit="underline" title="下划线 (Ctrl/Cmd+U)"><i class="icon-underline"></i></a>\
+								</div>\
+								<div class="btn-group">\
+								<a class="btn" data-edit="insertunorderedlist" title="项目列表"><i class="icon-list-ul"></i></a>\
+								<a class="btn" data-edit="insertorderedlist" title="数字列表"><i class="icon-list-ol"></i></a>\
+								<a class="btn" data-edit="outdent" title="清除缩进 (Shift+Tab)"><i class="icon-indent-left"></i></a>\
+								<a class="btn" data-edit="indent" title="缩进 (Tab)"><i class="icon-indent-right"></i></a>\
+								</div>\
+								<div class="btn-group">\
+								<a class="btn" data-edit="justifyleft" title="居左 (Ctrl/Cmd+L)"><i class="icon-align-left"></i></a>\
+								<a class="btn" data-edit="justifycenter" title="居中 (Ctrl/Cmd+E)"><i class="icon-align-center"></i></a>\
+								<a class="btn" data-edit="justifyright" title="居右 (Ctrl/Cmd+R)"><i class="icon-align-right"></i></a>\
+								<a class="btn" data-edit="justifyfull" title="正常 (Ctrl/Cmd+J)"><i class="icon-align-justify"></i></a>\
+								</div>\
+								<div class="btn-group">\
+									<a class="btn dropdown-toggle" data-toggle="dropdown" title="超链接"><i class="icon-link"></i></a>\
+									<div class="dropdown-menu input-append">\
+										<input class="span2" placeholder="URL" type="text" data-edit="createLink"/>\
+										<button class="btn" type="button">添加</button>\
+								</div>\
+								<a class="btn" data-edit="unlink" title="去除链接"><i class="icon-cut"></i></a>\
+								</div>\
+								<div class="btn-group">\
+								<a class="btn" title="浏览或拖拽添加图片" id="pictureBtn' + id + '"><i class="icon-picture"></i></a>\
+								<input type="file" data-role="magic-overlay" data-target="#pictureBtn' + id + '" data-edit="insertImage" />\
+								</div>\
+								<div class="btn-group">\
+								<a class="btn" data-edit="undo" title="撤消 (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>\
+								<a class="btn" data-edit="redo" title="重复 (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a>\
+								</div>\
+							</div>\
+							<div id="editor-' +id + '" class="editor">\
+							</div>\
+							<div style="text-align: right; margin-top:5px;"><a class="btn btn-primary btn-flat btn-xs replyMoment-btn" value="' + id + '">回复</a> </div>'
+		
+	if(location == 'pre')
+			$(appendto).prepend(html);
+	else
+		$(appendto).append(html);
+	
+	loadWysiwyg('#editor-' +id + '');
+};
+
+//加载用户弹框
+var appendUserPopup = function(data, appendto){
+	$(appendto).attr({
+		'data-container': 'body',
+		'data-trigger': 'hover', 
+		'data-toggle': 'popover', 
+		'data-placement': 'right', 
+		'data-html': 'true',
+		'data-content': '<div class="box box-primary" style="width:200px;">\
+										<div class="box-body box-profile">\
+											<img class="profile-user-img img-responsive img-circle" src="' + data.user_img + '" alt="User profile picture">\
+											<h3 class="profile-username text-center">' + data.user_name + '</h3>\
+											<ul class="list-group list-group-unbordered">\
+												<li class="list-group-item">\
+													<b>动态</b> <a class="pull-right">' + data.user_blogs + '</a>\
+												</li>\
+												<li class="list-group-item">\
+													<b>精华</b> <a class="pull-right">' + data.user_bestblogs + '</a>\
+												</li>\
+												<li class="list-group-item">\
+													<b>关注者</b> <a class="pull-right">' + data.user_followers +'</a>\
+												</li>\
+											</ul>\
+											<a href="#" class="btn btn-primary btn-block follow-btn" value="' + data.user_id + '"><b>关注</b></a>\
+										</div>\
+									</div>'
+	});							
+};
+<!-- wysiwyg -->
+var loadWysiwyg = function(target){
+	$(function(){
+	function initToolbarBootstrapBindings() {
+		var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier', 
+			'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
+			'Times New Roman', 'Verdana','SimHei'],
+			fontTarget = $('[title=字体]').siblings('.dropdown-menu');
+		$.each(fonts, function (idx, fontName) {
+			fontTarget.append($('<li><a data-edit="fontName ' + fontName +'" style="font-family:\''+ fontName +'\'">'+fontName + '</a></li>'));
+		});
+		$('a[title]').tooltip({container:'body'});
+		$('.dropdown-menu input').click(function() {return false;})
+			.change(function () {$(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');})
+		.keydown('esc', function () {this.value='';$(this).change();});
+
+		$('[data-role=magic-overlay]').each(function () { 
+		var overlay = $(this), target = $(overlay.data('target')); 
+		overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
+		});
+		/*
+		if ("onwebkitspeechchange"  in document.createElement("input")) {
+		var editorOffset = $('#editor').offset();
+		$('#voiceBtn').css('position','absolute').offset({top: editorOffset.top, left: editorOffset.left+$('#editor').innerWidth()-35});
+		} else {
+		$('#voiceBtn').hide();
+		}
+		*/
+	};
+	function showErrorAlert (reason, detail) {
+		var msg='';
+		if (reason==='unsupported-file-type') { msg = "Unsupported format " +detail; }
+		else {
+			console.log("error uploading file", reason, detail);
+		}
+		$('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>'+ 
+		 '<strong>File upload error</strong> '+msg+' </div>').prependTo('#alerts');
+	};
+	initToolbarBootstrapBindings();  
+	$(target).wysiwyg({ fileUploadError: showErrorAlert} );
+	window.prettyPrint && prettyPrint();
+	});
+	
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','http://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-37452180-6', 'github.io');
+	ga('send', 'pageview');
+	(function(d, s, id) {
+	var js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) return;
+	js = d.createElement(s); js.id = id;
+	js.src = "http://connect.facebook.net/en_GB/all.js#xfbml=1";
+	fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+	!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="http://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+};
+<!-- End of wysiwyg -->
+
+//辅助方法
+var getDate_Trans = function(datetime){
+	return "2015年10月23号";
+};
+var getTime_Trans = function(datetime){
+	return "09:18";
+};
+var getDateTime_Trans = function(datetime){
+	return "2015年10月23号 09:18";
+};
+var colors = ['label-danger', 'label-success', 'label-info', 'label-warning', 'label-primary'];
+var randomPicker = function(array){
+	var random = Math.floor(Math.random() * (array.length));
+	return array[random];
+}
+//修改20170317 #15
+var getText = function(id, list){
+	var result = "";
+	$.each(list, function(index, item){
+		if(id == item.id){
+			result = item.text;
+			return false;
+		}
+	});
+	return result;
+};
+//修改20170317 #15结束
+</script>
+<!-- <li><a href="#tab_moment" data-toggle="tab" data-filter="{star:1}"><i class="fa fa-list-alt"></i> <span>星标动态</span></a></li> -->
+<script>
+	$('a[data-toggle="tab"][href="#tab_moment"]').on('show.bs.tab', function (e) {
+		var filter = {};
+		if($(e.target).attr('data-filter')){
+			filter = $.parseJSON($(e.target).attr('data-filter'));
+		}
+		//console.log(filter);
+		initialMomentPostBlock_beta('#newpost_beta');
+		//initialMomentPostBlock('#postmoment');
+		//$('#tab_moment').empty();
+		$.get(ACTION_MAP.getRelatedMoment, filter, function(data){
+			loadMoment(data, '#tab_moment');
+		}).fail(function() {
+			console.log('Err: 加载动态失败');
+		});
+	}).on('hide.bs.tab', function (e){
+		$('#tab_moment').empty();
+	});
+	
+	$('a[data-toggle="tab"][href="#tab_customerhome"]').on('show.bs.tab', function (e) {
+		$.get(ACTION_MAP.getUserInfobyID, {}, function(data){
+				loadUserInfo(data, '#tab_customerhome');
+		}).fail(function() {
+			console.log('Err: tag');
+		});
+	}).on('hide.bs.tab', function (e){
+		
+	});
+	
+	$('#tab_customerhome .nav-tabs a[data-toggle="tab"][href="#tab_1"]').on('show.bs.tab', function (e){
+		$.get(ACTION_MAP.getMomentByUserID, {uid: $('#tab_customerhome .nav-tabs-custom').attr('data-uid')}, function(data){
+			loadMoment(data,'#tab_1');
+		}).fail(function(){
+			console.log("err");
+		});
+	}).on('hide.bs.tab', function (e){
+		$('#tab_1').empty();
+	});;
+	$('#tab_customerhome .nav-tabs a[data-toggle="tab"][href="#tab_2"]').on('show.bs.tab', function (e){
+		if($(this).attr('data-type') == 'following'){
+			$.get(ACTION_MAP.getFollowing, $.parseJSON($(e.target).attr('data-filter')), function(data){
+				loadFollowList(data, '#tab_customerhome #tab_2');
+			}).fail(function(){
+				console.log("err");
+			});
+		}else if($(this).attr('data-type') == 'followed'){
+			$.get(ACTION_MAP.getFollowed, function(data){
+				loadFollowList(data, '#tab_customerhome #tab_2');
+			}).fail(function(){
+				console.log("err");
+			});
+		}
+		//$('#tab_customerhome #tab_2').empty();
+		//alert(2);
+	});
+	$('a[data-toggle="tab"][href="#tab_moment"]:eq(0)').tab('show');
+	
+	//$('#modal_sharedwith').modal('show');
+		
+	//修改20170317 #5
+	//修改select2的样式
+	$.fn.select2.defaults.set("theme", "bootstrap");
+	//修改20170317 #5结束
+	//修改20170317 #12
+	var formatState = function(data) {
+		var $data = $(
+			'<div class="user-block">\
+				<img class="img-circle img-bordered-sm" src="' + data.img + '" alt="User Image">\
+				<span class="username">\
+					<div>' + data.text + '</div>\
+				</span>\
+				<span class="description">结果： ' + data.count + '个</span>\
+			</div>'
+		);
+		return $data;
+	};
+	
+	$('[name="search"]').select2({
+		language: 'zh-CN',
+		allowClear: true,
+		minimumInputLength: 1,
+		ajax:  {
+			url: '/searchmoment',
+			delay: 250,
+			processResults: function (data) {
+				return {
+					results: data
+				};
+			}
+		},
+		templateResult	: formatState,
+	});
+	//20170319
+
+	
+	$('[name="search"]').on('select2:select', function (evt) {
+		var list = $(this).select2('data')[0].list;
+		//console.log(list);
+		$.get(ACTION_MAP.getOption, function(data){
+			$.each(list, function(index, l){
+				$('#modal_searchresult .modal-body').append(groupBlockStyle(l, 'col-md-3', data.genres));
+			});
+			$('#modal_searchresult').modal('show');
+		}).fail(function(err){
+			console.log(err);
+		});
+	});
+	
+	$('[name="search"]').on('select2:open', function (evt) {
+		$(this).val('').trigger('change');
+	});
+	
+	
+	$('#modal_searchresult').on('show.bs.modal', function(e){
+		$('#modal_searchresult [data-action="follow"]').on('click', function(e){
+			var temp_block = $(this).closest('.col-md-3');
+			$.get(ACTION_MAP.follow, {followed_id: $(this).attr('data-id'), value: 1}, function(data){
+				alert('成功添加关注！');
+				temp_block.remove();
+			}).fail(function(err){
+				console.log(err);
+			});
+		});
+		//20170319
+		$('#modal_searchresult [data-action="joingroup"]').on('click', function(e){
+			var temp_block = $(this).closest('.col-md-3');
+			$.get(ACTION_MAP.applyToJoinGroup, {group_id: $(this).attr('data-id')}, function(data){
+				alert('成功申请加入群主！');
+				temp_block.remove();
+			}).fail(function(err){
+				console.log(err);
+			});
+		});
+		
+	});
+	$('#modal_searchresult').on('hide.bs.modal', function(e){
+		$('#modal_searchresult .modal-body').empty();
+	});
+	//修改20170317 #12结束
+</script>
+<!-- <div class="nav-tabs-custom">
+<ul class="nav nav-tabs">
+	<li class="active"><a href="#tab_1" data-toggle="tab">动态 <span data-type="moment-count" style="color: #bdbdbd"> 4</span></a></li>
+	<li class="dropdown">
+		<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			关注 <span class="caret"></span>
+		</a>
+		<ul class="dropdown-menu">
+			<li><a href="#tab_2" data-toggle="tab" tabindex="-1">关注的人 <span data-type="following-individual" style="color: #bdbdbd"> 4</span></a></li>
+			<li><a href="#tab_2" data-toggle="tab" tabindex="-1">关注的群组 <span data-type="following-group" style="color: #bdbdbd"> 4</span></a></li>
+			<li class="divider"></li>
+			<li><a href="#tab_2" data-toggle="tab" tabindex="-1">关注我的人 <span data-type="followed-by" style="color: #bdbdbd"> 4</span></a></li>
+		</ul>
+	</li>
+</ul>
+<div class="tab-content">
+	<div class="tab-pane" id="tab_1">
+		
+	</div>
+	<div class="tab-pane active" id="tab_2">
+		
+	</div>
+</div>
+</div> -->
+<style>
+/* 20170325 */
+.box-moment .box-content .moment-title {
+	font-size: 20px;
+}
+body {
+	font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+}
+a[href="#newpost_beta"] {
+	-moz-box-shadow: 1px 2px 3px rgba(0,0,0,.5);
+	-webkit-box-shadow: 1px 2px 3px rgba(0,0,0,.5);
+	box-shadow: 1px 2px 3px rgba(0,0,0,.8);
+}
+/* moment fade */
+.box-moment .box-content .text{
+	position: relative;
+	z-index: 0;
+}
+.box-moment .box-content .fade-bottom {
+	position: relative;
+	z-index: 1;
+	margin-top: -40px;
+	height: 40px;
+	background-image: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255, 1) 90%);
+}
+
+/* 20170321 */
+#newpost_beta .editor img{
+	width: 500px;
+}
+/* 20170319 */
+.select2-container .select2-selection--single .select2-selection__rendered {
+	margin-top:auto;
+}
+#tab_moment {
+	margin-top: 15px;
+	column-count: 4;
+	column-gap: 20px;
+}
+@media only screen and (max-width: 1200px) {
+    #tab_moment {
+        column-count: 3;
+    }
+}
+@media only screen and (max-width: 992px) {
+    #tab_moment {
+        column-count: 2;
+    }
+}
+@media only screen and (max-width: 400px) {
+    #tab_moment {
+        column-count: 1;
+    }
+}
+#tab_1 {
+	padding-top: 15px;
+	column-count: 3;
+	column-gap: 20px;
+}
+.box-moment {
+	width: 100%;
+	display: inline-block;
+	border: none;
+	border-radius: 3px;
+	background: #ffffff;
+	margin-bottom: 20px;
+	-moz-box-shadow: 1px 2px 3px rgba(0,0,0,.5);
+	-webkit-box-shadow: 1px 2px 3px rgba(0,0,0,.5);
+	box-shadow: 1px 2px 3px rgba(0,0,0,.5);
+}
+.box-header {
+	padding: 16px;
+}
+.box-header img {
+	width: 40px;
+	height: 40px;
+	float: left;
+}
+.box-header .title {
+	padding-left: 10px;
+	color: rgba(0,0,0,0.87);
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 20px;
+	max-height: 20px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	word-break: break-word;
+}
+.box-header .datetime {
+	color: #999;
+	font-size: 13px;
+	display: block;
+	margin-left: 50px;
+}
+.box-header .dropdown > a {
+	font-size: 23px;
+	color: rgba(0,0,0,0.5);
+}
+.box-content {
+	margin: 10px 10px;
+}
+.fold{
+	max-height: 150px;
+	overflow-y: hidden;
+}
+.box-content img {
+	width: 100%;
+}
+.box-nav-bottom {
+	border-top: 1px solid #f4f4f4;
+	padding: 5px 5px;
+	text-align: right;
+}
+.box-footer-item {
+	margin-right: 5px;
+	color: rgba(0,0,0,0.5);
+}
+.review-item {
+	border-bottom: 1px solid #f4f4f4;
+}
+.review-item .box-header {
+	padding-top: 5px;;
+}
+#tab_customerhome #tab_1, 
+#tab_customerhome #tab_2,
+#tab_customerhome .tab-content {
+	background-color: #f9f9f9;
+} 
+</style>
+<style>
+.user-box, .group-box {
+		border: none;
+		border-radius: 3px;
+		background: #ffffff;
+		margin-bottom: 20px;
+		width: 100%;
+		height: 280px;
+		box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+	}
+	.user-box-img {
+		width: 100%;
+		text-align: center;
+		padding-top: 24px;
+	}
+	.user-box-img img{
+		width: 90px;
+		height: 90px;
+	}
+	.user-box .name {
+		margin-top: 10px;
+		text-align: center;
+		color: rgba(0,0,0,0.87);
+		font-size: 16px;
+		line-height: 20px;
+		height: 20px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		word-break: break-word;
+	}
+	.user-box .title {
+		text-align: center;
+		color: rgba(0,0,0,0.5);
+		font-size: 14px;
+		line-height: 20px;
+		height: 20px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		word-break: break-word;
+	}
+	.user-box .option {
+		margin: 80px 10px 10px 0;
+	}
+	.group-box-img {
+		width: 100%;
+		height:120px;
+		background: url('dist/img/photo2.png') center center;
+	}
+	.group-box-img img{
+		width: 30px;
+		height: 30px;
+		position: relative;
+		top: 105px; 
+		left: 10px;
+	}
+	.group-box .name {
+		margin-top: 20px;
+		margin-left: 15px;
+		color: rgba(0,0,0,0.87);
+		font-size: 16px;
+		line-height: 20px;
+		height: 20px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		word-break: break-word;
+	}
+	.group-box .member-count, .group-box .genre {
+		margin-left: 15px;
+		color: rgba(0,0,0,0.5);
+		font-size: 12px;
+		line-height: 20px;
+		height: 20px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		word-break: break-word;
+	}
+	.user-box .follow, .group-box .follow{
+		text-align: center;
+		color: rgba(0,0,0,0.5);
+		font-size: 14px;
+		line-height: 20px;
+		height: 20px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		word-break: break-word;
+	}
+	.user-box .follow {
+		margin: 76px 10px 10px 0;
+	}
+	.group-box .follow {
+	margin: 40px 10px 10px 0;
+	}
+
+	#tab_friendlist .tab-content .tab-pane, #tab_grouplist .tab-content .tab-pane {
+		min-height: 300px;
+		overflow-y: auto;
+	}
+</style>
+
+<style>
+.modal {
+	text-align: center;
+	padding: 0!important;
+}
+
+.modal:before {
+	content: '';
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+	margin-right: -4px;
+}
+
+.modal-dialog {
+	display: inline-block;
+	text-align: left;
+	vertical-align: middle;
+}
+/* wysiwyg */
+.editor {
+	min-height: 100px;
+	background-color: white;
+	border-collapse: separate; 
+	border: 1px solid rgb(204, 204, 204); 
+	padding: 4px; 
+	box-sizing: content-box; 
+	-webkit-box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px inset; 
+	box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px inset;
+	border-top-right-radius: 3px; border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px; border-top-left-radius: 3px;
+	overflow-y: scroll;
+	outline: none;
+	-webkit-transition: min-height 2s; /* Safari */
+	transition: min-height 1s;
+}
+.editor:focus {
+	min-height: 200px;
+}
+
+div[data-role="editor-toolbar"] {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.dropdown-menu a {
+	cursor: pointer;
+}
+/* end of wysiwyg */
+
+.moment {
+	
+}
+.moment-fold {
+	height: 150px;
+	overflow-y: hidden;
+}
+#momentModal img, .moment img {
+	max-width: 500px;
+};
+.reply {
+	
+}
+.reply-fold {
+	height:150px;
+	overflow-y:hidden;
+}
+.reply img {
+	max-width: 500px;
+};
+#momentModal img {
+	max-width: 500px;
+};
+</style>
+</body>
+</html>

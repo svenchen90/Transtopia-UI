@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <section id="sideBar_Transtopia_SUB">
+					<div class="sidebar-title">
+						<span class="sidebar-title-icon fa fa-address-book"></span>
+						<div class="sidebar-title-text">通信录</div>
+					</div>
+					<div class="sidebar-search">
+						<span class="fa fa-search"></span>
+						<input type="text" placeholder="搜索姓名、职位和手机号...">
+					</div>
+					<ul class="sidebar-list" id="siderbar_contacts">
+						<li class="sidebar-list-item" id="sidebar_addfriend">
+							<span class="sidebar-list-item-icon fa fa-user-plus" style="color: #ff9800;"></span>
+							<span class="sidebar-list-item-text">新的好友</span>
+						</li>
+						<li class="sidebar-list-item" id="sidebar_tofriendlist">
+							<span class="sidebar-list-item-icon fa fa-user" style="color: #0091ea;"></span>
+							<span class="sidebar-list-item-text">联系人</span>
+						</li>
+						<li class="sidebar-list-item" id="sidebar_togrouplist">
+							<span class="sidebar-list-item-icon fa fa-users" style="color: #0091ea;"></span>
+							<span class="sidebar-list-item-text">我的群组</span>
+						</li>
+					</ul>
+        </section>
+        <section id="content_Transtopia_SUB">
+			<!-- Panel of Add Friend -->
+       <div class="panel-full" id="panel_addfriend">
+				<div class="newfriend-centre">
+					<div class="newfriend-centre-title">
+						还没有新的联系人，通过下面的方式邀请吧！
+					</div>
+					<ul class="newfriend-centre-list">
+						<li class="newfriend-centre-list-item" value="0">
+							<i class="newfriend-centre-list-item-icon fa fa-wechat" style="background-color:#8bc34a;"></i>
+							<div class="newfriend-centre-list-item-text">微信邀请</div>
+						</li>
+						<li class="newfriend-centre-list-item" value="1">
+							<i class="newfriend-centre-list-item-icon fa fa-qq" style="background-color:#03a9f4;"></i>
+							<div class="newfriend-centre-list-item-text">QQ邀请</div>
+						</li>
+						<li class="newfriend-centre-list-item" value="2">
+							<i class="newfriend-centre-list-item-icon fa fa-weibo" style="background-color:#00bcd4;"></i>
+							<div class="newfriend-centre-list-item-text">微博邀请</div>
+						</li>
+						<li class="newfriend-centre-list-item" value="3">
+							<i class="newfriend-centre-list-item-icon fa fa-envelope" style="background-color:#f9ce1d;"></i>
+							<div class="newfriend-centre-list-item-text">电子邮箱邀请</div>
+						</li>
+						<li class="newfriend-centre-list-item" value="4">
+							<i class="newfriend-centre-list-item-icon fa fa-mobile" style="background-color:#f98b19;"></i>
+							<div class="newfriend-centre-list-item-text">手机邀请</div>
+						</li>
+						<li class="newfriend-centre-list-item" value="5">
+							<i class="newfriend-centre-list-item-icon fa fa-link" style="background-color:#607d8b;"></i>
+							<div class="newfriend-centre-list-item-text">二维码邀请</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="modal fade" id="modal_addfriend">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<div class="newfriend-centre-list-item">
+								
+							</div>
+						</div>
+						<div class="modal-body">
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Panel of Friend List -->
+			<div class="panel-full" id="panel_friendlist">
+				<ul class="nav-contactfilter">
+					<li><a href="#">全部联系人</a></li>
+					<li><a href="#">好友</a></li>
+					<li><a href="#">其他协作关系</a></li>
+				</ul>
+				<ul class="nav nav-pills a-z">
+					<li><a href="#">全部</a></li>
+				</ul>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>姓名/职业/公司</th>
+							<th>手机</th>
+							<th>Email</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- Load Friend List Here -->
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="modal fade" id="modal_friendrequest">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-body">
+							<span>添加成为明道好友</span>
+							<p>发送验证消息，等待好友确认</p>
+							<textarea class="form-control" rows="5"></textarea>
+							<input class="btn btn-primary" value="确认">
+							<input class="btn" value="取消">
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="modal fade" id="modal_deletefriend" >
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-body">
+							<p>删除后您将不显示在对方的好友列表里</p>
+							<p>确认删除当前好友？</p>
+							<input class="btn btn-primary" value="确认">
+							<input class="btn" value="取消">
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Panel of Group List -->
+			<div class="panel-full" id="panel_grouplist">
+				<ul class="nav-contactfilter">
+					<li><a href="#">全部群组</a></li>
+					<li><a href="#">我加入的群组</a></li>
+					<li><a href="#">我创建的群组</a></li>
+				</ul>
+				<ul class="nav nav-pills a-z" style="margin: 15px 15px;">
+					<li><a href="#">全部</a></li>
+				</ul>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>群组名称</th>
+							<th>群组状态</th>
+							<th>群组成员</th>
+							<th>创始人</th>
+							<th>建立时间</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- Load Group List Here -->
+					</tbody>
+				</table>
+			</div>
+			
+        </section>
+		<style>
+			body,button,img,input,ol,select,textarea,ul {
+				font-size: 12px;
+				font-family: Helvetica Neue,Helvetica,Nimbus Sans L,Arial,Liberation Sans,Hiragino Sans GB,Source Han Sans CN Normal,Microsoft YaHei,Wenquanyi Micro Hei,WenQuanYi Zen Hei,ST Heiti,SimHei,WenQuanYi Zen Hei Sharp,sans-serif;
+				color: #333;
+				line-height: 1.5;
+			}
+			/* Title Block in Sidebar */
+			.sidebar-title {
+				border-bottom: 1px solid rgba(0,0,0,.32)!important;
+				padding: 10px 0 10px 15px;
+			}
+			.sidebar-title-icon {
+				display:inline-block;
+				color: rgba(0,0,0,.54)!important;
+				font-size: 22px;
+			}
+			.sidebar-title-text {
+				display:inline-block;
+				font-size:15px;
+				margin-left: 10px;
+			}
+			/* Search Block in Sidebar */
+			.sidebar-search {
+				margin:8px 15px 5px;
+				border-bottom: 1px solid rgba(0,0,0,.32)!important;
+				border-radius: 5px;
+				padding:12px 0 8px;
+			}
+			.sidebar-search > span{
+				font-size: 16px;
+				float: left;
+				color: rgba(0,0,0,.54)!important;
+			}
+			.sidebar-search > input {
+				margin-left: 5px;
+				width: 175px;
+				border: 0;
+				outline: 0;
+				background-color: transparent; 
+			}
+			
+			/* List Block in Sidebar */
+			.sidebar-list {
+				padding: 6px 0;
+				border-bottom: 1px solid rgba(0,0,0,.12)!important;
+			}
+			.sidebar-list-item {
+				font-size: 13px;
+				line-height: 40px;
+				padding-left: 15px;
+				cursor: pointer;
+			}
+			.sidebar-list-item:hover {
+				background-color: rgba(194, 202, 214, 0.32)!important;
+			}
+			.sidebar-list-item.active {
+				background-color: #bbdefb!important;
+			}
+			.sidebar-list-item-icon {
+				font-size: 15px;
+				display: inline-block;
+				width: 20px;
+				margin-right: 15px;
+				text-align: center;
+				vertical-align: middle;
+			}
+			.sidebar-list-item-text {
+				color: rgba(0,0,0,.87)!important;
+				font-size: 13px;
+				line-height: 40px;
+			}
+			/* Panel Add Friend */
+			#panel_addfriend,
+			#panel_friendlist,
+			#panel_grouplist {
+				display: none;
+			}
+			.panel-full {
+				height: 901px;
+				background-color: rgb(255,255,255);
+				border-radius: 3px;
+			}
+			.newfriend-centre {
+				width: 452px;
+				height: 400px;
+				position: relative;
+				top: 50%;left: 50%;
+				transform: translateX(-50%) translateY(-50%);
+			}
+			.newfriend-centre-title {
+				font-size: 20px;
+				margin-bottom: 70px;
+				text-align: center;
+				color: #333;
+			}
+			.newfriend-centre-list {
+				padding-left: 0;
+			}
+			.newfriend-centre-list-item {
+				float:left;
+				width: 150px;
+				height: 115px;
+				margin-bottom: 40px;
+				list-style: none;
+				cursor: pointer;
+				text-align: center;
+			}
+			.newfriend-centre-list-item-icon {
+				width: 77px;
+				height:77px;
+				padding-top: 14px;
+				font-size: 50px;
+				color:rgb(255,255,255);
+				border-radius: 50%;
+			}
+			.newfriend-centre-list-item-text {
+				font-size: 14px;
+				margin-top: 20px;
+				color: #555;
+			}
+			#modal_addfriend .modal-content {
+				width: 500px;
+			}
+			#modal_addfriend .modal-content .modal-header {
+				height: 210px;
+				background-color: #fff;
+			}
+			#modal_addfriend .newfriend-centre-list-item {
+				position: relative;
+				top: 50%;
+				left: 50%;
+				transform: translateX(-50%) translateY(-50%);
+			}
+			#modal_addfriend .modal-body {
+				background-color: #eee;
+			}
+			#modal_addfriend .modal-body img,
+			#modal_addfriend .modal-body input{
+				position: relative;
+				left: 50%;
+				transform: translateX(-50%);
+			}
+			#modal_addfriend .modal-body p{
+				text-align: center;
+			}
+			#modal_addfriend input[type=text]{
+				box-sizing: border-box;
+				width: 290px;
+				height: 35px;
+				padding: 5px;
+				margin-bottom: 15px;
+				border: 1px solid #ccc;
+				border-radius: 4px;
+			}
+			/* Filter at Top */
+			.nav-contactfilter {
+				padding-left: 15px;
+				border-bottom: 1px solid #ccc;
+			}
+			.nav-contactfilter > li {
+				font-size: 12px;
+				line-height: 58px;
+				display: inline-block;
+				height: 58px;
+				padding: 0 10px;
+				cursor: pointer;
+			}
+			.nav-contactfilter > li > a {
+				color: #888!important;
+			}
+			.nav-contactfilter > li:hover{
+				border-bottom: 2px solid #ccc;
+			}
+			.nav-contactfilter > li.active{
+				border-bottom: 2px solid #1e88e5!important;;
+			}
+			.nav-contactfilter > li.active > a {
+				color: #1e88e5!important;
+			}
+			.a-z {
+				margin: 15px 15px;
+			}
+			#modal_friendrequest .modal-content {
+				width: 452px;
+				height: 284px;
+			}
+			#modal_friendrequest .modal-content span{
+				display: inline-block;
+				margin-top: 24px;
+				vertical-align: top;
+				font-size: 16px!important;
+			}
+			#modal_friendrequest .modal-content p {
+				font-size: 13px;
+				color: #999;
+				margin-bottom: 16px;
+			}
+			#modal_friendrequest .modal-content input,
+			#modal_deletefriend .modal-content input {
+				width:75px;
+				margin: 15px 10px;
+				float:right;
+			}
+			#modal_deletefriend .modal-content {
+				width:380px;
+				height:160px;
+			}
+			#modal_deletefriend .modal-content p:first-child{
+				color: #000;
+				font-size: 16px;
+			}
+			#modal_deletefriend .modal-content p:nth-child(2){
+				margin: 20px 0;
+				font-size: 14px;
+				color: #999;
+			}
+		</style>
+		<script>
+			// CSS of Toggle
+			$(document).ready(function(){
+				
+				$(".sidebar-list-item").on("click", function(){
+					$(".sidebar-list-item.active").toggleClass("active");
+					$(this).toggleClass("active");
+				});
+			
+				//Load from A to Z
+				for (var i = 65; i <= 90; i++) {
+					$('.a-z').append('<li ><a href="#">' + String.fromCharCode(i) + '</a></li>');
+				}
+				$(".a-z li").on("click", function(){
+					$(".a-z li.active").toggleClass("active");
+					$(this).toggleClass("active");
+				});
+				
+				$(".nav-contactfilter li").on("click", function(){
+					$(".nav-contactfilter li.active").toggleClass("active");
+					$(this).toggleClass("active");
+				});
+				
+				$("#siderbar_contacts > li").on("click",function(){
+					$("#content_Transtopia > div").hide();
+					$(".nav-contactfilter li.active").toggleClass("active");
+					$(".a-z li.active").toggleClass("active");
+					if($(this).attr('id') == "sidebar_addfriend"){
+						$("#panel_addfriend").show(100);
+					}else if($(this).attr('id') == "sidebar_tofriendlist"){
+						$("#panel_friendlist .nav-contactfilter li:first").toggleClass("active");
+						$("#panel_friendlist .a-z li:first").toggleClass("active");
+						$("#panel_friendlist").show(100);
+					}else if($(this).attr('id') == "sidebar_togrouplist"){
+						$("#panel_grouplist .nav-contactfilter li:first").toggleClass("active");
+						$("#panel_grouplist .a-z li:first").toggleClass("active");
+						$("#panel_grouplist").show(100);
+					}
+				});
+				
+				$(".newfriend-centre-list-item").on("click",function(){
+					$('#modal_addfriend .modal-header .newfriend-centre-list-item').html($(this).html());
+					if([0,1,2,5].indexOf($(this).val()) >= 0){
+						$("#modal_addfriend .modal-body").html(
+						'<img src="' + 'Contacts/img/Test_addFriend.jpg' + '">\
+							<p>使用微信“扫一扫”</p>\
+							<p>将打开的页面通过右上角分享功能发送给您的好友</p>\
+							<input class="btn btn-primary" value="完成">');
+					}else if($(this).val() == 3){
+						$("#modal_addfriend .modal-body").html(
+						'<input type="text" placeholder="请输入Email地址">\
+						<input class="btn btn-primary" value="完成">');
+					}else if($(this).val() == 4){
+						$("#modal_addfriend .modal-body").html(
+						'<input type="text" placeholder="请输入电话号码">\
+						<input class="btn btn-primary" value="完成">');
+					}else{
+					
+					}
+					
+					$('#modal_addfriend').modal('toggle');
+				});
+			});
+			
+			/*
+			Data Structure
+				Friend: {
+					name: String,
+					phone: String,
+					email: String,
+					isFriend: 0 or 1
+				}
+				
+				Group: {
+					name: String, 
+					status: 0 or 1, 
+					member_count: Number, 
+					holder: String, 
+					date_created: String （or Datetime）
+				}
+			*/
+			
+			
+			var loadFriendsList = function(data){
+				$("#panel_friendlist > table tbody").empty();
+				$.each(data,function(index, person){		
+					$("#panel_friendlist > table tbody").append(
+					'<tr>\
+						<td><a href="#">' + person.name + '</a></td>\
+						<td>' + person.phone + '</td>\
+						<td>' + person.email + '</td>\
+						<td class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-th-list"></i></a>\
+							<ul class="dropdown-menu">\
+								<li><a href="#"><i class="fa fa-comment"></i> 聊天</a></li>' +
+								( person.isFriend == 1 ? '<li><a href="#" data-toggle="modal" data-target="#modal_deletefriend"><i class="fa fa-trash"></i> 删除好友</a></li>' : '<li><a href="#" data-toggle="modal" data-target="#modal_friendrequest"><i class="fa fa-user-plus"></i> 添加好友</a></li>')
+							+ '</ul>\
+						</td>\
+					</tr>');
+				});
+			};
+			
+			var loadGroupList = function(data){
+				$("#panel_grouplist > table tbody").empty();
+				$.each(data,function(index,group){
+					$("#panel_grouplist > table tbody").append(
+					'<tr>\
+						<td><a href="#">' + group.name + '</a></td>\
+						<td>' + (group.status == 1 ? '开启' : '关闭') + '</td>\
+						<td>' + group.member_count + '</td>\
+						<td><a href="#">' + group.holder + '</a></td>\
+						<td>' + group.date_created + '</td>\
+						<td class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-th-list"></i></a>\
+							<ul class="dropdown-menu">\
+								<li><a href="#"><i class="fa fa-comment"></i> 聊天</a></li>\
+								<li><a href="#"><i class="fa fa-pencil"></i> 查看</a></li>\
+								<li><a href="#"><i class="fa fa-trash"></i> 退出</a></li>\
+							</ul>\
+						</td>\
+					</tr>');
+				});
+			};
+			
+			/*
+			var getQRCode = function(){
+				src = ""
+				return src;
+			}
+			
+			test_friendlist_data = [{'name': 123, 'phone': 123, 'email': 123, 'isFriend': 1},{'name': 123, 'phone': 123, 'email': 123, 'isFriend': 0},{'name': 123, 'phone': 123, 'email': 123, 'isFriend': 1}];
+			loadFriendsList(test_friendlist_data);
+			test_grouplist_data = [{'name': 123, 'status': 1, 'member_count': 25, 'holder': 'Sven', 'date_created': '2017-01-13 15:01:47'},
+									{'name': 123, 'status': 0, 'member_count': 25, 'holder': 'Sven', 'date_created': '	2017-01-13 15:01:47'},
+									{'name': 123, 'status': 1, 'member_count': 25, 'holder': 'Sven', 'date_created': '	2017-01-13 15:01:47'}];
+			loadGroupList(test_grouplist_data);
+			*/
+		</script>
+    </body>
+</html>
+

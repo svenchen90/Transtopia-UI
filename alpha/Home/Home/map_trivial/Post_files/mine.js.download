@@ -1,0 +1,916 @@
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+var ACTION_MAP = {
+    getRelatedMoment: './GetHomePageInfoRequest?option=1',
+    getUserInfobyID: './GetHomePageInfoRequest?option=2',
+    getMomentByUserID: './GetHomePageInfoRequest?option=3',
+    getMomentByID:'./GetHomePageInfoRequest?option=4',
+    searchmoment:'./GetHomePageInfoRequest?option=5'
+};
+
+var code;
+var ticket = null;
+var tinfo = "";
+var temail = "";
+
+
+
+$(document).ready(function () {
+
+    //resizeSerachInput();
+    $('#do-search-btn').on('click', function () {
+        if ($('#navbar-search-input').val() === "")
+        {
+            alert("Please input the query content");
+            return false;
+        } else
+        {
+            window.location.href = "search.jsp?soption=0&qname=" + $('#navbar-search-input').val();
+        }
+
+    });
+    
+    if ($("#post_main_page").attr("type") === "home_index"&&$("#post_main_page").attr("email")!=="")
+    {
+        $.get(ACTION_MAP.getRelatedMoment, {filter: 'hot_posts_index'}, function (data) {
+            loadMoment(data, '.post_content_page');
+            showRegisterPage();
+        });
+    }else if ($("#post_main_page").attr("type") === "home_index")
+    {
+        $.get(ACTION_MAP.getRelatedMoment, {filter: 'hot_posts_index'}, function (data) {
+            loadMoment(data, '.post_content_page');
+        });
+    } else if ($("#post_main_page").attr("type") === "groups_index")
+    {
+        $.get(ACTION_MAP.getRelatedMoment, {filter: 'hot_groups'}, function (data) {
+            if (data !== "-1" && data !== "")
+            {
+                data = JSON.parse(data);
+                $.each(data, function (index, item) {
+                    $('.post_content_page').append(groupBlockStyle(item));
+                });
+            }
+        });
+    } else if ($("#post_main_page").attr("type") === "group_info_index")
+    {
+        var gid = $("#post_main_page").attr("gid");
+        var color = randomColor();
+        $.get(ACTION_MAP.getUserInfobyID, {gid: gid}, function (data) {
+
+            if (data !== "-1" && data !== "")
+            {
+                data = JSON.parse(data);
+                $("#top_nav_name").text(data.name);
+                loadUserTemplateInfo(data, color);
+                $("#sideBar_Transtopia_group").css("background-color", color);
+                //resizeSerachInput();
+            }
+        });
+    } else if ($("#post_main_page").attr("type") === "post_info_index")
+    {
+        var gid = $("#post_main_page").attr("pid");
+        showPostInfo(gid);
+    } else if ($("#post_main_page").attr("type") === "search_info_index")
+    {
+        var qname = $("#post_main_page").attr("qname");
+        var soption = $("#post_main_page").attr("soption");// 0 for all, 1 for position ,2 for category, 3, for tag,4 name
+        showSearchInfo(qname, soption);
+    }
+    else if ($("#post_main_page").attr("type") === "extend_items")
+    {
+        var qname = $("#post_main_page").attr("qname");
+        var soption = $("#post_main_page").attr("soption");// 0 for all, 1 for position ,2 for category, 3, for tag,4 note 5 groups, 6 
+        showSearchInfoExtend(qname, soption,"extend_items");
+        //resizeSerachInput();
+    }
+    else if ($("#post_main_page").attr("type") === "extend_posts")
+    {
+        var qname = $("#post_main_page").attr("qname");
+        var soption = $("#post_main_page").attr("soption");// 0 for all, 1 for position ,2 for category, 3, for tag,4 name
+        showSearchInfoExtend(qname, soption,"extend_posts");
+        //resizeSerachInput();
+    }
+
+
+    $('.sider_nav_list').on('click', function () {
+        var filter = $(this).attr('data-filter');
+
+        if (filter === "hot_posts_all")
+        {
+            window.location.href = "index.jsp";
+        } else if (filter === "hot_groups_all")
+        {
+            window.location.href = "groups.jsp";
+        } else if (filter === "signin")
+        {
+            showRegisterPage();
+        }
+    });
+
+
+//    $(window).resize(function () {
+//        var body_width1 = $(window).width();
+//        var cons1 = parseInt($(".nav_top_control").attr("length"));
+//        var name_width1 = parseInt($("#top_nav_name").width());
+//        var newWidth1 = parseInt(body_width1) - parseInt(cons1);
+//        $(".nav_top_control").css("width", newWidth1);
+//        var newinputWidth1 = newWidth1 - parseInt($("#navbar-search-input").attr("length")) - name_width1;
+//        $("#navbar-search-input").css("width", newinputWidth1);
+//    });
+
+});
+
+function resizeSerachInput()
+{
+    var body_width = $(window).width();
+
+    var cons = parseInt($(".nav_top_control").attr("length"));
+    var newWidth = parseInt(body_width) - parseInt(cons);
+    $(".nav_top_control").css("width", newWidth);
+    var name_width = parseInt($("#top_nav_name").width());
+    var newinputWidth = newWidth - parseInt($("#navbar-search-input").attr("length")) - name_width;
+    $("#navbar-search-input").css("width", newinputWidth);
+
+}
+
+
+var groupBlockStyle = function (data) {
+    var color = randomColor();
+    var content = '<div class="col-md-3" style="width:265px;">\
+						<div class="group-box box-moment"  style="background:' + color + '">\
+							<div class="group-box-img group-box-post" onclick="showGroupTemplate(this)" color="' + color + '" data-id="' + data.gid + '" style="background: url(\'../../../' + data.bg_image + '\') center center;">\
+								<img class="img-circle img-bordered-sm" src="../../../' + data.imageProfile + '">\
+							</div>\
+							<div class="name">';
+    if (data.role === 6)
+    {
+        content += '<span style="float:left; text-align:left;  font-weight:bold; color:white; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;margin: 0; width: 160px;" title="'+data.name+'" onclick="showGroupTemplate(this)"  data-id="' + data.gid + '" class="hand_pointer">' + data.name + '</span></div>';
+    } else
+    {
+        content += '<span style="float:left;text-align:left;  font-weight:bold;color:white;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;margin: 0; width: 160px;" title="'+data.name+'" onclick="showGroupTemplate(this)"  data-id="' + data.gid + '" class="hand_pointer">' + data.name + '</span><span style="float:right;margin-right:15px;color:white;" class="group_member_count">' + data.member_count + '人</span></div>';
+    }
+
+    var cates = '<div style="margin-left:15px;margin-top:10px;"><p data-type="topic-genres" style="text-center:left;">';
+    $.each(data.category, function (index, genre) {
+        cates += '<a href="javascript:void(0);" data-action="follow" onclick="goSearchPage(this)" data-option="2" data-query="' + genre + '" data-genre="' + genre + '" class="label ' + randomPicker(colors) + '" style="margin-left: 3px;">' + genre + '</a>';
+    });
+    cates += '</p></div>';
+    content += cates;
+    //此处应完善
+    var tags = '<div  style="margin-left:15px;"><p data-type="topic-tags" style="text-center:left;">';
+    $.each(data.tags, function (index, tag) {
+        tags += '<a data-action="follow"  data-option="3" onclick="goSearchPage(this)" data-query="' + tag + '" data-tag="' + tag + '" class="label ' + randomPicker(colors) + '" style="margin-left: 3px;">' + tag + '</a>';
+    });
+    tags += '</p></div>';
+    content += tags;
+    content += '<div class="dropdown option" style="font-weight:bold;">';
+    content += ' <a class="btn btn-default btn-sm following_operation following_operation_1" href="javascript:void(0);" onclick="showLoginPage();" style="margin: 5px 5px;  float:left;" data-action="follow" data-id="' + data.gid + '"><i class="fa fa-plus"></i>关注</a>';
+    content += '<a class="btn btn-default btn-sm following_operation following_operation_1" href="javascript:void(0);" onclick="showLoginPage();" style="margin: 5px 5px;float:right;" data-action="joingroup_operation" data-id="' + data.gid + '">申请加入</a>';
+
+    content += '</div>\
+							<div class="clearfix"></div>\
+						</div>\
+					</div>';
+    return content;
+};
+
+
+var momentBlockStyle = function (data) {
+    var content_brief = '';
+    console.log($(data.content).find('img').length);
+    var items = $(data.content);
+    var hasImage = false;
+    var imageURL = '';
+    $.each(items, function (index, tagitem) {
+        if ($(tagitem).is("img"))
+        {
+            imageURL = $(tagitem).attr("src");
+            hasImage = true;
+        }
+    });
+    if ($(data.content).find('img').length > 0 || hasImage)
+    {
+        var url = $(data.content).find('img:eq(0)').attr('src');
+        if (url === undefined | url === null || url === "")
+        {
+            url = imageURL;
+        }
+        content_brief = '<img class="img-responsive pad" src="' + url + '" alt="Photo">';
+    } else
+    {
+        content_brief = '<div style="height:250px;overflow-y:hidden">' + data.content + '</div>';
+    }
+
+    var content = '<div id="moment_box_' + data.id + '"><div class="box box-widget box-moment">';
+    content += '<div class="box-header with-border">'
+            + '<div class="user-block">'
+            + '<img class="img-circle" src="../../../' + data.gimage + '" alt="User Image" onclick="showGroupTemplate(this)" color="' + randomColor() + '" data-id="' + data.gid + '">'
+            + '<span class="username"><a href="javascript:void(0);" onclick="showGroupTemplate(this)" color="' + randomColor() + '" data-id="' + data.gid + '">' + data.gname + '</a>\
+               <small><i class="fa fa-chevron-right" style="margin-right:5px;"></i>';
+    $.each(data.genre, function (index, cate) {
+        content += '<a href="javascript:void(0);" onclick="goSearchPage(this)" data-option="2" data-query="' + cate + '" data-id="' + cate + '" style="color:#00a65a">' + cate + '&nbsp;&nbsp;</a>';
+    });
+
+    content += '</small></span><span class="description" style="margin-top:5px;">' + getDateTime_Trans(data.datetime) + '</span>'
+            + '<span class="username" style="margin-left:0px;margin-top: 10px;"><a href="javascript:void(0);" onclick="showSingePostInfo(this)" data-id="' + data.id + '">' + data.title + '</a></span>'
+            + '</div>'
+            + '<div class="box-tools" style="top:0px;">';
+    content += '<button type="button" class="btn btn-box-tool" onclick="showSingePostInfo(this)" data-id="' + data.id + '"><i class="fa fa-external-link" aria-hidden="true"></i></button>';
+    content += '</div>'
+            + '</div>';
+
+    content += '<div class="box-body">'
+            + content_brief
+            + '<div class="box-nav-bottom">'
+            + ' <a class="box-footer-item" href="javascript:void(0);" onclick="showLoginPage();"><span class="fa fa-comment"></span>  <i class="data"></i><i class="data" id="comment_size_' + data.id + '"> ' + $(data.comments).length + '</i></a>\
+									<a class="box-footer-item" data-toggle="collapse" href="#collapse-tag-' + data.id + '"><span class="fa fa-tag"></span> <i class="data">' + $(data.tags).length + '</i></a>\
+									<a href="javascript:void(0);" onclick="showLoginPage();" class="moment-like box-footer-item" data-id="' + data.id + '" data-like="' + data.like + '"><span class="fa fa-thumbs-o-up"></span> <i class="data" id="total_like_' + data.id + '">' + data.total_like + '</i></a>';
+    content += '<a href="javascript:void(0);" onclick="showLoginPage();" class="moment-star box-footer-item" data-id="' + data.id + '" data-star="' + data.star + '"><span class="fa fa-star-o"></span></a>';
+
+
+    content += '</div><div id="collapse-tag-' + data.id + '" class="collapse in box-footer"></div>';
+    content += ' </div>';
+
+    content += '</div>';
+
+    return content;
+};
+
+var showPostInfo = function (id)
+{
+    //var id=$(item).attr("data-id");
+    $.get(ACTION_MAP.getMomentByID, {pid: id}, function (data) {
+        data = JSON.parse(data);
+        var content = '<div class="col-md-12" style="overflow:hidden;"><div class="box box-widget">';
+        content += '<div class="box-header with-border">'
+                + '<div class="user-block">'
+                + '<img class="img-circle" src="../../../' + data.gimage + '" alt="User Image" onclick="showGroupTemplate(this)" data-id="' + data.gid + '">'
+                + '<span class="username"><a href="javascript:void(0);" onclick="showGroupTemplate(this)" data-id="' + data.gid + '" >' + data.gname + '</a><small><i class="fa fa-chevron-right"></i>';
+
+        $.each(data.genre, function (index, cate) {
+            content += '<a href="javascript:void(0);" onclick="goSearchPage(this)" data-option="2" data-query="' + cate + '" data-id="' + cate + '" style="color:#00a65a">' + cate + '&nbsp;&nbsp;</a>';
+        });
+        content += '</small></span><span class="description">' + getDateTime_Trans(data.datetime) + '</span>'
+                + '<span class="username" style="margin-left:0px;margin-top:20px;"><a href="javascript:void(0);" onclick="showPostInfo(this)" data-id="' + data.id + '">' + data.title + '</a></span>'
+                + '</div>'
+                + '<div class="box-tools">';
+        content += '<button type="button" class="btn btn-box-tool" onclick="goBackPageInfo(this)" data-id="' + data.id + '"><i class="fa fa-close" aria-hidden="true"></i></button>'
+                + '</div>'
+                + '</div>';
+
+        content += '<div class="box-body">'
+                + data.content
+                + '<div class="box-nav-bottom">'
+                + ' <a class="box-footer-item" href="javascript:void(0);" onclick="showLoginPage();"><span class="fa fa-comment"></span>  <i class="data"></i><i class="data" id="comment_size_' + data.id + '"> ' + $(data.comments).length + '</i></a>\
+									<a class="box-footer-item" data-toggle="collapse" href="#collapse-tag-' + data.id + '"><span class="fa fa-tag"></span> <i class="data">' + $(data.tags).length + '</i></a>\
+									<a href="javascript:void(0);" onclick="showLoginPage();" class="moment-like box-footer-item" data-id="' + data.id + '" data-like="' + data.like + '"><span class="fa fa-thumbs-o-up"></span> <i class="data" id="total_like_' + data.id + '">' + data.total_like + '</i></a>';
+        content += '<a href="javascript:void(0);" onclick="showLoginPage();" class="moment-star box-footer-item" data-id="' + data.id + '" data-star="' + data.star + '"><span class="fa fa-star-o"></span></a>';
+
+
+        content += '</div><div id="collapse-tag-' + data.id + '" class="collapse in box-footer"></div>';
+        content += ' </div>';
+
+        content += '</div>';
+        $(".post_content_page").html(content);
+
+        $.each(data.tags, function (index, tag) {
+            $('#collapse-tag-' + data.id).append('<span class="moment-tag" style="margin-right: 5px;"><a href="javascript:void(0);"  data-option="3" onclick="goSearchPage(this)" data-query="' + tag + '" data-genre="' + tag + '" class="btn btn-primary btn-xs"><i class="fa fa-tag">&nbsp;' + tag + '</i></a></span>');
+        });
+
+
+
+        $(".post_content_page").fadeIn(1000);
+
+    });
+
+};
+
+
+var loadMoment = function (data, loadto) {
+
+    if (data === null || data.length === 0 || data === "-1")
+    {
+        return false;
+    }
+    data = JSON.parse(data);
+    data = data.reverse();
+    $(loadto).empty();
+
+    $.each(data, function (index, moment) {
+        //加载动态
+        $(loadto).append(momentBlockStyle(moment));
+        $.each(moment.tags, function (index, tag) {
+            $('#collapse-tag-' + moment.id).append('<span class="moment-tag" style="margin-right: 5px;"><a href="javascript:void(0);"  data-option="3" onclick="goSearchPage(this)" data-query="' + tag + '" data-genre="' + tag + '" class="btn btn-primary btn-xs "><i class="fa fa-tag">&nbsp;' + tag + '</i></a></span>');
+        });
+    });
+};
+
+var showRegisterPage = function ()
+{
+    showRegistration();
+};
+
+
+var showLoginPage = function ()
+{
+    showLogIn();
+};
+
+var goSearchPage = function (item)
+{
+    var query = $(item).attr("data-query");
+    var option = $(item).attr("data-option");
+    window.location.href = "search.jsp?soption=" + option + "&qname=" + query;
+};
+
+var showGroupTemplate = function (item)
+{
+    window.location.href = "group_info.jsp?gid=" + $(item).attr("data-id");
+
+};
+
+var showSingePostInfo = function (item)
+{
+    window.location.href = "post_info.jsp?pid=" + $(item).attr("data-id");
+
+};
+
+
+var showSearchInfoExtend = function (qname, option, type)// 0 for all, 1 for position ,2 for category, 3, for tag,4 name
+{
+    option = parseInt(option);
+    $.get(ACTION_MAP.searchmoment, {query: qname, soption: option}, function (data) {
+        //post_content_page_group
+        if (data !== "-1" || data !== "")
+        {
+            data = JSON.parse(data);
+
+            if (type === "extend_posts")
+            {
+
+                loadMoment(JSON.stringify(data.posts), '.post_content_page');
+
+            } else if (type === "extend_items")
+            {
+                $.each(data.groups, function (index, item) {
+
+                    $('.post_content_page').append(groupBlockStyle(item));
+                });
+            }
+        }
+    });
+};
+
+var showSearchInfo = function (qname, option)// 0 for all, 1 for position ,2 for category, 3, for tag,4 name
+{
+    option = parseInt(option);
+    $.get(ACTION_MAP.searchmoment, {query: qname, soption: option}, function (data) {
+        //post_content_page_group
+        if (data !== "-1" || data !== "")
+        {
+            data = JSON.parse(data);
+            $('.post_content_page_group').hide();
+            $('.post_content_page_user').hide();
+            $('.post_content_page_post').hide();
+            if(data.groups!==undefined&&data.groups!==null&&data.groups.length>0)
+            {
+                 $('.post_content_page_group').show();
+                 $('.post_content_page_group_main').empty();
+            }
+            
+            if(data.users!==undefined&&data.users!==null&&data.users.length>0)
+            {
+                 $('.post_content_page_user').show();
+                 $('.post_content_page_user_main').empty();
+            }
+            
+            if(data.posts!==undefined&&data.posts!==null&&data.posts.length>0)
+            {
+                $('.post_content_page_post').show();
+                $('.post_content_page_post_main').empty();
+            }
+           
+           
+            
+
+            $.each(data.groups, function (index, item) {
+                 
+                $('.post_content_page_group_main').append(groupBlockStyle(item));
+            });
+
+
+            $.each(data.users, function (index, item) {
+                $('.post_content_page_user_main').append(groupBlockStyle(item));
+            });
+
+
+            $.each(data.posts, function (index, item) {
+                $('.post_content_page_post_main').append(momentBlockStyle(item, '.post_content_page_post_main'));
+            });
+        }
+    });
+};
+
+//用户跳转
+
+var loadUserTemplateInfo = function (data, color) {
+    var target = ".group_info_template";
+    $(target + ' [data-type="bg"]').css({'background': 'url("../../../' + data.bg_image + '") center center'});
+
+    $(target + ' [data-type="img"]').attr({'src': "../../../" + data.imageProfile});
+    $(target + ' [data-type="name"]').html('<b>' + data.name + '</b>');
+    $(target + ' [data-type="introduction"]').text(data.introduction);
+    $(".user-box-footer").css("background", color);
+    //此处应完善
+    //修改20170317 #8
+    //修改内容： 修改个人信息
+    $(target + ' .infoList').empty();
+    $(target + ' .infoList').append('<a class="btn btn-primary btn-xs following_operation"  style="margin-right:8px;" href="javascript:void(0);" onclick="showLoginPage();" data-action="follow" data-id="' + data.gid + '" ><i class="fa fa-plus"></i><b>关注</b></a>');
+
+
+    //此处应完善
+    if (data.role === 6)
+    {
+        $(".user-title").show();
+        $(target + ' [data-type="titles"]').empty();
+
+        $.each(data.titles, function (index, title) {
+            $(target + ' [data-type="titles"]').append('<a href="javascript:void(0);" onclick="goSearchPage(this);" data-action="follow" data-query="' + title + '" data-option="1"  data-title="' + title + '" class="label ' + randomPicker(colors) + '" style="margin-left: 3px;">' + title + '</a>');
+        });
+    } else
+    {
+        $(".user-title").hide();
+    }
+
+    $(target + ' [data-type="topic-genres"]').empty();
+
+    $.each(data.category, function (index, genre) {
+        $(target + ' [data-type="topic-genres"]').append('<a href="javascript:void(0);" onclick="goSearchPage(this);" data-action="follow" data-query="' + genre + '" data-option="2" data-genre="' + genre + '" class="label ' + randomPicker(colors) + '" style="margin-left: 3px;">' + genre + '</a>');
+    });
+    //此处应完善
+    $(target + ' [data-type="topic-tags"]').empty();
+    $.each(data.tags, function (index, tag) {
+        $(target + ' [data-type="topic-tags"]').append('<a href="javascript:void(0);"  onclick="goSearchPage(this);" data-action="follow"  data-query="' + tag + '" data-option="3" data-tag="' + tag + '" class="label ' + randomPicker(colors) + '" style="margin-left: 3px;">' + tag + '</a>');
+    });
+
+    $("#post_info_content").empty();
+    $.get(ACTION_MAP.getMomentByUserID, {gid: data.gid}, function (data) {
+        loadMoment(data, '.post_content_page');
+    }).fail(function () {
+        console.log("err");
+    });
+};
+
+var goBackPageInfo = function (item)
+{
+    window.history.back();
+};
+
+var randomColor = function () {
+    var color_list = ['rgb(55, 141, 59)', 'rgb(65, 65, 65)', 'rgb(29, 135, 228)', 'rgb(119, 143, 155)', 'rgb(91, 106, 191)', 'rgb(125, 86, 193)', 'rgb(248, 167, 36)',
+        'rgb(255, 111, 66)', 'rgb(235, 63, 121)', 'rgb(229, 57, 53)', 'rgb(140, 109, 98)'];
+    var random = Math.floor(Math.random() * (color_list.length));
+    //console.log(color_list[random]);
+    return color_list[random];
+};
+
+//辅助方法
+var getDate_Trans = function (datetime) {
+    datetime = datetime.split(" ");
+    var eles = datetime[0].split("-");
+    return eles[0] + "年" + eles[1] + "月" + eles[2] + "号";
+};
+
+var getDateTime_Trans = function (datetime) {
+    datetime = datetime.split(" ");
+    var eles = datetime[0].split("-");
+    return eles[0] + "年" + eles[1] + "月" + eles[2] + "号 " + datetime[1];
+};
+var getTime_Trans = function (datetime) {
+    datetime = datetime.split(" ");
+    return datetime[1];
+};
+
+var colors = ['label-danger', 'label-success', 'label-info', 'label-warning', 'label-primary'];
+var randomPicker = function (array) {
+    var random = Math.floor(Math.random() * (array.length));
+    return array[random];
+};
+
+function createCode() {
+    code = "";
+    var codeLength = 4;//验证码的长度  
+    var checkCode = document.getElementById("code");
+    var random = new Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+            'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');//随机数  
+    for (var i = 0; i < codeLength; i++) {//循环操作  
+        var index = Math.floor(Math.random() * 36);//取得随机数的索引（0~35）  
+        code += random[index];//根据索引取得随机数加到code上  
+    }
+    checkCode.value = code;//把code值赋给验证码  
+}
+//校验验证码  
+function validate() {
+    var inputCode = document.getElementById("vcode").value.toUpperCase(); //取得输入的验证码并转化为大写        
+    if (inputCode.length <= 0) { //若输入的验证码长度为0  
+
+        return 0;//则弹出请输入验证码  
+    } else if (inputCode !== code) { //若输入的验证码与产生的验证码不一致时  
+        //alert("验证码输入错误！@_@"); //则弹出验证码输入错误  
+        createCode();//刷新验证码  
+        document.getElementById("vcode").value = "";//清空文本框 
+        return 1;
+    } else { //输入正确时  
+        //alert("^-^");
+        return 2;//弹出^-^  
+    }
+}
+
+
+function showCodeImage()
+{
+    $.post("./HandleGetWechatTicket", {flag: "0"}, function (result)
+    {
+        if (result === "")
+        {
+            alert("很抱歉，生成微信二维码失败，请重新尝试！");
+
+        } else
+        {
+            var info = JSON.parse(result);
+            if (info.errcode !== undefined && info.errcode !== null)
+            {
+                alert("很抱歉，生成微信二维码失败，请重新尝试！");
+            } else
+            {
+                ticket = info.ticket;
+                var url = encodeURI(ticket);
+                var modal = document.getElementById("myModal");
+
+                var content = '<div class="modal-dialog">'
+                        + '<!-- Modal content-->'
+                        + '<div class="modal-content">'
+                        + '<div class="modal-header">'
+                        + '<button type="button" class="close" data-dismiss="modal">&times;</button>'
+                        + '<h4><span class="fa fa-lock"></span>请先关注我们的公共号</h4>'
+                        + '</div>'
+                        + '<div class="modal-body" style="padding:40px 50px;">'
+                        + '<div style="text-align:center;"><img src="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=' + url + '" style="width:430px;height:430px;"</div>'
+                        + '</div>'
+                        + '<div class="modal-footer">'
+                        + '<p>已经关注? <a href="javascript:void(0)" onclick="showRegistration()">请继续</a></p>'
+                        + '</div>'
+                        + '</div>'
+
+                        + '</div>';
+                modal.innerHTML = content;
+                $('#myModal').modal({backdrop: 'static', keyboard: false});
+            }
+        }
+    });
+}
+
+function showRegistration()
+{
+    var temail=$("#post_main_page").attr("email");
+    var info=$("#post_main_page").attr("info");
+    info=info.split("a");
+    var gid=info[1];
+    var modal = document.getElementById("myModal");
+
+    var content = '<div class="modal-dialog">'
+            + '<!-- Modal content-->'
+            + '<div class="modal-content">'
+            + '<div class="modal-header" style="background:lightblue;">'
+            + '<button type="button" class="close" data-dismiss="modal">&times;</button>'
+            + '<h4><span class="fa fa-lock"></span> 注册</h4>'
+            + '</div>'
+            + '<div class="modal-body" style="padding:40px 50px;padding-top: 10px;">'
+            + '<form role="form" action="" method="post">'
+            + ' <div class="form-group">'
+            + ' <label for="username"><span class="fa fa-user"></span>  姓名</label>'
+            + ' <input type="text" class="form-control" id="name" placeholder="输入名字" name="name">'
+            + '</div>'
+            + ' <div class="form-group">'
+            + ' <label for="username"><span class="fa fa-envelope-o"></span> 电子邮箱</label>';
+    if (temail !== "")
+    {
+        content += ' <input type="text" class="form-control" id="email" placeholder="输入邮箱/微信" name="email" value="' + temail + '" disabled>';
+    } else
+    {
+        content += ' <input type="text" class="form-control" id="email" placeholder="输入邮箱/微信" name="email">';
+    }
+    content += '</div>'
+            + ' <div class="form-group">'
+            + ' <label for="username"><span class="fa fa-user"></span>  电话</label>'
+            + ' <input type="text" class="form-control" id="phone" placeholder="输入电话号码" name="name">'
+            + '</div>'
+            + ' <div class="form-group">'
+            + ' <label for="username"><span class="fa fa-user"></span>职业头衔</label>'
+            + ' <select class="form-control" multiple="multiple" style="width: 100%;" id="titles"></select>'
+            + '</div>'
+            + ' <div class="form-group">'
+            + ' <label for="username"><span class="fa fa-user"></span>你感兴趣的类别</label>'
+            + ' <select class="form-control" multiple="multiple" style="width: 100%;" id="cates"></select>'
+            + '</div>'
+            + ' <div class="form-group">'
+            + ' <label for="username"><span class="fa fa-user"></span>你感兴趣的标签</label>'
+            + ' <select class="form-control" multiple="multiple" style="width: 100%;" id="tags"></select>'
+            + '</div>'
+            + ' <div class="form-group">'
+            + ' <label>上传头像：</label>'
+            + '<div class="input-group">'
+            + '<input type="text" class="form-control">'
+            + '<div class="input-group-addon btn btn-default btn-file post-file1">'
+            + '<i class="fa fa-image"></i> 上传图片 <input name="avatar" type="file" single>'
+            + '</div>'
+            + '</div>'
+            + '<img id="face_image" class="img-thumbnail col-md-6" src="" style="margin-top:10px;"/>'
+            + '<div class="clearfix"></div>'
+            + '</div>'
+            + ' <div class="form-group">'
+            + ' <label>上传背景图片：</label>'
+            + '<div class="input-group">'
+            + '<input type="text" class="form-control">'
+            + '<div class="input-group-addon btn btn-default btn-file post-file2">'
+            + '<i class="fa fa-image"></i> 上传背景图片 <input name="avatar" type="file" single>'
+            + '</div>'
+            + '</div>'
+            + '<img id="bg_image" class="img-thumbnail col-md-6" src="" style="margin-top:10px;"/>'
+            + '<div class="clearfix"></div>'
+            + '</div>'
+            + ' <div class="form-group">'
+            + ' <label for="username"><span class="fa fa-user"></span>自我介绍</label>'
+            + ' <input type="text" class="form-control" id="introduction" placeholder="自我介绍..." name="name">'
+            + '</div>'
+            + '<div class="form-group">'
+            + '<label for="password"><span class="fa fa-eye"></span>密码</label>'
+            + '<input type="password" class="form-control" id="password" placeholder="输入密码" name="password">'
+            + '</div>'
+            + '<div class="form-group">'
+            + '<label for="password"><span class="fa fa-eye"></span>确认密码</label>'
+            + '<input type="password" class="form-control" id="cpassword" placeholder="确认密码" name="password">'
+            + '</div>'
+
+            + '<div class="form-group">'
+            + '<label for="validate_code"><span class="fa fa-eye"></span>验证码</label><br/>'
+            + '<input type="validate_code" class="form-control" id="vcode" placeholder="输入验证码" name="vcode" style="width:200px; display:inline-block;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type = "button" style="display:inline-block; height:34px; color:red;" id="code" onclick="createCode()"/>'
+            + '</div>'
+
+            + '<button type="button" class="btn btn-success btn-block" onclick="handleRegistration()"><span class="fa fa-off"></span> 注册</button>'
+            + '</form>'
+            + '</div>'
+            + '<div class="modal-footer">'
+            + '<button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="fa fa-remove"></span> 取消</button>'
+            + '<p>已经注册? <a href="javascript:void(0)" onclick="showLogIn()">登录</a></p>'
+            + '</div>'
+            + '</div>'
+
+            + '</div>';
+    modal.innerHTML = content;
+    $('#myModal').modal({backdrop: 'static', keyboard: false});
+    createCode();
+
+    $.get('./HandleGetGroupMessage?option=0', function (data) {
+        data = JSON.parse(data);
+        $("#cates").select2({
+            language: 'zh-CN',
+            data: data.category_list,
+            tags: true
+        });
+        $("#tags").select2({
+            language: 'zh-CN',
+            tags: true,
+            data: data.tags_list
+        });
+        $("#titles").select2({
+            language: 'zh-CN',
+            data: data.titles_list,
+            tags: true
+        });
+
+    });
+
+    //加载图片模块
+    $('.post-file1 :file').on('change', function () {
+        var input = $(this),
+                numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        input.trigger('fileselect', [numFiles, label]);
+    });
+
+    $('.post-file1 :file').on('fileselect', function (event, numFiles, label) {
+        var input = $(this).parents('.input-group').find(':text'),
+                log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+        if (input.length) {
+            input.val(log);
+        } else {
+            if (log)
+                alert(log);
+        }
+    });
+    $(function () {
+        $(".post-file1 :file").change(function () {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = imageIsLoaded1;
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    });
+    function imageIsLoaded1(e) {
+        $('#face_image').attr('src', e.target.result);
+        //$('#avatarImg').removeClass("hide");
+    }
+    ;
+
+
+    $('.post-file2 :file').on('change', function () {
+        var input = $(this),
+                numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        input.trigger('fileselect', [numFiles, label]);
+    });
+
+    $('.post-file2 :file').on('fileselect', function (event, numFiles, label) {
+        var input = $(this).parents('.input-group').find(':text'),
+                log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+        if (input.length) {
+            input.val(log);
+        } else {
+            if (log)
+                alert(log);
+        }
+    });
+    $(function () {
+        $(".post-file2 :file").change(function () {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = imageIsLoaded2;
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    });
+    function imageIsLoaded2(e) {
+        $('#bg_image').attr('src', e.target.result);
+        //$('#avatarImg').removeClass("hide");
+    }
+    ;
+}
+
+
+function showLogIn()
+{
+    var modal = document.getElementById("myModal");
+
+    var content = '<div class="modal-dialog">'
+            + '<!-- Modal content-->'
+            + '<div class="modal-content">'
+            + '<div class="modal-header" style="padding:35px 50px;background:lightblue;">'
+            + '<button type="button" class="close" data-dismiss="modal">&times;</button>'
+            + '<h4><span class="fa fa-lock"></span> 登录</h4>'
+            + '</div>'
+            + '<div class="modal-body" style="padding:40px 50px;">'
+            + '<form role="form" action="./HandleLogin" method="post">'
+            + ' <div class="form-group">'
+            + ' <label for="username"><span class="fa fa-user"></span> 账户</label>'
+
+            + ' <input type="text" class="form-control" id="email" placeholder="输入邮箱/微信" name="email"></div>'
+            + '<div class="form-group">'
+            + '<label for="password"><span class="fa fa-eye"></span>密码</label>'
+            + '<input type="password" class="form-control" id="password" placeholder="输入密码" name="password">'
+            + '</div>'
+            + '<button type="button" class="btn btn-success btn-block" onclick="handleLogIn();"><span class="fa fa-off"></span> 登录</button>'
+            + '</form>'
+            + '</div>'
+            + '<div class="modal-footer">'
+            + '<button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="fa fa-remove"></span> 取消</button>'
+            + '<p>新用户 <a href="javascript:void(0)" onclick="showRegistration()">注册?</a></p>'
+            + '<p>忘记了 <a href="javascript:void(0)" onclick="helpPassword()">密码?</a></p>'
+            + '</div>'
+            + '</div>'
+
+            + '</div>';
+    modal.innerHTML = content;
+    $('#myModal').modal({backdrop: 'static', keyboard: false});
+}
+
+function handleLogIn()
+{
+    var email = document.getElementById("email").value;
+    var password = document.getElementById("password").value;
+    $.post("./HandleLogin", {email: email, password: password}, function (result)
+    {
+        if (result === "0")
+        {
+            alert("很抱歉，登录失败，请重新登录！");
+
+        } else if (result === "1")
+        {
+            alert("账户或密码不正确，请重新登录！");
+        } else if (result === "2")
+        {
+            window.location = "./Admin/Home/all_posts.jsp";
+        } else if (result === "3")
+        {
+            window.location = "./SurveyUser/index.jsp";
+        }
+    });
+}
+
+function showRegister(option, info, email)
+{
+    option = parseInt(option);
+    if (option === 1)
+    {
+        tinfo = info;
+        temail = email;
+        showCodeImage();
+    }
+
+}
+
+function handleRegistration()
+{
+    var info=$("#post_main_page").attr("info");
+    var gid="";
+    var note="";
+    if (info !== "")
+    {
+        info = info.split("-");
+        gid = info[1];
+        note=info[2];
+    }
+    var vcode = validate();
+    if (vcode === 0)
+    {
+        alert("请输入验证码！");
+    } else if (vcode === 1)
+    {
+        alert("验证码输入错误！@_@");
+    } else
+    {
+        var name = document.getElementById("name").value;
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+        var phone = $("#phone").val();
+        var introduction = $("#introduction").val();
+        var cates = JSON.stringify($("#cates").val());
+        var tags = JSON.stringify($("#tags").val());
+        var titles = JSON.stringify($("#titles").val());
+        var bg_image = $("#bg_image").attr("src");
+        var face_image = $("#face_image").attr("src");
+        if (name === "" || email === "" || password === "" || phone === "" || introduction === "" || cates === "null" || tags === "null"
+                || titles === "null" || bg_image === "" || face_image === "")
+        {
+            alert("信息不能为空");
+        } else
+        {
+            //ticket = encodeURI(ticket);
+            $.post("./HandleRegistration", {name: name, email: email, password: password, phone: phone, introduction: introduction,
+                cates: cates, face_image: face_image, bg_image: bg_image, titles: titles, tags: tags, gid:gid, note:note}, function (result)
+            {
+                if (result === "0")
+                {
+                    alert("很抱歉，注册失败，请重新注册！");
+
+                } else if (result === "-1")
+                {
+                    alert("请首先关注我们的微信公众号");
+                } else if (result === "1")
+                {
+                    $('#myModal').modal("hide");
+                    alert("此邮箱已经注册成功，请直接登录！");
+                } else if (result === "2")
+                {
+                    alert("我们已经向你的微信发送了激活链接，请查看你的微信，完成注册！");
+                } else
+                {
+                    alert("微信验证发生异常，请稍后再试");
+                }
+            });
+        }
+    }
+
+}
+
+function showRegistrationStatus(value)
+{
+    var parent = document.getElementById("activatePage");
+    if (value === "1")
+    {
+        parent.innerHTML = "欢迎你，注册激活已经成功，你现在可以无限畅游我们的服务。";
+    } else if (value === "0")
+    {
+        parent.innerHTML = "非常抱歉，你的注册激活没有成功";
+    } else
+    {
+        parent.innerHTML = "无效的链接";
+    }
+}

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>交托帮</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<!-- Bootstrap 4.0 -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.7/js/tether.min.js" integrity="sha384-XTs3FgkjiBgo8qjEjBk0tGmf3wPrWtA6coPfQDfFEY8AnYJwjalXCiosYRBIBZX8" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<!-- Form Validation -->
+		<script src="http://1000hz.github.io/bootstrap-validator/dist/validator.min.js"></script>
+	</head>
+	<body>
+	<!-- Navbar -->
+	<div class="navbar navbar-fixed-top bg-faded" style="border-bottom:1px solid #ccc;">
+		<div class="container">
+			<a class="navbar-brand" href="#">
+				<!-- <img src="images/logoMain.jpg" style="height:50px;"> -->
+				Transtopia
+			</a>
+			<div class="nav navbar-nav text-uppercase float-xs-right" style="font-weight:bold;">
+				<a class="nav-item nav-link" href="#introduction">产品简介</a>
+				<a class="nav-item nav-link" href="#enterprice">企业版</a>
+				<a class="nav-item nav-link" href="#app">客户端</a>
+				<a class="nav-item nav-link" href="#blog">博 客</a>
+				<button class="nav-item btn btn-default navbar-btn text-uppercase" data-toggle="modal" data-target="#signin" style="font-weight:bold;">
+					登 录
+				</button>
+				<button class="nav-item btn btn-primary navbar-btn text-uppercase" data-toggle="modal" data-target="#register" style="font-weight:bold;">
+					注 册
+				</button>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Sign In Modal -->
+	<div class="modal fade" id="signin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="top:20%;font-weight:bold;">
+		<div class="modal-dialog modal-md">
+		  <div class="modal-content">
+			<div class="modal-body"  style="overflow-x:hidden;overflow:auto;">
+				<div class="col-lg-12">
+					<div class="page-header">
+						<h2>登 录</h2>
+					</div>
+					<!-- form -->
+					<form id="signinform" data-toggle="validator">
+						<div class="form-group">
+							<label class="control-label">用户名</label>
+							<input type="text" class="form-control" name="username" placeholder="请输入用户名" data-required-error="字段不能为空" required>
+							<div class="help-block with-errors text-danger"></div>
+						</div>
+						<div class="form-group">
+							<label class="control-label">密 码</label>
+							<input type="password" class="form-control" name="password" placeholder="请输入密码" data-required-error="字段不能为空" required>
+							<div class="help-block with-errors text-danger"></div>
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-primary float-xs-right" style="font-weight:bold;">提交</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		  </div>
+		</div>
+	</div>
+	
+	<!-- Sign Up Modal -->
+	<div class="modal fade" id="register" tabindex="-1" role="dialog" 
+	   aria-labelledby="myModalLabel" aria-hidden="true">
+	   <div class="modal-dialog modal-lg">
+		  <div class="modal-content">
+			 <div class="modal-body"  style="max-height:880px;overflow-x:hidden;overflow:auto;">
+				<!-- form: -->
+				<div class="col-lg-12">
+					<div class="page-header">
+						<h2>注 册</h2>
+					</div>
+					<form id="signupform" data-toggle="validator" action="/signup" method="post">
+						<div class="form-group">
+							<label class="control-label">用户名</label>
+							<input name="username" type="text" class="form-control"  placeholder="请输入用户名" data-required-error="字段不能为空" required>
+							<div class="help-block with-errors text-danger"></div>
+						</div>
+						<div class="form-group">
+							<label for="inputPassword" class="control-label">密 码</label>
+							<div class="form-inline row">
+								<div class="form-group col-md-6">
+									<input name="password" type="password" class="form-control" id="inputPassword" placeholder="请输入密码" style="width:100%;" data-required-error="字段不能为空" required>
+									<div class="help-block with-errors text-danger"></div>
+								</div>
+								<div class="form-group col-md-6">
+									<input type="password" class="form-control" data-match="#inputPassword" data-match-error="两次输入密码不相符" placeholder="请再次输入密码" style="width:100%;" data-required-error="字段不能为空" required>
+									<div class="help-block with-errors text-danger"></div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group has-feedback">
+							<label for="name" class="control-label">姓 名</label>
+							<div class="form-inline row">
+								<div class="form-group col-md-6">
+									<input name="first_name" type="text" class="form-control" placeholder="请输入姓氏" style="width:100%;" data-required-error="字段不能为空" required>
+									<div class="help-block with-errors text-danger"></div>
+								</div>
+								<div class="form-group col-md-6">
+									<input name="last_name" type="text" class="form-control"  placeholder="请输入名字" style="width:100%;" data-required-error="字段不能为空" required>
+									<div class="help-block with-errors text-danger"></div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label">生 日</label>
+							<input name="birthday" type="date" class="form-control" placeholder="Birthday" data-required-error="字段不能为空" required>
+							<div class="help-block with-errors text-danger"></div>
+						</div>
+						<div class="form-group">
+							<label class="control-label">职 业</label>
+							<select class="form-control" name="occupations">
+								<option value="">-- 请选择职业 --</option>
+								<option value="engineer">工程师</option>
+								<option value="teacher">教师</option>
+								<option value="salesman">销售员</option>
+								<option value="student">学生</option>
+								<option value="other">其它</option>
+							</select>
+							<div class="help-block with-errors text-danger"></div>
+						</div>
+						<div class="form-group">
+							<label class="control-label">邮 箱</label>
+							<input name="email" type="email" class="form-control" placeholder="请输入邮箱" data-required-error="字段不能为空" required>
+							<!-- <span class="glyphicon form-control-feedback" aria-hidden="true"></span> -->
+							<div class="help-block with-errors text-danger"></div>
+						</div>
+						<div class="form-group">
+							<label class="control-label">电 话</label>
+							<input name="phone" type="text" pattern="^[0-9]{11}$" data-pattern-error="请输入11位有效手机号"  class="form-control" placeholder="请输入十一位手机号码" data-required-error="字段不能为空" required>
+							<!-- <span class="glyphicon form-control-feedback" aria-hidden="true"></span> -->
+							<div class="help-block with-errors text-danger"></div>
+						</div>
+						<div class="form-group">
+							<label class="control-label">简 介</label>
+							<textarea name="introduction" type="text" class="form-control" placeholder="个人简介" rows="4" data-required-error="字段不能为空" required></textarea>
+							<div class="help-block with-errors text-danger"></div>
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-primary float-xs-right">注 册</button>
+						</div>
+					</form>
+				</div>
+				<!-- form -->
+			 </div>
+		  </div>
+		</div>
+	</div>
+	
+	
+	<!-- Slides -->
+	<div class="container-fluid" style="border:1px solid #ccc;">
+		<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+		  <ol class="carousel-indicators">
+			<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+			<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+			<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+		  </ol>
+		  <div class="carousel-inner" role="listbox">
+			<div class="carousel-item active">
+				<img src="images/slide0.png" alt="Third slide">
+			</div>
+			<div class="carousel-item">
+			  <img src="images/slide1.png" alt="Second slide">
+			</div>
+			<div class="carousel-item">
+			  <img src="images/slide2.png" alt="Third slide">
+			</div>
+		  </div>
+
+		</div>
+	</div>
+	
+	<div id="introduction" class="container-fluid my-border" style="height:500px;">
+		<h1 style="padding-left:45%;padding-top:60px;">产品介绍</h1>
+	</div>
+	
+	<div id="enterprice" class="container-fluid my-border" style="height:500px;">
+		<h1 style="padding-left:45%;padding-top:60px;">企业版简介</h1>
+	</div>
+	
+	<div id="app" class="container-fluid my-border" style="height:500px;">
+		<h1 style="padding-left:45%;padding-top:60px;">客户端</h1>
+	</div>
+	
+	<div id="blog" class="container-fluid my-border" style="height:500px;">
+		<h1 style="padding-left:45%;padding-top:60px;">博 客</h1>
+	</div>
+	
+	<!-- Footer -->
+	<div class="container-fluid bg-faded">
+		<div class="container">
+			<div class="row">
+				<dl class="col-md-2">
+					<dt>产品</dt>
+					<dd>
+						<a href="#" title="">特性</a>
+					</dd>
+					<dd>
+						<a href="#" title="">定价</a>
+					</dd>
+					<dd>
+						<a href="#" title="">企业版</a>
+					</dd>
+					<dd>
+						<a href="#" title="">使用条款</a>
+					</dd>
+				</dl>
+				<dl class="col-md-2">
+					<dt>伙伴</dt>
+					<dd>
+						<a href="#" title="">代表</a>
+					</dd>
+					<dd>
+						<a href="#" title="">开放平台</a>
+					</dd>
+					<dd>
+						<a href="#" title="">推荐给朋友</a>
+					</dd>
+					<dd>
+						<a href="#" title="加入我们">加入我们</a>
+					</dd>
+				</dl>
+				<dl class="col-md-2">
+					<dt>使用</dt>
+					<dd>
+						<a href="#" title="部署指南">部署指南</a>
+					</dd>
+					<dd>
+						<a href="#" title="Q&amp;A">Q&amp;A</a>
+					</dd>
+					<dd>
+						<a href="#" title="客服支持">客服支持</a>
+					</dd>
+					<dd>
+						<a href="#" title="用户评价">用户评价</a>
+					</dd>
+				</dl>
+				<dl class="col-md-2">
+					<dt>关于</dt>
+					<dd>
+						<a href="#" title="关于我们">关于我们</a>
+					</dd>
+					<dd>
+						<a href="# title="联系我们">联系我们</a>
+					</dd>
+					<dd>
+						<a href="#" title="媒体报道">媒体报道</a>
+					</dd>
+					<dd>
+						<a href="#" title="商店">商店</a>
+					</dd>
+				</dl>
+				<dl  class="col-md-4" style="margin-top:40px;">
+					<dt><i class="fa fa-phone"></i> 800-800-8000</dt>
+					<dd>
+						<a href="#" ><img src="images/Wechat_icon.png" style="height:60px;"></a>
+						<a href="#" ><img src="images/Weibo_icon.png" style="height:60px;"></a>
+					</dd>
+				</dl>
+			</div>
+			<p style="padding-left:350px;color:#BBBABA;font-weight:bold;">交托邦－企业社会化协作平台版权所有 2017-2020</p>
+		</div>
+	</div>
+	<style>
+	.nav-link{
+		color: #727272;
+	}
+	.carousel-item img{
+		height: 500px;
+		width: auto;
+	}
+	.my-border{
+		border:1px solid #ccc;
+	}
+	dt{
+		font-size: 16px;
+		color: #727272;
+		margin-top: 10px;
+		margin-bottom: 12px;
+	}
+	dd a{
+		color: #8F8F8F;
+		text-decoration: none;
+		font-weight: 400;
+	}
+	</style>
+	<script>
+	$(document).ready(function(){
+	  // Add smooth scrolling to all links in navbar + footer link
+	  $(".navbar a").on('click', function(event) {
+		// Make sure this.hash has a value before overriding default behavior
+		if (this.hash !== "") {
+		  // Prevent default anchor click behavior
+		  event.preventDefault();
+
+		  // Store hash
+		  var hash = this.hash;
+
+		  // Using jQuery's animate() method to add smooth page scroll
+		  // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+		  $('html, body').animate({
+			scrollTop: $(hash).offset().top
+		  }, 900, function(){
+	   
+			// Add hash (#) to URL when done scrolling (default click behavior)
+			window.location.hash = hash;
+		  });
+		} // End if
+	  });
+	  
+	  $(window).scroll(function() {
+		$(".slideanim").each(function(){
+		  var pos = $(this).offset().top;
+
+		  var winTop = $(window).scrollTop();
+			if (pos < winTop + 600) {
+			  $(this).addClass("slide");
+			}
+		});
+	  });
+	})
+	</script>
+	</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link href="./css/jquery-ui.css" type="text/css" rel="stylesheet">
+        <link href="./css/bootstrap.min.css" type="text/css" rel="stylesheet">
+        <link href="./css/font-awesome.min.css" type="text/css" rel="stylesheet">
+        <link href="./css/test.css" type="text/css" rel="stylesheet">
+        <link href="./css/mine.css" type="text/css" rel="stylesheet">
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=21MEGr0gZhVgqGF8VDlX2kjQ"></script>
+        <script type="text/javascript" src="./js/jquery-2.0.3.min.js"></script>
+        <script type="text/javascript" src="./js/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="./js/jquery.sortable5.min.js"></script>
+        <script type="text/javascript" src="./js/fabric.js"></script>
+        <script type="text/javascript" src="./js/mine.js"></script>
+        <script type="text/javascript" src="./js/mineMap.js"></script>
+        <style>
+            .ui-draggable-dragging
+            {
+                z-index: 2000;
+            }
+        </style>
+    </head>
+    <body>
+        
+        <div class="intersection_Section" id="task_ass_section" flag="false" style="display:block;">
+            <div class="all_task" style="display: block;" id="seg_task" flag="false">                
+                <div class="nav_task task_align" style="margin-top: 5px;border:1px solid white;height: 650px;width:400px;"> 
+                    <div class="ass_task_nav" style="margin-left: 5px;">
+                        <label id="unTasks" style="font-size: 18px;margin-top:5px;margin-bottom: 5px;">未分配任务:<span id="un_task_number">32</span>个</label>
+                        <div style="margin-left:10px;margin-top:10px;">日期:&nbsp;&nbsp;<input type="text" id="task_date" name="from" style="width:150px;">
+                            &nbsp;&nbsp;&nbsp;时间:&nbsp;&nbsp;<select  id="un_task_time" style="width:100px;">
+                                <option value="-1">选择时间</option>
+                                <option value="0">00:00</option>
+                                <option value="1">01:00</option>
+                                <option value="2">02:00</option>
+                                <option value="3">03:00</option>
+                                <option value="4">04:00</option>
+                                <option value="5">05:00</option>
+                                <option value="6">06:00</option>
+                                <option value="7">07:00</option>
+                                <option value="8">08:00</option>
+                                <option value="9">09:00</option>
+                                <option value="10">10:00</option>
+                                <option value="11">11:00</option>
+                                <option value="12">12:00</option>
+                                <option value="13">13:00</option>
+                                <option value="14">14:00</option>
+                                <option value="15">15:00</option>
+                                <option value="16">16:00</option>
+                                <option value="17">17:00</option>
+                                <option value="18">18:00</option>
+                                <option value="19">19:00</option>
+                                <option value="20">20:00</option>
+                                <option value="21">21:00</option>
+                                <option value="22">22:00</option>
+                                <option value="23">23:00</option>
+                                <option value="24">24:00</option>                
+                            </select>
+                        </div>
+                    </div>
+                    <ul class="list-group sourcejQ_assign" id="un_task_assgin" number="3" style="width:350px;margin-top: 10px;height:550px;overflow-y: scroll">
+                        <li class="list-group-item un_task_list" data="" id="ass_id_1" index="1" name="test1" style="display:block">test1</li>
+                        <li class="list-group-item un_task_list" data="" id="ass_id_2" index="2" name="test2" style="display:block">test2</li>  
+                        <li class="list-group-item un_task_list" data="" id="ass_id_3" index="3" name="test3" style="display:block">test3</li>  
+                    </ul>
+
+                </div>
+                <div class="p_task_ass"  style="width: 550px;height: 650px;position: absolute;display: inline-block;margin-top: 5px;margin-left: -10px;"> 
+                    <div style="border:1px solid white;">
+                        <label id="p_unTasks" style="font-size: 18px;margin-top:5px;margin-bottom: 5px;margin-left: 10px;">可用人员: 共<span id="p_number">32</span>人</label>
+                        <div style="margin-left:10px;height:30px;">
+                            <div style="margin-top:8px;">
+                            日期:&nbsp;&nbsp;<input type="text" id="p_task_date" name="from" style="width:150px;">
+                            &nbsp;&nbsp;&nbsp;时间:&nbsp;&nbsp;<select  id="p_un_task_time" style="width:100px;">
+                                <option value="-1">选择时间</option>
+                                <option value="0">00:00</option>
+                                <option value="1">01:00</option>
+                                <option value="2">02:00</option>
+                                <option value="3">03:00</option>
+                                <option value="4">04:00</option>
+                                <option value="5">05:00</option>
+                                <option value="6">06:00</option>
+                                <option value="7">07:00</option>
+                                <option value="8">08:00</option>
+                                <option value="9">09:00</option>
+                                <option value="10">10:00</option>
+                                <option value="11">11:00</option>
+                                <option value="12">12:00</option>
+                                <option value="13">13:00</option>
+                                <option value="14">14:00</option>
+                                <option value="15">15:00</option>
+                                <option value="16">16:00</option>
+                                <option value="17">17:00</option>
+                                <option value="18">18:00</option>
+                                <option value="19">19:00</option>
+                                <option value="20">20:00</option>
+                                <option value="21">21:00</option>
+                                <option value="22">22:00</option>
+                                <option value="23">23:00</option>
+                                <option value="24">24:00</option>                
+                            </select>
+                            </div>
+                            <img src="./img/p_add.png" class="p_status" style="position: relative; top: -60px;right: -440px;" onclick="addNewPerson()">
+                        </div>
+                        <div style="margin-top:20px;height: 265px;overflow-y: scroll" id="persons_task" currentID="0" tr_index="2" number="12">
+                            <table id="task_table_person">
+                                <tr id="tr_1" number="6">
+                                    <td class="p_status_td">
+                                        <img src="./img/free.png" id="p_id_1" status="1" class="p_status" index="1" data="" name="" onclick="showPersonTasks('1')" number="0">
+                                        <br/><label id="p_id_name_1" name="name1">name1</label>
+                                    </td>
+                                    <td class="p_status_td">
+                                        <img src="./img/free.png" id="p_id_2" status="1" class="p_status"  index="2" data="" name=""  onclick="showPersonTasks('2')" number="0">
+                                        <br/><label id="p_id_name_2" name="name2">name2</label>
+                                    </td>
+                                    <td class="p_status_td">
+                                        <img src="./img/free.png" id="p_id_3" status="1" class="p_status"  index="3" data="" name=""  onclick="showPersonTasks('3')" number="0">
+                                        <br/><label id="p_id_name_3" name="name3">name3</label>
+                                    </td>
+                                    <td class="p_status_td">
+                                        <img src="./img/free.png" id="p_id_4" status="1" class="p_status"  index="4" data="" name=""  onclick="showPersonTasks('4')" number="0">
+                                        <br/><label id="p_id_name_4" name="name4">name4</label>
+                                    </td>
+                                    <td class="p_status_td">
+                                        <img src="./img/free.png" id="p_id_5" status="1" class="p_status"  index="5" data="" name=""  onclick="showPersonTasks('5')" number="0">
+                                        <br/><label id="p_id_name_5" name="name5">name5</label>
+                                    </td>
+                                    <td class="p_status_td">
+                                        <img src="./img/free.png" id="p_id_6" status="1" class="p_status"  index="6" data="" name=""  onclick="showPersonTasks('6')" number="0">
+                                        <br/><label id="p_id_name_6" name="name6">name6</label>
+                                    </td>
+                                </tr>
+                                <tr id="tr_2" number="6">
+                                    <td class="p_status_td">
+                                        <img src="./img/free.png" id="p_id_7" status="1" class="p_status"  index="7" data="" name=""  onclick="showPersonTasks('7')" number="0">
+                                        <br/><label id="p_id_name_7" name="name7">name7</label>
+                                    </td>
+                                    <td class="p_status_td">
+                                        <img src="./img/free.png" id="p_id_8" status="1" class="p_status"  index="8" data="" name=""  onclick="showPersonTasks('8')" number="0">
+                                        <br/><label id="p_id_name_8" name="name8">name8</label>
+                                    </td>
+                                    <td class="p_status_td">
+                                        <img src="./img/free.png" id="p_id_9" status="1" class="p_status"  index="9" data="" name=""  onclick="showPersonTasks('9')" number="0">
+                                        <br/><label id="p_id_name_9" name="name9">name9</label>
+                                    </td>
+                                    <td class="p_status_td">
+                                        <img src="./img/free.png" id="p_id_10" status="1" class="p_status"  index="10" data="" name=""  onclick="showPersonTasks('10')" number="0">
+                                        <br/><label id="p_id_name_10" name="name10">name10</label>
+                                    </td>
+                                    <td class="p_status_td">
+                                        <img src="./img/free.png" id="p_id_11" status="1" class="p_status"  index="11" data="" name=""  onclick="showPersonTasks('11')" number="0">
+                                        <br/><label id="p_id_name_11" name="name11">name11</label>
+                                    </td>
+                                    <td class="p_status_td">
+                                        <img src="./img/free.png" id="p_id_12" status="1" class="p_status"  index="12" data="" name=""  onclick="showPersonTasks('12')" number="0">
+                                        <br/><label id="p_id_name_12" name="name12">name12</label>
+                                    </td>
+                                </tr>
+                                
+                            </table>
+                        </div>
+                    </div>
+                    <div style="border:1px solid white; margin-top: 2px;">
+                        <label id="p_unTasks" style="font-size: 18px;margin-top:5px;margin-bottom: 5px;margin-left: 10px;"><span id="show_p_name">name1</span>&nbsp;&nbsp;&nbsp;任务数:<span id="show_p_number">3</span></label>
+                        <div style="margin-left:10px;margin-top:10px;">日期:&nbsp;&nbsp;<input type="text" id="p_task_date_p" name="from" style="width:150px;">
+                            &nbsp;&nbsp;&nbsp;时间:&nbsp;&nbsp;<select  id="p_un_task_time_p" style="width:100px;">
+                                <option value="-1">选择时间</option>
+                                <option value="0">00:00</option>
+                                <option value="1">01:00</option>
+                                <option value="2">02:00</option>
+                                <option value="3">03:00</option>
+                                <option value="4">04:00</option>
+                                <option value="5">05:00</option>
+                                <option value="6">06:00</option>
+                                <option value="7">07:00</option>
+                                <option value="8">08:00</option>
+                                <option value="9">09:00</option>
+                                <option value="10">10:00</option>
+                                <option value="11">11:00</option>
+                                <option value="12">12:00</option>
+                                <option value="13">13:00</option>
+                                <option value="14">14:00</option>
+                                <option value="15">15:00</option>
+                                <option value="16">16:00</option>
+                                <option value="17">17:00</option>
+                                <option value="18">18:00</option>
+                                <option value="19">19:00</option>
+                                <option value="20">20:00</option>
+                                <option value="21">21:00</option>
+                                <option value="22">22:00</option>
+                                <option value="23">23:00</option>
+                                <option value="24">24:00</option>                
+                            </select>
+                        </div>
+                        <div>
+                            <ul id="p_task_result" class="list-group targetjQ_assign ui-sortable" currentPID="0" number="0" style="margin-left:10px;height:200px;margin-top: 10px;overflow-y: scroll;z-index: -1000;">
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="task_time" style=" z-index: 3000; background-color: graytext; display:none;width:250px;height: 200px;border:2px solid gray;position: absolute;
+                         top: 146px;left: 50px;" id="task_time_assign"
+                         data="">
+                        <table class="table table-condensed" style="border:none; text-align: center;width:100%;">
+                            <tbody>
+                                <tr>                                   
+                                    <td style="border:none;text-align: center;font-size: 18px;" colspan="2">添加新的调查人员</td>
+                                </tr>
+                                <tr>                                   
+                                    <td style="border:none" colspan="2"><input class="time_bar" style="width:220px" type="text" name="p_info" id="p_new_info"></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:none">添加方式</td>
+                                    <td style="border:none">
+                                        <input type="radio"  value="1"  id="weixin_task">&nbsp;&nbsp;&nbsp;微信<br>
+                                        <input type="radio"  value="2"  id="duanxin_task">&nbsp;&nbsp;&nbsp;短信<br>
+                                        <input type="radio"  value="3"  id="email_task">&nbsp;&nbsp;&nbsp;电子信箱<br>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:none; text-align: left" colspan="2">
+                                        <button type="button" class="btn btn-success"  onclick="taksPersonConfrim()">确定添加</button>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <button type="button" class="btn btn-success"  onclick="taksPersonCancel()">取消添加</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <script>
+                        $(function () {
+                            $("#task_time_assign").draggable();
+                        });</script>
+                    <script>
+                        $(function () {
+                            $("#task_date").datepicker();
+                            $("#p_task_date").datepicker();
+                            $("#p_task_date_p").datepicker();
+                            loadDraggable_Assign();
+                        });
+                    </script>
+                </div>
+                <div style="text-align:left; margin:5px; position:absolute;top: 550px;left: 1005px;" class="con_buttons">
+                    <button type="button" class="btn btn-success" onclick="seg_confirm()">确定</button>
+                    <br/>
+                    <br/>
+                    <button type="button" class="btn btn-warning" onclick="cancel_seg()">取消</button>
+
+                </div>
+            </div>
+    
+        
+        </body>
+</html>

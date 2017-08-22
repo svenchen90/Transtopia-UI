@@ -1,0 +1,575 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Sep 24, 2016, 7:22:21 PM
+    Author     : zhichengfu
+*/
+
+
+.nav_img
+{
+    width:30px;
+    height:30px;
+}
+
+.quick-form {
+    position: relative;
+    display: inline-block;
+    width: 230px;
+    height: 30px;
+    /* padding-top: 16px; */
+    margin: 10px;
+    margin-left: 0px;
+    color: #444444;
+    text-align: center;
+    text-decoration: none;
+}
+.inputtext
+{
+    height:31px;
+    border-right: 1px solid #cccccc;
+    border-left: 1px solid #cccccc;
+    border-top: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+}
+
+.inputbutton
+{
+    background-size: 32px 32px;
+    text-indent: -999px;
+    overflow: hidden;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center -1px;
+    cursor: pointer;
+    height: 31px;
+    position: absolute;
+    right: 0;
+    width: 42px;
+    z-index: 2;
+    /*border: 1px solid transparent;*/
+    border-right: 1px solid #cccccc;
+    border-top: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+    border-left: 1px solid transparent;
+    background-image: url(../img/search-icon-2x.png);
+}
+
+.fileImage
+{
+    width:35px;
+    height:35px;
+}
+
+.my_nav1_icon
+{
+    width:35px;
+    height:35px;
+}
+
+.fileContent
+{
+    display:inline-block;
+}
+
+.nameFile
+{
+    width:250px;
+
+}
+.modifyFile
+{
+    width:180px;
+
+}
+
+.roleFile{
+    width:130px;
+}
+
+.shareFile
+{
+    width:200px;
+    margin-left: 5px;
+}
+.nameTitle
+{
+    /*    width:300px;
+        overflow: hidden;*/
+    color:black;
+}
+
+.c-avatar.c-avatar--no-img {
+    border: 2px solid currentColor;
+}
+
+.c-avatar.c-avatar--no-img {
+    border: 2px solid currentColor;
+}
+.browse-file div, .browse-file-row div, .browse-new-folder div {
+    cursor: default;
+}
+.c-avatar--s {
+    width: 24px;
+    min-width: 24px;
+    height: 24px;
+    font-size: 10px;
+    line-height: 20px;
+    font-weight: 700;
+}
+.c-avatar {
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+    font-size: 13px;
+    line-height: 28px;
+    font-weight: 600;
+    display: inline-block;
+    vertical-align: middle;
+    overflow: hidden;
+    position: relative;
+    box-sizing: border-box;
+    text-align: center;
+    color: #007ee5;
+    border-radius: 1000px;
+    cursor:default;
+}
+
+.shareButton
+{
+    width: 100px;
+    text-align: center;
+    border: 1px solid #5eb0f0;
+    right: 50px;
+    margin-top: -4px;
+    position: absolute;
+}
+
+.shareButton1
+{
+    width: 100px;
+    text-align: center;
+    border: 1px solid #5eb0f0;
+    right: 50px;
+    margin-top: -20px;
+    position: absolute;
+}
+
+.shareButton:hover
+{
+    cursor:pointer;
+    background-color:rgb(200,230,245);
+}
+.c-avatar--s {
+    width: 24px;
+    min-width: 24px;
+    height: 24px;
+    font-size: 10px;
+    line-height: 20px;
+    font-weight: 700;
+}
+
+.c-avatar--meta {
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: auto;
+    padding: 2px;
+    color: #7b8994;
+    background-color: rgba(208, 212, 217, 0.7);
+}
+
+button.button-secondary {
+    background-color: white;
+    /*    background-image: -webkit-linear-gradient(#fffffe, #f4faff);
+    background-image: linear-gradient(#fffffe, #f4faff);*/
+    /*    border: 1px solid #5eb0f0;*/
+    color: #428bca;
+    width:100px;
+    border:none;
+    /* height:30px; */
+    font-size: 14px;
+    /*margin-left: 5px;*/
+}
+
+.button-secondary:hover
+{
+    background-color:rgb(200,230,245);
+    text-decoration: none;
+
+}
+
+.list-group-item:hover{
+    background-color: rgb(245,250,255);
+}
+
+.overlay-background
+{
+    position: absolute;
+    top: -100px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    background: rgba(0, 0, 0, 0.33);
+    z-index: 150;
+    display: block;
+}
+
+.nav_content
+{
+    border-top:none;
+    border-bottom: 2px solid #dddddd;
+}
+
+.upbutton
+{
+    width: 100px;
+    height:34px;
+}
+
+.upinput{
+
+    top: -35px;
+
+    position:relative;
+
+    width: 80px;
+
+    height: 35px;
+
+    background: transparent;
+    color:transparent;
+    z-index: -2000;
+    opacity: 0;
+}
+
+.upname{
+
+    top: -5px;
+
+    position: relative;
+
+    background: transparent;
+
+    border: none;
+}
+.file_process
+{
+    background-color: #ebffd9;
+}
+
+.shareInput
+{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 0px;
+}
+
+.roleShare
+{
+    float: right;
+    position: relative;
+    top: 0px;
+    display: inline-block;
+
+
+}
+.roleButtonShare
+{
+    height: 29px;
+    margin-top: -1px;
+}
+
+.shareOption
+{
+    color:white;
+    min-width: 90px;
+    /* top: 10px; */
+    border-top: none;
+    border-left: none;
+    height: 32px;
+    border: transparent;
+    border-bottom: 1px solid gainsboro;
+    background: #428bca;
+}
+
+.shareComment
+{
+    border-right: none;
+    border-left: none;
+    border-bottom: none;
+}
+
+.shareComment1
+{
+    height:80px;
+}
+
+.shareButtonStyle{
+    width:90px;
+}
+
+.sharePeopleItem
+{
+    border:none;
+    height:40px;
+}
+
+.sharePeopleList{
+    border:1px solid gainsboro;
+}
+
+.tb_img
+{
+    width:20px;
+    height:20px;
+}
+.tb_aa
+{
+    border:none;
+
+}
+.tb_aa:hover
+{
+    background-color: #e3f2ff;
+}
+
+.tb_tit
+{
+    display: inline-block;
+}
+
+.moveFileListUL
+{
+    list-style-type: none;
+    padding-top: 5px;
+}
+.moveFileListLI
+{
+    padding-top: 5px; 
+    width: 400px;
+}
+
+.tb_Name
+{
+    font-size: 15px;
+    position: relative;
+    left: 2px;
+}
+
+.tb_Name_User
+{
+    font-size: 10px;
+    position: relative;
+    left: 10px;
+    color:gray;
+}
+.tb_space
+{
+    margin-left: 3px;
+    opacity: 0;
+}
+
+.p_type
+{
+    background-color: blue;
+}
+
+.f_table_th_1{
+    width:250px;
+}
+.f_table_th_2{
+    width:160px;
+}
+.f_table_th_3{
+    width:160px;
+}
+.f_table_th_4{
+    width:220px;
+}
+
+.f_table_th{
+    height: 50px;
+    vertical-align: middle;
+    font-size: 18px;
+}
+
+.f_table_td
+{
+    vertical-align: middle;
+    margin-bottom: 5px;
+}
+
+.shareButton_delete
+{
+    width: 100px;
+    text-align: center;
+    border: 1px solid #5eb0f0;
+    margin-top: -20px;
+    position: absolute;
+}
+
+.my_i_icon:hover
+{
+    cursor: pointer;
+    color:red;
+}
+
+.f_table_thc:hover
+{
+    cursor: pointer;
+    color:red;
+}
+
+.uploadTD1
+{
+    width:120px;
+}
+
+.uploadTD2
+{
+    width:120px;
+}
+
+.uploadTD3
+{
+    width:250px;
+}
+
+.my_nav_icon
+{
+    position: relative;
+    top:8px;
+    color:white;
+}
+
+.my_nav_icon:hover
+{
+    cursor: pointer;
+    color: red;
+}
+
+.searchItemClass{
+    position: relative;
+    width: 160px;
+    overflow: hidden;
+}
+
+
+.myanimation {
+    color:#313131;
+    -webkit-animation:colorchange 10s infinite alternate;
+
+
+}
+
+@-webkit-keyframes colorchange {
+    0% {
+
+        color: white;
+    }
+    5% {
+
+        color: #f1c40f;
+    }
+    10% {
+
+        color: white;
+    }
+    15% {
+
+        color: #f1c40f;
+    }
+    20% {
+
+        color: white;
+    }
+    25% {
+
+        color: #f1c40f;
+    }
+    30% {
+
+        color: white;
+    }
+    35% {
+
+        color: #f1c40f;
+    }
+    40% {
+
+        color: white;
+    }
+    45% {
+
+        color: #f1c40f;
+    }
+    50% {
+
+        color: white;
+    }
+    55% {
+
+        color: #f1c40f;
+    }
+    60% {
+
+        color: white;
+    }
+    65% {
+
+        color: #f1c40f;
+    }
+    70% {
+
+        color: white;
+    }
+    75% {
+
+        color: #f1c40f;
+    }
+    80% {
+
+        color: white;
+    }
+    85% {
+
+        color: #f1c40f;
+    }
+    90% {
+
+        color: white;
+    }
+    95% {
+
+        color: #f1c40f;
+    }
+    100% {
+
+        color: white;
+    }
+}
+
+.searchListItem
+{
+    border-bottom: 1px solid #f4f4f4;
+    height:35px;
+}
+
+.searchListItem:hover
+{
+    cursor: pointer;
+}

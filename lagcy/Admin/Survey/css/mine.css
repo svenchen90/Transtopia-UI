@@ -1,0 +1,1563 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Apr 13, 2016, 9:08:35 PM
+    Author     : zhichengfu
+*/
+
+
+.icon-select{
+    width:0px;
+ }
+
+ .icon-select .selected-box {
+
+     position: relative;
+     margin: 0px;
+     padding: 0px;
+     border: 1px solid #999999;
+
+     -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+     border-radius: 3px;
+
+ }
+
+/* .icon-select .selected-box:hover {
+
+     position: relative;
+     margin: 0px;
+     padding: 0px;
+     width: 70px;  sil 
+     height: 60px;  sil 
+     border: 1px solid #000000;
+     background-color: #FFFFFF;
+
+     -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+     border-radius: 3px;
+
+ }*/
+
+ .icon-select .selected-icon {
+
+     position: absolute;
+     margin: 0px;
+     padding: 0px;
+     top:5px;
+     left:0px;
+     -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+     border-radius: 3px;
+
+ }
+
+ .icon-select .component-icon{
+     position: absolute;
+     bottom:5px;
+     right:4px;
+ }
+
+ .icon-select .box {
+
+    position: absolute;
+    top: 32px;
+    left: 0px;
+    width: 52px;
+    margin: 0px;
+    padding: 0px;
+    
+    border: 1px solid #EEEEEE;
+    background-color: #EEEEEE;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    z-index: 10000;
+    /* overflow: hidden; */
+    
+     /*
+     -webkit-overflow-scrolling: touch;
+     */
+
+ }
+ 
+ .list_box{
+     overflow-y: scroll;
+     height:200px;
+ }
+ 
+ .leftmergeNum{
+     position: relative;
+     top:13px;
+ }
+ 
+ .rightmergeNum
+ {
+     position: relative;
+     top:13px;
+ }
+ 
+ .leftwaitNum
+ {
+     position: relative;
+     top:13px;
+ }
+
+ .icon-select .icon {
+     position: relative;
+     margin: 5px 0px 0px 0px;
+     padding: 0px;
+     border: 1px solid #CCCCCC;
+     background-color: #FFFFFF;
+
+     -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+     border-radius: 3px;
+
+     overflow:hidden;
+/*     float: left;*/
+ }
+
+ .icon-select .icon:hover {
+     border: 1px solid #000000;
+ }
+
+ .icon-select .icon.selected {
+     position: relative;
+     margin: 5px 0px 0px 0px;
+     padding: 0px;
+     border: 1px solid #EEEEEE;
+     background-color: #EEEEEE;
+
+     -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+     border-radius: 3px;
+
+     overflow:hidden;
+/*     float: left;*/
+ }
+ 
+.nav_nav{
+    display:inline-block;
+}
+
+.canvas-container{
+    border:1px solid lightgray;
+    position: relative;
+    top: -260px;
+}
+.nav_side{
+    margin-left: 10px;
+    position: relative;
+    top: -20px;
+}
+
+.tool_bar
+{
+    width:450px;
+    margin-left: 15px;
+}
+
+.intersection
+{
+    width:max-content;
+    min-width: 500px;
+    margin-left: 10px;
+}
+
+
+#zxing
+{
+    /*    background-image: url("../img/zx.png");
+        background-size: 30px 60px;*/
+}
+
+.outview
+{
+        background-color: rgb(85, 85, 85);
+    width: 400px;
+    height: 130px;
+    position: relative;
+    top: -110px;
+    left: 60px;
+    padding-left: 4px;
+}
+
+.mclass
+{
+
+}
+
+
+
+.m_0
+{
+    background-image: url("../roadSym/l0.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+.m_1
+{
+    background-image: url("../roadSym/l1.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+.m_2
+{
+    background-image: url("../roadSym/l2.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+.m_3
+{
+    background-image: url("../roadSym/l3.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+.m_4
+{
+    background-image: url("../roadSym/l4.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+.m_5
+{
+    background-image: url("../roadSym/l5.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+.m_6
+{
+    background-image: url("../roadSym/l6.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+.m_7
+{
+    background-image: url("../roadSym/l7.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+.m_8
+{
+    background-image: url("../roadSym/l8.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+.m_9
+{
+    background-image: url("../roadSym/l9.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+.m_10
+{
+    background-image: url("../roadSym/l10.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+.m_11
+{
+    background-image: url("../roadSym/l11.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+.m_12
+{
+    background-image: url("../roadSym/l12.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+.m_13
+{
+    background-image: url("../roadSym/l13.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+.m_14
+{
+    background-image: url("../roadSym/l14.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+.m_15
+{
+    background-image: url("../roadSym/l15.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+.m_16
+{
+    background-image: url("../roadSym/l16.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+.m_17
+{
+    background-image: url("../roadSym/l17.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+.m_18
+{
+    background-image: url("../roadSym/l18.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+.m_19
+{
+    background-image: url("../roadSym/l19.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+.m_20
+{
+    background-image: url("../roadSym/l20.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+.m_21
+{
+    background-image: url("../roadSym/l21.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+.m_22
+{
+    background-image: url("../roadSym/l22.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+.m_23
+{
+    background-image: url("../roadSym/l23.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+.m_24
+{
+    background-image: url("../roadSym/l24.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+.m_25
+{
+    background-image: url("../roadSym/l25.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+
+.m_26
+{
+    background-image: url("../roadSym/l26.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+
+.m_27
+{
+    background-image: url("../roadSym/l27.jpg");
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+
+
+
+.dismiss
+{
+    float:left;
+
+}
+
+.img_show
+{
+    position: relative;
+    text-align: center;
+    top: -502px;
+    margin-left: -20px;
+}
+.img_show_seg
+{
+    position: relative;
+    text-align: center;
+    top: -350px;
+    left: 500px;
+}
+
+
+
+.img_out{
+    width:1000px;
+    height:840px;
+}
+
+.r_tb{
+    height:45px;
+    width:40px;
+}
+
+.r_tb_link{
+    height:30px;
+    width:30px;
+    
+}
+
+.r_li_link{
+    margin-left: 5px;
+    border:1px solid gray;
+}
+
+.r_li
+{
+/*    width:50px;*/
+}
+
+/*.ui-draggable-dragging
+{
+    width:60px;
+}*/
+.aclose
+{
+    height: 10px;
+    width: 8px;
+    text-align: center;
+    left: -2px;
+    top: -6px;
+}
+
+.inter_img_button:hover
+{
+    cursor: pointer;
+}
+
+.aclose:hover
+{
+    background: transparent;
+    color:red;
+}
+
+.xclose
+{
+    top: -8px;
+    left: -5px;
+    position: relative;
+}
+
+.nav_map_bar
+{
+     background-color: gray;
+    width: 60px;
+    /* height: 160px; */
+    position: relative;
+    top: 35px;
+    left: -290px;
+/*    border: 4px solid gainsboro;*/
+    text-align: center;
+}
+.nav_button{
+    margin-top:3px;
+}
+
+.nav_body{
+    width: 500px;
+    height: 800px;
+    padding-top: 10px;
+    left: 0px;
+    margin-top: 2px;
+}
+.nav_layout{
+    display: inline-block;
+}
+
+
+.nav_task
+{
+    width:450px;
+    height:840px;
+    margin-left: 5px;
+    margin-right:20px;
+    border:1px solid gray;
+/*    margin-top:10px;*/
+}
+
+.task_align
+{
+    display: inline-block;
+}
+
+.task_create
+{
+    margin-left: 10px;
+}
+
+.task_info
+{
+    position:relative;
+    height:790px;
+    overflow-y:scroll;
+    width:100%;
+    border-bottom: 1px solid gray;
+    margin-bottom: 5px;
+}
+
+.task_time
+{
+    margin-left: 20px;
+    height:200px;
+}
+
+.time_bar
+{
+    width:300px;
+}
+
+.all_task
+{
+    //margin-top: 10px;
+    margin-left: 20px;
+}
+
+.img_area
+{
+    position:relative;
+    top:-235px;
+}
+
+.img_area1
+{
+    position: relative;
+    top: -392px;
+    left: -15px;
+    width: 1000px;
+    height: 840px;
+    border: 1px solid gray;
+}
+
+.inline_display
+{
+    display:inline-block;
+}
+
+.left_nav{
+    margin-left:15px;
+    margin-top: -15px;
+}
+
+.nav_bar_mine
+{
+    margin-top: -42px;
+    min-height:40px;
+    height:40px;
+    background-color: white;
+    width:100%;
+    border-bottom: 2px solid black;
+}
+
+.nav_mine_iframe{
+   height:1000px;
+   width:100%;
+   border:0px;
+}
+
+.pinput
+{
+    height:30px;
+}
+
+.mapICON{
+    width:60px;
+    height:77px;
+/*    margin-top:10px;
+    margin-bottom: 10px;*/
+}
+
+.mapICONBorder{
+    width:60px;
+    height:77px;
+/*    margin-top:10px;
+    margin-bottom: 10px;*/
+    border:2px solid red;
+}
+
+.seg_img
+{
+    position: relative;
+    top: -300px;
+    left: 420px;
+}
+
+#seg_imag1{
+    width:600px;
+    height:400px;
+}
+
+.map_Section
+{
+    height: 800px;
+    width:100%;
+    margin-top:-19px;
+}
+
+.li_active{
+    background-color: skyblue;   
+}
+
+
+.basicInfo_Section
+{
+    position:absolute;
+    top:37px;
+    left:120px;
+    background: purple;
+    color:white;
+/*    border-top: 2px solid black;*/
+    width:1100px;
+/*    height:680px;*/
+}
+
+.intersection_Section{
+    position:absolute;
+    top:36px;
+    left:65px;
+    background: purple;
+    color:white;
+/*    border-top: 2px solid black;*/
+    width:1100px;
+    height:680px;
+}
+.intersection_title
+{
+    display: inline-block;
+    color:white;   
+    background-color: gray;
+}
+
+.survey_a{
+    color:white;
+    font-size:18px;
+    margin-top:5px;
+    margin-right: 10px;
+}
+
+.intersection_title_active{
+    display: inline-block;
+    color:white;
+    background-color: red;
+}
+
+.intersection_title:hover
+{
+    cursor: pointer;
+}
+
+.p_status
+{
+    width:80px;
+    height:80px;
+    border:1px solid black;
+}
+
+.p_status_td
+{
+    padding-top: 5px;
+    padding-left: 5px;
+    margin-right: 5px;
+    text-align: center;
+    border: 2px solid gray;
+    
+}
+.un_task_list{
+    background-color: yellow;
+    color:black;
+}
+
+.un_task_list:hover{
+    cursor: pointer;
+}
+
+.deleteAssign:hover
+{
+    cursor: pointer;
+}
+
+.p_status_active
+{
+    width:80px;
+    height:80px;
+    border:4px solid yellow;
+}
+.p_status_active:hover
+{
+    cursor: pointer;
+}
+
+.p_status{
+    cursor: pointer;
+}
+
+.tb_img
+{
+    width:20px;
+    height:20px;
+}
+.tb_aa
+{
+    border:none;
+
+}
+.tb_aa:hover
+{
+    background-color: #e3f2ff;
+}
+
+.tb_tit
+{
+    display: inline-block;
+}
+
+.moveFileListUL
+{
+    list-style-type: none;
+    padding-top: 5px;
+}
+.moveFileListLI
+{
+   padding-top: 5px; 
+   width: 400px;
+}
+
+.tb_Name
+{
+    
+}
+.tb_space
+{
+    margin-left: 3px;
+    opacity: 0;
+}
+
+.se-pre-con {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url(../img/load.gif) center no-repeat #fff;
+}
+
+
+#inter_template
+{
+    position: absolute;
+    top:350px;
+}
+
+.close_class{
+    float:right;
+}
+
+.info_class{
+        float: right;
+    margin-right: 5px;
+}
+
+.un_task_list_active{
+    background:red;
+}
+
+.task_left_sign
+{
+    float: left;
+    margin-right: 3px;
+    margin-left: 3px;
+    margin-top:-5px;
+    width: 30px;
+    height: 30px;
+}
+
+.task_tb_img
+{
+    width: 300px;
+    height: 300px;
+    display:inline-block;
+    float:right;
+}
+
+.task_tb_info
+{
+    display:inline-block;
+    font-size: 16px;
+    width: 350px;
+    overflow-x:scroll;
+}
+
+.task_tb_cars
+{
+    margin-top: 10px;
+    height:250px;
+    width: 350px;
+    overflow: scroll;
+}
+
+.tb_sign_img
+{
+    width: 30px;
+    height: 30px;
+}
+
+.car_tb_items
+{
+    height:30px;
+}
+
+.tb_car_content
+{
+    width:120px;
+}
+
+.car_tb_name:hover
+{
+    cursor: pointer;
+}
+
+.event_info{
+    width:420px;
+    position:relative;
+    top:-570px;
+}
+.event_info_image{
+    position:relative;
+    left:420px;
+    height:550px;
+    width:550px;
+}
+
+.event_instance
+{
+    margin-left: 50px;
+}
+
+.tb_event_map
+{
+    width:400px;
+    height:280px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid gray;
+}
+
+.event_status
+{
+    color:red;
+    font-size: 18px;
+}
+
+.event-cars
+{
+    margin-bottom: 5px;
+    color: #666;
+    font-size: 14px;
+    margin-top: -5px;
+}
+
+.car_item_event
+{
+    display: inline-block;
+    height:21px;
+}
+
+.event_item_type
+{
+    margin-bottom: 3px;
+    color: black;
+    font-size: 13px;
+}
+
+.event_item_type i
+{
+    margin-right: 5px;
+}
+
+.event-cars_list{
+    color: black;
+    font-size: 13px;
+    margin-top: -8px;
+}
+
+.event-cars_list i
+{
+    margin-right: 5px;
+}
+
+.event_tb_image{
+    width:260px;
+   // height:150px;
+}
+
+::-webkit-scrollbar { 
+    display: none; 
+}
+
+.info_tb_title{
+    color:red;
+}
+
+.task_tb_map_detail
+{
+    width:330px;
+    height:200px;
+}
+
+.model_info_tb_delete
+{
+    margin-left: 20px;
+}
+
+.car_tb_name_view
+{
+    color:red;
+}
+
+.map_search_button{
+   position: relative;
+   top: 5px;
+   color: gray;
+   left:-30px;
+}
+
+.map_search_button:hover
+{
+    cursor: pointer;
+}
+
+.dash_user_img
+{
+    height:80px;
+}
+
+.model_date
+{
+    display: inline;
+}
+
+.lane_directions
+{
+    font-size:20px;
+}
+
+.dataViewPass
+{
+    
+}
+
+.dataViewPass:hover
+{
+    cursor: pointer;
+}
+.unpass_view_info
+{
+    height: 400px;
+    width: 750px;
+    margin-top: 5px;
+    border: 1px solid gray;
+}
+
+.unpass_view_note{
+   width: 180px;
+    height: 300px;
+    position: relative;
+    left: 760px;
+    top: -200px; 
+}
+
+.dash_show_table
+{
+    text-align: center;
+    width:100%;
+    border-collapse: collapse;
+    margin:10px;
+}
+
+.dash_show_td
+{
+     border: 1px solid black;
+}
+.view_task_show{
+    float:right;
+}
+
+.tmodel_result_show{
+    float:right;
+}
+.tmodel_processing
+{
+    color:red;
+}
+
+.pass_select
+{
+    
+}
+
+.view_task_show :hover
+{
+    cursor:pointer;
+}
+
+.my_Tmodel_table{
+    text-align: center;
+    width:100%;
+    border-collapse: collapse;
+    margin:10px;
+}
+
+.my_Tmodel_table_td
+{
+     border: 1px solid black;
+}
+
+.nav_a_show
+{
+    color:black;
+    font-weight: bold;
+}
+
+.taskModel_span
+{
+    color:black;
+    width:280px;
+    white-space:nowrap;
+    overflow-x: scroll;
+}
+
+.copyTasksTimes
+{
+    color:skyblue;
+    float:right;
+}
+  
+
+#s_update_news
+{
+    font-size: 15px;
+    color: red;
+    /* padding-top: 20px; */
+    position: relative;
+    top: 6px;
+    width:350px;
+    white-space:nowrap;
+    overflow-x:scroll;
+    
+}
+
+#10_nav
+{
+    height: 36px;
+    width: 360px;
+}
+
+#r-news
+{
+    width: 210px;
+    height:250px;
+    margin:5px;
+    color:white;
+    overflow-x: scroll;
+}
+
+.showCursor{
+    
+}
+
+.showCursor:hover
+{
+    color:red;
+    cursor: pointer;
+}
+
+.showTmodelCursor
+{
+    
+}
+
+.showTmodelCursor:hover
+{
+    color:red;
+    cursor: pointer;
+}
+
+.notice_Section{
+    margin-left: 10px;
+    height: 300px;
+    background: purple;
+    width: 230px;
+    position: relative;
+    left: 1160px;
+    top: -325px;
+    border: 3px solid gray;
+}
+
+.s_update_news{
+    margin-bottom: 5px;
+    overflow: scroll;
+}
+
+.tongzhi_notice{
+    position: relative;
+    float: right;
+    margin-right: 10px;
+    top: 5px;
+    color: red;
+}
+
+.starRating{
+  display        : inline-block;
+  width          : 80px;
+  height         : 1.5em;
+  overflow       : hidden;
+  vertical-align : bottom;
+}
+
+
+.starRatingON{
+  content         : '';
+  display         : inline-block;
+  width           : 12px;
+  height          : 12px;
+  background      : url('../roadSym/star-on.svg');
+  background-size : contain;
+  opacity         : 1;
+  transition      : opacity 0.2s linear;
+}
+
+.starRatingOFF{
+  content         : '';
+  display         : inline-block;
+  width           : 12px;
+  height          : 12px;
+  background      : url('../roadSym/star-off.svg');
+  background-size : contain;
+  opacity         : 1;
+  transition      : opacity 0.2s linear;
+}
+
+.main {
+  width: 80px;
+  height:18px;
+  text-align: center;
+}
+.main .user {
+  text-align: left;
+}
+
+/* ========================================================
+   Mini Profile
+   ===================================================== */
+.user {
+  position: relative;
+  height: 18px;
+  display: inline-block;
+  vertical-align: baseline;
+  zoom: 1;
+  *display: inline;
+  *vertical-align: auto;
+}
+.user img {
+  float: left;
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+}
+.user h5 {
+  float: left;
+  line-height: 16px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 1px rgba(0, 0, 0, 0.4);
+}
+.user h5 small {
+  display: block;
+  font-size: 9px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.6);
+  text-shadow: 0 1px rgba(255, 255, 255, 0.3);
+  *color: #364168;
+}
+.user:hover ul {
+  visibility: visible;
+  opacity: 1;
+  padding: 4px 0 6px;
+}
+.user ul {
+  visibility: hidden;
+  opacity: 0;
+  width:140px;
+  position: absolute;
+  top: 100%;
+  left: -40px;
+  z-index: 1000;
+  right: 0;
+  border: 1px solid;
+  border-color: #777 #6c6c6c #666;
+  border-radius: 5px;
+  -webkit-transition-property: opacity, padding, visibility;
+  -moz-transition-property: opacity, padding, visibility;
+  -ms-transition-property: opacity, padding, visibility;
+  -o-transition-property: opacity, padding, visibility;
+  transition-property: opacity, padding, visibility;
+  -webkit-transition: 0.2s ease-out;
+  -moz-transition: 0.2s ease-out;
+  -ms-transition: 0.2s ease-out;
+  -o-transition: 0.2s ease-out;
+  transition: 0.2s ease-out;
+  background-color: #d9e3fa;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #eef3fe), color-stop(100%, #d9e3fa));
+  background-image: -webkit-linear-gradient(top, #eef3fe, #d9e3fa);
+  background-image: -moz-linear-gradient(top, #eef3fe, #d9e3fa);
+  background-image: -ms-linear-gradient(top, #eef3fe, #d9e3fa);
+  background-image: -o-linear-gradient(top, #eef3fe, #d9e3fa);
+  background-image: linear-gradient(top, #eef3fe, #d9e3fa);
+  -webkit-box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.9), 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.9), 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+.user ul:before, .user ul:after, .user li:first-child:after {
+  display: block;
+  content: '';
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: 15px;
+  border: 7px outset transparent;
+}
+.user ul:before {
+  border-bottom: 7px solid #555;
+  top: -14px;
+}
+.user li:first-child:after {
+  border-bottom: 7px solid #fff;
+  top: -13px;
+}
+.user ul:after {
+  border-bottom: 7px solid #EEF3FE;
+  top: -12px;
+}
+.user li {
+  padding: 0 12px;
+  font-size: 11px;
+  color: transparent;
+  text-shadow: 0 1px #fff;
+}
+.user li.sep {
+  border-top: 1px solid #b4bbce;
+  padding-top: 4px;
+  margin-top: 4px;
+  -webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.6);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.6);
+}
+.user li a {
+  display: block;
+  position: relative;
+  margin: 0 -13px;
+  padding: 0 20px 0 12px;
+  color: #313a4f;
+  border: 1px solid transparent;
+}
+.user li a:hover {
+  color: #fff;
+  text-decoration: none;
+  text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+  border-color: #5a70b0 #495d98 #42558a;
+  background-color: #5a70b0;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7688bd), color-stop(100%, #4e64a3));
+  background-image: -webkit-linear-gradient(top, #7688bd, #4e64a3);
+  background-image: -moz-linear-gradient(top, #7688bd, #4e64a3);
+  background-image: -ms-linear-gradient(top, #7688bd, #4e64a3);
+  background-image: -o-linear-gradient(top, #7688bd, #4e64a3);
+  background-image: linear-gradient(top, #7688bd, #4e64a3);
+}
+.user li a:hover:after {
+  display: block;
+}
+.user li a:after {
+  display: none;
+  content: '';
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  margin-top: -4px;
+  border: 4px solid transparent;
+  border-left-color: #9facd1;
+  border-left-color: rgba(255, 255, 255, 0.4);
+}
+
+.intersection_bottom_button1
+{
+    margin-left: 25px;
+    position: relative;
+    top: -3px;
+    display: inline;
+}
+
+.intersection_bottom_button2
+{
+    text-align: left;
+    margin: 5px;
+    position: relative;
+    top: -250px;
+    left: 480px;
+}
+
+
+.intersection_icon_G{
+    width: 40px;
+    height: 50px;
+    position: relative;
+    top: -905px;
+    left: -1000px;
+}
+
+.seg_icon_G{
+    width: 40px;
+    height: 50px;
+    position: relative;
+    top: -1120px;
+    left: 502px;
+}
+
+
+
+
+
+.carIcons{
+    display:inline-block;
+    width:600px;
+    margin-left:20px;
+}
+
+.carIcon{
+    margin-right:8px;
+    color:#3c8dbc;
+    font-size: 24px;
+}
+
+.carIcon_nav{
+    margin-right:8px;
+    color:#3c8dbc;
+    font-size: 30px;
+}
+
+.carIcon:hover
+{
+    color:red;
+    cursor: pointer;
+}
+
+.carIconTask{
+    margin-top:3px;
+    margin-right:8px;
+    color:white;
+    font-size: 25px;
+}
+.carIconTask:hover
+{
+    color:red;
+    cursor: pointer;
+}
+
+.taskTimeIcon{
+        font-size: 22px;
+    float: right;
+    margin-left: 10px;
+}
+
+.taskTimeIcon:hover
+{
+    color:#3c8dbc;
+    cursor:pointer;
+}
+
+.iconCarDiv
+{
+    display:inline-block;
+}
+.iconCarDiv1
+{
+    display: inline-block;
+    font-size: 10px;
+}
+
+
+.carTempICOND
+{
+   color:white;
+   font-size:19px;
+   margin-left:-5px;
+}
+
+.carTempICOND:hover
+{
+    color:red;
+    cursor: pointer;
+}
+
+.task_operation_icon{
+    position: relative;
+    top: -40px;
+}
+
+.roadDelete:hover
+{
+    color:red;
+    cursor: pointer;
+}
+
+.roadDelete
+{
+       color: black;
+    font-size: 13px;
+    float: right;
+    /* margin-left: -16px; */
+    /* z-index: 1000000; */
+    /* margin-top: 1px; */
+    /* margin-right: 5px; */
+    position: relative;
+    top: -31px;
+}
+
+.list_time_group_temp
+{
+    
+}
+
+.list_time_group_temp_active{
+    background: #3c8dbc;
+    
+}
+
+.list_time_group_temp:hover
+{
+    cursor: pointer;
+}
+
+.list_time_group_temp_active:hover
+{
+    cursor: pointer;
+}
+
+.task_item_status_name{
+    margin-left:8px;
+    color:red;
+}
+
+.task_item_name{
+    
+    
+}
+.task_item_name:hover
+{
+    cursor:pointer;
+    color:red;
+}
+
+.canvas_buttons
+{
+    position: relative;
+    margin-left: 30px;
+    /* height: 20px; */
+    top: -296px;
+}
+
+.canvas_button
+{
+    height: 25px;
+    padding-left: 5px;
+    padding-top: 2px;
+    padding-right: 5px;
+    margin-left: 5px;
+}
+
+.otherCars
+{
+    width: 250px;
+    display: block;
+    margin-left: 10px;
+    position: relative;
+    z-index: 2000000;
+    background: rgb(236, 240, 245);
+    left: 300px;
+    border: 1px solid gray;
+}
+
+.laneArrow
+{
+    height: 25px;
+  width: 55px;
+  margin-right: 5px;
+}
+.image_compass_2{
+        width: 100px;
+    height: 100px;
+    position: relative;
+    top: -1230px;
+    left: 1357px;
+
+}
+
+.image_compass_1
+{
+    position: relative;
+    top: -1340px;
+    left: 1378px;
+    height: 100px;
+    width: 100px;;
+}
+
+.link_icon
+{
+    
+    background-size: 50px 85px;
+    width:50px;
+    height:85px;
+}
+
+.rt_link_class
+{
+    height:31px;
+    width:31px;
+    margin-top:3px;
+}

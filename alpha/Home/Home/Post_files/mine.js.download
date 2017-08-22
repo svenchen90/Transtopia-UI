@@ -1,0 +1,2298 @@
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+
+
+//写给老付
+/*
+ post = [{
+ id: ,
+ user_id: ,
+ user_name: ,
+ user_img:,
+ user_followers: , //关注者总人数
+ user_blogs: , //发表总文章数
+ user_bestblogs: , //用户精华帖
+ 
+ title: , //标题
+ content: , //内容
+ datetime: , //时间
+ genre: , // 大分类
+ tags: [], // 小标签
+ sharedwith: [], //分享范围，是否需要？？？
+ total_like: , //总点赞人数
+ like: (0 or 1), //我是否点赞
+ star: (0 or 1), //我是否加星
+ 
+ comments: [{
+ user_id: ,
+ user_name: ,
+ user_img:,
+ 
+ to_id: , //回复用户id
+ to_name: , //回复用户姓名
+ content: , //内容
+ datetime:  //时间
+ }] // 评论
+ }];
+ */
+
+var senders;
+
+var cates;
+var tags;
+var followOption;
+
+var share1, mygid, senders;
+
+var ACTION_MAP = {
+    getRelatedMoment: '../../HandleGetPostInfo?option=5',
+    getMomentByID: '../../HandleGetPostInfo?option=2', //通告id获取一条动态 || input: {moment_id} || output: post
+    getMomentByUserID: '../../HandleGetPostInfo?option=7', //获取摸一个用户的动态列表
+    getFollowedMoment: '../../HandleGetPostInfo?option=5', //获取摸一个用户follow的动态列表
+    getOption: '../../HandleGetPostInfo?option=-1', //获取静态的参数，发布新动态时候的OPTION
+    postMoment: '../../HandleGetPostInfo?option=0', //发送动态
+    postReplyToMoment: '../../HandleGetPostInfo?option=4&type=1', //回复动态
+    starMoment: '../../HandleGetPostInfo?option=9', //星标或取消
+    likeMoment: '../../HandleGetPostInfo?option=6', //喜欢或取消
+    removeTagOfMoment: 'removeTagOfMoment?uid=', //移除tag
+    getUserInfobyID: '../../HandleGetPostInfo?option=1', //通过ID获取用户资料
+    follow: '../../HandleGetPostInfo?option=11', //关注或取消
+    getContactInfo: 'getcontactinfo', //获取用户好友和组列表
+    sharePost: '../../HandleGetPostInfo?option=12', //获取用户好友和组列表
+    getUserRelation: '../../HandleGetPostInfo?option=10',
+    getAllGroup: '../../HandleGetGroupMessage?option=5',
+    getFriendList: '../../HandleGetGroupMessage?option=4',
+    getFeatruedGroup: '../../HandleGetPostInfo?option=13',
+    searchmoment: '../../HandleGetPostInfo?option=17',
+    editProfile: '../../HandleGetPostInfo?option=15',
+    getRecommendItems: '../../HandleGetPostInfo?option=16'
+};
+//PS: 上述都需要你添加当前用户的ID
+$(document).ready(function () {
+    $(document).on('show.bs.modal', '.modal', function (event) {
+        var zIndex = 1040 + (10 * $('.modal:visible').length);
+        $(this).css('z-index', zIndex);
+        setTimeout(function () {
+            $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+        }, 0);
+    });
+//    /// new
+    initialMomentPostBlock('#newpost_beta');
+    initialModal_SharedWith('#modal_sharedwith');
+
+    $('#do-search-btn').on('click', function () {
+        if ($('#navbar-search-input').val() === "")
+        {
+            alert("Please input the query content");
+            return false;
+        } else
+        {
+            window.location.href = "post_search.jsp?soption=0&qname=" + $('#navbar-search-input').val();
+        }
+
+    });
+
+
+    if ($("#post_main_page").attr("type") === "home")
+    {
+        $.get(ACTION_MAP.getRelatedMoment, {filter: 'all_posts'}, function (data) {
+            loadMoment(data, '.post_content_page');
+        });
+    } else if ($("#post_main_page").attr("type") === "groups")
+    {
+        $.get(ACTION_MAP.getRelatedMoment, {filter: 'hot_group_items'}, function (data) {
+            if (data !== "-1" || data !== "")
+            {
+                data = JSON.parse(data);
+                $.each(data, function (index, item) {
+                    $('.post_content_page').append(groupBlockStyle(item));
+                });
+            }
+        });
+    } else if ($("#post_main_page").attr("type") === "user")
+    {
+        $.get(ACTION_MAP.getUserInfobyID, {gid: '0'}, function (data) {
+
+            if (data !== "-1" || data !== "")
+            {
+                data = JSON.parse(data);
+                loadUserInfo(data, '.post_content_page');
+            }
+        });
+    } else if ($("#post_main_page").attr("type") === "group_info")
+    {
+        var gid = $("#post_main_page").attr("gid");
+        var color = randomColor();
+        $.get(ACTION_MAP.getUserInfobyID, {gid: gid}, function (data) {
+
+            if (data !== "-1" || data !== "")
+            {
+                data = JSON.parse(data);
+                $("#top_nav_name").text(data.name);
+                loadUserTemplateInfo(data, color);
+                $("#sideBar_Transtopia_group").css("background-color", color);
+            }
+        });
+    } else if ($("#post_main_page").attr("type") === "post_info")
+    {
+        var gid = $("#post_main_page").attr("pid");
+        showPostInfo(gid);
+    } else if ($("#post_main_page").attr("type") === "search_info")
+    {
+        var qname = $("#post_main_page").attr("qname");
+        var soption = $("#post_main_page").attr("soption");// 0 for all, 1 for position ,2 for category, 3, for tag,4 name
+        showSearchInfo(qname, soption);
+    }
+
+
+    $('.page_top_nav_list').on('click', function () {
+        var filter = $(this).attr('data-filter');
+        $('.page_top_nav_list').removeClass("active");
+        $(this).addClass("active");
+        $('.post_content_page').empty();
+        if (filter.endsWith("posts"))
+        {
+            $.get(ACTION_MAP.getRelatedMoment, {filter: filter}, function (data) {
+                loadMoment(data, '.post_content_page');
+            });
+        } else if (filter.endsWith("items"))
+        {
+            $.get(ACTION_MAP.getRelatedMoment, {filter: filter}, function (data) {
+                if (data !== "-1" || data !== "")
+                {
+                    data = JSON.parse(data);
+                    $.each(data, function (index, item) {
+                        $('.post_content_page').append(groupBlockStyle(item));
+                    });
+                }
+            });
+        }
+
+    });
+
+
+    $('.sider_nav_list').on('click', function () {
+        var filter = $(this).attr('data-filter');
+
+        if (filter === "all")
+        {
+            window.location.href = "index.jsp";
+        } else if (filter === "groups")
+        {
+            window.location.href = "groups.jsp";
+        } else if (filter === "friends")
+        {
+            window.location.href = "friends.jsp";
+        } else if (filter === "mineInfo")
+        {
+            window.location.href = "user.jsp";
+        }
+    });
+
+});
+
+var showInfoTemplate = function (item) // show user modal page
+{
+    $.get(ACTION_MAP.getUserInfobyID, {gid: $(item).attr('data-id')}, function (data) {
+        $("#userInfoModal").modal("show");
+        loadUserInfo(data, '#tab_customerhome_modal');
+        //$('a[data-toggle="tab"][href="#tab_moment"]:eq(0)').tab('show');
+    })
+            .fail(function () {
+                console.log('Err: 用户跳转');
+            });
+};
+
+var goSearchPage = function (item)
+{
+    var query = $(item).attr("data-query");
+    var option = $(item).attr("data-option");
+    window.location.href = "post_search.jsp?soption=" + option + "&qname=" + query;
+};
+
+// opeartions: following, dismissfollow, send friends, send group request.
+
+var doFollowingOpeartions = function (item)
+{
+    var action = $(item).attr('data-action');
+    var gid = $(item).attr('data-id');
+    $.get(ACTION_MAP.follow, {gid: gid, action: action}, function (data) {
+        //location.reload();
+        if (data !== "-1")
+        {
+
+            if (action === "follow")
+            {
+                $(item).attr('data-action', "dismissfollow");
+                alert("关注成功");
+                $(item).html('<i class="fa fa-minus"></i><b>取消关注</b>');
+            } else if (action === "dismissfollow")
+            {
+                $(item).attr('data-action', "follow");
+                alert("取消关注成功");
+                $(item).html('<i class="fa fa-plus"></i><b>关注</b>');
+            } else if (action === "joinfriend")
+            {
+                alert("好友请求已经发送成功");
+            } else
+            {
+                alert("加入群组请求已经发送成功");
+            }
+        }
+
+    }).fail(function () {
+        console.log('Err: follow');
+    });
+};
+
+//修改20170317 #15
+var getText = function (id, list) {
+    var result = "";
+    $.each(list, function (index, item) {
+        if (id === item.id) {
+            result = item.text;
+            return false;
+        }
+    });
+    return result;
+};
+//修改20170317 #15结束
+
+var initialMomentPostBlock_beta = function (target) {
+    loadWysiwyg(target + ' .editor');
+
+    $('#shareMoment-btn').click(function () {
+        var moment = {};
+        moment['content'] = $('#editor').html();
+        moment['title'] = $('#moment-title').val();
+        moment['sender'] = $('#select-sender').val();
+        moment['genre'] = JSON.stringify($('#select-genre').val());
+        moment['tags'] = JSON.stringify($('#select-tags').val());
+        moment['sharedwith'] = JSON.stringify($('#select-sharedwith').val());
+
+        console.log(moment['content']);
+
+        $.post(ACTION_MAP.postMoment, moment, function (data) {
+            $('#newpost select').select2().val('').trigger('change');
+            $('#newpost input').val('');
+            $('#newpost .editor').text('');
+            $('#newpost').modal('hide');
+            //$('a[href="#tab_moment"]').tab('show');
+            location.reload();
+        });
+        //console.log(data)
+    });
+
+
+    //加载更多选项
+    function formatState1(state) {
+        if (!state.id) {
+            return state.text;
+        }
+        var $state = $(
+                '<span><img src="' + state.image + '" class="img-flag" style="width:30px;height:20px;" /> ' + state.text + '</span>');
+        return $state;
+    }
+    ;
+
+    $.get(ACTION_MAP.getOption, function (data) {
+        //console.log(data);
+        //加载类型和tag
+        data = JSON.parse(data);
+        $(target + " #select-genre").select2({
+            language: 'zh-CN',
+            data: data.genres
+        });
+        $(target + " #select-tags").select2({
+            language: 'zh-CN',
+            tags: true,
+            data: data.tags
+        });
+        $(target + " #select-sender").select2({
+            language: 'zh-CN',
+            data: data.senders,
+            templateResult: formatState1,
+            templateSelection: formatState1
+
+        }).select2('val', $(target + ' #select-sender option:eq(0)').val());
+        $(target + " #select-sharedwith").select2({
+            language: 'zh-CN',
+            data: data.sharedwith
+        });
+
+    });
+
+//    $(target + " #select-sender").on('change', function (e) {
+//        $('#newpost_beta .modal-title > img').attr('src', $(this).select2('data')[0].image);
+//        $('#newpost_beta .modal-title > span:eq(0) a').html($(this).select2('data')[0].text);
+//    });
+};
+
+//20170321
+var initialMomentPostBlock = function (target) {
+    loadWysiwyg(target + ' .editor');
+
+    $('#shareMoment-btn').click(function () {
+        var moment = {};
+//        moment['content'] = $('#editor').html();
+//        moment['title'] = $('#moment-title').val();
+//        moment['sender'] = $('#select-sender').val();
+//        moment['genre'] = JSON.stringify($('#select-genre').val());
+//        moment['tags'] = JSON.stringify($('#select-tags').val());
+//        moment['sharedwith'] = JSON.stringify($('#select-sharedwith').val());
+
+        moment['content'] = $(target + ' .editor').html();
+        moment['title'] = $(target + ' #moment-title').val();
+        moment['sender'] = $(target + ' #user-block > a').attr('data-id');
+        moment['genre'] = JSON.stringify($(target + ' #select-genre').val());
+        moment['tags'] = JSON.stringify($(target + ' #select-tags').val());
+        moment['sharedwith'] = JSON.stringify($(target + ' #sharedwith_span').attr('data-sharedwith').split(','));
+
+
+        if (moment.content === "" || moment.title === "" || moment.genre === "" || moment.tags === "")
+        {
+            alert("输入信息不完全");
+            return;
+        }
+
+        $.post(ACTION_MAP.postMoment, moment, function (data) {
+            $('#newpost select').select2().val('').trigger('change');
+            $('#newpost input').val('');
+            $('#newpost .editor').text('');
+            $('#newpost').modal('hide');
+            //$('a[href="#tab_moment"]').tab('show');
+            if (data === "-1")
+            {
+                alert("发布失败");
+            }
+            location.reload();
+        });
+        //console.log(data)
+    });
+
+
+    //加载更多选项
+    $.get(ACTION_MAP.getOption, function (data) {
+        data = JSON.parse(data);
+        $(target + " #select-genre").select2({
+            language: 'zh-CN',
+            data: data.genres
+        });
+
+        $(target + " #select-tags").select2({
+            language: 'zh-CN',
+            tags: true,
+            data: data.tags
+        });
+
+        var sender_block = $(target + ' #user-block .dropdown-menu');
+        sender_block.empty();
+        $.each(data.senders, function (index, sender) {
+            if (sender.text === '个人') {
+                //individual
+                sender_block.append('<li class="dropdown-header">个人</li>');
+                sender_block.append('<li class="divider"></li>');
+                $.each(sender.children, function (index, item) {
+                    if (index == 0) {
+                        $(target + ' #user-block > a').attr('data-id', item.id);
+                        //$(target + ' #user-block > a').attr('data-role', "1");
+                        $(target + ' #user-block > a').text(item.text);
+                        $(target + ' .modal-title > img:eq(0)').attr('src', item.image);
+                    }
+                    sender_block.append('<li><a href="javascript:void(0);" data-role="1" data-id="' + item.id + '"><img src="' + item.image + '" class="img-circle img-bordered-sm" style="width: 25px; height: 25px; margin-right: 10px;">' + item.text + '</a></li>');
+                });
+            } else if (sender.text === '群组') {
+                //group
+                sender_block.append('<li class="divider"></li>');
+                sender_block.append(' <li class="dropdown-header">群组</li>');
+                sender_block.append('<li class="divider"></li>');
+                $.each(sender.children, function (index, item) {
+                    sender_block.append('<li><a href="javascript:void(0);" data-role="2" data-id="' + item.id + '"><img src="' + item.image + '" class="img-circle img-bordered-sm" style="width: 25px; height: 25px; margin-right: 10px;">' + item.text + '</a></li>');
+                });
+            } else {
+                console.log('err');
+            }
+
+        });
+
+        $(sender_block).find('a').on('click', function (e) {
+            $(target + ' #user-block > a').attr('data-id', $(this).attr('data-id'));
+            $(target + ' #user-block > a').text($(this).text());
+            $(target + ' .modal-title > img:eq(0)').attr('src', $(this).find('img').attr('src'));
+            $(target).attr("data-role", $(this).attr('data-role'));
+        });
+
+    })
+            .fail(function () {
+                console.log('Err: option')
+            });
+};
+
+var momentReviewBlockStyle = function (data) {
+    //修改20170317 #2
+    //修改内容：回复用户(样式)
+    return '<div class="review-item fold">\
+						<div class="box-header">\
+							<span class="dropdown pull-right"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa  fa-angle-down"></i> </a>\
+								<ul class="dropdown-menu">\
+									<li><a href="javascript:void(0);" data-action="reply" data-id="' + data.user_id + '" data-name="' + data.user_name + '">回复</a></li>\
+								</ul>\
+							</span>\
+							<img src="' + data.user_img + '" class="img-circle img-bordered-sm">\
+							<span class="title"><a href="#tab_customerhome" data-toggle="tab" data-uid="' + data.user_id + '" >' + data.user_name + '</a></span>\
+							<span class="datetime">' + getDateTime_Trans(data.datetime) + '</span>\
+						</div>\
+						<div class="box-content">\
+							' + data.content + '\
+						</div>\
+					</div>';
+    //修改20170317 #2结束
+};
+
+//修改20170317 #11
+var groupBlockStyle = function (data) {
+    var color = randomColor();
+    var content = '<div class="col-md-3" style="width:265px;">\
+						<div class="group-box box-moment"  style="background:' + color + '">\
+							<div class="group-box-img group-box-post" onclick="showGroupTemplate(this)" color="' + color + '" data-id="' + data.gid + '" style="background: url(\'' + data.bg_image + '\') center center;">\
+								<img class="img-circle img-bordered-sm" src="' + data.imageProfile + '">\
+							</div>\
+							<div class="name">';
+    if (data.role === 6)
+    {
+        content += '<span style="float:left; font-weight:bold">' + data.name + '</span></div>';
+    } else
+    {
+        content += '<span style="float:left;font-weight:bold">' + data.name + '</span><span style="float:right;margin-right:15px;" class="group_member_count">' + data.member_count + '人</span></div>';
+    }
+
+    var cates = '<div style="margin-left:15px;margin-top:10px;"><p data-type="topic-genres" style="text-center:left;">';
+    $.each(data.category, function (index, genre) {
+        cates += '<a href="javascript:void(0);" data-action="follow" onclick="goSearchPage(this)" data-option="2" data-query="' + genre + '" data-genre="' + genre + '" class="label ' + randomPicker(colors) + '" style="margin-left: 3px;">' + genre + '</a>';
+    });
+    cates += '</p></div>';
+    content += cates;
+    //此处应完善
+    var tags = '<div  style="margin-left:15px;"><p data-type="topic-tags" style="text-center:left;">';
+    $.each(data.tags, function (index, tag) {
+        tags += '<a data-action="follow"  data-option="3" onclick="goSearchPage(this)" data-query="' + tag + '" data-tag="' + tag + '" class="label ' + randomPicker(colors) + '" style="margin-left: 3px;">' + tag + '</a>';
+    });
+    tags += '</p></div>';
+    content += tags;
+    content += '<div class="dropdown option" style="font-weight:bold;">';
+
+    if (data.isFollowed === 5)
+    {
+        content += ' <a href="javascript:void(0);" class="btn btn-default btn-sm following_operation  following_operation_1" onclick="doFollowingOpeartions(this)" style="margin: 5px 5px; float:left;" data-action="dismissfollow" data-id="' + data.gid + '">取消关注</a>';
+        content += '<a href="javascript:void(0);" class="btn btn-default btn-sm following_operation following_operation_1" style="margin: 5px 5px; float:right;" data-action="none" data-id="' + data.gid + '">已加入</a>';
+
+    } else if (data.isFollowed === 6)
+    {
+        content += ' <a href="javascript:void(0);" class="btn btn-default btn-sm following_operation following_operation_1" onclick="doFollowingOpeartions(this)" style="margin: 5px 5px;  float:left;" data-action="follow" data-id="' + data.gid + '"><i class="fa fa-plus"></i>关注</a>';
+        content += '<a href="javascript:void(0);" class="btn btn-default btn-sm following_operation following_operation_1" style="margin: 5px 5px; float:right;" data-action="none" data-id="' + data.gid + '">已加入</a>';
+    } else
+    {
+        if (data.isFollowed === 0 || data.isFollowed === 2)
+        {
+            content += '<a href="javascript:void(0);" class="btn btn-default btn-sm following_operation following_operation_1" onclick="doFollowingOpeartions(this)" style="margin: 5px 5px;  float:left;" data-action="follow" data-id="' + data.gid + '">关注</a>';
+
+        } else
+        {
+            content += ' <a href="javascript:void(0);" class="btn btn-default btn-sm following_operation following_operation_1" onclick="doFollowingOpeartions(this)" style="margin: 5px 5px;  float:left;" data-action="dismissfollow" data-id="' + data.gid + '">取消关注</a>';
+
+        }
+        if (data.role !== 6)
+        {
+            content += '<a href="javascript:void(0);" class="btn btn-default btn-sm following_operation following_operation_1" onclick="doFollowingOpeartions(this)" style="margin: 5px 5px;float:right;" data-action="joingroup" data-id="' + data.gid + '">加入</a>';
+        } else
+        {
+            if (data.isFollowed === 0 || data.isFollowed === 1)// friend
+            {
+                content += '<a href="javascript:void(0);" class="btn btn-default btn-sm following_operation following_operation_1"  onclick="doFollowingOpeartions(this)" style="margin: 5px 5px;float:right;" data-action="joinfriend" data-id="' + data.gid + '">加为好友</a>';
+            }
+
+            if (data.isFollowed === 2 || data.isFollowed === 3)
+            {
+                content += '<a href="javascript:void(0);" class="btn btn-default btn-sm" style="margin: 5px 5px;float:right;" data-action="none" data-id="' + data.gid + '">好友</a>';
+            }
+
+        }
+    }
+
+    content += '</div>\
+							<div class="clearfix"></div>\
+						</div>\
+					</div>';
+    return content;
+};
+
+//修改20170317 #11结束
+
+//加载动态
+var momentBlockStyle = function (data) {
+    var content_brief = '';
+    console.log($(data.content).find('img').length);
+    var items = $(data.content);
+    var hasImage = false;
+    var imageURL = '';
+    $.each(items, function (index, tagitem) {
+        if ($(tagitem).is("img"))
+        {
+            imageURL = $(tagitem).attr("src");
+            hasImage = true;
+        }
+    });
+    if ($(data.content).find('img').length > 0 || hasImage)
+    {
+        var url = $(data.content).find('img:eq(0)').attr('src');
+        if (url === undefined | url === null || url === "")
+        {
+            url = imageURL;
+        }
+        content_brief = '<img class="img-responsive pad" src="' + url + '" alt="Photo">';
+    } else
+    {
+        content_brief = '<div style="height:250px;overflow-y:hidden">' + data.content + '</div>';
+    }
+
+    var content = '<div id="moment_box_' + data.id + '"><div class="box box-widget box-moment">';
+    content += '<div class="box-header with-border">'
+            + '<div class="user-block">'
+            + '<img class="img-circle" src="' + data.gimage + '" alt="User Image" onclick="showGroupTemplate(this)" color="' + randomColor() + '" data-id="' + data.gid + '">'
+            + '<span class="username"><a href="javascript:void(0);" onclick="showGroupTemplate(this)" color="' + randomColor() + '" data-id="' + data.gid + '">' + data.gname + '</a>\n\
+               <small><i class="fa fa-chevron-right"></i>';
+    $.each(data.genre, function (index, cate) {
+        content += '<a href="javascript:void(0);" onclick="goSearchPage(this)" data-option="2" data-query="' + cate + '" data-id="' + cate + '">' + cate + '&nbsp;&nbsp;</a>';
+    });
+
+    content += '</small></span><span class="description">' + getDateTime_Trans(data.datetime) + '</span>'
+            + '<span class="username" style="margin-left:0px;margin-top: 10px;"><a href="javascript:void(0);" onclick="showSingePostInfo(this)" data-id="' + data.id + '">' + data.title + '</a></span>'
+            + '</div>'
+            + '<div class="box-tools">'
+            + '<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>'
+            + '</button>'
+            + '<button type="button" class="btn btn-box-tool" onclick="showSingePostInfo(this)" data-id="' + data.id + '"><i class="fa fa-external-link" aria-hidden="true"></i></button>'
+            + '</div>'
+            + '</div>';
+
+    content += '<div class="box-body">'
+            + content_brief
+            + '<div class="box-nav-bottom">'
+            + ' <a class="box-footer-item" data-toggle="collapse" href="#collapse-review-' + data.id + '"><span class="fa fa-comment"></span>  <i class="data"></i><i class="data">' + $(data.comments).length + '</i></a>\
+									<a class="box-footer-item" data-toggle="collapse" href="#collapse-tag-' + data.id + '"><span class="fa fa-tag"></span> <i class="data">' + $(data.tags).length + '</i></a>\
+									<a href="javascript:void(0)" class="moment-like box-footer-item" data-id="' + data.id + '" data-like="' + data.like + '"><span class="fa ' + (data.like == 0 ? "fa-thumbs-o-up" : "fa-thumbs-up") + '"></span> <i class="data">' + data.total_like + '</i></a>\
+									<a href="javascript:void(0)" class="moment-star box-footer-item" data-id="' + data.id + '" data-star="' + data.star + '"><span class="fa ' + (data.star == 0 ? "fa-star-o" : "fa-star") + '"></span></a>\
+								</div>\
+								<div id="collapse-tag-' + data.id + '" class="collapse box-footer">\
+								</div>\
+            </div>';
+
+    content += '<div class="box-footer box-comments collapse"  id="collapse-review-' + data.id + '">';
+
+
+
+//    content += '<div class="box-footer">'
+//            + '<form action="#" method="post">'
+//            + '<img class="img-responsive img-circle img-sm" src="' + data.gimage + '" alt="Alt Text">'
+//            + '<div class="img-push">'
+//            + '<input type="text" class="form-control input-sm" placeholder="Press enter to post comment">'
+//            + '</div>'
+//            + '</form>'
+//            + ' </div>';
+
+    content += '</div>';
+
+    return content;
+};
+
+var showSearchInfo = function (qname, option)// 0 for all, 1 for position ,2 for category, 3, for tag,4 name
+{
+    option = parseInt(option);
+    $.get(ACTION_MAP.searchmoment, {query: qname, soption: option}, function (data) {
+        //post_content_page_group
+        if (data !== "-1" || data !== "")
+        {
+            data = JSON.parse(data);
+
+            if (option === 0)
+            {
+                $('.post_content_page_group').show();
+                $('.post_content_page_user').show();
+                $('.post_content_page_post').show();
+
+                $('.post_content_page_group_main').empty();
+                $('.post_content_page_user_main').empty();
+                $('.post_content_page_post_main').empty();
+
+                $.each(data.groups, function (index, item) {
+                    $('.post_content_page_group_main').append(groupBlockStyle(item));
+                });
+
+
+                $.each(data.users, function (index, item) {
+                    $('.post_content_page_user_main').append(groupBlockStyle(item));
+                });
+
+
+                $.each(data.posts, function (index, item) {
+                    $('.post_content_page_post_main').append(momentBlockStyle(item, '.post_content_page_post'));
+                });
+            } else if (option === 1)
+            {
+                //$('.post_content_page_group').show();
+                $('.post_content_page_user').show();
+                //$('.post_content_page_post').show();
+
+                //$('.post_content_page_group').empty();
+                $('.post_content_page_user_main').empty();
+                //$('.post_content_page_post').empty();
+
+//                $.each(data.groups, function (index, item) {
+//                    $('.post_content_page_group').append(groupBlockStyle(item));
+//                });
+
+
+                $.each(data.users, function (index, item) {
+                    $('.post_content_page_user_main').append(groupBlockStyle(item));
+                });
+
+
+//                $.each(data.posts, function (index, item) {
+//                    $('.post_content_page_post').append(momentBlockStyle(item,'.post_content_page_post'));
+//                });
+            } else if (option === 2)
+            {
+                $('.post_content_page_group').show();
+                $('.post_content_page_user').show();
+                $('.post_content_page_post').show();
+
+                $('.post_content_page_group_main').empty();
+                $('.post_content_page_user_main').empty();
+                $('.post_content_page_post_main').empty();
+
+                $.each(data.groups, function (index, item) {
+                    $('.post_content_page_group_main').append(groupBlockStyle(item));
+                });
+
+
+                $.each(data.users, function (index, item) {
+                    $('.post_content_page_user_main').append(groupBlockStyle(item));
+                });
+
+
+                $.each(data.posts, function (index, item) {
+                    $('.post_content_page_post_main').append(momentBlockStyle(item, '.post_content_page_post_main'));
+                });
+            } else if (option === 3)
+            {
+                $('.post_content_page_group').show();
+                $('.post_content_page_user').show();
+                $('.post_content_page_post').show();
+
+                $('.post_content_page_group_main').empty();
+                $('.post_content_page_user_main').empty();
+                $('.post_content_page_post_main').empty();
+
+                $.each(data.groups, function (index, item) {
+                    $('.post_content_page_group_main').append(groupBlockStyle(item));
+                });
+
+
+                $.each(data.users, function (index, item) {
+                    $('.post_content_page_user_main').append(groupBlockStyle(item));
+                });
+
+
+                $.each(data.posts, function (index, item) {
+                    $('.post_content_page_post_main').append(momentBlockStyle(item, '.post_content_page_post_main'));
+                });
+            }
+        }
+    });
+};
+
+
+function showPostSelection()
+{
+    $("#modal_sharedwith").modal("show");
+    if ($("#newpost_beta").attr("data-role") == "2")
+    {
+        $("#sharedPost_name").text("群组可见");
+    } else
+    {
+        $("#sharedPost_name").text("选择分享范围");
+    }
+}
+
+var initialModal_SharedWith = function (target) {
+    $(target + ' input[type="checkbox"].minimal, ' + target + ' input[type="radio"].minimal').iCheck({
+        labelHover: true,
+        checkboxClass: 'icheckbox_minimal-blue',
+        radioClass: 'iradio_minimal-blue'
+    });
+
+    $(target + ' [type="radio"]').on('ifChecked', function (e) {
+        if ($(this).val() == 1) {
+            $('#modal_sharedwith .box').addClass('hidden');
+        } else if ($(this).val() == 2 && $("#newpost_beta").attr("data-role") == "1") {
+
+            $('#modal_sharedwith .box').removeClass('hidden');
+
+            //加载好友
+            $.get(ACTION_MAP.getFriendList, function (data) {
+                data = JSON.parse(data);
+                $(target + ' .box .friend-item').remove();
+                $.each(data, function (index, d) {
+                    //console.log(d.id);
+                    $('#modal_sharedwith .box .friend-nav').after(
+                            '<tr class="friend-item">\
+							<td><img src="' + d.image + '" class="img-circle img-bordered-sm" style="width: 45px; height: 45px;">\
+								' + d.name + '\
+							</td>\
+							<td></td>\
+							<td style="vertical-align: middle; width: 15px;"><input type="checkbox" name="c1" class="minimal" value="' + d.id + '"></td>\
+						</tr>'
+                            );
+                });
+                //加载Icheck
+                $(target + ' .friend-item input[type="checkbox"].minimal').iCheck({
+                    labelHover: true,
+                    checkboxClass: 'icheckbox_minimal-blue',
+                    radioClass: 'iradio_minimal-blue'
+                });
+            }).fail(function (err) {
+                console.log(err);
+            });
+
+            //加载group
+            $.get(ACTION_MAP.getAllGroup, function (data) {
+                $(target + ' .box .group-item').remove();
+                data = JSON.parse(data);
+                $.each(data, function (index, d) {
+                    $('#modal_sharedwith .box .group-nav').after(
+                            '<tr class="group-item">\
+							<td><img src="' + d.image + '" class="img-circle img-bordered-sm" style="width: 45px; height: 45px;">\
+								' + d.name + '\
+							</td>\
+							<td style="vertical-align: middle;">\
+								' + d.member_count + '\
+							</td>\
+							<td style="vertical-align: middle; width: 15px;"><input type="checkbox" name="c1" class="minimal" value="' + d.id + '"></td>\
+						</tr>'
+                            );
+                });
+                //加载Icheck
+                $(target + ' .group-item input[type="checkbox"].minimal').iCheck({
+                    labelHover: true,
+                    checkboxClass: 'icheckbox_minimal-blue',
+                    radioClass: 'iradio_minimal-blue'
+                });
+            }).fail(function (err) {
+                console.log(err);
+            });
+        }
+    });
+
+    //获取上级窗口id
+    $('#modal_sharedwith').on('show.bs.modal', function (e) {
+        console.log(e.relatedTarget);
+        var trigger_id = $(e.relatedTarget).closest('.modal').attr('id');
+        if ($("#newpost_beta").attr("data-role") == "2")
+        {
+            $("#sharedPost_name").text("群组可见");
+        } else
+        {
+            $("#sharedPost_name").text("选择分享范围");
+        }
+        $('#modal_sharedwith .submit').attr("target", trigger_id);
+    });
+
+    $(target + ' .submit').on('click', function (e) {
+        var trigger = $(target + ' .submit').attr('target');
+        //$('#' + trigger + ' #sharedwith_span').attr('data-sharedwith', '1');
+        if ($(target + ' [type="radio"]:checked').val() == 1) {
+            console.log(11);
+            $('#' + trigger + ' #sharedwith_span').attr('data-sharedwith', '1');
+        } else if ($(target + ' [type="radio"]:checked').val() == 2) {
+            var ids = [];
+            $('#' + trigger + ' #sharedwith_span').empty();
+            $.each($("input[name='c1']:checked"), function () {
+                ids.push($(this).val());
+                $('#' + trigger + ' #sharedwith_span').append('<a class="btn btn-primary btn-xs" style="margin-right: 5px;">' + $(this).closest('tr').find('td:eq(0)').text() + '</a>');
+            });
+            if (ids.length === 0)
+            {
+                $('#' + trigger + ' #sharedwith_span').attr('data-sharedwith', '2');
+            } else
+            {
+                $('#' + trigger + ' #sharedwith_span').attr('data-sharedwith', ids);
+            }
+
+        } else {
+            console.log('err');
+        }
+        $(target).modal('hide');
+    });
+
+};
+
+var goBackPageInfo = function (item)
+{
+    window.history.back();
+};
+
+var showPostInfo = function (id)
+{
+    //var id=$(item).attr("data-id");
+    $.get(ACTION_MAP.getMomentByID, {moment_id: id}, function (data) {
+        data = JSON.parse(data);
+        var content = '<div class="col-md-8" style="margin-left:12%"><div class="box box-widget">';
+        content += '<div class="box-header with-border">'
+                + '<div class="user-block">'
+                + '<img class="img-circle" src="' + data.gimage + '" alt="User Image" onclick="showUserDetailInfo(this)" data-id="' + data.id + '">'
+                + '<span class="username"><a href="javascript:void(0);" onclick="showUserDetailInfo(this)" data-id="' + data.id + '">' + data.gname + '</a><small><i class="fa fa-chevron-right"></i>';
+
+        $.each(data.genre, function (index, cate) {
+            content += '<a href="javascript:void(0);" onclick="goSearchPage(this)" data-option="2" data-query="' + cate + '" data-id="' + cate + '">' + cate + '&nbsp;&nbsp;</a>';
+        });
+        content += '</small></span><span class="description">' + getDateTime_Trans(data.datetime) + '</span>'
+                + '<span class="username" style="margin-left:0px;"><a href="javascript:void(0);" onclick="showPostInfo(this)" data-id="' + data.id + '">' + data.title + '</a></span>'
+                + '</div>'
+                + '<div class="box-tools">'
+                + '<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>'
+                + '</button>'
+                + '<button type="button" class="btn btn-box-tool" onclick="goBackPageInfo(this)" data-id="' + data.id + '"><i class="fa fa-close"></i></button>'
+                + '</div>'
+                + '</div>';
+
+        content += '<div class="box-body">'
+                + '<p>' + data.content + '</p>'
+                + '<div class="box-nav-bottom">'
+                + ' <a class="box-footer-item" data-toggle="collapse" href="#collapse-review-' + data.id + '"><span class="fa fa-comment"></span>  <i class="data"></i><i class="data">' + $(data.comments).length + '</i></a>\
+									<a class="box-footer-item" data-toggle="collapse" href="#collapse-tag-' + data.id + '"><span class="fa fa-tag"></span> <i class="data">' + $(data.tags).length + '</i></a>\
+									<a href="javascript:void(0)" class="moment-like box-footer-item" data-id="' + data.id + '" data-like="' + data.like + '"><span class="fa ' + (data.like == 0 ? "fa-thumbs-o-up" : "fa-thumbs-up") + '"></span> <i class="data">' + data.total_like + '</i></a>\
+									<a href="javascript:void(0)" class="moment-star box-footer-item" data-id="' + data.id + '" data-star="' + data.star + '"><span class="fa ' + (data.star == 0 ? "fa-star-o" : "fa-star") + '"></span></a>\
+								</div>\
+								<div id="collapse-tag-' + data.id + '" class="collapse in box-footer">\
+								</div>\
+            </div>';
+
+        content += '<div class="box-footer box-comments collapse in"  id="collapse-review-' + data.id + '">';
+
+        $.each(data.comments, function (index, review) {
+            var comment = '<div class="box-comment">'
+                    + '<img class="img-circle img-sm" src="' + review.user_img + '" alt="User Image">'
+                    + '<div class="comment-text">'
+                    + '<span class="username">' + review.user_name + '<span class="text-muted pull-right">' + getDateTime_Trans(review.datetime) + '</span></span>'
+                    + review.content
+                    + '</div>'
+                    + '</div>';
+            $('#collapse-review-' + data.id).prepend(comment);
+        });
+
+        content += '</div>';
+        $(".post_content_page").html(content);
+        $.each(data.comments, function (index, review) {
+            var comment = '<div class="box-comment">'
+                    + '<img class="img-circle img-sm" src="' + review.user_img + '" alt="User Image">'
+                    + '<div class="comment-text">'
+                    + '<span class="username">' + review.user_name + '<span class="text-muted pull-right">' + getDateTime_Trans(review.datetime) + '</span></span>'
+                    + review.content
+                    + '</div>'
+                    + '</div>';
+            $('#collapse-review-' + data.id).prepend(comment);
+        });
+
+        $.each(data.tags, function (index, tag) {
+            $('#collapse-tag-' + data.id).append('<span class="moment-tag" style="margin-right: 5px;"><a href="javascript:void(0);"  onclick="goSearchPage(this)" data-query="' + tag + '" data-genre="' + tag + '" class="btn btn-primary btn-xs"><i class="fa fa-tag">' + tag + '</i></a></span>');
+        });
+
+        appendWysiwygEditor(data.id, '#collapse-review-' + data.id, '');
+
+        $(".post_content_page").fadeIn(1000);
+
+    });
+
+};
+
+
+var goBackInfo_1 = function (item)
+{
+    $("#sideBar_Transtopia_group").hide("slow");
+    $("#sideBar_Transtopia").show();
+    $("#post_content_main_page").css("margin-left", "230px");
+
+    item = $(item);
+    var oldLoad = item.attr("data-pid");
+    if (oldLoad === ".post_content_page_template")
+    {
+        location.reload();
+        return;
+    }
+    var newLoad = $(".post_content_page_template");
+    newLoad.empty();
+    $(newLoad).hide();
+    $(oldLoad).show();
+    var status = $(".nav_post_top_bar").attr("status");
+    if (status === "1")
+    {
+        $(".nav_post_top_bar").show();
+    }
+    //$("#nav_recommend_tab").show();
+};
+
+var showGroupTemplate = function (item)
+{
+    window.location.href = "group_info.jsp?gid=" + $(item).attr("data-id");
+
+};
+
+var showSingePostInfo = function (item)
+{
+    window.location.href = "post_info.jsp?pid=" + $(item).attr("data-id");
+
+};
+
+var userBlockStyle = function (data) {
+    if (data.type === '1')
+        return '<div class="col-md-3">\
+							<div class="user-box">\
+								<div class="user-box-img">\
+									<img class="img-circle" src="' + data.img + '" alt="User Avatar">\
+								</div>\
+								<div class="name">\
+									' + data.name + '\
+								</div>\
+								<div class="title">\
+									' + data.title + '\
+								</div>\
+								<div class="follow">\
+									<a href="javascript:void(0);" data-type="follow" data-id="' + data.id + '" data-follow="' + data.followed + '"><i class="fa fa-plus"></i> 关注</a>\
+								</div>\
+							</div>\
+						</div>';
+    else
+        return '<div class="col-md-3">\
+						<div class="group-box">\
+							<div class="group-box-img" style="background: url(\'' + data.bg_image + '\') center center;">\
+								<img class="img-circle img-bordered-sm" src="' + data.img + '">\
+							</div>\
+							<div class="name">\
+								' + data.name + '\
+							</div>\
+							<div class="member-count">\
+								' + data.member_count + '\
+							</div>\
+							<div class="genre">\
+							' + data.genre + '\
+							</div>\
+							<div class="follow">\
+								<a href="javascript:void(0);" data-type="follow" data-id="' + data.id + '" data-follow="' + data.followed + '"><i class="fa fa-plus"></i> 关注</a>\
+							</div>\
+						</div>\
+					</div>';
+};
+
+var loadMoment = function (data, loadto) {
+
+    if (data === null || data.length === 0 || data === "-1")
+    {
+        return false;
+    }
+    data = JSON.parse(data);
+    data = data.reverse();
+    $(loadto).empty();
+    $.each(data, function (index, moment) {
+        //加载动态
+        $(loadto).append(momentBlockStyle(moment, loadto));
+
+        $.each(moment.comments, function (index, review) {
+            var comment = '<div class="review-item fold">\
+						<div class="box-header">\
+							<span class="dropdown pull-right"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa  fa-angle-down"></i> </a>\
+								<ul class="dropdown-menu">\
+									<li><a href="javascript:void(0);" data-action="reply" data-id="' + review.user_id + '" data-name="' + review.user_name + '">回复</a></li>\
+								</ul>\
+							</span>\
+							<img src="' + review.user_img + '" class="img-circle img-bordered-sm">\
+							<span class="title"><a href="#tab_customerhome" data-toggle="tab" data-uid="' + review.user_id + '" >' + review.user_name + '</a></span>\
+							<span class="datetime">' + getDateTime_Trans(review.datetime) + '</span>\
+						</div>\
+						<div class="box-content">\
+							' + review.content + '\
+						</div>\
+					</div>';
+//            var comment = '<div class="box-comment">'
+//                    + '<img class="img-circle img-sm" src="' + review.user_img + '" alt="User Image">'
+//                    + '<div class="comment-text">'
+//                    + '<span class="username">' + review.user_name + '<span class="text-muted pull-right">' + getDateTime_Trans(review.datetime) + '</span></span>'
+//                    + review.content
+//                    + '</div>'
+//                    + '</div>';
+            $('#collapse-review-' + moment.id).prepend(comment);
+        });
+
+        $.each(moment.tags, function (index, tag) {
+            $('#collapse-tag-' + moment.id).append('<span class="moment-tag" style="margin-right: 5px;"><a href="javascript:void(0);"  onclick="goSearchPage(this)" data-query="' + tag + '" data-genre="' + tag + '" class="btn btn-primary btn-xs"><i class="fa fa-tag">' + tag + '</i></a></span>');
+        });
+
+        appendWysiwygEditor(moment.id, loadto + ' #collapse-review-' + moment.id, '');
+        //加载tag
+
+        //加载用户popup
+        //appendUserPopup(moment, loadto + ' .box-header img');
+    });
+
+    //回复动态
+    //修改20170317 #1
+    //修改内容：回复用户
+    $('.review-item [data-action="reply"]').on('click', function (e) {
+        //console.log($(this).attr('data-id'));
+        //动态id
+        var id = ($(this).closest('.collapse').attr('id')).replace(/collapse-review-/i, "");
+        //用户id
+        var replyto_id = $(this).attr('data-id');
+        var replyto_name = $(this).attr('data-name');
+        console.log(id, replyto_id, replyto_name);
+
+        $('#collapse-review-' + id + ' #editor-' + id + ' [data-action="reply-to"]').remove();
+        $('#collapse-review-' + id + ' #editor-' + id + ' br:eq(0)').remove();
+        $('#collapse-review-' + id + ' #editor-' + id + ' hr:eq(0)').remove();
+
+        $('#collapse-review-' + id + ' #editor-' + id).prepend('<div data-action="reply-to" data-id="' + replyto_id + '">@ ' + replyto_name + ' </div><hr style="margin:5px;"><br>');
+    });
+
+    //修改20170317 #1
+    //修改内容：回复用户
+    $('.review-item [data-action="reply"]').on('click', function (e) {
+        //console.log($(this).attr('data-id'));
+        //动态id
+        var id = ($(this).closest('.collapse').attr('id')).replace(/collapse-review-/i, "");
+        //用户id
+        var replyto_id = $(this).attr('data-id');
+        var replyto_name = $(this).attr('data-name');
+        console.log(id, replyto_id, replyto_name);
+
+        $('#collapse-review-' + id + ' #editor-' + id + ' [data-action="reply-to"]').remove();
+        $('#collapse-review-' + id + ' #editor-' + id + ' br:eq(0)').remove();
+        $('#collapse-review-' + id + ' #editor-' + id + ' hr:eq(0)').remove();
+
+        $('#collapse-review-' + id + ' #editor-' + id).prepend('<div data-action="reply-to" data-id="' + replyto_id + '">@ ' + replyto_name + ' </div><hr style="margin:5px;"><br>');
+    });
+
+    //回复动态
+    $(loadto + ' .replyMoment-btn').click(function () {
+        var id = $(this).attr('value');
+        var reply = {};
+        reply['id'] = id;
+        reply['replyto_id'] = $('#editor-' + id + ' [data-action="reply-to"]').attr('data-id');
+        reply['content'] = $('#editor-' + id).html();
+        //console.log(reply);
+        $.post(ACTION_MAP.postReplyToMoment, reply, function (data) {
+            //console.log(data);
+            //loadMoment(data, '#allMoments');
+            //location.reload();
+            $(loadto + ' #collapse-review-' + id + ' .review-item').remove();
+            //重新加载回复
+            $.each(data.comments, function (index, review) {
+                $('#collapse-review-' + id).prepend(momentReviewBlockStyle(review));
+            });
+
+            //回复用户
+            $('#collapse-review-' + id + ' .review-item [data-action="reply"]').on('click', function (e) {
+                //console.log($(this).attr('data-id'));
+                //动态id
+                var id = ($(this).closest('.collapse').attr('id')).replace(/collapse-review-/i, "");
+                //用户id
+                var replyto_id = $(this).attr('data-id');
+                var replyto_name = $(this).attr('data-name');
+                console.log(id, replyto_id, replyto_name);
+
+                $('#collapse-review-' + id + ' #editor-' + id + ' [data-action="reply-to"]').remove();
+                $('#collapse-review-' + id + ' #editor-' + id + ' br:eq(0)').remove();
+                $('#collapse-review-' + id + ' #editor-' + id + ' hr:eq(0)').remove();
+
+                $('#collapse-review-' + id + ' #editor-' + id).prepend('<div data-action="reply-to" data-id="' + replyto_id + '">@ ' + replyto_name + ' </div><hr style="margin:5px;"><br>');
+            });
+            $('#collapse-review-' + id + ' #editor-' + id).empty();
+        })
+                .fail(function () {
+                    console.log('Err: reply')
+                });
+    });
+
+
+    $(loadto + ' .moment-title').on('click', function (event) {
+        $.get(ACTION_MAP.getMomentByID, {moment_id: $(this).attr('data-id')}, function (data) {
+            data = JSON.parse(data);
+            $('#momentModal h4[class="modal-title"]').html('<div class="user-block"> \
+																	<img class="img-circle img-bordered-sm" src="' + data.gimage + '" alt="user image"> \
+																		<span class="username"> \
+																			<a href="#">' + data.gname + '</a>\<a href="#" class="btn btn-success btn-sm pull-right follow-btn" style="margin-right: 15px;" value="' + data.gid + '">关注</a> \
+																	</div>');
+            $('h4[class="moment-title"]').text(data.title);
+            //datetime格式要优化
+            $('h4[class="moment-datetime"]').text(data.datetime);
+            $('#momentModal .modal-body .content').html(data.content);
+            $('#momentModal .modal-body .tags').empty();
+            $.each(data.tags, function (index, tag) {
+                $('#momentModal .modal-body .tags').append('<a class="btn btn-primary btn-xs" style="margin-left: 5px;"><span class="fa fa-tag"></span> ' + tag + '</a>');
+            });
+            console.log(data.followed);
+            if (data.followed === 0) {
+                $('.modal .follow-btn').attr('data-follow', 0).text('关注');
+            } else if (data.followed === 1) {
+                $('.modal .follow-btn').attr('data-follow', 1).text('取消关注');
+            } else if (data.followed === 2)
+            {
+                $('.modal .follow-btn').attr('data-follow', 2).text('你已经是此群组成员');
+            } else if (data.followed === 4)
+            {
+                $('.modal .follow-btn').attr('data-follow', 4).text('这是你的动态');
+            }
+
+
+
+            //加载回复
+            $('#momentModal .modal-body .comments').empty();
+            $('#momentModal .modal-body .edit-block').empty();
+            $.each(data.comments, function (index, comment) {
+                $('#momentModal .modal-body .comments').append(momentReviewBlockStyle(comment));
+            });
+            appendWysiwygEditor(data.id, '#momentModal .edit-block', '');
+            $('#momentModal').modal('show');
+            //$('#momentModal').modal('show');
+        })
+                .fail(function () {
+                    console.log('Err: modal');
+                });
+    });
+
+    //加载用户信息popover
+    $(loadto + " [data-toggle='popover']").popover();
+
+    //星标
+    $(loadto + ' .moment-star').on('click', function () {
+        var val = (parseInt($(this).attr('data-star')) + 1) % 2;
+        var temp = $(this);
+        $.get(ACTION_MAP.starMoment, {moment_id: $(this).attr('data-id'), star: val}, function () {
+            temp.find('span').toggleClass('fa-star-o').toggleClass('fa-star');
+            temp.attr('data-star', val);
+        })
+                .fail(function () {
+                    console.log('Err: star');
+                });
+    });
+
+    //喜欢
+    $(loadto + ' .moment-like').on('click', function () {
+        var val = (parseInt($(this).attr('data-like')) + 1) % 2;
+        var temp = $(this);
+        $.get(ACTION_MAP.likeMoment, {moment_id: $(this).attr('data-id'), like: val}, function (data) {
+            temp.find('span').toggleClass('fa-thumbs-o-up').toggleClass('fa-thumbs-up');
+            temp.attr('data-like', val);
+            temp.find('.data').text(data.count);
+        })
+                .fail(function () {
+                    console.log('Err: like');
+                });
+    });
+
+    //加载用户跳转
+    $(loadto + ' a[data-toggle="tab"][href="#tab_customerhome_modal"]').on('click', function (e) {
+        $.get(ACTION_MAP.getUserInfobyID, {gid: $(this).attr('data-uid')}, function (data) {
+            $("#userInfoModal").modal("show");
+            loadUserInfo(data, '#tab_customerhome_modal');
+            //$('a[data-toggle="tab"][href="#tab_moment"]:eq(0)').tab('show');
+        })
+                .fail(function () {
+                    console.log('Err: 用户跳转');
+                });
+    });
+    //删除动态
+    $(loadto + ' a[data-action="delete-moment"]').on('click', function (e) {
+        var target = $(this).closest('.box-moment');
+        $.get(ACTION_MAP.deleteMoment, {id: $(this).attr('data-id')}, function (e) {
+            target.remove();
+        }).fail(function (e) {
+
+        });
+    });
+
+
+    //修改20170317 #6
+    //修改动态
+    $(loadto + ' a[data-action="edit-moment"]').on('click', function (e) {
+        loadWysiwyg('#editmoment' + ' .editor');
+        //加载更多选项
+        $.get(ACTION_MAP.getOption, function (data) {
+            //console.log(data);
+            //加载类型和tag
+            $("#editmoment #select-genre").select2({
+                data: data.genres
+            });
+            $("#editmoment #select-tags").select2({
+                data: data.tags
+            });
+            $("#editmoment #select-sender").select2({
+                data: data.senders
+            });
+            $("#editmoment #select-sharedwith").select2({
+                data: data.sharedwith
+            });
+
+            //加载内容
+            //var target = $(this).closest('.box-moment');
+            $.get(ACTION_MAP.editMoment, {id: $(this).attr('data-id')}, function (data) {
+                //console.log(data);
+                $('#editmoment #moment-title').val(data.title);
+                $('#editmoment .editor').html(data.content);
+                $('#editmoment' + ' #select-sender').select2({language: 'zh-CN'}).val(data.user_id).trigger("change");
+                $('#editmoment' + ' #select-genre').select2({language: 'zh-CN'}).val(data.genre).trigger("change");
+                $('#editmoment' + ' #select-tags').select2({language: 'zh-CN', tags: true}).val(data.tags).trigger("change");
+                $('#editmoment' + ' #select-sharedwith').select2({language: 'zh-CN'}).val(data.sharedwith).trigger("change");
+                $('#editmoment').modal('show');
+            }).fail(function (e) {
+
+            });
+
+            //点击发布修改
+            $('#editmoment #editMoment-btn').click(function () {
+                console.log(1);
+                var moment = {};
+                moment['content'] = $('#editmoment .editor').html();
+                moment['title'] = $('#editmoment #moment-title').val();
+                moment['sender'] = $('#editmoment #select-sender').val();
+                moment['genre'] = $('#editmoment #select-genre').val();
+                moment['tags'] = $('#editmoment #select-tags').val();
+                moment['sharedwith'] = $('#editmoment #select-sharedwith').val();
+
+                console.log(moment['content']);
+
+                $.post(ACTION_MAP.editMoment, moment, function (data) {
+                    $('#editmoment').modal('hide');
+                    //需要修改
+                    location.reload();
+                }).fail(function () {
+                    console.log('Err: post moment')
+                });
+            });
+        }).fail(function () {
+            console.log('Err: option')
+        });
+    });
+    //修改20170317 #6结束
+};
+
+//用户跳转
+
+var loadUserTemplateInfo = function (data, color) {
+    var data_gid = data.gid;
+    var target = ".group_info_template";
+    $(target + ' [data-type="bg"]').css({'background': 'url("' + data.bg_image + '") center center'});
+
+    $(target + ' [data-type="img"]').attr({'src': data.imageProfile});
+    $(target + ' [data-type="name"]').html('<b>' + data.name + '</b>');
+    $(target + ' [data-type="introduction"]').text(data.introduction);
+    $(".user-box-footer").css("background", color);
+    //此处应完善
+    //修改20170317 #8
+    //修改内容： 修改个人信息
+    $(target + ' .infoList').empty();
+    if (data.isFollowed === 0)// unfollow and not friend
+    {
+        $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation"  style="margin-right:8px;" onclick="doFollowingOpeartions(this)" data-action="follow" data-id="' + data.gid + '" ><i class="fa fa-plus"></i><b>关注</b></a>');
+        if (data.role === 6)
+        {
+            $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation" style="margin-right:8px;" onclick="doFollowingOpeartions(this)" data-action="joinfriend" data-id="' + data.gid + '" ><i class="fa fa-plus"></i><b>加为好友</b></a>');
+        } else
+        {
+            $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation" style="margin-right:8px;" onclick="doFollowingOpeartions(this)" data-action="joingroup" data-id="' + data.gid + '" ><i class="fa fa-plus"></i><b>加入群组</b></a>');
+        }
+    } else if (data.isFollowed === 1)// follow and not friend
+    {
+        $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation" style="margin-right:8px;" onclick="doFollowingOpeartions(this)" data-action="dismissfollow" data-id="' + data.gid + '" ><i class="fa fa-minus"></i><b>取消关注</b></a>');
+        if (data.role === 6)
+        {
+            $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation" style="margin-right:8px;" onclick="doFollowingOpeartions(this)" data-action="joinfriend" data-id="' + data.gid + '" ><i class="fa fa-plus"></i><b>加为好友</b></a>');
+        } else
+        {
+            $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation" style="margin-right:8px;" onclick="doFollowingOpeartions(this)" data-action="joingroup" data-id="' + data.gid + '" ><i class="fa fa-plus"></i><b>加入群组</b></a>');
+        }
+    } else if (data.isFollowed === 2)// unfollow and  friend
+    {
+        $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation" style="margin-right:8px;" onclick="doFollowingOpeartions(this)" data-action="follow" data-id="' + data.gid + '" ><i class="fa fa-plus"></i><b>关注</b></a>');
+        if (data.role === 6)
+        {
+            $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation"  style="margin-right:8px;" data-action="joinfriend" data-id="' + data.gid + '" ><i class="fa fa-gear"></i><b>你的好友</b></a>');
+        } else
+        {
+            $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation"  style="margin-right:8px;" data-action="joingroup" data-id="' + data.gid + '" ><i class="fa fa-gear"></i><b>你是群组成员</b></a>');
+        }
+    } else if (data.isFollowed === 3)// follow and  friend
+    {
+        $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation" style="margin-right:8px;" onclick="doFollowingOpeartions(this)" data-action="dismissfollow" data-id="' + data.gid + '" ><i class="fa fa-minus"></i><b>取消关注</b></a>');
+        if (data.role === 6)
+        {
+            $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation"  style="margin-right:8px;" data-action="joinfriend" data-id="' + data.gid + '" ><i class="fa fa-gear"></i><b>你的好友</b></a>');
+        } else
+        {
+            $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation"  style="margin-right:8px;" data-action="joingroup" data-id="' + data.gid + '" ><i class="fa fa-gear"></i><b>你是群组成员</b></a>');
+        }
+    } else if (data.isFollowed === 4)// user self
+    {
+        $(target + ' .infoList').append('<a href="#" class="btn btn-primary btn-xs following_operation_modify" data-action="modifyprofile" style="margin-right:8px;" data-id="' + data.gid + '" ><i class="fa fa-gear"></i><b>修改个人信息</b></a>');
+
+    } else if (data.isFollowed === 5)// use  in group
+    {
+        $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation" style="margin-right:8px;" onclick="doFollowingOpeartions(this)" data-action="dismissfollow" data-id="' + data.gid + '" ><i class="fa fa-minus"></i><b>取消关注</b></a>');
+        if (data.role === 6)
+        {
+            $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation"  style="margin-right:8px;" data-action="joinfriend" data-id="' + data.gid + '" ><i class="fa fa-gear"></i><b>你的好友</b></a>');
+        } else
+        {
+            $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation"  style="margin-right:8px;" data-action="joingroup" data-id="' + data.gid + '" ><i class="fa fa-gear"></i><b>你是群组成员</b></a>');
+        }
+    } else if (data.isFollowed === 6)// user not in the group
+    {
+        $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation" style="margin-right:8px;" onclick="doFollowingOpeartions(this)" data-action="follow" data-id="' + data.gid + '" ><i class="fa fa-plus"></i><b>关注</b></a>');
+        if (data.role === 6)
+        {
+            $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation"  style="margin-right:8px;" data-action="joinfriend" data-id="' + data.gid + '" ><i class="fa fa-gear"></i><b>你的好友</b></a>');
+        } else
+        {
+            $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation"  style="margin-right:8px;" data-action="joingroup" data-id="' + data.gid + '" ><i class="fa fa-gear"></i><b>你是群组成员</b></a>');
+        }
+    }
+
+    if (data.isAdmin === 1 && data.role !== 6)
+    {
+        $(target + ' .infoList').append('<a href="#" class="btn btn-primary btn-xs following_operation_modify" data-action="modifyprofile" style="margin-right:8px;" data-id="' + data.gid + '" ><i class="fa fa-gear"></i><b>修改群组信息</b></a>');
+    }
+
+    // modify group and user profile
+    if (data.isFollowed === 4 || data.isAdmin === 1)
+    {
+        $('.following_operation_modify').on('click', function () {
+            //加载图片模块
+            $('.post-file :file').on('change', function () {
+                var input = $(this),
+                        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                input.trigger('fileselect', [numFiles, label]);
+            });
+
+            $('.post-file :file').on('fileselect', function (event, numFiles, label) {
+                var input = $(this).parents('.input-group').find(':text'),
+                        log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+                if (input.length) {
+                    input.val(log);
+                } else {
+                    if (log)
+                        alert(log);
+                }
+            });
+            $(function () {
+                $(".post-file :file").change(function () {
+                    if (this.files && this.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = imageIsLoaded;
+                        reader.readAsDataURL(this.files[0]);
+                    }
+                });
+            });
+            function imageIsLoaded(e) {
+                $('#avatarImg').attr('src', e.target.result);
+                $('#avatarImg').removeClass("hide");
+            }
+            ;
+
+            $('.post-file1 :file').on('change', function () {
+                var input = $(this),
+                        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                input.trigger('fileselect', [numFiles, label]);
+            });
+
+            $('.post-file1 :file').on('fileselect', function (event, numFiles, label) {
+                var input = $(this).parents('.input-group').find(':text'),
+                        log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+                if (input.length) {
+                    input.val(log);
+                } else {
+                    if (log)
+                        alert(log);
+                }
+            });
+            $(function () {
+                $(".post-file1 :file").change(function () {
+                    if (this.files && this.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = imageIsLoaded1;
+                        reader.readAsDataURL(this.files[0]);
+                    }
+                });
+            });
+            function imageIsLoaded1(e) {
+                $('#avatarImg-bg').attr('src', e.target.result);
+                $('#avatarImg-bg').removeClass("hide");
+            }
+            ;
+
+            //加载genre和tag选项
+
+            $.get('../../HandleGetGroupMessage?option=0', function (data1) {
+                data1 = JSON.parse(data1);
+                $('#modify-genres').select2({
+                    data: data1.category_list
+                });
+                $('#modify-tags').select2({
+                    data: data1.tags_list
+                });
+                if (data.role === 6)
+                {
+                    $('#modify-titles').select2({
+                        data: data1.titles_list
+                    });
+                }
+                //加载旧信息
+                $('#modal_modifyprofile [name="name"]').val(data.name);
+                $('#modal_modifyprofile [id="avatarImg"]').attr('src', data.imageProfile);
+                $('#modal_modifyprofile [id="avatarImg-bg"]').attr('src', data.bg_image);
+                $('#modal_modifyprofile [name="introduction"]').text(data.introduction);
+                if (data.role !== 6)
+                {
+                    $(".user-title-1").hide();
+                } else
+                {
+                    $(".user-title-1").show();
+                    $('#modify-titles').select2({tags: true}).val(data.titles).trigger('change');
+                }
+                $('#modify-genres').select2({tags: true}).val(data.category).trigger('change');
+                $('#modify-tags').select2({tags: true}).val(data.tags).trigger('change');
+                $('#modal_modifyprofile').modal('show');
+            });
+
+
+
+
+            $('#modal_modifyprofile .submit').on('click', function (e) {
+                var titles = "";
+                if (data.role === 6)
+                {
+                    titles = JSON.stringify($('#modify-titles').val());
+                }
+
+                var sdata = {isGroup: data.role, gid: data_gid, image: $("#avatarImg").attr("src"), bg_image: $("#avatarImg-bg").attr("src"),
+                    titles: titles, category: JSON.stringify($('#modify-genres').val()), tags: JSON.stringify($('#modify-tags').val()), introduction: $('#modal_modifyprofile [name="introduction"]').val()};
+
+                $.post(ACTION_MAP.editProfile, sdata, function (result) {
+                    if (result === "1")
+                    {
+                        alert('成功修改个人信息');
+                        $('#modal_modifyprofile').modal('hide');
+                        location.reload();
+                    } else
+                    {
+                        alert('修改个人信息Fail');
+                    }
+                }).fail(function (e) {
+
+                });
+            });
+
+
+        });
+    }
+    // follow or unfollow
+
+
+    //此处应完善
+    if (data.role === 6)
+    {
+        $(".user-title").show();
+        $(target + ' [data-type="titles"]').empty();
+
+        $.each(data.titles, function (index, title) {
+            $(target + ' [data-type="titles"]').append('<a href="javascript:void(0);" onclick="goSearchPage(this);" data-action="follow" data-query="' + title + '" data-option="1"  data-title="' + title + '" class="label ' + randomPicker(colors) + '" style="margin-left: 3px;">' + title + '</a>');
+        });
+    } else
+    {
+        $(".user-title").hide();
+    }
+
+    $(target + ' [data-type="topic-genres"]').empty();
+
+    $.each(data.category, function (index, genre) {
+        $(target + ' [data-type="topic-genres"]').append('<a href="javascript:void(0);" onclick="goSearchPage(this);" data-action="follow" data-query="' + genre + '" data-option="2" data-genre="' + genre + '" class="label ' + randomPicker(colors) + '" style="margin-left: 3px;">' + genre + '</a>');
+    });
+    //此处应完善
+    $(target + ' [data-type="topic-tags"]').empty();
+    $.each(data.tags, function (index, tag) {
+        $(target + ' [data-type="topic-tags"]').append('<a href="javascript:void(0);"  onclick="goSearchPage(this);" data-action="follow"  data-query="' + tag + '" data-option="3" data-tag="' + tag + '" class="label ' + randomPicker(colors) + '" style="margin-left: 3px;">' + tag + '</a>');
+    });
+
+    $('a[href="#tab_featrued"]').on('click', function (e) {
+        //$('#tab_featrued_1').empty();
+        var filter = {};
+        filter.genre = $(this).attr('data-genre') === undefined ? "" : $(this).attr('data-genre');
+        filter.tag = $(this).attr('data-tag') === undefined ? "" : $(this).attr('data-tag');
+        filter.title = $(this).attr('data-title') === undefined ? "" : $(this).attr('data-title');
+        //console.log(filter);
+        $.post(ACTION_MAP.getFeatruedGroup, filter, function (data) {
+            data = JSON.parse(data);
+            $('#modal_searchresult').modal("show");
+            $('#modal_searchresult .modal-body').empty();
+            $.each(data, function (index, item) {
+                $('#modal_searchresult .modal-body').append(groupBlockStyle(item, 'col-md-3', ""));
+            });
+            //加入群组
+
+
+
+        }).fail(function (err) {
+            console.log(err);
+        });
+
+    });
+
+    //修改20170317 #8结束
+    $(target + ' [data-type="moment-count"]').text(' ' + data.post_count);
+    if (data.isFollowed === 4)
+    {
+        $(".userType").show();
+        $(".groupType").hide();
+        $(target + ' [data-type="following_friends_name"]').text('我的好友');
+        $(target + ' [data-type="following_users_name"]').text('我关注的用户');
+        $(target + ' [data-type="followed_users_name"]').text('关注我的用户');
+        $(target + ' [data-type="following_groups_name"]').text('我关注的群组');
+        $(target + ' [data-type="following_users_count"]').text(' ' + data.following_user_count);
+        $(target + ' [data-type="following_groups_count"]').text(' ' + data.following_group_count);
+        $(target + ' [data-type="followed_users_count"]').text(' ' + data.follower_count);
+    } else
+    {
+        if (data.role === 6)
+        {
+            $(".userType").show();
+            $(".groupType").hide();
+            $(".userType").show();
+            $(".groupType").hide();
+            $(target + ' [data-type="following_friends_name"]').text('它的好友');
+            $(target + ' [data-type="following_users_name"]').text('它关注的用户');
+            $(target + ' [data-type="followed_users_name"]').text('关注它的用户');
+            $(target + ' [data-type="following_groups_name"]').text('它关注的群组');
+            $(target + ' [data-type="following_users_count"]').text(' ' + data.following_user_count);
+            $(target + ' [data-type="following_groups_count"]').text(' ' + data.following_group_count);
+            $(target + ' [data-type="followed_users_count"]').text(' ' + data.follower_count);
+        } else
+        {
+            $(".userType").hide();
+            $(".groupType").show();
+            $(target + ' [data-type="group_members_count"]').text(' ' + data.member_count);
+            $(target + ' [data-type="followed_group_users_count"]').text(' ' + data.followers);
+        }
+    }
+
+    //
+
+    $("#post_info_content").empty();
+    $.get(ACTION_MAP.getMomentByUserID, {gid: data.gid}, function (data) {
+        loadMoment(data, '.post_content_page');
+    }).fail(function () {
+        console.log("err");
+    });
+    $(target + ' .post_tab').unbind().on('click', function () {
+        var gid = data.gid;
+        $(".post_tab").css("color", "white");
+        $(this).css("color", "red");
+        console.log($(this).attr('data-type'));
+
+        if ($(this).attr('data-type') === 'following_post') {
+            $.get(ACTION_MAP.getMomentByUserID, {gid: data.gid}, function (data) {
+                $(".post_content_page_1").hide();
+                $(".post_content_page").show();
+                loadMoment(data, '.post_content_page');
+                // 
+            }).fail(function () {
+                console.log("err");
+            });
+        } else if ($(this).attr('data-type') === 'following_friends') {
+            $.get(ACTION_MAP.getUserRelation, {filter: $(this).attr('data-type'), gid: gid}, function (data) {
+                $(".post_content_page_1").show();
+                $(".post_content_page").hide();
+                loadFollowList(data, '.post_content_page');
+            }).fail(function () {
+                console.log("err");
+            });
+        } else if ($(this).attr('data-type') === 'following_users') {
+            $.get(ACTION_MAP.getUserRelation, {filter: $(this).attr('data-type'), gid: gid}, function (data) {
+                $(".post_content_page_1").show();
+                $(".post_content_page").hide();
+                loadFollowList(data, '.post_content_page');
+            }).fail(function () {
+                console.log("err");
+            });
+        } else if ($(this).attr('data-type') === 'followed_users') {
+            $.get(ACTION_MAP.getUserRelation, {filter: $(this).attr('data-type'), gid: gid}, function (data) {
+                $(".post_content_page_1").show();
+                $(".post_content_page").hide();
+                loadFollowList(data, '.post_content_page');
+            }).fail(function () {
+                console.log("err");
+            });
+        } else if ($(this).attr('data-type') === 'following_groups') {
+            $.get(ACTION_MAP.getUserRelation, {filter: $(this).attr('data-type'), gid: gid}, function (data) {
+                $(".post_content_page_1").show();
+                $(".post_content_page").hide();
+                loadFollowList(data, '.post_content_page');
+            }).fail(function () {
+                console.log("err");
+            });
+        } else if ($(this).attr('data-type') === 'group_members') {
+            $.get(ACTION_MAP.getUserRelation, {filter: $(this).attr('data-type'), gid: gid}, function (data) {
+                $(".post_content_page_1").show();
+                $(".post_content_page").hide();
+                loadFollowList(data, '.post_content_page');
+            }).fail(function () {
+                console.log("err");
+            });
+        }
+        //$('#tab_customerhome #tab_2').empty();
+        //alert(2);
+    });
+};
+
+var loadUserInfo = function (data, target) {
+    var data_gid = data.gid;
+    $(target + ' [data-type="bg"]').css({'background': 'url("' + data.bg_image + '") center center'});
+    $(target + ' [data-type="img"]').attr({'src': data.imageProfile});
+    $(target + ' [data-type="name"]').html('<b>' + data.name + '</b>');
+    $(target + ' [data-type="introduction"]').text(data.introduction);
+    $(".user-box-footer").css("background", randomColor());
+    //此处应完善
+    //修改20170317 #8
+    //修改内容： 修改个人信息
+    $(target + ' .infoList').empty();
+    if (data.isFollowed === 0)// unfollow and not friend
+    {
+        $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation"  style="margin-right:8px;" onclick="doFollowingOpeartions(this)" data-action="follow" data-id="' + data.gid + '" ><i class="fa fa-plus"></i><b>关注</b></a>');
+        if (data.role === 6)
+        {
+            $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation" style="margin-right:8px;" onclick="doFollowingOpeartions(this)" data-action="joinfriend" data-id="' + data.gid + '" ><i class="fa fa-plus"></i><b>加为好友</b></a>');
+        } else
+        {
+            $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation" style="margin-right:8px;" onclick="doFollowingOpeartions(this)" data-action="joingroup" data-id="' + data.gid + '" ><i class="fa fa-plus"></i><b>加入群组</b></a>');
+        }
+    } else if (data.isFollowed === 1)// follow and not friend
+    {
+        $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation" style="margin-right:8px;" onclick="doFollowingOpeartions(this)" data-action="dismissfollow" data-id="' + data.gid + '" ><i class="fa fa-minus"></i><b>取消关注</b></a>');
+        if (data.role === 6)
+        {
+            $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation" style="margin-right:8px;" onclick="doFollowingOpeartions(this)" data-action="joinfriend" data-id="' + data.gid + '" ><i class="fa fa-plus"></i><b>加为好友</b></a>');
+        } else
+        {
+            $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation" style="margin-right:8px;" onclick="doFollowingOpeartions(this)" data-action="joingroup" data-id="' + data.gid + '" ><i class="fa fa-plus"></i><b>加入群组</b></a>');
+        }
+    } else if (data.isFollowed === 2)// unfollow and  friend
+    {
+        $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation" style="margin-right:8px;" onclick="doFollowingOpeartions(this)" data-action="follow" data-id="' + data.gid + '" ><i class="fa fa-plus"></i><b>关注</b></a>');
+        if (data.role === 6)
+        {
+            $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation"  style="margin-right:8px;" data-action="joinfriend" data-id="' + data.gid + '" ><i class="fa fa-gear"></i><b>你的好友</b></a>');
+        } else
+        {
+            $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation"  style="margin-right:8px;" data-action="joingroup" data-id="' + data.gid + '" ><i class="fa fa-gear"></i><b>你是群组成员</b></a>');
+        }
+    } else if (data.isFollowed === 3)// follow and  friend
+    {
+        $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation" style="margin-right:8px;" onclick="doFollowingOpeartions(this)" data-action="dismissfollow" data-id="' + data.gid + '" ><i class="fa fa-minus"></i><b>取消关注</b></a>');
+        if (data.role === 6)
+        {
+            $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation"  style="margin-right:8px;" data-action="joinfriend" data-id="' + data.gid + '" ><i class="fa fa-gear"></i><b>你的好友</b></a>');
+        } else
+        {
+            $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation"  style="margin-right:8px;" data-action="joingroup" data-id="' + data.gid + '" ><i class="fa fa-gear"></i><b>你是群组成员</b></a>');
+        }
+    } else if (data.isFollowed === 4)// user self
+    {
+        $(target + ' .infoList').append('<a href="#" class="btn btn-primary btn-xs following_operation_modify" data-action="modifyprofile" style="margin-right:8px;" data-id="' + data.gid + '" ><i class="fa fa-gear"></i><b>修改个人信息</b></a>');
+
+    } else if (data.isFollowed === 5)// use  in group
+    {
+        $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation" style="margin-right:8px;" onclick="doFollowingOpeartions(this)" data-action="dismissfollow" data-id="' + data.gid + '" ><i class="fa fa-minus"></i><b>取消关注</b></a>');
+        if (data.role === 6)
+        {
+            $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation"  style="margin-right:8px;" data-action="joinfriend" data-id="' + data.gid + '" ><i class="fa fa-gear"></i><b>你的好友</b></a>');
+        } else
+        {
+            $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation"  style="margin-right:8px;" data-action="joingroup" data-id="' + data.gid + '" ><i class="fa fa-gear"></i><b>你是群组成员</b></a>');
+        }
+    } else if (data.isFollowed === 6)// user not in the group
+    {
+        $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation" style="margin-right:8px;" onclick="doFollowingOpeartions(this)" data-action="follow" data-id="' + data.gid + '" ><i class="fa fa-plus"></i><b>关注</b></a>');
+        if (data.role === 6)
+        {
+            $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation"  style="margin-right:8px;" data-action="joinfriend" data-id="' + data.gid + '" ><i class="fa fa-gear"></i><b>你的好友</b></a>');
+        } else
+        {
+            $(target + ' .infoList').append('<a href="javascript:void(0);" class="btn btn-primary btn-xs following_operation"  style="margin-right:8px;" data-action="joingroup" data-id="' + data.gid + '" ><i class="fa fa-gear"></i><b>你是群组成员</b></a>');
+        }
+    }
+
+    if (data.isAdmin === 1 && data.role !== 6)
+    {
+        $(target + ' .infoList').append('<a href="#" class="btn btn-primary btn-xs following_operation_modify" data-action="modifyprofile" style="margin-right:8px;" data-id="' + data.gid + '" ><i class="fa fa-gear"></i><b>修改群组信息</b></a>');
+    }
+
+    // modify group and user profile
+    if (data.isFollowed === 4 || data.isAdmin === 1)
+    {
+        $('.following_operation_modify').on('click', function () {
+            //加载图片模块
+            $('.post-file :file').on('change', function () {
+                var input = $(this),
+                        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                input.trigger('fileselect', [numFiles, label]);
+            });
+
+            $('.post-file :file').on('fileselect', function (event, numFiles, label) {
+                var input = $(this).parents('.input-group').find(':text'),
+                        log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+                if (input.length) {
+                    input.val(log);
+                } else {
+                    if (log)
+                        alert(log);
+                }
+            });
+            $(function () {
+                $(".post-file :file").change(function () {
+                    if (this.files && this.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = imageIsLoaded;
+                        reader.readAsDataURL(this.files[0]);
+                    }
+                });
+            });
+            function imageIsLoaded(e) {
+                $('#avatarImg').attr('src', e.target.result);
+                $('#avatarImg').removeClass("hide");
+            }
+            ;
+
+            $('.post-file1 :file').on('change', function () {
+                var input = $(this),
+                        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                input.trigger('fileselect', [numFiles, label]);
+            });
+
+            $('.post-file1 :file').on('fileselect', function (event, numFiles, label) {
+                var input = $(this).parents('.input-group').find(':text'),
+                        log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+                if (input.length) {
+                    input.val(log);
+                } else {
+                    if (log)
+                        alert(log);
+                }
+            });
+            $(function () {
+                $(".post-file1 :file").change(function () {
+                    if (this.files && this.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = imageIsLoaded1;
+                        reader.readAsDataURL(this.files[0]);
+                    }
+                });
+            });
+            function imageIsLoaded1(e) {
+                $('#avatarImg-bg').attr('src', e.target.result);
+                $('#avatarImg-bg').removeClass("hide");
+            }
+            ;
+
+            //加载genre和tag选项
+
+            $.get('../../HandleGetGroupMessage?option=0', function (data1) {
+                data1 = JSON.parse(data1);
+                $('#modify-genres').select2({
+                    data: data1.category_list
+                });
+                $('#modify-tags').select2({
+                    data: data1.tags_list
+                });
+                if (data.role === 6)
+                {
+                    $('#modify-titles').select2({
+                        data: data1.titles_list
+                    });
+                }
+                //加载旧信息
+                $('#modal_modifyprofile [name="name"]').val(data.name);
+                $('#modal_modifyprofile [id="avatarImg"]').attr('src', data.imageProfile);
+                $('#modal_modifyprofile [id="avatarImg-bg"]').attr('src', data.bg_image);
+                $('#modal_modifyprofile [name="introduction"]').text(data.introduction);
+                if (data.role !== 6)
+                {
+                    $(".user-title-1").hide();
+                } else
+                {
+                    $(".user-title-1").show();
+                    $('#modify-titles').select2({tags: true}).val(data.titles).trigger('change');
+                }
+                $('#modify-genres').select2({tags: true}).val(data.category).trigger('change');
+                $('#modify-tags').select2({tags: true}).val(data.tags).trigger('change');
+                $('#modal_modifyprofile').modal('show');
+            });
+
+
+
+
+            $('#modal_modifyprofile .submit').on('click', function (e) {
+                var titles = "";
+                if (data.role === 6)
+                {
+                    titles = JSON.stringify($('#modify-titles').val());
+                }
+
+                var sdata = {isGroup: data.role, gid: data_gid, image: $("#avatarImg").attr("src"), bg_image: $("#avatarImg-bg").attr("src"),
+                    titles: titles, category: JSON.stringify($('#modify-genres').val()), tags: JSON.stringify($('#modify-tags').val()), introduction: $('#modal_modifyprofile [name="introduction"]').val()};
+
+                $.post(ACTION_MAP.editProfile, sdata, function (result) {
+                    if (result === "1")
+                    {
+                        alert('成功修改个人信息');
+                        $('#modal_modifyprofile').modal('hide');
+                        location.reload();
+                    } else
+                    {
+                        alert('修改个人信息Fail');
+                    }
+                }).fail(function (e) {
+
+                });
+            });
+
+
+        });
+    }
+    // follow or unfollow
+
+
+    //此处应完善
+    if (data.role === 6)
+    {
+        $(".user-title").show();
+        $(target + ' [data-type="titles"]').empty();
+
+        $.each(data.titles, function (index, title) {
+            $(target + ' [data-type="titles"]').append('<a href="javascript:void(0);"  onclick="goSearchPage(this);" data-query="' + title + '" data-option="1" data-action="follow"  data-title="' + title + '" class="label ' + randomPicker(colors) + '" style="margin-left: 3px;">' + title + '</a>');
+        });
+    } else
+    {
+        $(".user-title").hide();
+    }
+
+    $(target + ' [data-type="topic-genres"]').empty();
+
+    $.each(data.category, function (index, genre) {
+        $(target + ' [data-type="topic-genres"]').append('<a href="javascript:void(0);" onclick="goSearchPage(this);" data-query="' + genre + '" data-option="2" data-action="follow" data-genre="' + genre + '" class="label ' + randomPicker(colors) + '" style="margin-left: 3px;">' + genre + '</a>');
+    });
+    //此处应完善
+    $(target + ' [data-type="topic-tags"]').empty();
+    $.each(data.tags, function (index, tag) {
+        $(target + ' [data-type="topic-tags"]').append('<a href="javascript:void(0);" onclick="goSearchPage(this);" data-action="follow"  data-query="' + tag + '" data-option="3" data-tag="' + tag + '" class="label ' + randomPicker(colors) + '" style="margin-left: 3px;">' + tag + '</a>');
+    });
+
+    $('a[href="#tab_featrued"]').on('click', function (e) {
+        //$('#tab_featrued_1').empty();
+        var filter = {};
+        filter.genre = $(this).attr('data-genre') === undefined ? "" : $(this).attr('data-genre');
+        filter.tag = $(this).attr('data-tag') === undefined ? "" : $(this).attr('data-tag');
+        filter.title = $(this).attr('data-title') === undefined ? "" : $(this).attr('data-title');
+        //console.log(filter);
+        $.post(ACTION_MAP.getFeatruedGroup, filter, function (data) {
+            data = JSON.parse(data);
+            $('#modal_searchresult').modal("show");
+            $('#modal_searchresult .modal-body').empty();
+            $.each(data, function (index, item) {
+                $('#modal_searchresult .modal-body').append(groupBlockStyle(item, 'col-md-3', ""));
+            });
+            //加入群组
+
+
+
+        }).fail(function (err) {
+            console.log(err);
+        });
+
+    });
+
+    //修改20170317 #8结束
+    $(target + ' [data-type="moment-count"]').text(' ' + data.post_count);
+    if (data.isFollowed === 4)
+    {
+        $(".userType").show();
+        $(".groupType").hide();
+        $(target + ' [data-type="following_friends_name"]').text('我的好友');
+        $(target + ' [data-type="following_users_name"]').text('我关注的用户');
+        $(target + ' [data-type="followed_users_name"]').text('关注我的用户');
+        $(target + ' [data-type="following_groups_name"]').text('我关注的群组');
+        $(target + ' [data-type="following_users_count"]').text(' ' + data.following_user_count);
+        $(target + ' [data-type="following_groups_count"]').text(' ' + data.following_group_count);
+        $(target + ' [data-type="followed_users_count"]').text(' ' + data.follower_count);
+    } else
+    {
+        if (data.role === 6)
+        {
+            $(target + ' [data-type="following_friends_name"]').text('它的好友');
+            $(target + ' [data-type="following_users_name"]').text('它关注的用户');
+            $(target + ' [data-type="followed_users_name"]').text('关注它的用户');
+            $(target + ' [data-type="following_groups_name"]').text('它关注的群组');
+            $(target + ' [data-type="following_users_count"]').text(' ' + data.following_user_count);
+            $(target + ' [data-type="following_groups_count"]').text(' ' + data.following_group_count);
+            $(target + ' [data-type="followed_users_count"]').text(' ' + data.follower_count);
+        } else
+        {
+            $(".userType").hide();
+            $(".groupType").show();
+            $(target + ' [data-type="group_members_count"]').text(' ' + data.member_count);
+            $(target + ' [data-type="followed_group_users_count"]').text(' ' + data.followers);
+        }
+    }
+
+    //
+
+    $("#post_info_content").empty();
+    $.get(ACTION_MAP.getMomentByUserID, {gid: data.gid}, function (data) {
+        loadMoment(data, '#post_info_content');
+    }).fail(function () {
+        console.log("err");
+    });
+    $(target + ' .post_tab').on('click', function () {
+        var gid = data.gid;
+        $(".post_tab").css("color", "white");
+        $(this).css("color", "red");
+        console.log($(this).attr('data-type'));
+
+        //$("#post_info_content").css("background","black");
+        if ($(this).attr('data-type') === 'following_post') {
+            $.get(ACTION_MAP.getMomentByUserID, {gid: data.gid}, function (data) {
+                $("#post_info_content").show();
+                $("#post_info_content_1").hide();
+                loadMoment(data, '#post_info_content');
+                // 
+            }).fail(function () {
+                console.log("err");
+            });
+        } else if ($(this).attr('data-type') === 'following_friends') {
+            $.get(ACTION_MAP.getUserRelation, {filter: $(this).attr('data-type'), gid: gid}, function (data) {
+                $("#post_info_content").hide();
+                $("#post_info_content_1").show();
+                loadFollowList(data, '#post_info_content');
+            }).fail(function () {
+                console.log("err");
+            });
+        } else if ($(this).attr('data-type') === 'following_users') {
+            $.get(ACTION_MAP.getUserRelation, {filter: $(this).attr('data-type'), gid: gid}, function (data) {
+                $("#post_info_content").hide();
+                $("#post_info_content_1").show();
+                loadFollowList(data, '#post_info_content_1');
+            }).fail(function () {
+                console.log("err");
+            });
+        } else if ($(this).attr('data-type') === 'followed_users') {
+            $.get(ACTION_MAP.getUserRelation, {filter: $(this).attr('data-type'), gid: gid}, function (data) {
+                $("#post_info_content").hide();
+                $("#post_info_content_1").show();
+                loadFollowList(data, '#post_info_content_1');
+            }).fail(function () {
+                console.log("err");
+            });
+        } else if ($(this).attr('data-type') === 'following_groups') {
+            $.get(ACTION_MAP.getUserRelation, {filter: $(this).attr('data-type'), gid: gid}, function (data) {
+                $("#post_info_content").hide();
+                $("#post_info_content_1").show();
+                loadFollowList(data, '#post_info_content_1');
+            }).fail(function () {
+                console.log("err");
+            });
+        } else if ($(this).attr('data-type') === 'group_members') {
+            $.get(ACTION_MAP.getUserRelation, {filter: $(this).attr('data-type'), gid: gid}, function (data) {
+                $("#post_info_content").hide();
+                $("#post_info_content_1").show();
+                loadFollowList(data, '#post_info_content_1');
+            }).fail(function () {
+                console.log("err");
+            });
+        }
+        //$('#tab_customerhome #tab_2').empty();
+        //alert(2);
+    });
+};
+
+var loadFollowList = function (data, target) {
+    $(target).empty();
+    if (data === "-1" || data.length === 0)
+    {
+        return false;
+    }
+    data = JSON.parse(data);
+    $(target).empty();
+    $.each(data, function (index, user) {
+        $(target).append(groupBlockStyle(user, 'col-md-3', target));
+    });
+};
+
+//加载editor
+var appendWysiwygEditor = function (id, appendto, location) {
+    var html = '<div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor-' + id + '">\
+								<div class="btn-group">\
+								<a class="btn dropdown-toggle" data-toggle="dropdown" title="字体"><i class="icon-font"></i><b class="caret"></b></a>\
+									<ul class="dropdown-menu">\
+									</ul>\
+								</div>\
+								<div class="btn-group">\
+								<a class="btn dropdown-toggle" data-toggle="dropdown" title="字体大小"><i class="icon-text-height"></i>&nbsp;<b class="caret"></b></a>\
+									<ul class="dropdown-menu">\
+									<li><a data-edit="fontSize 5"><font size="5">大</font></a></li>\
+									<li><a data-edit="fontSize 3"><font size="3">中</font></a></li>\
+									<li><a data-edit="fontSize 1"><font size="1">小</font></a></li>\
+									</ul>\
+								</div>\
+								<div class="btn-group">\
+								<a class="btn" data-edit="bold" title="加粗 (Ctrl/Cmd+B)"><i class="icon-bold"></i></a>\
+								<a class="btn" data-edit="italic" title="斜体 (Ctrl/Cmd+I)"><i class="icon-italic"></i></a>\
+								<a class="btn" data-edit="strikethrough" title="（加） 删除线"><i class="icon-strikethrough"></i></a>\
+								<a class="btn" data-edit="underline" title="下划线 (Ctrl/Cmd+U)"><i class="icon-underline"></i></a>\
+								</div>\
+								<div class="btn-group">\
+								<a class="btn" data-edit="insertunorderedlist" title="项目列表"><i class="icon-list-ul"></i></a>\
+								<a class="btn" data-edit="insertorderedlist" title="数字列表"><i class="icon-list-ol"></i></a>\
+								<a class="btn" data-edit="outdent" title="清除缩进 (Shift+Tab)"><i class="icon-indent-left"></i></a>\
+								<a class="btn" data-edit="indent" title="缩进 (Tab)"><i class="icon-indent-right"></i></a>\
+								</div>\
+								<div class="btn-group">\
+								<a class="btn" data-edit="justifyleft" title="居左 (Ctrl/Cmd+L)"><i class="icon-align-left"></i></a>\
+								<a class="btn" data-edit="justifycenter" title="居中 (Ctrl/Cmd+E)"><i class="icon-align-center"></i></a>\
+								<a class="btn" data-edit="justifyright" title="居右 (Ctrl/Cmd+R)"><i class="icon-align-right"></i></a>\
+								<a class="btn" data-edit="justifyfull" title="正常 (Ctrl/Cmd+J)"><i class="icon-align-justify"></i></a>\
+								</div>\
+								<div class="btn-group">\
+									<a class="btn dropdown-toggle" data-toggle="dropdown" title="超链接"><i class="icon-link"></i></a>\
+									<div class="dropdown-menu input-append">\
+										<input class="span2" placeholder="URL" type="text" data-edit="createLink"/>\
+										<button class="btn" type="button">添加</button>\
+								</div>\
+								<a class="btn" data-edit="unlink" title="去除链接"><i class="icon-cut"></i></a>\
+								</div>\
+								<div class="btn-group">\
+								<a class="btn" title="浏览或拖拽添加图片" id="pictureBtn' + id + '"><i class="icon-picture"></i></a>\
+								<input type="file" data-role="magic-overlay" data-target="#pictureBtn' + id + '" data-edit="insertImage" />\
+								</div>\
+								<div class="btn-group">\
+								<a class="btn" data-edit="undo" title="撤消 (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>\
+								<a class="btn" data-edit="redo" title="重复 (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a>\
+								</div>\
+							</div>\
+							<div id="editor-' + id + '" class="editor">\
+							</div>\
+							<div style="text-align: right; margin-top:5px;"><a class="btn btn-primary btn-flat btn-xs replyMoment-btn" value="' + id + '">回复</a> </div>'
+
+    if (location == 'pre')
+        $(appendto).prepend(html);
+    else
+        $(appendto).append(html);
+
+    loadWysiwyg('#editor-' + id + '');
+};
+
+//加载用户弹框
+var appendUserPopup = function (data, appendto) {
+    $(appendto).attr({
+        'data-container': 'body',
+        'data-trigger': 'hover',
+        'data-toggle': 'popover',
+        'data-placement': 'right',
+        'data-html': 'true',
+        'data-content': '<div class="box box-primary" style="width:200px;">\
+										<div class="box-body box-profile">\
+											<img class="profile-user-img img-responsive img-circle" src="' + data.user_img + '" alt="User profile picture">\
+											<h3 class="profile-username text-center">' + data.user_name + '</h3>\
+											<ul class="list-group list-group-unbordered">\
+												<li class="list-group-item">\
+													<b>动态</b> <a class="pull-right">' + data.user_blogs + '</a>\
+												</li>\
+												<li class="list-group-item">\
+													<b>精华</b> <a class="pull-right">' + data.user_bestblogs + '</a>\
+												</li>\
+												<li class="list-group-item">\
+													<b>关注者</b> <a class="pull-right">' + data.user_followers + '</a>\
+												</li>\
+											</ul>\
+											<a href="#" class="btn btn-primary btn-block follow-btn" value="' + data.user_id + '"><b>关注</b></a>\
+										</div>\
+									</div>'
+    });
+};
+
+var loadWysiwyg = function (target) {
+    $(function () {
+        function initToolbarBootstrapBindings() {
+            var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier',
+                'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
+                'Times New Roman', 'Verdana', 'SimHei'],
+                    fontTarget = $('[title=字体]').siblings('.dropdown-menu');
+            $.each(fonts, function (idx, fontName) {
+                fontTarget.append($('<li><a data-edit="fontName ' + fontName + '" style="font-family:\'' + fontName + '\'">' + fontName + '</a></li>'));
+            });
+            $('a[title]').tooltip({container: 'body'});
+            $('.dropdown-menu input').click(function () {
+                return false;
+            })
+                    .change(function () {
+                        $(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');
+                    })
+                    .keydown('esc', function () {
+                        this.value = '';
+                        $(this).change();
+                    });
+
+            $('[data-role=magic-overlay]').each(function () {
+                var overlay = $(this), target = $(overlay.data('target'));
+                overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
+            });
+            /*
+             if ("onwebkitspeechchange"  in document.createElement("input")) {
+             var editorOffset = $('#editor').offset();
+             $('#voiceBtn').css('position','absolute').offset({top: editorOffset.top, left: editorOffset.left+$('#editor').innerWidth()-35});
+             } else {
+             $('#voiceBtn').hide();
+             }
+             */
+        }
+        ;
+        function showErrorAlert(reason, detail) {
+            var msg = '';
+            if (reason === 'unsupported-file-type') {
+                msg = "Unsupported format " + detail;
+            } else {
+                console.log("error uploading file", reason, detail);
+            }
+            $('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                    '<strong>File upload error</strong> ' + msg + ' </div>').prependTo('#alerts');
+        }
+        ;
+        initToolbarBootstrapBindings();
+        $(target).wysiwyg({fileUploadError: showErrorAlert});
+        window.prettyPrint && prettyPrint();
+    });
+
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'http://www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-37452180-6', 'github.io');
+    ga('send', 'pageview');
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id))
+            return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "http://connect.facebook.net/en_GB/all.js#xfbml=1";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    !function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "http://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }
+    }(document, "script", "twitter-wjs");
+};
+
+//辅助方法
+var getDate_Trans = function (datetime) {
+    datetime = datetime.split(" ");
+    var eles = datetime[0].split("-");
+    return eles[0] + "年" + eles[1] + "月" + eles[2] + "号";
+};
+
+var getDateTime_Trans = function (datetime) {
+    datetime = datetime.split(" ");
+    var eles = datetime[0].split("-");
+    return eles[0] + "年" + eles[1] + "月" + eles[2] + "号 " + datetime[1];
+};
+var getTime_Trans = function (datetime) {
+    datetime = datetime.split(" ");
+    return datetime[1];
+};
+
+var colors = ['label-danger', 'label-success', 'label-info', 'label-warning', 'label-primary'];
+var randomPicker = function (array) {
+    var random = Math.floor(Math.random() * (array.length));
+    return array[random];
+};
+
+var randomColor = function ()
+{
+    var letters = 'BCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * letters.length)];
+    }
+    return color;
+};
+
+function getCatesIns(ids)
+{
+    var result = [];
+    for (var i = 0; i < ids.length; i++)
+    {
+        for (var j = 0; j < cates.length; j++)
+        {
+            if (ids[i] === cates[j].id)
+            {
+                result.push(cates[j].text);
+            }
+        }
+    }
+    return result;
+
+}
+
+function getTagsIns(ids)
+{
+    var result = [];
+    for (var i = 0; i < ids.length; i++)
+    {
+        for (var j = 0; j < tags.length; j++)
+        {
+            if (ids[i] === tags[j].id)
+            {
+                result.push(tags[j].text);
+            }
+        }
+    }
+    return result;
+}

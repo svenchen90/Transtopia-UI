@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+    <!-- BEGIN HEAD -->
+    <head>
+        <meta charset="UTF-8" />
+        <title>文件管理系统</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <meta content="" name="description" />
+        <meta content="" name="author" />
+        <!--[if IE]>
+           <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+           <![endif]-->
+        <!-- GLOBAL STYLES -->
+        <link rel="stylesheet" href="./css/bootstrap.css" />
+        <link rel="stylesheet" href="./css/bootstrap-tokenfield.css" />
+        <link rel="stylesheet" href="./css/main.css" />
+        <link rel="stylesheet" href="./css/theme.css" />
+        <link rel="stylesheet" href="./css/MoneAdmin.css" />
+        <link rel="stylesheet" href="./plugins/Font-Awesome/css/font-awesome.css" />
+        <link href="./css/pygments-manni.css" type="text/css" rel="stylesheet">
+        <link href="./css/docs.css" type="text/css" rel="stylesheet">
+        <link href="./css/jquery-ui.css" type="text/css" rel="stylesheet">
+        <!--END GLOBAL STYLES -->
+
+        <!-- PAGE LEVEL STYLES -->
+        <link href="./css/layout2.css" rel="stylesheet" />
+        <!--        <link href="./plugins/flot/examples/examples.css" rel="stylesheet" />
+                <link rel="stylesheet" href="./plugins/timeline/timeline.css" />-->
+        <!-- END PAGE LEVEL  STYLES -->
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+    </head>
+
+    <!-- END HEAD -->
+
+    <!-- BEGIN BODY -->
+    <body class="padTop53 " id="bodyOne" >
+
+        <!-- MAIN WRAPPER -->
+        <!--        <div id="overlay-background" class="overlay-background"></div>-->
+        <div id="wrap" >
+            <div id="top">
+                <nav class="navbar navbar-inverse navbar-fixed-top " style="padding-top: 10px;">
+                    <a data-original-title="Show/Hide Menu" data-placement="bottom" data-tooltip="tooltip" class="accordion-toggle btn btn-primary btn-sm visible-xs" data-toggle="collapse" href="#menu" id="menu-toggle">
+                        <i class="icon-align-justify"></i>
+                    </a>
+                    <!-- LOGO SECTION -->
+                    <header class="navbar-header">
+
+                        <a href="index.html" class="navbar-brand">
+                            <img src="../img/logo.png" alt="" />
+
+                        </a>
+                    </header>
+                    <!-- END LOGO SECTION -->
+                    <!--top alerts-->
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li class="chat-panel dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <span class="label label-info">8</span>   <i class="icon-comments"></i>&nbsp; <i class="icon-chevron-down"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-alerts">
+                                <li>
+                                    <a href="#">
+                                        <div>
+                                            <i class="icon-comment" ></i> 最新评论
+                                            <span class="pull-right text-muted small"> 4 minutes ago</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="#">
+                                        <div>
+                                            <i class="icon-twitter info"></i> 3 个最新邀请
+                                            <span class="pull-right text-muted small"> 9 minutes ago</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="#">
+                                        <div>
+                                            <i class="icon-tasks"></i> 最新项目
+                                            <span class="pull-right text-muted small"> 1 Hour ago</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a class="text-center" href="#">
+                                        <strong>查看所有提醒</strong>
+                                        <i class="icon-angle-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </li>
+                        <!-- END ALERTS SECTION -->
+
+                        <!--ADMIN SETTINGS SECTIONS -->
+
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="icon-user "></i>&nbsp; <i class="icon-chevron-down "></i>
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="#"><i class="icon-user"></i> User Profile </a>
+                                </li>
+                                <li><a href="#"><i class="icon-gear"></i> Settings </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li><a href="login.html"><i class="icon-signout"></i> Logout </a>
+                                </li>
+                            </ul>
+
+                        </li>
+                        <!--END ADMIN SETTINGS -->
+                    </ul>
+
+                </nav>
+
+            </div>
+            <!-- END HEADER SECTION -->
+
+            <!-- MENU SECTION -->
+            <div id="left" >
+                <ul id="menu" class="collapse">
+                    <li class="panel active">
+                        <a href="index.html" >
+                            <i class="icon-table"></i> 功能选项
+
+
+                        </a>                   
+                    </li>
+                    <li class="panel ">
+                        <a href="#" data-parent="#menu" data-toggle="collapse" class="accordion-toggle" data-target="#component-nav">
+                            <i class="icon-tasks"> </i> 最近浏览项目     
+                            <span class="pull-right">
+                                <i class="icon-angle-left"></i>
+                            </span>
+                            &nbsp; <span class="label label-default">10</span>&nbsp;
+                        </a>
+
+                    </li>
+                    <li class="panel ">
+                        <a href="#" data-parent="#menu" data-toggle="collapse" class="accordion-toggle collapsed" data-target="#form-nav">
+                            <i class="icon-file"></i> 项目文件
+
+                            <span class="pull-right">
+                                <i class="icon-angle-left"></i>
+                            </span>
+                            &nbsp; <span class="label label-success">15</span>&nbsp;
+                        </a>
+                    </li>
+
+                    <li class="panel">
+                        <a href="#" data-parent="#menu" data-toggle="collapse" class="accordion-toggle" data-target="#pagesr-nav">
+                            <i class="icon-trash"></i> 回收站
+
+                            <span class="pull-right">
+                                <i class="icon-angle-left"></i>
+                            </span>
+                            &nbsp; <span class="label label-info">6</span>&nbsp;
+                        </a>
+
+                    </li>
+                </ul>
+
+            </div>
+            <!--END MENU SECTION -->
+
+            <!--PAGE CONTENT -->
+            <div id="content">
+
+                <div class="inner" style="min-height: 600px;">
+                    <!--                <div class="row">
+                                        <div class="col-lg-12">
+                                            <h1> Admin Dashboard </h1>
+                                        </div>
+                                    </div>
+                                      <hr />-->
+                    <!--BLOCK SECTION -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div style="display: inline-block;float:left;margin-left: 35px;"><h3>TraOS</h3></div>
+                            <div style="text-align: right">                               
+                                <a href="javascript:void(0)" class="quick-btn" id="uploadFile" data-toggle="tooltip" data-placement="bottom" title="上传文件" onclick="upLoadFile();">
+                                    <img class="nav_img" src="./img/sm/uf.jpg" alt="Upload File">
+                                    <!--                                    <span> Products</span>
+                                                                        <span class="label label-danger">2</span>-->
+                                </a>
+
+                                <a class="quick-btn" href="javascript:void(0)" id="createProject" onclick="createProject()" data-toggle="tooltip" data-placement="bottom" title="创建项目">
+                                    <img class="nav_img" src="./img/sm/uff.jpg" alt="Create Folder">
+                                    <!--                                    <span>Messages</span>
+                                                                        <span class="label label-success">456</span>-->
+                                </a>
+                                <a class="quick-btn" href="#" data-toggle="tooltip" data-placement="bottom" title="分享项目">
+                                    <img class="nav_img" src="./img/sm/sff.jpg" alt="Share Files">
+                                    <!--                                    <span>Profit</span>
+                                                                        <span class="label label-warning">+25</span>-->
+                                </a>
+                                <a class="quick-btn" href="#" data-toggle="tooltip" data-placement="bottom" title="查看回收站">
+                                    <img class="nav_img" src="./img/sm/df.jpg" alt="delete file">
+                                    <!--                                    <span>value</span>
+                                                                        <span class="label btn-metis-2">3.14159265</span>-->
+                                </a>
+
+                                <form class="quick-form">
+                                    <input type="text" placeholder="Search" class="inputtext">
+                                    <button type="submit" class="inputbutton">Search</button>
+                                </form>
+
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--END BLOCK SECTION -->
+                    <hr />
+
+                    <!--END CHAT & CHAT SECTION -->
+                    <!-- COMMENT AND NOTIFICATION  SECTION -->
+                    <div class="row" style="margin-top: -8px;">
+
+                        <div class="col-lg-12">
+
+                            <div class="panel panel-danger">
+                                <!--                            <div class="panel-heading">
+                                                                <i class="icon-bell"></i> Notifications Alerts Panel
+                                                            </div>-->
+                                <div class="panel-body">
+                                    <div class="list-group-item nav_content">
+                                        <div class="row">
+                                            <div class="col-md-5"><a href="#">项目名称</a></div>
+                                            <div class="col-md-2"><a href="#">修改时间</a></div>
+                                            <div class="col-md-4"><a href="#">分享他人</a></div>
+                                        </div>
+                                    </div>
+                                    <div id="allProjects" class="list-group">
+
+                                        <div id="tempFile" class="list-group-item" style="display:none">
+                                            <div class="nameFile fileContent" >
+                                                <a href="#" style="overflow: hidden">
+                                                    <img class="fileImage" src="./img/sm/nsf.jpg" alt="file"> <input id="newFileName" type="text" onkeypress="initProject()"  style="width:200px;">
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div id="file1" class="list-group-item" onclick="testOpen()" onmouseover="showShareFile('file1');" onmouseleave="fadeShareFile('file1');">                                        
+
+                                            <div class="nameFile fileContent">
+                                                <a href="#" style="overflow: hidden">
+                                                    <img class="fileImage" src="./img/sm/sf.jpg" alt="file"> <span class="nameTitle"> Resource Allocation Contracts</span>
+                                                </a>
+                                            </div>
+                                            <div class="modifyFile fileContent">
+                                                <span class="text-muted small">2015/03/10 14:20:00</span>
+                                            </div>
+                                            <div class="shareFile fileContent">
+                                                <div class="c-avatar--no-img c-avatar--circle c-avatar c-avatar--s" style="color:hsl(87, 60%, 53%);">SR</div>
+                                                <div class="c-avatar--no-img c-avatar--circle c-avatar c-avatar--s" style="color:hsl(151, 60%, 53%);">Yu</div>
+                                                <div class="c-avatar--no-img c-avatar--circle c-avatar c-avatar--s" style="color:hsl(312, 60%, 53%);">ZF</div>
+                                                <div class="c-avatar--no-img c-avatar--circle c-avatar c-avatar--s" style="color:hsl(243, 60%, 53%);">CG</div>
+                                                <div class="overflow-pill c-avatar--meta c-avatar c-avatar--s"> +4 </div>
+                                                <div id="file1_share" class="c-avatar shareButton" style="display: none">
+                                                    <button class="button-secondary" id="file1_button" onclick="shareProject();">Share</button></div>
+                                            </div>
+                                        </div>
+
+                                        <div id="file2" class="list-group-item" onmouseover="showShareFile('file2');" onmouseleave="fadeShareFile('file2');">                                        
+
+                                            <div class="nameFile fileContent">
+                                                <a href="#" style="overflow: hidden">
+                                                    <img class="fileImage" src="./img/sm/nsf.jpg" alt="file"> <span class="nameTitle"> Resource Allocation Contracts1 </span>
+                                                </a>
+                                            </div>
+                                            <div class="modifyFile fileContent">
+                                                <span class="text-muted small">2015/03/10 14:20:00</span>
+                                            </div>
+                                            <div class="shareFile fileContent">
+                                                <div id="name1" class="c-avatar--no-img c-avatar--circle c-avatar c-avatar--s" style="display:inline-block;color:hsl(87, 60%, 53%);">SR</div>
+                                                <div id="name2" class="c-avatar--no-img c-avatar--circle c-avatar c-avatar--s" style="display:inline-block;color:hsl(151, 60%, 53%);">Yu</div>
+                                                <div id="name3" class="c-avatar--no-img c-avatar--circle c-avatar c-avatar--s" style="display:inline-block; color:hsl(243, 60%, 53%);">CG</div>
+                                                <div class="c-avatar--no-img c-avatar--circle c-avatar c-avatar--s" style=" display:none;color:hsl(243, 60%, 53%);">CG</div>
+
+                                                <div id="nameCount" class="overflow-pill c-avatar--meta c-avatar c-avatar--s"> +3 </div>
+                                                <div id="file2_share" class="c-avatar shareButton" style="display: none">
+                                                    <button class="button-secondary" id="file2_button" onclick="showBox();">Share</button></div>
+                                            </div>
+                                        </div>
+
+                                        <div id="file3" class="list-group-item" onmouseover="showShareFile('file3');" onmouseleave="fadeShareFile('file3');">                                        
+
+                                            <div class="nameFile fileContent">
+                                                <a href="#" style="overflow: hidden">
+                                                    <img class="fileImage" src="./img/sm/nsf.jpg" alt="file"> <span class="nameTitle"> Resource Contracts1 </span>
+                                                </a>
+                                            </div>
+                                            <div class="modifyFile fileContent">
+                                                <span class="text-muted small">2015/03/10 14:20:00</span>
+                                            </div>
+                                            <div class="shareFile fileContent">
+                                                <div class="c-avatar--no-img c-avatar--circle c-avatar c-avatar--s" style="color:hsl(87, 60%, 53%);">SR</div>
+                                                <div class="c-avatar--no-img c-avatar--circle c-avatar c-avatar--s" style="color:hsl(151, 60%, 53%);">Yu</div>
+
+                                                <div id="file3_share" class="c-avatar shareButton" style="display: none">
+                                                    <button class="button-secondary" id="file1_button" onclick="showBox();">Share</button></div>
+                                            </div>
+                                        </div>
+
+                                        <div id="file4" class="list-group-item" onmouseover="showShareFile('file4');" onmouseleave="fadeShareFile('file4');">                                        
+
+                                            <div class="nameFile fileContent">
+                                                <a href="#" style="overflow: hidden">
+                                                    <img class="fileImage" src="./img/sm/nsf.jpg" alt="file"> <span class="nameTitle"> Resource Contracts1 </span>
+                                                </a>
+                                            </div>
+                                            <div class="modifyFile fileContent">
+                                                <span class="text-muted small">2015/03/10 14:20:00</span>
+                                            </div>
+                                            <div class="shareFile fileContent">
+                                                <div class="c-avatar--no-img c-avatar--circle c-avatar c-avatar--s" style=" display: none;color:hsl(87, 60%, 53%);">SR</div>
+                                                <div class="c-avatar--no-img c-avatar--circle c-avatar c-avatar--s" style="display: none;color:hsl(151, 60%, 53%);">Yu</div>
+                                                <div class="c-avatar--no-img c-avatar--circle c-avatar c-avatar--s" style="display: none;color:hsl(312, 60%, 53%);">ZF</div>
+                                                <div class="c-avatar--no-img c-avatar--circle c-avatar c-avatar--s" style="display: none;color:hsl(243, 60%, 53%);">CG</div>
+                                                <div class="overflow-pill c-avatar--meta c-avatar c-avatar--s" style="display: none"> +4 </div>
+                                                <div id="file4_share" class="c-avatar shareButton1" style="display: none">
+                                                    <button class="button-secondary" id="file4_button" onclick="showBox();">Share</button></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">分享项目--</h4>
+                    </div>
+                    <div class="modal-body" style="background: #f6f9fc">
+                        <span style="font-size:14px;font-weight: bold;margin-left: 5px;">5个用户:</span>
+                        <ul class="list-group sharePeopleList" style="margin-left:5px;height:200px;overflow-y: scroll">
+                            <div class="list-group-item sharePeopleItem">
+                                <div class="col-sm-4 " style="text-align: left;">
+                                    <div class="c-avatar--no-img c-avatar--circle c-avatar c-avatar--s fileContent" style="color:hsl(87, 60%, 53%);">ZF</div>&nbsp;付志成
+                                </div>
+                                <div class="col-sm-4" style="text-align: center">
+                                    <div class="fileContent" style="color:black">允许读写</div>
+                                </div>
+                                <div class="col-sm-4" style="text-align: right">
+                                    <div class="fileContent" style=""><a href="javascript:void(0)"><img src="./img/sm/close.png" style="width:15px;height:15px;"></a></div>
+                                </div>
+                            </div>
+                            <div class="list-group-item sharePeopleItem">
+                                <div class="col-sm-4 " style="text-align: left;">
+                                    <div class="c-avatar--no-img c-avatar--circle c-avatar c-avatar--s fileContent" style="color:hsl(200, 60%, 53%);">ZF</div>&nbsp;付志成
+                                </div>
+                                <div class="col-sm-4" style="text-align: center">
+                                    <div class="fileContent" style="color:black">允许读写</div>
+                                </div>
+                                <div class="col-sm-4" style="text-align: right">
+                                    <div class="fileContent" style=""><a href="javascript:void(0)"><img src="./img/sm/close.png" style="width:15px;height:15px;"></a></div>
+                                </div>
+                            </div>
+                            <div class="list-group-item sharePeopleItem">
+                                <div class="col-sm-4 " style="text-align: left;">
+                                    <div class="c-avatar--no-img c-avatar--circle c-avatar c-avatar--s fileContent" style="color:hsl(87, 60%, 53%);">ZF</div>&nbsp;付志成
+                                </div>
+                                <div class="col-sm-4" style="text-align: center">
+                                    <div class="fileContent" style="color:black">允许读写</div>
+                                </div>
+                                <div class="col-sm-4" style="text-align: right">
+                                    <div class="fileContent" style=""><a href="javascript:void(0)"><img src="./img/sm/close.png" style="width:15px;height:15px;"></a></div>
+                                </div>
+                            </div>
+                            <div class="list-group-item sharePeopleItem">
+                                <div class="col-sm-4 " style="text-align: left;">
+                                    <div class="c-avatar--no-img c-avatar--circle c-avatar c-avatar--s fileContent" style="color:hsl(87, 60%, 53%);">ZF</div>&nbsp;付志成
+                                </div>
+                                <div class="col-sm-4" style="text-align: center">
+                                    <div class="fileContent" style="color:black">允许读写</div>
+                                </div>
+                                <div class="col-sm-4" style="text-align: right">
+                                    <div class="fileContent" style=""><a href="javascript:void(0)"><img src="./img/sm/close.png" style="width:15px;height:15px;"></a></div>
+                                </div>
+                            </div>
+                            <div class="list-group-item sharePeopleItem">
+                                <div class="col-sm-4 " style="text-align: left;">
+                                    <div class="c-avatar--no-img c-avatar--circle c-avatar c-avatar--s fileContent" style="color:hsl(87, 60%, 53%);">ZF</div>&nbsp;付志成
+                                </div>
+                                <div class="col-sm-4" style="text-align: center">
+                                    <div class="fileContent" style="color:black">允许读写</div>
+                                </div>
+                                <div class="col-sm-4" style="text-align: right">
+                                    <div class="fileContent" style=""><a href="javascript:void(0)"><img src="./img/sm/close.png" style="width:15px;height:15px;"></a></div>
+                                </div>
+                            </div>
+                            <div class="list-group-item sharePeopleItem">
+                                <div class="col-sm-4 " style="text-align: left;">
+                                    <div class="c-avatar--no-img c-avatar--circle c-avatar c-avatar--s fileContent" style="color:hsl(87, 60%, 53%);">ZF</div>&nbsp;付志成
+                                </div>
+                                <div class="col-sm-4" style="text-align: center">
+                                    <div class="fileContent" style="color:black">管理员</div>
+                                </div>
+                                <div class="col-sm-4" style="text-align: right">
+                                    <div class="fileContent" style=""><a href="javascript:void(0)"><img src="./img/sm/close.png" style="width:15px;height:15px;"></a></div>
+                                </div>
+                            </div>
+                        </ul>
+                        <form>
+                            <div class="row" style="background-color:white;border:1px solid gainsboro;margin:5px;">
+
+                                <div style="" id="shareFormArea">
+                                    <div class="form-group" id="shareFormID" style="width: 407px;;">
+                                        <input type="text" class="form-control shareInput" id="tokenfield-1" value="" placeholder="输入分享人邮箱" />                             
+                                    </div>
+                                    <div class="dropdown roleShare">
+
+                                        <select class="form-control shareOption" >
+                                            <option value="0">权限设置</option>
+                                            <option value="1">读写</option>
+                                            <option value="2">只读</option>
+                                            <option value="3">管理员</option>
+
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div style="" class="shareComment1">
+                                    <div class="form-group"> 
+                                        <textarea class="form-control  shareComment" rows="5" style="height:76px;" placeholder="备注" id="comment"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            <div class="row" style="background-color:#f6f9fc;margin:5px;margin-bottom: 0px; margin-top: 10px;">
+                                <div style="text-align: right">
+                                    <button type="button" class="btn btn-default shareButtonStyle" onclick="cancelShareDiag();">取消</button>
+                                    <button type="button" class="btn btn-default shareButtonStyle" style="background: #428bca;color:white">确定</button>
+
+                                </div>
+                            </div>
+                        </form>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <!--                        <form id="formData" action="" method="post" name="files[]" enctype="multipart/form-data">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        
+                                                    <span class="btn btn-primary upbutton">
+                                                        <span class="btn btn-primary upname">确定</span>
+                                                        <input type="file" class="upinput" multiple name="files[]" onchange="showFileProcess()">            
+                                                    </span>
+                                                </form>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--END MAIN WRAPPER -->
+
+        <!-- FOOTER -->
+        <div id="footer">
+            <p>&copy;  TraOS &nbsp;2015 &nbsp;</p>
+        </div>
+        <!--END FOOTER -->
+
+
+        <!-- GLOBAL SCRIPTS -->
+        <script src="./js/jquery-2.0.3.min.js"></script>
+        <script src="./js/jquery-ui.min.js"></script>
+        <script src="./js/bootstrap.min.js"></script>
+        <script src="./js/bootstrap-tokenfield.js"></script>
+        <script src="./js/mine.js"></script>
+        <script type="text/javascript">fetchMember();</script>
+        <!-- END PAGE LEVEL SCRIPTS -->
+
+    </body>
+
+    <!-- END BODY -->
+</html>
+
