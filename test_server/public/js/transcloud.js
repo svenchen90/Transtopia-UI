@@ -233,7 +233,7 @@ var transCloud = {
 };
 
 //transCloud.initializeTransCloud({title: '文件管理'});
-/* 
+ 
 $(transCloud.styleModal).on('hidden.bs.modal', function(){
 	//移除模态框
 	$(this).remove();
@@ -253,5 +253,5 @@ var abc = function(test){
 		console.log(2);
 	else
 		console.log(test);
-} */
+}
 /* transCloud.initializeTransCloud(11); */
