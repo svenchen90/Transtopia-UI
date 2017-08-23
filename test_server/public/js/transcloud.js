@@ -1,5 +1,6 @@
 //文件管理对象
 var transCloud = {
+	/* Start: Attributes */
 	//模态框HTML对象
 	styleModal: $(
 		'<div class="modal fade">\n' +
@@ -30,6 +31,11 @@ var transCloud = {
 		'	</div>\n' +
 		'</div>'
 	),
+	/* End: Attributes */
+	
+	
+	
+	/* Start: Function */
 	//初始化
 	initialize: function(title){
 		/* 
@@ -87,7 +93,7 @@ var transCloud = {
 		}
 		 */
 		var target = $(this);
-		$. ({
+		$.ajax({
 			url : inputs.dataRequest,
 			data: {dir: inputs.dirFull},
 			cache : false, 
@@ -229,7 +235,32 @@ var transCloud = {
 				/* end of success */
 			}
 		});
-	}
+	},
+	reset: function(){},
+	
+	//文件操作
+	openFile: function(){},
+	downloadFile: function(){},
+	deleteFile: function(){},
+	copyFile: function(){},
+	cutFile: function(){},
+	pasteFile: function(){},
+	importFileToMyCloud: function(){},
+	// shareFileTo: function(){},
+	
+	//文件夹操作
+	uploadFileTo: function(){},
+	uploadFolderTo: function(){},
+	openFolder: function(){},
+	// downloadFolder: function(){},
+	deleteFolder: function(){},
+	copyFolder: function(){},
+	cutFolder: function(){},
+	pasteFolder: function(){},
+	importFolderToMyCloud: function(){},
+	// shareFolderTo: function(){}
+	
+	/* End: Function */
 };
 
 //transCloud.initializeTransCloud({title: '文件管理'});

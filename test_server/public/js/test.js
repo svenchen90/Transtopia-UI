@@ -10,6 +10,33 @@ var obj = {
 	}
 };
 
+/* obj.fun1();
+obj.fun1 = function(){
+	console.log(1);
+};
+obj.fun1();
+ */
+var Container = function(param) {
+    this.member = param;
+	return this;
+};
+
+
+
+var myContainer = new Container('abc');
+console.log(myContainer);
+Container.prototype.stamp = function (string) {
+    return this.member + string;
+}
+
+myContainer.stamp = function (string) {
+    return string;
+}
+
+console.log(myContainer.stamp('abc'));
+
+
+
 //obj.fun2();
 /* 
 console.log(obj);
