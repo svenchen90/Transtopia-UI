@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<!-- 页面样式 -->
+<div class="modal fade" id="modal-preference">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">界面样式</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-10 menu-label">设置主页中动态数量</div>
+					<div class="dropdown col-xs-2">
+						<a class="dropdown-toggle menu-choice" data-toggle="dropdown">默认<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">更多</a></li>
+							<li><a href="#">默认</a></li>
+							<li><a href="#">较少</a></li>
+							<li><a href="#">不显示</a></li>
+						</ul>
+					</div>
+					
+				</div>
+				<div class="row">
+					<div class="col-xs-10 menu-label">动态按热度或者时间排序</div>
+					<div class="col-xs-2 menu-choice">热度<span class="caret"></span></div>
+				</div>
+				<div class="row">
+					<div class="col-xs-10 menu-label">新动态提醒</div>
+					<div class="col-xs-2">
+						<label class="switch">
+							<input type="checkbox" checked>
+							<div class="slider round"></div>
+						</label>
+					</div>
+				</div>
+				
+			</div>
+			<div class="modal-footer">
+				<a data-dismiss="modal">关闭</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 消息 -->
+<div class="modal fade" id="modal-message">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">消息设置</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-10 menu-label">新动态提醒</div>
+					<div class="col-xs-2">
+						<label class="switch">
+							<input type="checkbox" checked>
+							<div class="slider round"></div>
+						</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-10 menu-label">消息提醒方式</div>
+					<div class="col-xs-2 menu-choice">提示音<span class="caret"></span></div>
+				</div>
+				
+			</div>
+			<div class="modal-footer">
+				<a data-dismiss="modal">关闭</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 隐私 -->
+<div class="modal fade" id="modal-privacy">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">隐私设置</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-10 menu-label">加我为好友时验证</div>
+					<div class="col-xs-2">
+						<label class="switch">
+							<input type="checkbox" checked>
+							<div class="slider round"></div>
+						</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-10 menu-label">允许被关注</div>
+					<div class="col-xs-2">
+						<label class="switch">
+							<input type="checkbox" checked>
+							<div class="slider round"></div>
+						</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-10 menu-label">允许被加为好友</div>
+					<div class="col-xs-2">
+						<label class="switch">
+							<input type="checkbox" checked>
+							<div class="slider round"></div>
+						</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-10 menu-label">允许动态被分享</div>
+					<div class="col-xs-2">
+						<label class="switch">
+							<input type="checkbox" checked>
+							<div class="slider round"></div>
+						</label>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-xs-10 menu-label">如何找到我</div>
+					<div class="col-xs-2 menu-choice">提示音<span class="caret"></span></div>
+				</div>
+				
+				<div class="row">
+					<div class="col-xs-10 menu-label">向我推荐朋友</div>
+					<div class="col-xs-2">
+						<label class="switch">
+							<input type="checkbox" checked>
+							<div class="slider round"></div>
+						</label>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-xs-10 menu-label">向我推荐好友方式</div>
+					<div class="col-xs-2 menu-choice">兴趣类别<span class="caret"></span></div>
+				</div>
+				
+				<div class="row">
+					<div class="col-xs-10 menu-label">关闭动态</div>
+					<div class="col-xs-2 menu-choice">
+						<label class="switch">
+							<input type="checkbox" checked>
+							<div class="slider round"></div>
+						</label>
+					</div>
+				</div>
+				
+			</div>
+			<div class="modal-footer">
+				<a data-dismiss="modal">关闭</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+
+</style>
+
+
+<!-- 个人设置 -->
+<div class="modal fade" id="modal-profile">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="menu-top">
+					<span class="close pull-left" data-dismiss="modal">&times;</span>
+					<span>修改个人信息</span>
+					<span class="pull-right">完成</span>
+					<div class="clearfix"></div>
+				</div>
+				<div class="background-img">
+					<img src="dist/img/default_group_bg.jpg" />
+				</div>
+				<div class="background-edit">
+					<a class="pull-right"><i class="fa fa-camera"></i></a>						
+					<div class="clearfix"></div>
+				</div>
+				
+				<div class="img-edit">
+					<img src="dist/img/avatar04.png" class="img-circle" />
+				</div>
+				
+				<div class="main-content">
+					<div class="form-group">
+						<p><i class="fa fa-user-o"></i> 昵称</p>
+						<input class="form-control input-lg" value="张震宇"/>
+					</div>
+					
+					<div class="row">
+						<div class="col-xs-10 menu-label">性别</div>
+						<div class="col-xs-2"><i class="fa fa-mars" style="color: #0070E0;"></i> 男<span class="caret"></span></div>
+					</div>
+					
+					<div class="form-group">
+						<p><i class="fa fa-home"></i> 住址</p>
+						<input class="form-control input-lg" value="湖北省武汉市光谷新世界"/>
+						<input class="form-control input-lg" style="width: 50%; display: inline-block;" value="湖北省"/>
+						<input class="form-control input-lg" style="width: 45%; display: inline-block;" value="武汉市"/>
+					</div>
+					
+					<div class="form-group">
+						<p><i class="fa fa-pencil-square"></i> 签名</p>
+						<input class="form-control input-lg" value="『成長要學會獨處　雖然有一點孤獨』"/>
+					</div>
+					
+					<!-- <div class="form-group">
+						<p><i class="fa fa-graduation-cap"></i> 个人头衔</p>
+						<select id="select-title" class="form-control" multiple="multiple" data-placeholder="请添加个人头衔" style="width: 100%;"></select>
+					</div>
+					
+					<div class="form-group">
+						<p><i class="fa fa-pencil"></i> 兴趣类别</p>
+						<select id="select-genres" class="form-control" multiple="multiple" data-placeholder="请选择兴趣类别" style="width: 100%;"></select>
+					</div>
+					
+					<div class="form-group">
+						<p><i class="fa fa-tags"></i> 兴趣话题</p>
+						<select id="select-tags" class="form-control" multiple="multiple" data-placeholder="请选择兴趣话题" style="width: 100%;"></select>
+					</div> -->
+					
+					<div class="form-group">
+						<p><i class="fa fa-qrcode"></i> 二维码</p>
+						<div style="text-align: center;"><img src="http://www.liantu.com/images/2013/liantu.png" style="height: 200px;"/></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<!-- /.post moment -->
+<div class="modal fade" id="modal-post" tabindex="-1" data-role="1">
+		<div class="modal-dialog">
+				<div class="modal-content">
+						<div class="modal-header" style="padding-bottom: 5px;">
+								<button type="button" class="close" data-dismiss="modal">
+										×
+								</button>
+								<h4 class="modal-title">
+										<div class="dropdown" style="display:inline;">
+											<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img class="img-circle img-bordered-sm" style="width: 50px; height: 50px;"></a>
+											<ul class="dropdown-menu">
+
+											</ul>
+										</div>
+										<b class="fa fa-caret-right" style="font-size: 16px; margin-left:5px;"></b>
+										<span style="margin-left: 5px; font-weight: 500;">
+												<a href="#modal_sharedwith" data-toggle="modal"><i class="fa fa-globe" style="color: #757575;"></i></a>
+												<span>分享给</span>
+										</span>
+								</h4>
+						</div>
+						<div class="modal-body">
+								<div id="moment-content">
+										<div class="form-group">
+												<label>标题</label>
+												<input id="moment-title" class="form-control" placeholder="请输入标题" />
+										</div>
+										<div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
+												<div class="btn-group">
+														<a class="btn dropdown-toggle" data-toggle="dropdown" title="" data-original-title="字体"><i class="icon-font"></i><b class="caret"></b></a>
+														<ul class="dropdown-menu">
+														<li><a data-edit="fontName Serif" style="font-family:&#39;Serif&#39;">Serif</a></li><li><a data-edit="fontName Sans" style="font-family:&#39;Sans&#39;">Sans</a></li><li><a data-edit="fontName Arial" style="font-family:&#39;Arial&#39;">Arial</a></li><li><a data-edit="fontName Arial Black" style="font-family:&#39;Arial Black&#39;">Arial Black</a></li><li><a data-edit="fontName Courier" style="font-family:&#39;Courier&#39;">Courier</a></li><li><a data-edit="fontName Courier New" style="font-family:&#39;Courier New&#39;">Courier New</a></li><li><a data-edit="fontName Comic Sans MS" style="font-family:&#39;Comic Sans MS&#39;">Comic Sans MS</a></li><li><a data-edit="fontName Helvetica" style="font-family:&#39;Helvetica&#39;">Helvetica</a></li><li><a data-edit="fontName Impact" style="font-family:&#39;Impact&#39;">Impact</a></li><li><a data-edit="fontName Lucida Grande" style="font-family:&#39;Lucida Grande&#39;">Lucida Grande</a></li><li><a data-edit="fontName Lucida Sans" style="font-family:&#39;Lucida Sans&#39;">Lucida Sans</a></li><li><a data-edit="fontName Tahoma" style="font-family:&#39;Tahoma&#39;">Tahoma</a></li><li><a data-edit="fontName Times" style="font-family:&#39;Times&#39;">Times</a></li><li><a data-edit="fontName Times New Roman" style="font-family:&#39;Times New Roman&#39;">Times New Roman</a></li><li><a data-edit="fontName Verdana" style="font-family:&#39;Verdana&#39;">Verdana</a></li><li><a data-edit="fontName SimHei" style="font-family:&#39;SimHei&#39;">SimHei</a></li></ul>
+												</div>
+												<div class="btn-group">
+														<a class="btn dropdown-toggle" data-toggle="dropdown" title="" data-original-title="字体大小"><i class="icon-text-height"></i>&nbsp;<b class="caret"></b></a>
+														<ul class="dropdown-menu">
+																<li><a data-edit="fontSize 5"><font size="5">大</font></a></li>
+																<li><a data-edit="fontSize 3"><font size="3">中</font></a></li>
+																<li><a data-edit="fontSize 1"><font size="1">小</font></a></li>
+														</ul>
+												</div>
+												<div class="btn-group">
+														<a class="btn" data-edit="bold" title="" data-original-title="加粗 (Ctrl/Cmd+B)"><i class="icon-bold"></i></a>
+														<a class="btn" data-edit="italic" title="" data-original-title="斜体 (Ctrl/Cmd+I)"><i class="icon-italic"></i></a>
+														<a class="btn" data-edit="strikethrough" title="" data-original-title="（加） 删除线"><i class="icon-strikethrough"></i></a>
+														<a class="btn" data-edit="underline" title="" data-original-title="下划线 (Ctrl/Cmd+U)"><i class="icon-underline"></i></a>
+												</div>
+												<div class="btn-group">
+														<a class="btn" data-edit="insertunorderedlist" title="" data-original-title="项目列表"><i class="icon-list-ul"></i></a>
+														<a class="btn" data-edit="insertorderedlist" title="" data-original-title="数字列表"><i class="icon-list-ol"></i></a>
+														<a class="btn" data-edit="outdent" title="" data-original-title="清除缩进 (Shift+Tab)"><i class="icon-indent-left"></i></a>
+														<a class="btn" data-edit="indent" title="" data-original-title="缩进 (Tab)"><i class="icon-indent-right"></i></a>
+												</div>
+												<div class="btn-group">
+														<a class="btn" data-edit="justifyleft" title="" data-original-title="居左 (Ctrl/Cmd+L)"><i class="icon-align-left"></i></a>
+														<a class="btn" data-edit="justifycenter" title="" data-original-title="居中 (Ctrl/Cmd+E)"><i class="icon-align-center"></i></a>
+														<a class="btn" data-edit="justifyright" title="" data-original-title="居右 (Ctrl/Cmd+R)"><i class="icon-align-right"></i></a>
+														<a class="btn" data-edit="justifyfull" title="" data-original-title="正常 (Ctrl/Cmd+J)"><i class="icon-align-justify"></i></a>
+												</div>
+												<div class="btn-group">
+														<a class="btn dropdown-toggle" data-toggle="dropdown" title="" data-original-title="超链接"><i class="icon-link"></i></a>
+														<div class="dropdown-menu input-append">
+																<input class="span2" placeholder="URL" type="text" data-edit="createLink">
+																<button class="btn" type="button">添加</button>
+														</div>
+														<a class="btn" data-edit="unlink" title="" data-original-title="去除链接"><i class="icon-cut"></i></a>
+												</div>
+												<div class="btn-group">
+														<a class="btn" title="" id="pictureBtn" data-original-title="浏览或拖拽添加图片"><i class="icon-picture"></i></a>
+														<input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" style="opacity: 0; position: absolute; top: 0px; left: 0px; width: 0px; height: 0px;">
+												</div>
+												<div class="btn-group">
+														<a class="btn" data-edit="undo" title="" data-original-title="撤消 (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>
+														<a class="btn" data-edit="redo" title="" data-original-title="重复 (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a>
+												</div>
+										</div>
+										<div id="editor" class="editor" contenteditable="true"></div>
+										<!-- 更多选项 -->
+										<div class="timeline-footer" style="margin-top: 25px;">
+												<div id="moment-genre" class="form-group">
+														<label>兴趣类别: </label>
+														<a href="javascript:void(0);" class="pull-right" onclick="initModalTag('兴趣类别', 'face', data_title_1, data_title_2, 'action1', 'action2');">添加</a>
+														<p></p>
+			
+
+												</div>
+												<div id="moment-tag" class="form-group">
+														<label>兴趣话题: </label>
+														<a href="javascript:void(0);" class="pull-right" onclick="initModalTag('兴趣话题', 'face', data_title_1, data_title_2, 'action1', 'action2');">添加</a>
+														<p></p>
+												</div>
+												<div id="moment-attach" class="form-group">
+														<label>附件: </label>
+														<a href="javascript:void(0);" class="pull-right" onclick="$('#modal_postUpdateFile').modal('show');">添加</a>
+
+												</div>
+										</div>
+										<div class="clearfix" style="margin-top:5px;">
+												<a id="shareMoment-btn" class="btn btn-primary btn-flat btn-xs pull-right">分享</a>
+										</div>
+								</div>
+						</div>
+				</div>
+		</div>
+</div>
+
+
+<div class="modal fade" id="modal-tag">
+	<div class="modal-dialog" style="width: 50vw;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title"></h4>
+			</div>
+			<div class="modal-body">
+				<div class="top-block">
+					
+				</div>
+				<div class=="divider" style="margin-top:10px;
+					margin-bottom:10px;
+					border-bottom: 1px solid #ddd;"></div>
+				<div class="form-group" style="width: 250px;">
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="搜索..." />
+						<div class="input-group-addon">
+							<i class="fa fa-search"></i>
+						</div>
+					</div>
+					<!-- /.input group -->
+				</div>
+				<div class="bottom-block">
+					
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="modal-footer">
+				<a name="submit">确定</a>
+				<a data-dismiss="modal">关闭</a>
+			</div>
+		</div>
+	</div>
+</div>
+<style>
+.create-tag {
+	background-color: #fff;position: relative;
+	display: inline-block;
+	margin-bottom: 30px;
+	height: 200px;
+	box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);width: 100%;
+	border: none;
+	border-radius: 3px;
+	background: #ffffff;
+}
+.create-tag .tag-body {
+	margin-top: 60px;
+	text-align: center;
+	color: rgba(255,255,255,0.8);
+	cursor: pointer;
+}
+.modal-card .check {
+	position: relative;
+	margin-top: 60px;
+	text-align: center;
+	display: none;
+	cursor: pointer;
+}
+.modal-card:hover .check {
+	display : block;
+}
+.modal-card:hover .card-body{
+	display : none;
+}
+</style>
+
+<div class="modal fade" id="modal-createTag">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title"></h4>
+			</div>
+			<div class="modal-body" style="padding-top: 0;padding-bottom: 0;">
+				<div class="form-group">
+					<input class="form-control" placeholder="" />
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a name="submit">确定</a>
+				<a data-dismiss="modal">关闭</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+<!-- confirm -->
+<!-- <div class="modal fade" id="modal-confirm">
+	<div class="modal-dialog" style="width: 400px;">
+		<div class="modal-content">
+			<div class="modal-body">
+				<h4></h4>
+			</div>
+			<div class="modal-footer">
+			<a data-confirm="1">确定</a>
+			<a data-confirm="0">取消</a>
+			</div>
+		</div>
+	</div>
+</div> -->
+
+
+<!-- 黑名单 -->
+<div class="modal fade" id="modal-listBlock">
+	<div class="modal-dialog" style="width: 50vw;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title"></h4>
+			</div>
+			<div class="modal-body">
+				<div class="form-group" style="width: 250px;">
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="搜索..." />
+						<div class="input-group-addon">
+							<i class="fa fa-search"></i>
+						</div>
+					</div>
+					<!-- /.input group -->
+				</div>
+				<div class="list-block">
+					
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="modal-footer">
+				<a name="submit">确定</a>
+				<a data-dismiss="modal">关闭</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Alert -->
+<div class="modal fade" id="modal-alert">
+	<div class="modal-dialog" style="width: 150px; opacity: 0.6">
+		<div class="modal-content">
+			<div class="modal-body" style="padding: 0;  height: 150px; background-color: rgba(0,0,0,1);border-radius: 5px;">
+				<i class="material-icons" style="margin-left: 25px; font-size: 100px; color: rgba(255,255,255, 1)"></i>
+				<p style="color: rgba(255,255,255, 1); font-size: 16px; text-align: center;"></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modal_postUpdateFile" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+				<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h4 class="modal-title" id="myModalLabel">上传文件</h4>
+				</div>
+				<div class="modal-body">
+					<input id="kv-explorer" type="file" multiple>
+				</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div> 
+
+
+
+
+<!-- 好友选项框 -->
+<div class="modal fade" id="modal_sharedwith" tabindex="-1">
+		<div class="modal-dialog">
+				<div class="modal-content">
+						<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+								<h4 class="modal-title" id="myModalLabel">选择分享范围</h4>
+						</div>
+						<div class="modal-body">
+								<div class="form-group">
+										<label>
+											<input type="radio" name="r1" class="minimal">
+											<span style="margin-left: 20px;">公开</span>
+										</label>
+								</div>
+								<div class="form-group">
+										<label>
+											<input type="radio" name="r1" class="minimal">
+											<span style="margin-left: 20px;">仅自己可见</span>
+										</label>
+								</div>
+								<div class="form-group">
+										<label>
+												<i class="fa fa-plus-circle" style="margin-left: 5px;"></i>													
+												<span style="margin-left: 20px;" onclick="$('#abcde').toggleClass('hide');$(this).prev('i').toggleClass('fa-plus-circle');
+												$(this).prev('i').toggleClass('fa-minus-circle');">朋友圈</span>
+										</label>
+										<div id="abcde" class="hide">
+											<div class="form-group">
+												<label style="margin-left: 30px;">
+													<input type="radio" name="r1" class="minimal">
+													<span style="margin-left: 20px;">全部</span>
+												</label>
+											</div>
+											<div class="form-group">
+												<label style="margin-left: 30px;">
+													<input type="radio" name="r1" class="minimal">
+													<span style="margin-left: 20px;" onclick="initModalTag('部分可见', 'face', data_title_1, data_title_2, 'action1', initCreateTag);">部分可见</span>
+												</label>
+											</div>
+											<div class="form-group">
+												<label style="margin-left: 30px;">
+													<input type="radio" name="r1" class="minimal">
+													<span style="margin-left: 20px;" onclick="initModalTag('屏蔽', 'face', data_title_1, data_title_2, 'action1', 'action2');">不给谁看</span>
+												</label>
+											</div>
+										</div>
+								</div>
+								
+						</div>
+						<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+								<button type="button" class="btn btn-primary submit">确认</button>
+						</div>
+				</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+</div>
+
+<!-- 用户列表 -->
+<div class="modal fade" id="modal-list">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<button type="button" data-dismiss="modal" class="close">&times;</button>
+				<div class="row">
+					<div class="col-xs-6">
+						<ul class="sidebar-menu list-left">
+							<div class="search-block">
+								<div class="input-group my-colorpicker2 colorpicker-element">
+									<input type="text" class="form-control" placeholder="搜索..." />
+									<div class="input-group-addon">
+										<i class="fa fa-search"></i>
+									</div>
+								</div>
+							</div>
+							<!-- <div class="cap">
+								A
+							</div> -->
+						</ul>
+					</div>
+					<div class="col-xs-6">
+						<ul class="sidebar-menu list-right">
+
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer" style="border-top:none; padding-top: 30px;padding-bottom: 5px;">
+				<a class="btn btn-success btn-sm" style="font-weight: 500; margin-right: 0;cursor: pointer; width: 60px; color: #fff;">提交</a>
+				<a class="btn btn-default btn-sm" data-dismiss="modal" style="font-weight: 500; margin-right: 5px;cursor: pointer; width: 60px;">关闭</a>
+			</div>
+		</div>
+	</div>
+</div>

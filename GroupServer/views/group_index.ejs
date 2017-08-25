@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Transtopia - 群组</title>
+		<!-- Tell the browser to be responsive to screen width -->
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<!-- Bootstrap 3.3.6 -->
+		<link rel="stylesheet" href="plugins/bootstrap-3.3.6/css/bootstrap.min.css" />
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" />
+		<!-- Ionicons -->
+		<link rel="stylesheet" href="plugins/ionicons-2.0.1/css/ionicons.min.css" />
+
+		<!-- Theme style -->
+		<link rel="stylesheet" href="plugins/AdminLTE-2.3.11/css/AdminLTE.min.css" />
+		<link rel="stylesheet" href="plugins/AdminLTE-2.3.11/css/skins/_all-skins.min.css" />
+		<link rel="stylesheet" href="plugins/AdminLTE-2.3.11/css/skins/skin-red-light.min.css" />
+		<!-- <link rel="shortcut icon" href="./Img/logo.png"> -->
+		<link href="plugins/bootstrap-fileinput/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="plugins/bootstrap-fileinput/themes/explorer/theme.css" media="all" rel="stylesheet" type="text/css" />
+
+
+		<!--用户自定义的CSS-->
+
+		<!-- <link rel="shortcut icon" href="./Img/logo.png"> -->
+		<!-- <link href="css/mine.css" rel="stylesheet" /> -->
+		<!-- Google Font -->
+		<link href="plugins/material-icons/icon.css" rel="stylesheet">
+		
+		<!-- 样式 20170506 -->
+		<!-- <link href="css/style_20170506.css" rel="stylesheet" /> -->
+		<!-- <link rel="stylesheet" href="css/style0823.css" /> -->
+		<!-- <link rel="stylesheet" href="css/style_group.css" /> -->
+		
+	</head>
+    
+	<body class="skin-green-light">
+		<!-- 置顶导航栏 -->
+		<header class="main-header">
+			
+			<!-- 置顶一级导航栏 -->
+			<div id="nav-top-first"></div>
+			
+			<!-- 置顶二级导航栏 -->
+			<div id="nav-top-second"></div>
+
+		</header>
+		
+		<!-- 左侧可隐藏导航栏 -->
+		<div id="nav-left-collapse"></div>
+		
+		<!-- 左侧信息框 -->
+		<div class="block-left"></div>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="modal-group-privacy">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">群组隐私设置</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-xs-10 menu-label">新成员加入时需要验证</div>
+							<div class="col-xs-2">
+								<label class="switch">
+									<input type="checkbox" checked>
+									<div class="slider round"></div>
+								</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-10 menu-label">接收新成员加入</div>
+							<div class="col-xs-2">
+								<label class="switch">
+									<input type="checkbox" checked>
+									<div class="slider round"></div>
+								</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-10 menu-label">动态提醒</div>
+							<div class="col-xs-2">
+								<label class="switch">
+									<input type="checkbox" checked>
+									<div class="slider round"></div>
+								</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-10 menu-label">消息免打扰</div>
+							<div class="col-xs-2">
+								<label class="switch">
+									<input type="checkbox" checked>
+									<div class="slider round"></div>
+								</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-10 menu-label">允许群被关注</div>
+							<div class="col-xs-2">
+								<label class="switch">
+									<input type="checkbox" checked>
+									<div class="slider round"></div>
+								</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-10 menu-label">允许群名片被分享</div>
+							<div class="col-xs-2">
+								<label class="switch">
+									<input type="checkbox" checked>
+									<div class="slider round"></div>
+								</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-10 menu-label">群聊天置顶</div>
+							<div class="col-xs-2">
+								<label class="switch">
+									<input type="checkbox" checked>
+									<div class="slider round"></div>
+								</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-10 menu-label">我在群中昵称 </div>
+							<div class="col-xs-2">
+								<input class="form-control" style="border-top: none;border-left: none;border-right: none;" value="张震宇" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-10 menu-label">清空消息记录 </div>
+							<div class="col-xs-2">
+								<a href="#">清空消息</a>
+							</div>
+						</div>
+						
+					</div>
+					<div class="modal-footer">
+						<a data-dismiss="modal">关闭</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- 主要展示框 -->
+			<section class="content post-wall">
+				
+			</section>
+			
+			<!-- 右下角按钮组 -->
+			<div id="btngroup-rightbot"></div>
+			
+			<!-- Control Sidebar -->
+			<aside class="control-sidebar control-sidebar-dark">
+				<div class="tab-content">
+					<div class="tab-pane active" id="control-sidebar-theme">
+					</div>
+				</div>
+			</aside>
+			<div class="control-sidebar-bg"></div>
+		</div>
+	</body>
+		
+	<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+	<script src="plugins/jQueryUI/jquery-ui.min.js"></script>
+	<!-- Bootstrap 3.3.6 -->
+	<script src="plugins/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+	<!-- AdminLTE App -->
+	<script src="plugins/AdminLTE-2.3.11/js/app.min.js"></script>
+	<!-- Slimscroll -->
+	<script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+	<!-- FastClick -->
+	<!-- <script src="JS/raphael-min.js"></script> -->
+	<script src="plugins/morris/morris.min.js"></script>
+	<script src="plugins/fastclick/fastclick.min.js"></script>
+	<script src="plugins/bootstrap-fileinput/js/plugins/sortable.js" type="text/javascript"></script>
+	<script src="plugins/bootstrap-fileinput/js/fileinput.js" type="text/javascript"></script>
+	<script src="plugins/bootstrap-fileinput/themes/explorer/theme.js" type="text/javascript"></script>
+	<script src="plugins/bootstrap-fileinput/js/locales/zh.js" type="text/javascript"></script>
+	
+	<!-- <script src="JS/sideRow.js"></script> -->
+	<!--    <script src="JS/Admin_Head/mine.js"></script>-->
+	<!-- <script>
+		$.widget.bridge('uibutton', $.ui.button);
+	</script> -->
+	<!-- custome javascript and css-->
+	<link rel="stylesheet" href="plugins/iCheck/all.css">
+	<script src="plugins/iCheck/icheck.min.js"></script>
+	
+	<link href="plugins/select2/select2.min.css" rel="stylesheet" />
+	<link href="plugins/select2/select2-bootstrap.css" rel="stylesheet" />
+	<script src="plugins/select2/select2.full.min.js"></script>
+	<script src="plugins/select2/i18n/zh-CN.js"></script>
+	<!-- JQuery Confirm -->
+	<link rel="stylesheet" href="plugins/jquery-confirm/jquery-confirm.min.css">
+	<script src="plugins/jquery-confirm/jquery-confirm.min.js"></script>
+	
+	<!-- <script src="js/mine.js"></script> -->
+	<!-- <script src="js/javascript.js"></script> -->
+	
+	<script src="js/javascript_group.js"></script>
+	<script src="js/javascript_transcloud.js"></script>
+	<script src="js/static.js"></script>
+	
+	<!-- 	<script src="js/test.js"></script>
+	<script src="js/transcloud.js"></script> -->
+	
+	
+	
+	<style>
+	.modal-card {
+		margin: 10px 0 10px;
+		box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
+		border: none;
+		border-radius: 3px;
+		cursor: pointer;
+	}
+	
+	.modal-card:before, .modal-card:after{
+		content: "";
+		display: block;
+		padding-top: 25%; 	/* initial ratio of 1:1*/
+	}
+	
+	.modal-card .card-body {
+		text-align: center;
+		color: rgba(255,255,255,0.8);
+	}
+	
+	/* 
+		保持和content-default 一致 
+		to do list:
+		1. what if content-default is not 85px;
+	*/
+	.modal-card:hover .card-body .content-hover {
+		min-height: 85px; 
+	}
+	
+	.modal-card .card-body i{
+		font-size: 60px;
+	}
+	
+	.modal-card .card-body .content-hover {
+		display: none;
+	}
+	
+	.modal-card:hover .card-body .content-hover {
+		display : block;
+	}
+	.modal-card:hover .card-body .content-default {
+		display : none;
+	}
+	</style>
+	
+	
+	<style>
+	/* User-card */
+	.card-user {
+		position: relative;
+		box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
+		width: 100%;
+		border: none;
+		border-radius: 3px;
+		background: #ffffff;
+		margin-bottom: 30px;
+		display: inline-block;
+	}
+
+	.card-user-header {
+		height: 142px;
+		position: relative;
+		//border-bottom: 1px solid #f4f4f4;
+		color: #444;
+		box-sizing: border-box;
+		border-top-right-radius: 3px;
+		border-top-left-radius: 3px;
+	}
+
+
+
+	.card-user-header .dropdown {
+		padding: 5px;
+	}
+
+	.card-user-header img {
+		width: 90px;
+		height: 90px;
+		border-color: #fff;
+		border-style: solid;
+		border-width: 2px
+	}
+
+
+	.card-user-body {
+		height: 160px;
+		display: block;
+		text-align: left;
+		padding: 15px;
+	}
+
+	.card-user-body .name {
+		font-size: 20px;
+		line-height: 20px;
+		max-height: 20px;
+		margin-top: 4px;
+		margin-bottom: 20px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		word-break: break-word;
+		white-space: nowrap;
+		color: #fff;
+		font-weight:600;
+		text-align: center;
+	}
+
+	.card-user-body .list{
+		font-size: 16px;
+		line-height: 20px;
+		max-height: 40px;
+		margin-top: 4px;
+		margin-bottom: 10px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		word-break: break-word;
+		white-space: nowrap;
+		color:rgba(255,255,255,0.54);
+		text-align: center;
+	}
+	.card-user-body .list span {
+		cursor: pointer;
+	}
+	/* !User-card */
+	</style>
+	
+	<style>
+	.file-card {
+		margin: 10px 0 10px;
+		box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
+		border: none;
+		border-radius: 3px;
+		cursor: pointer;
+	}
+	
+	.file-card:before, .file-card:after{
+		content: "";
+		display: block;
+		padding-top: 25%; 	/* initial ratio of 1:1*/
+	}
+	
+	.file-card .card-body {
+		text-align: center;
+		color: rgba(255,255,255,0.8);
+	}
+	
+	.file-card .card-body i{
+		font-size: 60px;
+	}
+	</style>
+	
+	<style>
+	.dir-item {
+		color: rgba(0,0,0,.5);
+		padding-left: 5px;
+		
+	}
+	.dir-item i {
+		font-size: 12px;
+	}
+	
+	.dir-item:hover {
+		background-color: #DEF;
+		cursor: pointer;
+	}
+	</style>
+	
+	<link href="css/global.css" rel="stylesheet" />
+	<script src="js/global.js"></script>
+	
+	<link href="css/group.css" rel="stylesheet" />
+	<script src="js/group.js"></script>
+	
+	<script src="js/gears.js"></script>
+	
+	<script>
+	$( document ).ready(function() {	
+		//slimScroll
+		$(".content-wrapper").slimScroll({
+        height: 'calc(100vh - 100px)'
+    });
+		
+		
+		
+		//搜索
+		var formatState = function(data) {
+			var $data = $(
+				'<div class="user-block">\
+					<img class="img-circle img-bordered-sm" src="' + data.img + '" alt="User Image">\
+					<span class="username">\
+						<div>' + data.text + '</div>\
+					</span>\
+					<span class="description">结果： ' + data.count + '个</span>\
+				</div>'
+			);
+			return $data;
+		};
+		$('#input-search').select2({
+			language: 'zh-CN',
+			allowClear: true,
+			minimumInputLength: 1,
+			ajax:  {
+				url: '/searchmoment',
+				delay: 250,
+				processResults: function (data) {
+					return {
+						results: data
+					};
+				}
+			},
+			templateResult	: formatState,
+		});
+		
+		$('#input-search').on('select2:select', function (evt) {
+			var data = $(this).select2('data')[0];
+			console.log(data);
+			window.location.href = "http://129.89.35.212/Transtopia_beta/groups.jsp";
+		});
+		
+		$('#input-search').on('select2:open', function (evt) {
+			$(this).val('').trigger('change');
+		});
+		
+		/*
+		$.ajax({
+			url : '/gerfilemenu',
+			data: {authority: 1, type: 1},
+			cache : false, 
+			async : false,
+			type : "GET",
+			dataType : 'json',
+			success : function (result){
+				console.log(result);
+			}
+		});
+		*/
+		
+		
+		
+		var getDataOfNavTopSecondForGroup = function(authority){
+			var data = [];
+			if(authority.includes(22)){
+				//加载群组公告
+				data.push({
+					name: '群公告',
+					action: ''
+				});
+			}
+			//加载群动态
+			data.push({
+				name: '群动态',
+				action: ''
+			});
+				
+			//加载群成员
+			if(authority.includes(6) || authority.includes(7)){
+				var temp = {
+					name: '群成员',
+					sublist: []
+				};
+				//群成员列表
+				if(authority.includes(6)){
+					temp.sublist.push({
+						name: '成员列表',
+						action: ''
+					});
+				}
+				//成员申请列表
+				if(authority.includes(7)){
+					temp.sublist.push({
+						name: '新成员申请列表',
+						action: ''
+					});
+				}
+				
+				data.push(temp);
+			}
+				
+			if(authority.includes(11)){
+				//加载群组公告
+				data.push({
+					name: '关注者',
+					action: ''
+				});
+			}
+			
+			if(authority.includes(24)){
+				//加载群组任务
+				data.push({
+					name: '群任务',
+					action: ''
+				});
+			}
+			
+			if(authority.includes(25)){
+				//加载群组提问
+				data.push({
+					name: '群提问',
+					action: ''
+				});
+			}
+			return data;
+		};
+		
+		var getDataGroupMenu = function(authority, group){
+			var data = [];
+			
+			if(authority.includes(2)){
+				//修改群信息
+				data.push({
+					name: '群组信息',
+					action: function(){
+						loadGroupModifyModal(group);
+					}
+				});
+			}
+			
+			if(authority.includes(3)){
+				//查看群设置
+				data.push({
+					name: '查看设置',
+					action: ''
+				});
+			}
+			
+			if(authority.includes(4)){
+				//修改群设置
+				data.push({
+					name: '修改设置',
+					action: function(){
+						$('#modal-group-privacy').modal('show');
+					}
+				});
+			}
+			
+			//成员管理
+			if(authority.includes(7) || authority.includes(8) || authority.includes(9)){
+				var temp = {
+					name: '成员管理',
+					sublist: []
+				};
+				//新成员申请
+				if(authority.includes(7)){
+					temp.sublist.push({
+						name: '新成员申请',
+						action: ''
+					});
+				}
+				
+				if(authority.includes(8)){
+					//成员列表
+					temp.sublist.push({
+						name: '成员列表',
+						action: ''
+					});
+					//自定义列表
+					temp.sublist.push({
+						name: '自定义列表',
+						action: ''
+					});
+				}
+				
+				if(authority.includes(9)){
+					//成员列表
+					temp.sublist.push({
+						name: '管理员列表',
+						action: ''
+					});
+				}
+				
+				data.push(temp);
+			}
+			
+			if(authority.includes(12)){
+				//黑名单
+				data.push({
+					name: '黑名单',
+					action: function(){
+						$().singleRowModal({
+							title: '测试窗口',
+							data: data_userlist_2,
+							funcCard1: createUserCard,
+							actionMenu: [
+								{
+									name: '移出黑名单',
+									action: '/test123'
+								}
+							],
+							funcCard2: createModalFunctionCardHTML1,
+							funcCardInput2: {
+								title: '新增头衔',
+								cardTitle: '添加头衔',
+								action: '/test123'
+							},
+						})
+					}
+				});
+			}
+			
+			if(authority.includes(18)){
+				//产品与服务
+				data.push({
+					name: '产品与服务',
+					action: ''
+				});
+			}
+			
+			if(authority.includes(21)){
+				//注销群组
+				data.push({
+					name: '解散群组',
+					action: ''
+				});
+			}
+			
+			return data;
+		};
+		
+		var getDataRightBotBtnGroup = function(authority,group){
+			var data = [];
+			
+			//创建群组
+			data.push({
+				name: '创建群组',
+				icon: 'fa-user-plus',
+				action: function(){
+					createNewGroupModal();
+				}
+			});
+			
+			//查看群文件
+			data.push({
+				name: '查看群文件',
+				icon: 'fa-folder-open-o',
+				action: function(){
+					$(transCloudModal).transCloud({title: '文件管理', dirFull: '/TransCloud/交托帮', dirRoot: '/TransCloud', dataRequest: '/getFileFolder', createCard: createFileCardHTML})
+				}
+			});
+			
+			if(authority.includes(16)){
+				//发起群组动态
+				data.push({
+					name: '发布群组动态',
+					icon: 'fa-send-o',
+					action: function(){
+						createPostModal(group)
+					}
+				});
+			}
+			
+			if(authority.includes(19)){
+				//创建群组任务
+				data.push({
+					name: '创建群组任务',
+					icon: 'fa-tasks',
+					action: ''
+				});
+			}
+			
+			if(authority.includes(20)){
+				//发起群组提问
+				data.push({
+					name: '发起群组提问',
+					icon: 'fa-question',
+					action: ''
+				});
+			}
+			
+			return data;
+		};
+		
+		
+		
+		var groupid = 123;
+		
+		
+		$.ajax({
+			url : '/group/get-instance/' + groupid,
+			data: {},
+			cache : false, 
+			async : false,
+			type : "GET",
+			dataType : 'json',
+			success : function (group){
+				if(group == 0){
+					//提示错误信息
+				}else{
+				
+				//1. 加载置顶一级导航栏
+				//查询User信息
+				$.ajax({
+					url : '/user/current-user',
+					data: {},
+					cache : true, 
+					async : true,
+					type : "GET",
+					dataType : 'json',
+					success : function (user){
+						if(user == 0){
+							//提示错误信息
+						}else{
+							var dataNavTopFirst = {
+								title: '群组',
+								face_image: user.face_image,
+								name: user.name
+							};
+							$('#nav-top-first').loadFirstNavTop(dataNavTopFirst);
+						}
+					}
+				});
+				
+				
+				//2. 加载置顶二级导航栏
+				var dataNavTopSecond = getDataOfNavTopSecondForGroup(group.roleinfo);
+				$('#nav-top-second').loadSecondNavTop(dataNavTopSecond);
+				
+				//3. 加载左侧折叠导航(未完成)
+				$('#nav-left-collapse').loadCollapseNavLeft({});
+				
+				//4. 加载左侧群组信息栏
+				var dataGroupInfo = {
+					name: group.name,
+					image: group.image,
+					bg_image: group.bg_image,
+					innerGroupNumber: group.innerGroupNumber,
+					introduction: group.introduction,
+					category: group.category,
+					tags: group.tags,
+					dataMenu: getDataGroupMenu(group.roleinfo, group),
+					followed: group.followed,
+					isMember: group.isMember
+				};
+				$('.block-left').loadGroupInfo(dataGroupInfo);
+				
+				
+				//5. 加载右下角按钮组件
+				var dataBtnGroup = getDataRightBotBtnGroup(group.roleinfo, group);
+				$('#btngroup-rightbot').createRightBotBlock(dataBtnGroup);
+				
+				}
+			}
+		});
+		
+		
+		
+		
+		
+		$.ajax({
+			url : '/getgroupdata',
+			data: {id: authority},
+			cache : false, 
+			async : false,
+			type : "GET",
+			dataType : 'json',
+			success : function (result){
+				
+				
+				
+				//$('#nav-top-first').loadFirstNavTop(result.navtop1);
+
+				//$('#nav-top-second').loadSecondNavTop(result.navtop2);
+				
+				//$('#nav-left-collapse').loadCollapseNavLeft({});
+				
+				//$('.block-left').loadGroupInfo(result);
+				
+				
+				//$('#btngroup-rightbot').createRightBotBlock(result.btnrightbot);
+				
+				//$(transCloudModal).transCloud({title: '文件管理', dirFull: '/TransCloud/交托帮', dirRoot: '/TransCloud',dataRequest: '/getFileFolder', createCard: createFileCardHTML});
+				
+				
+				//$('dropdown').dropdown('toggle');
+			}
+		});
+		
+		
+		//loadGroupModifyModal({authority: 1,temp: '普通成员',name: '交托帮',image: 'dist/img/default6.png',bg: 'dist/img/default_group_bg.jpg',numberofmembers: '15',description: '几何设计、交通组织设计、交通设施、水泥混凝土路面的板块划分、竖向设计及排水设计等',genre: ['资讯', '日记', '视频'],topic: ['设计', '交叉口设计', '信号灯设计', '统计', '软件工程']});
+		
+		/*
+		$('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+      checkboxClass: 'icheckbox_minimal-blue',
+      radioClass: 'iradio_minimal-blue'
+    });
+		*/
+		
+		
+	});
+	</script>
+	
+	<!-- wysiwyg -->
+	<link href="plugins/bootstrap-wysiwyg/external/google-code-prettify/prettify.css" rel="stylesheet">
+	<!-- <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+	<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet"> -->
+	<link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+	<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script> -->
+	<script src="plugins/bootstrap-wysiwyg/external/jquery.hotkeys.js"></script>
+	<!-- <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script> -->
+	<script src="plugins/bootstrap-wysiwyg/external/google-code-prettify/prettify.js"></script>
+	<!-- <link href="index.css" rel="stylesheet"> -->
+	<script src="plugins/bootstrap-wysiwyg/bootstrap-wysiwyg.js"></script>
+	
+	<script>
+		var loadWysiwyg = function (editor, toolbar) {
+			$(function(){
+				function initToolbarBootstrapBindings() {
+					var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier', 
+								'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
+								'Times New Roman', 'Verdana'],
+								fontTarget = $(toolbar).find('[title=Font]').siblings('.dropdown-menu');
+					$.each(fonts, function (idx, fontName) {
+							fontTarget.append($('<li><a data-edit="fontName ' + fontName +'" style="font-family:\''+ fontName +'\'">'+fontName + '</a></li>'));
+					});
+					$('a[title]').tooltip({container:'body'});
+					$('.dropdown-menu input').click(function() {return false;})
+						.change(function () {$(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');})
+						.keydown('esc', function () {this.value='';$(this).change();});
+
+					$('[data-role=magic-overlay]').each(function () { 
+						var overlay = $(this), target = $(overlay.data('target')); 
+						overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
+					});
+					if ("onwebkitspeechchange"  in document.createElement("input")) {
+						var editorOffset = editor.offset();
+						$('#voiceBtn').css('position','absolute').offset({top: editorOffset.top, left: editorOffset.left+editor.innerWidth()-35});
+					} else {
+						$('#voiceBtn').hide();
+					}
+			};
+			function showErrorAlert (reason, detail) {
+				var msg='';
+				if (reason==='unsupported-file-type') { msg = "Unsupported format " +detail; }
+				else {
+					console.log("error uploading file", reason, detail);
+				}
+				$('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>'+ 
+				 '<strong>File upload error</strong> '+msg+' </div>').prependTo('#alerts');
+			};
+				initToolbarBootstrapBindings();  
+			editor.wysiwyg({ fileUploadError: showErrorAlert} );
+				window.prettyPrint && prettyPrint();
+			});
+		};
+var getEditor = function (data) {
+	var html = $(
+		'<div>\n' +
+		'	<div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">\n' +
+		'		<div class="btn-group">\n' +
+		'		<a class="btn dropdown-toggle" data-toggle="dropdown" title="字体"><i class="icon-font"></i><b class="caret"></b></a>\n' +
+		'			<ul class="dropdown-menu">\n' +
+		'			</ul>\n' +
+		'		</div>\n' +
+		'		<div class="btn-group">\n' +
+		'		<a class="btn dropdown-toggle" data-toggle="dropdown" title="字体大小"><i class="icon-text-height"></i>&nbsp;<b class="caret"></b></a>\n' +
+		'			<ul class="dropdown-menu">\n' +
+		'			<li><a data-edit="fontSize 5"><font size="5">大</font></a></li>\n' +
+		'			<li><a data-edit="fontSize 3"><font size="3">中</font></a></li>\n' +
+		'			<li><a data-edit="fontSize 1"><font size="1">小</font></a></li>\n' +
+		'			</ul>\n' +
+		'		</div>\n' +
+		'		<div class="btn-group">\n' +
+		'		<a class="btn" data-edit="bold" title="加粗 (Ctrl/Cmd+B)"><i class="icon-bold"></i></a>\n' +
+		'		<a class="btn" data-edit="italic" title="斜体 (Ctrl/Cmd+I)"><i class="icon-italic"></i></a>\n' +
+		'		<a class="btn" data-edit="strikethrough" title="（加） 删除线"><i class="icon-strikethrough"></i></a>\n' +
+		'		<a class="btn" data-edit="underline" title="下划线 (Ctrl/Cmd+U)"><i class="icon-underline"></i></a>\n' +
+		'		</div>\n' +
+		'		<div class="btn-group">\n' +
+		'		<a class="btn" data-edit="insertunorderedlist" title="项目列表"><i class="icon-list-ul"></i></a>\n' +
+		'		<a class="btn" data-edit="insertorderedlist" title="数字列表"><i class="icon-list-ol"></i></a>\n' +
+		'		<a class="btn" data-edit="outdent" title="清除缩进 (Shift+Tab)"><i class="icon-indent-left"></i></a>\n' +
+		'		<a class="btn" data-edit="indent" title="缩进 (Tab)"><i class="icon-indent-right"></i></a>\n' +
+		'		</div>\n' +
+		'		<div class="btn-group">\n' +
+		'		<a class="btn" data-edit="justifyleft" title="居左 (Ctrl/Cmd+L)"><i class="icon-align-left"></i></a>\n' +
+		'		<a class="btn" data-edit="justifycenter" title="居中 (Ctrl/Cmd+E)"><i class="icon-align-center"></i></a>\n' +
+		'		<a class="btn" data-edit="justifyright" title="居右 (Ctrl/Cmd+R)"><i class="icon-align-right"></i></a>\n' +
+		'		<a class="btn" data-edit="justifyfull" title="正常 (Ctrl/Cmd+J)"><i class="icon-align-justify"></i></a>\n' +
+		'		</div>\n' +
+		'		<div class="btn-group">\n' +
+		'			<a class="btn dropdown-toggle" data-toggle="dropdown" title="超链接"><i class="icon-link"></i></a>\n' +
+		'			<div class="dropdown-menu input-append">\n' +
+		'				<input class="span2" placeholder="URL" type="text" data-edit="createLink"/>\n' +
+		'				<button class="btn" type="button">添加</button>\n' +
+		'		</div>\n' +
+		'		<a class="btn" data-edit="unlink" title="去除链接"><i class="icon-cut"></i></a>\n' +
+		'		</div>\n' +
+		'		<!-- <div class="btn-group">\n' +
+		'		<a class="btn" title="浏览或拖拽添加图片" id="pictureBtn"><i class="icon-picture"></i></a>\n' +
+		'		<input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" />\n' +
+		'		</div> --> \n' +
+		'		<div class="btn-group">\n' +
+		'		<a class="btn" data-edit="undo" title="撤消 (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>\n' +
+		'		<a class="btn" data-edit="redo" title="重复 (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a>\n' +
+		'		</div>\n' +
+		'	</div>\n' +
+		'	<div id="editor" class="editor">' + (data ? data : '') + '\n' +
+		'	</div>\n' +
+		'</div>'
+	);
+	
+  loadWysiwyg($(html).find('#editor'), $(html).find('.btn-toolbar'));
+	 
+	$(html).find('#editor').slimScroll({
+		height: '250px'
+	});
+	$(html).find('#editor').css({
+		border: '1px solid rgba(0,0,0,.3)'
+	});
+	 return html;
+};
+	
+	
+	/*
+	$('#abc [type="checkbox"]').on('click', function(){
+		console.log($(this).is(':checked'));
+		
+	});
+	*/
+	var uploadFile = function(input){
+		var html = $(
+			'<div class="modal fade">\n' +
+			'	<div class="modal-dialog">\n' +
+			'		<div class="modal-content">\n' +
+			'			<div class="modal-body">\n' +
+			'				<div class="main-content">\n' +
+			'					<div class="modal-header">\n' +
+			'						<button type="button" class="close" data-dismiss="modal">×</button>\n' +
+			'						<h4 class="modal-title">上传文件</h4>\n' +
+			'					</div>\n' +
+			'					<div style="margin: 15px;">\n' +
+			'					<input name="filesupload" type="file" multiple class="file-loading" accept="image">\n' +
+			'					</div>\n' +
+			'				</div>\n' +
+			'			</div>\n' +
+			'		</div>\n' +
+			'	</div>\n' +
+			'</div>'
+		);
+		
+		$(html).find('input').fileinput({
+			language: "zh",
+			theme: "explorer",
+			uploadUrl: "/uploadfile_beta",
+			//allowedFileExtensions: ['jpg', 'png', 'gif'],
+			overwriteInitial: false,
+			uploadExtraData: {
+				//dir: inputs.dirFull
+				dir: '/'
+			}
+		});
+		
+		$(html).find('input').on('fileuploaded', function(event, data, previewId, index) {
+			/* var form = data.form, files = data.files, extra = data.extra,
+					response = data.response, reader = data.reader;
+			console.log('File uploaded triggered'); */
+			console.log(data.response);
+			//$(target).reloadTransCloud(inputs);
+			//$(html).modal('hide');
+			//callAlert('添加成功！','done');
+		});
+		
+		$(html).on('hidden.bs.modal', function(){
+			$(this).remove();
+		});
+		
+		$(html).modal('show');
+	};
+	//uploadFile()
+	
+	var createPostModal = function(data){
+		var modal = $(
+			'<div class="modal fade">\n' +
+			'	<div class="modal-dialog">\n' +
+			'		<div class="modal-content">\n' +
+			'			<div class="modal-header">\n' +
+			'				<button type="button" class="close" data-dismiss="modal">&times;</button>\n' +
+			'				<h5 class="modal-title">\n' +
+			'					<img src="' + data.image + '" style="width: 50px;height: 50px; padding: 2px; border: 2px solid #d2d6de;border-radius: 50%;"/>\n' +
+			'					<b class="fa fa-caret-right" style="font-size: 16px; margin-left:5px;"></b>\n' +
+			'					<a href="javascript:void(0);" data-action="sharedwith"><i class="fa fa-globe"></i></a>\n' +
+			'					<span data-target="sharewith" data-value=""></span>\n' +
+			'				</h5>\n' +
+			'			</div>\n' +
+			'			<div class="modal-body">\n' +
+			'				<div class="form-group">\n' +
+			'					<label>标题</label>\n' +
+			'					<input name="title" class="form-control" placeholder="请输入标题">\n' +
+			'				</div>\n' +
+			'				<div class="editor-block" style="padding-bottom: 15px;"></div>\n' + 
+			'				<div class="form-group">\n' +
+			'						<label>允许被分享: </label>\n' +
+			'						<label class="pull-right switch">\n' +
+			'						<input name="allowshared" type="checkbox" checked>\n' +
+			'							<div class="slider round"></div>\n' +
+			'						</label>\n' +
+			'				</div>\n' +
+			'				<div class="form-group">\n' +
+			'						<label>兴趣类别: </label>\n' +
+			'						<a href="javascript:void(0);" class="pull-right" data-target="catagories"><i class="fa fa-plus-square"></i></a>\n' +
+			'						<div class="clearfix"></div>\n' +
+			'						<p data-value="catagories">\n' +
+			'						</p>\n' +
+			'				</div>\n' +
+			'				<div class="form-group">\n' +
+			'						<label>兴趣话题: </label>\n' +
+			'						<a href="javascript:void(0);" class="pull-right" data-target="tags"><i class="fa fa-plus-square"></i></a>\n' +
+			'						<div class="clearfix"></div>\n' +
+			'						<p data-value="tags">\n' +
+			'						</p>\n' +
+			'				</div>\n' +
+			'			</div>\n' +
+			'			<div class="modal-footer">\n' +
+			'				<a data-action="submit">提交</a>\n' +
+			'				<a data-dismiss="modal">关闭</a>\n' +
+			'			</div>\n' +
+			'		</div>\n' +
+			'	</div>\n' +
+			'</div>'
+		);
+		
+		
+		
+		//加载分享范围
+		$(modal).find('[data-action="sharedwith"]').on('click', function(){
+			var currentValue = $(modal).find('[data-target="sharewith"]').attr('data-value');
+			createShardWithModal(currentValue);
+		});
+		
+		//加载兴趣类别
+		$(modal).find('[data-target="catagories"]').on('click', function(){
+			//获取当前值
+			var list = [];
+			var temp = [];
+			$.each($(modal).find('[data-value="catagories"] > span'), function(index, item){
+				list.push({name: $(item).text()});
+				temp.push($(item).text());
+			});
+			$.ajax({
+				url : '/all-tag-cate-info',
+				data: {},
+				cache : false, 
+				async : false,
+				type : "GET",
+				dataType : 'json',
+				success : function (result){
+					//category_list, tags_list, titles_list
+					if(result == 0){
+						//错误提示
+					}else{
+						var allCatagories = [];
+						$.each(result.category_list, function(index, item){
+							//去已选
+							if(!temp.includes(item))
+								allCatagories.push({name: item});
+							else
+								console.log(item);
+						});
+						var inputs = {
+							title: '请选择发布动态的兴趣类别',
+							dataTop: allCatagories,
+							dataBot: list,
+							funcCard1: createCatagoriesCardHTML,
+							funcCard2: createAddCardHTML,
+							funcCardInput2: {name: '新增类别', title: '创建新的兴趣类别',placeholder: '请输入新增兴趣类别' , action: '/group/chen-operation/4'},
+							actionSubmit: function(data){
+								$(modal).find('[data-value="catagories"]').empty();
+								$.each(data, function(index, item){
+									$(modal).find('[data-value="catagories"]').append('<span class="label" style="margin-right: 5px; background-color: ' + googleColorRandomPicker() + '; cursor: pointer;">' + item + '</span>');
+								});
+							}
+						};
+						twinRowModal(inputs);
+					}
+				}
+			});
+		})
+		
+		//加载兴趣话题
+		$(modal).find('[data-target="tags"]').on('click', function(){
+			//获取当前值
+			var list = [];
+			var temp = [];
+			$.each($(modal).find('[data-value="tags"] > span'), function(index, item){
+				list.push({name: $(item).text()});
+				temp.push($(item).text());
+			});
+			$.ajax({
+				url : '/all-tag-cate-info',
+				data: {},
+				cache : false, 
+				async : false,
+				type : "GET",
+				dataType : 'json',
+				success : function (result){
+					//category_list, tags_list, titles_list
+					if(result == 0){
+						//错误提示
+					}else{
+						var allTags = [];
+						$.each(result.tags_list, function(index, item){
+							//去已选
+							if(!temp.includes(item))
+								allTags.push({name: item});
+							else
+								console.log(item);
+						});
+						var inputs = {
+							title: '请选择发布动态的兴趣类别',
+							dataTop: allTags,
+							dataBot: list,
+							funcCard1: createCatagoriesCardHTML,
+							funcCard2: createAddCardHTML,
+							funcCardInput2: {name: '新增话题', title: '创建新的兴趣话题',placeholder: '请输入新增兴趣话题' , action: '/group/chen-operation/6'},
+							actionSubmit: function(data){
+								$(modal).find('[data-value="tags"]').empty();
+								$.each(data, function(index, item){
+									$(modal).find('[data-value="tags"]').append('<span class="label" style="margin-right: 5px; background-color: ' + googleColorRandomPicker() + '; cursor: pointer;">' + item + '</span>');
+								});
+							}
+						};
+						twinRowModal(inputs);
+					}
+				}
+			});
+		})
+		
+		
+		//加载编辑器
+		var editor = getEditor(); 
+		$(modal).find('.editor-block').append(editor);
+		
+		
+		//确定提交
+		$(modal).find('[data-action="submit"]').on('click', function(){
+			var cata = [];
+			$.each($(modal).find('[data-value="catagories"] > span'), function(index, item){
+				cata.push($(item).text());
+			});
+			var tags = [];
+			$.each($(modal).find('[data-value="tags"] > span'), function(index, item){
+				tags.push($(item).text());
+			});
+			var content = $('<div>' + $(editor).find('#editor').html() + '</div>');
+			var images = [];
+			console.log($(content).find('img'));
+			$.each($(content).find('img'), function(index, item){
+				
+				if($(item).attr("src").startsWith("data:image")){
+					images.push($(item).attr("src"));
+					$(content).find('img:eq(' + index + ')').attr("src", data.gid + "_" + index + ".png");
+					console.log(item);
+				}
+			});
+			
+			/*
+			var result = [];
+			var data = '<div>' + $(target + ' .editor').html() + '</div>';
+			data = $(data);
+			var items = (data).find("img");
+			var index1 = 0;
+			var uid = $("#post_main_page").attr("userid");
+			$.each(items, function (index, item) {
+					if ($(item).attr("src").startsWith("data:image"))
+					{
+							result.push($(item).attr("src"));
+							$(item).attr("src", uid + "_" + index1 + ".png");
+							index1++;
+					}
+			});
+
+			moment['content'] = '<div>' + data.html() + '</div>';
+			moment['images'] = JSON.stringify(result);
+			*/
+			
+			var post = {
+				gid:data.gid,
+				title: $(modal).find('[name="title"]').val(),
+				content: content.html(),
+				category: cata,
+				tags: tags,
+				authority: $(modal).find('[data-target="sharewith"]').attr('data-value'),
+				allowshare: ($(modal).find('[type="checkbox"]').is(':checked') ? 1 : 0),
+				lat: '',
+				lng: '',
+				images: JSON.stringify(images)
+			};
+			
+			
+			
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(function(position){
+					post.lat = position.coords.latitude;
+					post.lng = position.coords.longitude;
+				});
+			}else { 
+				//错误提示 
+			}
+			
+			
+			$.ajax({
+				url : '/group/chen-operation/14',
+				data: post,
+				cache : false, 
+				async : false,
+				type : "GET",
+				dataType : 'json',
+				success : function (){
+					if(group == 0){
+						callAlert('失败成功！','clear');
+					}else{
+						callAlert('发布成功！','done');
+						location.reload();
+					}
+				}
+			});
+			
+			
+		
+		});
+		
+		$(modal).on('hidden.bs.modal', function(){
+			$(this).remove();
+		});
+
+		$(modal).modal('show');
+		
+		
+		/* 局部方法 */
+		//初始化分享范围
+		var createShardWithModal = function(currentValue){
+			var sharedWithModal = $(
+			'<div class="modal fade">\n' +
+			'	<div class="modal-dialog">\n' +
+			'		<div class="modal-content">\n' +
+			'			<div class="modal-header">\n' +
+			'				<button type="button" class="close" data-dismiss="modal">&times;</button>\n' +
+			'				<h5 class="modal-title">请选择您想要分享的范围</h5>\n' +
+			'			</div>\n' +
+			'			<div class="modal-body">\n' +
+			'				<div class="form-group">\n' +
+      '          <label style="display: block; padding-left: 15px;">\n' +
+      '            <input type="radio" name="r1" class="minimal" value="1">公开\n' +
+      '          </label>\n' +
+      '          <label style="display: block; padding-left: 15px;">\n' +
+      '            <input type="radio" name="r1" class="minimal" value="2"> 仅群组可见\n' +
+      '          </label>\n' +
+      '        </div>\n' +
+			'			</div>\n' +
+			'			<div class="modal-footer">\n' +
+			'				<a data-action="submit">提交</a>\n' +
+			'				<a data-dismiss="modal">关闭</a>\n' +
+			'			</div>\n' +
+			'		</div>\n' +
+			'	</div>\n' +
+			'</div>'
+			);
+			
+			//初始化已选按钮
+			$(sharedWithModal).find('[type="radio"][value="' + currentValue + '"]').prop('checked', 'checked');
+			
+			//提交表单
+			$(sharedWithModal).find('[data-action="submit"]').on('click',function(){
+				//获取被checked的按钮值
+				var value = $(sharedWithModal).find('[type="radio"]:checked').val();
+				$(modal).find('[data-target="sharewith"]').attr('data-value', value);
+				if(value == 1)
+					$(modal).find('[data-target="sharewith"]').html('公开');
+				else if(value == 2)
+					$(modal).find('[data-target="sharewith"]').html('仅群组可见');
+				else{
+				}
+				
+				$(sharedWithModal).modal('hide');
+			});
+			
+			$(sharedWithModal).on('hidden.bs.modal', function(){
+				$(this).remove();
+			});
+			
+			$(sharedWithModal).modal('show');
+		};
+		
+	};
+	
+	
+	</script>
+	
+</html>
+
+
