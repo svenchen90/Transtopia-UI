@@ -2358,8 +2358,6 @@ router.post('/uploadfile', function(req, res, next) {
 
 /* 整合开始 */
 router.get('/group/get-instance/123', function(req, res, next) {
-	console.log('#############################');
-	console.log(req.query);
 	var flag = 1;
 	if(flag == 0)
 		res.json(0);
@@ -2390,9 +2388,9 @@ router.get('/group/get-instance/123', function(req, res, next) {
 			shareposts: [], //{uid, pid, share_note, share_datetime},
 			blacklist: [],  //ids, 
 			allow_post_notice: 1,
-			allow_new_member_in: 1, 
+			allow_new_member_in: 0, 
 			allow_group_share: 1, 
-			allow_post_share_following: 1,
+			allow_post_share_following: 0,
 			allow_new_following: 1, 
 			allow_new_member_validation: 1, 
 			role: 1, 
@@ -2402,6 +2400,18 @@ router.get('/group/get-instance/123', function(req, res, next) {
 			isMember: 0
 		});
 });
+
+router.get('/group/update-private/123/0/0', function(req, res, next) {
+	console.log(req.query);
+	res.json(Math.floor((Math.random()*2)));
+	//res.json(0);
+});
+router.get('/group/update-instance/123', function(req, res, next) {
+	console.log(req.query);
+	res.json(Math.floor((Math.random()*2)));
+	//res.json(0);
+});
+
 
 router.get('/user/current-user', function(req, res, next){
 	var flag = 1;

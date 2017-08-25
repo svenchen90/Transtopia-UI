@@ -55,97 +55,7 @@
 		<div class="block-left"></div>
 		
 		<!-- Modal -->
-		<div class="modal fade" id="modal-group-privacy">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">群组隐私设置</h4>
-					</div>
-					<div class="modal-body">
-						<div class="row">
-							<div class="col-xs-10 menu-label">新成员加入时需要验证</div>
-							<div class="col-xs-2">
-								<label class="switch">
-									<input type="checkbox" checked>
-									<div class="slider round"></div>
-								</label>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-10 menu-label">接收新成员加入</div>
-							<div class="col-xs-2">
-								<label class="switch">
-									<input type="checkbox" checked>
-									<div class="slider round"></div>
-								</label>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-10 menu-label">动态提醒</div>
-							<div class="col-xs-2">
-								<label class="switch">
-									<input type="checkbox" checked>
-									<div class="slider round"></div>
-								</label>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-10 menu-label">消息免打扰</div>
-							<div class="col-xs-2">
-								<label class="switch">
-									<input type="checkbox" checked>
-									<div class="slider round"></div>
-								</label>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-10 menu-label">允许群被关注</div>
-							<div class="col-xs-2">
-								<label class="switch">
-									<input type="checkbox" checked>
-									<div class="slider round"></div>
-								</label>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-10 menu-label">允许群名片被分享</div>
-							<div class="col-xs-2">
-								<label class="switch">
-									<input type="checkbox" checked>
-									<div class="slider round"></div>
-								</label>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-10 menu-label">群聊天置顶</div>
-							<div class="col-xs-2">
-								<label class="switch">
-									<input type="checkbox" checked>
-									<div class="slider round"></div>
-								</label>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-10 menu-label">我在群中昵称 </div>
-							<div class="col-xs-2">
-								<input class="form-control" style="border-top: none;border-left: none;border-right: none;" value="张震宇" />
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-10 menu-label">清空消息记录 </div>
-							<div class="col-xs-2">
-								<a href="#">清空消息</a>
-							</div>
-						</div>
-						
-					</div>
-					<div class="modal-footer">
-						<a data-dismiss="modal">关闭</a>
-					</div>
-				</div>
-			</div>
-		</div>
+		
 		
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
@@ -387,6 +297,8 @@
 	<script src="js/group.js"></script>
 	
 	<script src="js/gears.js"></script>
+	<script src="js/test.js"></script>
+	<script src="js/object.js"></script>
 	
 	<script>
 	$( document ).ready(function() {	
@@ -543,7 +455,7 @@
 				data.push({
 					name: '修改设置',
 					action: function(){
-						$('#modal-group-privacy').modal('show');
+						new GroupSetting(group.gid)
 					}
 				});
 			}

@@ -8,7 +8,7 @@ var googleColorRandomPicker = function(){
 };
 
 //提示框
-var callAlert = function(text, icon, reload){
+var callAlert = function(text, icon, callback){
 	var html = $(
 		'<div class="modal fade" id="modal-alert">\n' +
 		'	<div class="modal-dialog" style="width: 150px; opacity: 0.6">\n' +
@@ -21,21 +21,18 @@ var callAlert = function(text, icon, reload){
 		'	</div>\n' +
 		'</div>'
 	);
-
-	$(html).modal('show');
+	
+	html.on('hidden.bs.modal', function(){
+		$(this).remove();
+	});
+	
+	html.modal('show');
+	
 	
 	setTimeout(function(){
-		$(html).modal('hide');
-		if(reload != 'undefined'){
-			if(reload == '0' ){
-				location.reload();
-			}else{
-				$(location).attr('href', reload);
-			}
-		}else{
-			
-		}
-	}, 1500);
+		html.modal('hide');
+		callback();
+	}, 1000);
 };
 
 //确认框
