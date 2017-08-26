@@ -4,7 +4,7 @@ var multiparty = require('multiparty');
 var fs = require('fs');
 var rimraf = require('rimraf');
 var path = require('path');
-const transCloudPath = 'C:/Users/Sven/Desktop/Transtopia UI/test_server/public';
+const transCloudPath = 'C:/Users/Sven/Desktop/Transtopia-UI/test_server/public';
 
 
 

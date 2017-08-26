@@ -1,7 +1,13 @@
 $.fn.modal.Constructor.DEFAULTS.backdrop = 'static';
+URLPrefix = 'http://127.0.0.1:3000';
+ImageURLPrefix = 'http://127.0.0.1:3000/';
 /* 
 1. 修改群组基本信息 UpdateGroupInfo(groupID)
 2. 修改群设置 - UpdateGroupSetting(groupID)
+3. 上传图片 - UpdateImage
+4. 新建模态卡 - ModalCard
+
+6. 双行操作框(TwinRowModal) - TwinRowModal
  */
  
 /* 1. 修改群组基本信息 */
@@ -38,12 +44,12 @@ var UpdateGroupInfo = function(groupID){
 		'						<textarea class="form-control input-lg" name="introduction" ></textarea>\n' +
 		'					</div>\n' +
 		'					<div class="form-group">\n' +
-		'						<p><i class="fa fa-pencil"></i> 兴趣类别 <span class="pull-right"><a href="#" data-action="editGenres">修改</a></span></p>\n' +
+		'						<p><i class="fa fa-pencil"></i> 兴趣类别 <span class="pull-right"><a href="#" data-action="editcategory">修改</a></span></p>\n' +
 		'						<div name="category" style="margin-top:10px;">\n' +
 		'						</div>\n' +
 		'					</div>\n' +
 		'					<div class="form-group">\n' +
-		'						<p><i class="fa fa-tags"></i> 兴趣话题 <span class="pull-right"><a href="#" data-action="editTopic">修改</a></span></p>\n' +
+		'						<p><i class="fa fa-tags"></i> 兴趣话题 <span class="pull-right"><a href="#" data-action="edittag">修改</a></span></p>\n' +
 		'						<div name="tag" style="margin-top:10px;">\n' +		
 		'						</div>\n' +
 		'					</div>\n' +	
@@ -60,12 +66,12 @@ var UpdateGroupInfo = function(groupID){
 	
 	//加载数据
 	var loadData = function(data){
-		modal.find('[data-target="bg_image"]').prop('src', data.bg_image);
-		modal.find('[data-target="image"]').prop('src', data.image);
+		modal.find('[data-target="bg_image"]').prop('src', ImageURLPrefix + data.bg_image);
+		modal.find('[data-target="image"]').prop('src', ImageURLPrefix + data.image);
 		modal.find('[name="name"]').prop('value', data.name);
 		modal.find('[name="introduction"]').text(data.introduction);
 		//### 二维码
-		modal.find('[name="qr_image"]').prop('src', '/dist/img/Qr-code-ver-10.png');
+		modal.find('[name="qr_image"]').prop('src', ImageURLPrefix + 'dist/img/Qr-code-ver-10.png');
 		// 
 
 		//加载群组类别
@@ -101,10 +107,20 @@ var UpdateGroupInfo = function(groupID){
 		return data;
 	};
 	
+	//更新群头像
+	var updateGroupImage = function(src){
+		modal.find('[data-target="image"]').prop('src', ImageURLPrefix + src);
+	};
+	
+	//更新群头像
+	var updateGroupBGImage = function(src){
+		modal.find('[data-target="bg_image"]').prop('src', ImageURLPrefix + src);
+	};
+	
 	
 	//初始化
 	$.ajax({
-		url : '/group/get-instance/' + groupID,
+		url : URLPrefix + '/group/get-instance/' + groupID,
 		data: {},
 		cache : true, 
 		async : true,
@@ -126,7 +142,7 @@ var UpdateGroupInfo = function(groupID){
 				//submit
 				modal.find('[data-action="submit"]').on('click', function(){
 					$.ajax({
-						url : '/group/update-instance/' + groupID,
+						url : URLPrefix + '/group/chen-operation/25/' + groupID,
 						data: getData(),
 						cache : true, 
 						async : true,
@@ -149,6 +165,95 @@ var UpdateGroupInfo = function(groupID){
 					});
 				});
 				
+				//更新图片
+				modal.find('[data-target="image"]').on('click', function(){
+					new UpdateImage(123, '/uploadfile_beta', updateGroupImage);
+				});
+				
+				//更新背景图片
+				modal.find('.background-edit > a').on('click', function(){
+					new UpdateImage(123, '/uploadfile_beta', updateGroupBGImage);
+				});
+				
+				//修改群组种类
+				modal.find('[data-action="editcategory"]').on('click', function(){
+					$.ajax({
+						url : URLPrefix + '/group/chen-operation/3',
+						data: {},
+						cache : true, 
+						async : true,
+						type : "GET",
+						dataType : 'json',
+						success : function (result){
+							if(result == 0){
+								//error message
+								callAlert('无法获取类别列表！', 'clear', function(){});
+							}else{
+								//获取当下类别列表
+								var currentCategory = [];
+								$.each(data.category, function(index, item){
+									currentCategory.push({name: item});
+								});
+								//获取全部列表
+								var fullCategory = [];
+								$.each(result, function(index, item){
+									fullCategory.push({name: item});
+								});
+								
+								new TwinRow('修改群组类别', fullCategory, currentCategory, 'grade', '新增类别', '添加新类别', '请输入您要添加的新类别', '/group/chen-operation/4/', function(list){
+									modal.find('[name="category"]').empty();
+									$.each(list, function(i, g){
+										modal.find('[name="category"]').append('<span class="label" style="margin-right: 5px; background-color: ' + googleColorRandomPicker() + ';">' + g.name + '</span>');
+									});
+									
+								});
+							}
+						},
+						error: function(err){
+							callAlert('无法获取类别列表！', 'clear', function(){});
+						}
+					});
+				});
+				
+				//修改群组种类
+				modal.find('[data-action="edittag"]').on('click', function(){
+					$.ajax({
+						url : URLPrefix + '/group/chen-operation/5',
+						data: {},
+						cache : true, 
+						async : true,
+						type : "GET",
+						dataType : 'json',
+						success : function (result){
+							if(result == 0){
+								//error message
+								callAlert('无法获取兴趣列表！', 'clear', function(){});
+							}else{
+								//获取当下类别列表
+								var currentTag = [];
+								$.each(data.tags, function(index, item){
+									currentTag.push({name: item});
+								});
+								//获取全部列表
+								var fullTag = [];
+								$.each(result, function(index, item){
+									fullTag.push({name: item});
+								});
+								
+								new TwinRow('修改群组兴趣', fullTag, currentTag, 'loyalty', '新增兴趣', '添加新兴趣', '请输入您要添加的新兴趣', '/group/chen-operation/6/', function(list){
+									modal.find('[name="tag"]').empty();
+									$.each(list, function(i, g){
+										modal.find('[name="tag"]').append('<span class="label" style="margin-right: 5px; background-color: ' + googleColorRandomPicker() + ';">' + g.name + '</span>');
+									});
+									
+								});
+							}
+						},
+						error: function(err){
+							callAlert('无法获取兴趣列表！', 'clear', function(){});
+						}
+					});
+				});
 				
 				//关闭模态框时，自动删除
 				modal.on('hidden.bs.modal', function(){
@@ -240,19 +345,6 @@ var UpdateGroupInfo = function(groupID){
 	
 };
 
-new UpdateGroupInfo(123);
-
-var newObj = function(callback){
-	callback();
-};
-
-var testCallBack = function(callback){
-	$(modal).on('hidden.bs.modal', function(){
-		$(this).remove();
-	});
-};
-
-
 /* 2. 修改群设置 */
 var GroupSetting = function(groupID){
 	var modal = $(
@@ -341,7 +433,7 @@ var GroupSetting = function(groupID){
 	
 	//初始化
 	$.ajax({
-		url : '/group/get-instance/' + groupID,
+		url : URLPrefix + '/group/get-instance/' + groupID,
 		data: {},
 		cache : true, 
 		async : true,
@@ -373,7 +465,7 @@ var GroupSetting = function(groupID){
 
 					
 					$.ajax({
-						url : '/group/update-private/' + groupID + '/' + option + '/' + value,
+						url : URLPrefix + '/group/chen-operation/26/' + groupID + '/' + option + '/' + value,
 						cache : true, 
 						async : true,
 						type : "GET",
@@ -430,3 +522,62 @@ var GroupSetting = function(groupID){
 		}
 	});
 };
+
+/* 3. 上传图片 */
+var UpdateImage = function(id, requestURL, callback){
+	console.log(1);
+	var html = $(
+		'<div class="modal fade">\n' +
+		'	<div class="modal-dialog">\n' +
+		'		<div class="modal-content">\n' +
+		'			<div class="modal-body">\n' +
+		'				<div class="main-content">\n' +
+		'					<div class="modal-header">\n' +
+		'						<button type="button" class="close" data-dismiss="modal">×</button>\n' +
+		'						<h4 class="modal-title">上传文件</h4>\n' +
+		'					</div>\n' +
+		'					<div style="margin: 15px;">\n' +
+		'					<input name="filesupload" type="file" multiple class="file-loading" accept="image">\n' +
+		'					</div>\n' +
+		'				</div>\n' +
+		'			</div>\n' +
+		'		</div>\n' +
+		'	</div>\n' +
+		'</div>'
+	);
+	
+	//加载bootstrap-fileinput插件
+	html.find('input').fileinput({
+		language: "zh",
+		theme: "explorer",
+		uploadUrl: URLPrefix + requestURL + '/' + id,
+		allowedFileExtensions: ['jpg', 'png'],
+		maxFileCount: 1,
+	});
+	
+	//上传完成后方法
+	html.find('input').on('fileuploaded', function(event, data, previewId, index) {
+		/* var form = data.form, files = data.files, extra = data.extra,
+				response = data.response, reader = data.reader;
+		console.log('File uploaded triggered'); */
+		if(data.response == 0){
+			callAlert('错误！', 'clear', function(){});
+		}else{
+			callAlert('更新成功！', 'done', function(){
+				html.modal('hide');
+				callback(data.response)
+			});
+		}
+	});
+	
+	html.on('hidden.bs.modal', function(){
+		$(this).remove();
+	});
+	
+	html.modal('show');
+};
+
+
+
+
+

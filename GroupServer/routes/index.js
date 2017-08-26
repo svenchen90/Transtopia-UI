@@ -2401,12 +2401,12 @@ router.get('/group/get-instance/123', function(req, res, next) {
 		});
 });
 
-router.get('/group/update-private/123/0/0', function(req, res, next) {
+router.get('/group/chen-operation/26/123/0/0', function(req, res, next) {
 	console.log(req.query);
 	res.json(Math.floor((Math.random()*2)));
 	//res.json(0);
 });
-router.get('/group/update-instance/123', function(req, res, next) {
+router.get('/group/chen-operation/25/123', function(req, res, next) {
 	console.log(req.query);
 	res.json(Math.floor((Math.random()*2)));
 	//res.json(0);
@@ -2435,20 +2435,21 @@ router.get('/user/current-user', function(req, res, next){
 		});
 });
 
-router.post('/uploadfile_beta', function(req, res, next) {
+router.post('/uploadfile_beta/123', function(req, res, next) {
 	//console.log(req.form);
 	console.log(req.params);
 	//生成multiparty对象，并配置上传目标路径
 	var form = new multiparty.Form({uploadDir: './public'});
 	//上传完成后处理
 	form.parse(req, function(err, fields, files) {
-		console.log(fields);
 		//console.log(files['filesupload']);
+		var path;
 		files['filesupload'].forEach(function(item, index){
 			/* console.log(item); */
 			console.log(index);
 			var oldpath = 'C:/Users/Sven/Desktop/Transtopia-UI/GroupSever/' + item.path;
-			var newpath = transCloudPath + fields.dir[index] + '/' + item.originalFilename;
+			var newpath = transCloudPath +  '/' + item.originalFilename;
+			path = item.path;
 			console.log(oldpath, newpath);
 			fs.rename(oldpath, newpath, function (err) {
 				if (err) throw err;
@@ -2465,12 +2466,12 @@ router.post('/uploadfile_beta', function(req, res, next) {
 		//console.log(filesTmp);
 		if(err){
 			console.log('parse error: ' + err);
-			res.json({error: 'error!!!!'});
+			res.json(0);
 		}else{
 			/* console.log(fields);
 			res.status(200);
 			res.send('oops'); */
-			res.json('success');
+			res.json(path.replace('\\', '/'));
 		}
 	});
 });
@@ -2494,6 +2495,24 @@ router.get('/group/chen-operation/6', function(req, res, next){
 	res.json(1);
 });
 
+
+router.get('/group/chen-operation/3', function(req, res, next){
+	res.json(["资讯","资源","日记","知识","工具","教学","提问","产品","直播","LOL","AI","咨询","论文","科研","项目报告","MSI","我的世界","名片"]);
+});
+router.get('/group/chen-operation/4/123456', function(req, res, next){
+	res.json({
+		name: 123456
+	})
+});
+
+router.get('/group/chen-operation/5', function(req, res, next){
+	res.json(["交叉口设计","城市规划","交通流量统计","绘图","设计","游戏设计","篮球","PND","DLL","Movie","检测器","交通控制","安全","高效","鲁棒","研究性学习","优化","科研","会议","图论","报告","TCRP","公交","智慧城市","智慧交通","共享经济","人工智能","ACRP","研究","桥梁","铁路桥","求职","教职","车联网","编程工具","在线教学","产品需求","算法设计","游戏管理","SONGS","NBA","POR","test"]);
+});
+router.get('/group/chen-operation/6/123456', function(req, res, next){
+	res.json({
+		name: 123456
+	})
+});
 
 
 module.exports = router;
