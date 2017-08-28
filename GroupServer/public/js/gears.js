@@ -71,7 +71,9 @@ var callConfirm = function(title, text, actionConfirm, dataConfirm, actionCancel
 
 /* 4. 创建新的菜单（最多二级） */
 var createMenu = function(data){
-	if(data.length == 0){
+	if(data == null || data == undefined){
+		console.log('data is null or undefined');
+	}else if(data.length == 0){
 		return '';
 	}else{
 		//Menu 框架

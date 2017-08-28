@@ -2357,9 +2357,9 @@ router.post('/uploadfile', function(req, res, next) {
 });
 
 /* 整合开始 */
-router.get('/group/get-instance/123', function(req, res, next) {
+router.get('/group/operation/get-instance/123', function(req, res, next) {
 	var flag = 1;
-	if(flag == 0)
+	if(Math.random() >= 0.9)
 		res.json(0);
 	else
 		res.json({
@@ -2413,11 +2413,9 @@ router.get('/group/chen-operation/25/123', function(req, res, next) {
 });
 
 
-router.get('/user/current-user', function(req, res, next){
-	var flag = 1;
-	if(flag == 0)
-		res.json(0);
-	else
+router.get('/get-current-user', function(req, res, next){
+	
+	if(Math.random() >= 0.5){
 		res.json({
 			id: 123,
 			name: '张震宇',
@@ -2433,6 +2431,9 @@ router.get('/user/current-user', function(req, res, next){
 			town: '汉阳', 
 			address: '滨江花园188号',
 		});
+	}else{
+		res.json(0);
+	}	
 });
 
 router.post('/uploadfile_beta/123', function(req, res, next) {
@@ -2622,7 +2623,36 @@ router.get('/group/chen-operation/14', function(req, res, next){
 	}
 });
 
+router.get('/group/get-authority-for-current-user/123', function(req, res, next){
+	if(Math.random() >= 0.6){
+		res.json([2,3,4,6,7,8,9,11,12,16,17,18,19,20,21,22,23,24,25,101,102]);
+	}else if(Math.random() >= 0.5){
+		res.json([2,3,4,6,7,8,11,12,16,17,19,20,22,23,24,25,101,102]);
+	}else if(Math.random() >= 0.4){
+		res.json([7,12,16,17,19,20,22,23,24,25,101,102]);
+	}else if(Math.random() >= 0.3){
+		res.json([3,6,11,24,25]);
+	}else if(Math.random() >= 0.2){
+		res.json([11]);
+	}else{
+		res.json([]);
+	}
+});
 
+router.get('/group/operation/update-basic-info/', function(req, res, next){
+	console.log(req.query);
+	res.json(1);
+});
 
+router.get('/group/operation/get-group-settings/123', function(req, res, next){
+
+	res.json({
+		allow_group_share: 0,
+		allow_new_following: 0,
+		allow_new_member_validation: 0,
+		allow_post_share_following: 0,
+		allow_new_member_in: 0
+	});
+});
 
 module.exports = router;

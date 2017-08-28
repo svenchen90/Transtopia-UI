@@ -1,12 +1,13 @@
 /* 
 全局： 
-	1. 加载置顶一级导航栏 - FirstNavTopController
-	2. 加载置顶二级导航栏 - SecondNavTopController
-	3. 加载左侧折叠式导航栏 - CollapseNavLeftController
-	4. 加载左下角按钮组件 - RightBotBtnController
-	10. 动态发布/修改控件 - PostController
+	1. 置顶一级导航栏控件 - FirstNavTopController
+	2. 置顶二级导航栏控件 - SecondNavTopController
+	3. 左侧折叠式导航栏控件 - CollapseNavLeftController
+	4. 左下角按钮控件 - RightBotBtnController
+	5. 左侧信息控件 - LeftModuleController
+	10. 动态控件 - PostController
 Group：
-	5. 左侧群组栏控件 - LeftModuleController
+	
 	6. 更新群组信息模态框组件 - UpdateGroupInfoController
 	7. 修改群设置模态框组件 - UpdateGroupSettingController(groupID)
 	8. 查看群设置模态框控件 - CheckGroupSettingController(groupID)
@@ -21,6 +22,7 @@ const ImageURLPrefix = 'http://127.0.0.1:3000/';
  
 /* 1. 加载置顶一级导航栏 */
 var FirstNavTopController = function(target){
+	var obj = this;
 	var module = $(
 		'<div class="module-nav-top-first">\n' +
 		'	<div class="logo">\n' +
@@ -45,49 +47,7 @@ var FirstNavTopController = function(target){
 		'		</div>\n' +
 		'		<div class="navbar-custom-menu">\n' +
 		'			<ul class="nav navbar-nav">\n' +
-		'				<li class="dropdown messages-menu search-menu">\n' +
-		'					<a href="" class="dropdown-toggle" data-toggle="dropdown">\n' +
-		'							<i class="fa fa-search"></i>\n' +
-		'					</a>\n' +
-		'					<ul class="dropdown-menu">\n' +
-		'						<li>\n' +
-		'								<input type="text" class="form-control" placeholder="搜索..." />\n' +
-		'						</li>\n' +
-		'					</ul>\n' +
-		'				</li>\n' +
-		'				<!-- Messages: style can be found in dropdown.less-->\n' +
-		'				<li class="dropdown messages-menu">\n' +
-		'					<a href="#">\n' +
-		'							<i class="fa fa-envelope-o"></i>\n' +
-		'							<span class="label label-success">4</span>\n' +
-		'					</a>\n' +
-		'				</li>\n' +
-		'				<!-- Notifications: style can be found in dropdown.less -->\n' +
-		'				<li class="dropdown notifications-menu">\n' +
-		'					<a href="#" >\n' +
-		'							<i class="fa fa-bell-o"></i>\n' +
-		'							<span class="label label-warning">10</span>\n' +
-		'					</a>\n' +
-		'				</li>\n' +
-		'				<!-- Tasks: style can be found in dropdown.less -->\n' +
-		'				<li class="dropdown tasks-menu">\n' +
-		'					<a href="#">\n' +
-		'							<i class="fa fa-address-book-o"></i>\n' +
-		'							<span class="label label-danger">9</span>\n' +
-		'					</a>\n' +
-		'				</li>\n' +
-		'				<!-- User Account: style can be found in dropdown.less -->\n' +
-		'				<li class="dropdown user user-menu">\n' +
-		'					<a href="#" class="dropdown-toggle" data-toggle="dropdown">\n' +
-		'						<img class="user-image" data-name="userimage" /><!-- 用户图片 -->\n' +
-		'						<span class="hidden-xs" data-name="username"><!-- 用户名称 --></span>\n' +
-		'					</a>\n' +
-		'				</li>\n' +
-		'				<!-- Control Sidebar Toggle Button -->\n' +
-		'				<li>\n' +
-		'					<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>\n' +
-		'				</li>\n' +
-		'			</ul>\n' +
+		'				<!-- 在此添加 -->\n' + 
 		'		</div>\n' +
 		'	</nav>\n' +
 		'</div>'
@@ -101,20 +61,72 @@ var FirstNavTopController = function(target){
 		});
 	})();
 	
-	this.load = function(data){
-		module.find('[data-name="title"]').text(data.title);
-		module.find('[data-name="userimage"]').prop('src', data.image);
-		module.find('[data-name="username"]').text(data.name);
+	this.load = function(title, user){
+		module.find('[data-name="title"]').text(title);
+		
+		if(user == null || user == undefined || user == 0){
+			/* 1. 用户未登录 或者 错误 */
+			var content = $(
+				'<li>\n' +
+				'	<a href="#" data-toggle="control-sidebar"><i class="fa fa-check-square-o"></i> 登录</a>\n' +
+				'</li>\n' +
+				'<li>\n' +
+				'	<a href="#" data-toggle="control-sidebar"><i class="fa fa-plus-square-o"></i> 注册</a>\n' +
+				'</li>'
+			);
+			
+			module.find('.navbar-custom-menu .navbar-nav').prepend(content);
+		}else{
+			/* 2. 用户登录后 */
+			var content = $(
+				'<li class="dropdown notifications-menu">\n' +
+				'	<a href="#" class="dropdown-toggle" data-toggle="dropdown">\n' +
+				'		<i class="fa fa-bell-o"></i>\n' +
+				'		<span class="label label-warning">10</span>\n' +
+				'	</a>\n' +
+				'	<ul class="dropdown-menu">\n' +
+				'	</ul>\n' +
+				'</li>\n' +
+				'<!-- User Account: style can be found in dropdown.less -->\n' +
+				'<li class="dropdown user user-menu">\n' +
+				'	<a href="#" class="dropdown-toggle" data-toggle="dropdown">\n' +
+				'	<img class="user-image" data-name="userimage" /><!-- 用户图片 -->\n' +
+				'	<span class="hidden-xs" data-name="username"><!-- 用户名称 --></span>\n' +
+				'	</a>\n' +
+				'</li>'
+			);
+			
+			content.find('[data-name="userimage"]').prop('src', ImageURLPrefix + user.image);
+			content.find('[data-name="username"]').text(user.name);
+			
+			module.find('.navbar-custom-menu .navbar-nav').prepend(content);
+		}
 		
 		target.empty();
 		target.append(module);
 	};
 	
+	this.ajaxLoad = function(title){
+		$.ajax({
+			url : URLPrefix + '/get-current-user',
+			cache : true, 
+			async : true,
+			type : "GET",
+			dataType : 'json',
+			success : function (user){
+				obj.load(title, user);
+			},
+			error: function(err){
+				console.log(err);
+			}
+		});
+	};
 };
 
 
 /* 2. 加载置顶二级导航栏 */
 var SecondNavTopController = function(target){
+	var obj = this;
 	var module = $(
 		'<nav class="navbar navbar-static-top nav-top-second">\n' +
 		'	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example-navbar-collapse">\n' +
@@ -131,42 +143,72 @@ var SecondNavTopController = function(target){
 	
 	//通用加载方式
 	this.load = function(data){
-		$.each(data, function(index, item){
-			if(item.sublist == undefined){
-				var temp = $('<li><a href="javascript: void(0);">' + item.name + '</a></li>');
-				$(temp).on('click', function(){
-					item.action();
-				});
-				module.find('ul:first').append(temp);
-			}else{
-				//仅支持单级菜单
-				var temp = $(
-				'<li class="dropdown">\n' + 
-				'	<a href="#" class="dropdown-toggle" data-toggle="dropdown">\n' +
-				'		' + item.name +' \n' +
-				'		<b class="caret"></b>\n' +
-				'	</a>\n' +
-				'	<ul class="dropdown-menu">\n' +
-				'	</ul>\n' +
-				'</li>'
-				);
-				//加载菜单选项
-				$.each(item.sublist, function(i, sub){
-					var temp2 = $('<li><a href="javascript: void(0);">' + sub.name + '</a></li>');
-					$(temp2).on('click', function(){
-						sub.action();
+		if(!Array.isArray(data)){
+			console.log(data, 'list is not array');
+		}else if(data.length == 0){
+			console.log('length == 0 ')
+		}else{
+			$.each(data, function(index, item){
+				if(item.sublist == undefined){
+					var temp = $('<li><a href="javascript: void(0);">' + item.name + '</a></li>');
+					$(temp).on('click', function(){
+						item.action();
 					});
-					$(temp).find('.dropdown-menu:eq(0)').append(temp2);
-				});
+					module.find('ul:first').append(temp);
+				}else{
+					//仅支持单级菜单
+					var temp = $(
+					'<li class="dropdown">\n' + 
+					'	<a href="#" class="dropdown-toggle" data-toggle="dropdown">\n' +
+					'		' + item.name +' \n' +
+					'		<b class="caret"></b>\n' +
+					'	</a>\n' +
+					'	<ul class="dropdown-menu">\n' +
+					'	</ul>\n' +
+					'</li>'
+					);
+					//加载菜单选项
+					$.each(item.sublist, function(i, sub){
+						var temp2 = $('<li><a href="javascript: void(0);">' + sub.name + '</a></li>');
+						$(temp2).on('click', function(){
+							sub.action();
+						});
+						$(temp).find('.dropdown-menu:eq(0)').append(temp2);
+					});
 
-				module.find('ul:first').append(temp);
-			}
-		});
+					module.find('ul:first').append(temp);
+				}
+			});
+			
+			target.empty();
+			target.append(module);
+		}
 		
-		target.empty();
-		target.append(module);
+		
 	};
 	
+	
+	// 为群组页面加载
+	this.ajaxLoadForGroup = function(groupID){
+		$.ajax({
+			url : URLPrefix + '/group/get-authority-for-current-user/' + groupID,
+			cache : true, 
+			async : true,
+			type : "GET",
+			dataType : 'json',
+			success : function(listOfAuthoriy){
+				if(!Array.isArray(listOfAuthoriy) || listOfAuthoriy == 0){
+					console.log(listOfAuthoriy, 'listOfAuthoriy is not array');
+				}else{
+					var data = obj.getDataGroupSecondNavTop(listOfAuthoriy, groupID);
+					obj.load(data);
+				}	
+			},
+			error: function(err){
+				console.log(err);
+			}
+		});
+	};
 	
 	// 群组过滤器
 	this.getDataGroupSecondNavTop = function(authority, id){
@@ -194,7 +236,7 @@ var SecondNavTopController = function(target){
 			if(authority.includes(6)){
 				temp.sublist.push({
 					name: '成员列表',
-					action: ''
+					action: function(){}
 				});
 			}
 			//成员申请列表
@@ -243,17 +285,9 @@ var CollapseNavLeftController = function(target){
 		'	<ul class="sidebar-menu">\n' +
 		'		<div class="brand">\n' +
 		'			<a href="#" class="title">Transtopia</a>\n' +
-		'			<a href="#" class="btn-hide pull-right"><i class="material-icons">chevron_left</i></a>\n' +
+		'			<a href="javascript:void(0);" class="btn-hide pull-right"><i class="material-icons">chevron_left</i></a>\n' +
 		'		</div>\n' +
-		'		<li class="item"><a href="javascript:void(0);"><i class="fa fa-list-ol"></i><span>发现</span></a></li>\n' +
-		'		<li class="item"><a href="javascript:void(0);"><i class="fa fa-commenting-o"></i><span>消息</span></a></li>\n' +
-		'		<li class="item"><a href="javascript:void(0);"><i class="fa fa-fire"></i><span>社群</span></a></li>\n' +  
-		'		<li class="item"><a href="javascript:void(0);"><i class="fa fa-star"></i><span>人脉</span></a></li>\n' +
-		'		<li class="item"><a href="javascript:void(0);"><i class="fa fa-user-o"></i><span>个人</span></a></li>\n' +
-		'		<li class="divider"></li>\n' +
-		'		<li class="item"><a href="javascript:void(0);"><i class="fa fa-gear"></i><span>设置</span></a></li>\n' +
-		'		<li class="item"><a href="javascript:void(0);"><i class="fa fa-exclamation-triangle"></i><span>反馈</span></a></li>\n' +
-		'		<li class="item"><a href="javascript:void(0);"><i class="fa fa-question-circle"></i><span>帮助</span></a></li>\n' +
+		'		<!-- 加载列表 -->\n' +
 		'	</ul>\n' +
 		'	<div class="bottom">\n' +
 		'		<p>©2017 Transtopia</p>\n' +
@@ -271,16 +305,83 @@ var CollapseNavLeftController = function(target){
 		});
 	})();
 
-	
-	this.load = function(){
+	//通用加载
+	this.load = function(data){
+		//清空
+		module.find('.sidbar-menu li').remove();
+		
+		//加载列表
+		$.each(data, function(index, item){
+			if(item == "divider"){
+				module.find('.sidebar-menu').append('<li class="divider"></li>');
+			}else{
+				module.find('.sidebar-menu').append('<li class="item"><a href="' + item.url + '">' + item.icon + '<span>' + item.name + '</span></a></li>');
+			}
+			
+		});
+		
 		target.empty();
 		target.append(module);
-		
-	}
+	};
+	
+	
+	//默认加载
+	this.defaultLoad = function(){
+		this.load(getDefaultData());
+	};
+	
+	//默认数据
+	var getDefaultData = function(){
+		return [
+			{
+				name: '发现',
+				icon: '<i class="fa fa-list-ol"></i>',
+				href: '#'
+			},
+			{
+				name: '消息',
+				icon: '<i class="fa fa-commenting-o"></i>',
+				href: '#'
+			},
+			{
+				name: '社群',
+				icon: '<i class="fa fa-fire"></i>',
+				href: '#'
+			},
+			{
+				name: '个人',
+				icon: '<i class="fa fa-star"></i>',
+				href: '#'
+			},
+			{
+				name: '人脉',
+				icon: '<i class="fa fa-user-o"></i>',
+				href: '#'
+			},
+			'divider',
+			{
+				name: '设置',
+				icon: '<i class="fa fa-gear"></i>',
+				href: '#'
+			},
+			{
+				name: '反馈',
+				icon: '<i class="fa fa-exclamation-triangle"></i>',
+				href: '#'
+			},
+			{
+				name: '帮助',
+				icon: '<i class="fa fa-question-circle"></i>',
+				href: '#'
+			}
+		];
+	};
+	
 };
 
 /* 4. 加载左下角按钮组件 */
 var RightBotBtnController = function(target){
+	var obj = this;
 	var btnHTML = $('<a class="btn btn-success btn-lg switch-rightbot btn-rightbot"><i class="fa fa-plus"></i></a>');
 	var blockHTML = $('<div class="block-rightbot"></div>');
 	
@@ -291,8 +392,6 @@ var RightBotBtnController = function(target){
 			$(this).find('i').toggleClass('fa-plus').toggleClass('fa-minus');
 			$(blockHTML).toggle(200);
 		});
-		
-		
 	})();
 	
 	//通用加载
@@ -313,6 +412,28 @@ var RightBotBtnController = function(target){
 		target.empty();
 		target.append(btnHTML);
 		target.append(blockHTML);
+	};
+	
+	//群组动态加载
+	this.ajaxLoadForGroup = function(groupID){
+		$.ajax({
+			url : URLPrefix + '/group/get-authority-for-current-user/' + groupID,
+			cache : true, 
+			async : true,
+			type : "GET",
+			dataType : 'json',
+			success : function(listOfAuthoriy){
+				if(!Array.isArray(listOfAuthoriy) || listOfAuthoriy == 0){
+					console.log(listOfAuthoriy, 'listOfAuthoriy is not array');
+				}else{
+					var data = obj.getDataGroupRightBotBtn(listOfAuthoriy, groupID);
+					obj.load(data);
+				}	
+			},
+			error: function(err){
+				console.log(err);
+			}
+		});
 	};
 	
 	
@@ -375,6 +496,7 @@ var RightBotBtnController = function(target){
 
 /* 5. 左侧群组栏控件 */
 var LeftModuleController = function(target){
+	var obj = this;
 	var module = $(
 		'<div class="module-left">\n' +
 		'	<div class="menu-top">\n' +
@@ -389,8 +511,6 @@ var LeftModuleController = function(target){
 		'			<img class="img-circle" data-name="image" />\n' +
 		'		</div>\n' +
 		'		<div class="sign-block">\n' +
-		'			<span data-name="membercount"></span> - \n' +
-		'			<span data-name="introduction"></span>\n' +
 		'		</div>\n' +
 		'		<div class="name" data-name="name"></div>\n' +
 		'		<div class="detail">\n' +
@@ -415,38 +535,22 @@ var LeftModuleController = function(target){
 		'</div>'
 	);
 	
-	
-	//加载信息
-	this.load = function(data){
-		//加载顶端菜单
-		this.addMenu(data.roleinfo, data.id);
+	//加载菜单
+	this.loadMenu = function(list){
+		module.find('.menu-top .menu').empty();
 		
-		module.find('[data-name="bg_image"]').prop('src', data.bg_image);
-		module.find('[data-name="image"]').prop('src', data.image);
-		module.find('[data-name="membercount"]').text('共' + data.innerGroupNumber + '位成员');
-		module.find('[data-name="introduction"]').text(data.introduction);
-		module.find('[data-name="name"]').text(data.name);
-		
-		// 加载群组类别
-		this.loadCategory(data.category);
-		
-		// 加载群组兴趣
-		this.loadTag(data.tags);
-		
-		/* 加载按钮 */
-		this.loadBtnGroup(data.role, data.isMember, data.followed);
-
-		//加载QR
-		module.find('[data-name="qr"]').prop('src', 'dist/img/Qr-code-ver-10.png');
-		
-		target.empty();
-		target.append(module);
-	};
+		/* 来自gear.js */
+		var menu = createMenu(list);
+		module.find('.menu-top .menu').append(menu);
+	}
 	
 	//加载群组类别
 	this.loadCategory = function(list){
 		module.find('[data-name="category"]').empty();
-		if(list.length == 0)
+		
+		if(!Array.isArray(list)){
+			console.log(list, 'list is not array');
+		}else if(list.length == 0)
 			module.find('[data-name="category"]').append('暂无');
 		else
 			$.each(list, function(i, g){
@@ -457,7 +561,10 @@ var LeftModuleController = function(target){
 	//加载群组兴趣
 	this.loadTag = function(list){
 		module.find('[data-name="tag"]').empty();
-		if(list.length == 0)
+		
+		if(!Array.isArray(list)){
+			console.log(list, 'list is not array');
+		}else if(list.length == 0)
 			module.find('[data-name="tag"]').append('暂无');
 		else
 			$.each(list, function(i, t){
@@ -466,60 +573,84 @@ var LeftModuleController = function(target){
 	};
 	
 	//加载按钮组
-	this.loadBtnGroup = function(role, isMember, followed){
+	this.loadBtn = function(list){
+		/* 
+		list: {
+			name:
+			icon:
+			callback:
+		}
+		 */
+
 		module.find('.btn-block').empty();
 		
-		
-		// 关注 / 取关
-		if(isMember == 1){
-			//成员不予许取关
-		}else if(followed == 0){
-			var btn = newBtn('关注群组', 'check_box');
+		$.each(list, function(index, item){
+			var btn = $(
+				'<a href="javascript:void(0);" class="pull-right" title="' + item.name + '">' + item.icon +'</a>'
+			);
+			btn.find('i').css({'font-size': '40px', 'color': '#00a65a', 'padding-left': '15px'});
+			
+			btn.on('click', function(){
+				item.callback();
+			});
 			
 			module.find('.btn-block').append(btn);
-		}else if(followed == 1){
-			var btn = newBtn('取消关注', 'indeterminate_check_box');
-			
-			module.find('.btn-block').append(btn);
-		}else{
-			console.log('待完成');
-		}
-		
-		// 申请加入 / 退群 
-		if(role == 1){
-			//超级管理员不予许退出
-		}else if(isMember == 0){
-			var btn = newBtn('申请加入', 'group_add');
-			
-			module.find('.btn-block').append(btn);
-		}else if(isMember == 1){
-			var btn = newBtn('退出群组', 'not_interested');
-			
-			module.find('.btn-block').append(btn);
-		}else{
-			console.log('待完成');
-		}
-		
-		
-		
+		});
 	};
 	
-	this.addMenu = function(authority, id){
-		var data = getDataGroupMenu(authority, id);
-		var menu = createMenu(data);
-		module.find('.menu-top .menu').append(menu);
-	}
 	
-	// 新建按钮方法
-	var newBtn = function(name, icon){
-		return $(
-			'<a href="javascript:void(0);" class="pull-right" title="' + name + '">\n' +
-			'	<i class="material-icons" style="font-size: 40px; color: #00a65a; padding-left: 15px;">' + icon + '</i>\n' +
-			'</a>'
-		);
+	
+	//ajax加载群组信息
+	this.ajaxLoadForGroup = function(groupID){
+		$.ajax({
+			url : URLPrefix + '/group/operation/get-instance/' + groupID,
+			cache : true, 
+			async : true,
+			type : "GET",
+			dataType : 'json',
+			success : function(group){
+				if(group == null || group == undefined || group == 0){
+					//error
+					console.log(group);
+				}else{
+					//加载顶端菜单
+					var dataMenu = getDataGroupMenu(group.roleinfo, group.id);
+					obj.loadMenu(dataMenu);
+					
+					//加载基本信息
+					module.find('[data-name="bg_image"]').prop('src', ImageURLPrefix + group.bg_image);
+					module.find('[data-name="image"]').prop('src', ImageURLPrefix + group.image);
+					module.find('.sign-block').html(
+						'<span data-name="membercount">共' + group.innerGroupNumber + '位成员</span> - \n' +
+						'<span data-name="introduction">' + group.introduction + '</span>'
+					);
+					module.find('[data-name="name"]').text(group.name);
+					
+					// 加载群组类别
+					obj.loadCategory(group.category);
+					
+					// 加载群组兴趣
+					obj.loadTag(group.tags);
+					
+					/* 加载按钮 */
+					var dataBtn = getDataGroupBtn((group.role == 1 ? 1 : 0), group.isMember, group.isFollower, group.id);
+					obj.loadBtn(dataBtn);
+					
+					//加载QR
+					module.find('[data-name="qr"]').prop('src', 'http://www.appcoda.com/wp-content/uploads/2013/12/qrcode.jpg');
+					
+					target.empty();
+					target.append(module);
+				}	
+			},
+			error: function(err){
+				console.log(err);
+			}
+		});
 	};
 	
-	//获取菜单信息
+
+	//群组菜单信息
 	var getDataGroupMenu = function(authority, id){
 		var data = [];
 		
@@ -622,10 +753,56 @@ var LeftModuleController = function(target){
 		
 		return data;
 	};
+	
+	//群组按钮信息
+	var getDataGroupBtn = function(isOwner, isMember, isFollower, groupID){
+		/* 
+		约束
+			owner不可以退组，不可以取消关注
+			member不可以取消关注
+		 */
+		const data = [{
+			name: '申请加入',
+			icon: '<i class="material-icons">group_add</i>',
+			callback: function(){
+				
+			}
+		},{
+			name: '退出群组',
+			icon: '<i class="material-icons">not_interested</i>',
+			callback: function(){
+				
+			}
+		},{
+			name: '关注群组',
+			icon: '<i class="material-icons">check_box</i>',
+			callback: function(){
+				
+			}
+		},{
+			name: '取消关注',
+			icon: '<i class="material-icons">indeterminate_check_box</i>',
+			callback: function(){
+				
+			}
+		}];
+		
+		//逻辑判断
+		if(isOwner == 1){
+			return [];
+		}else if(isMember){
+			return [data[1]];
+		}else if(isFollower){
+			return [data[0], data[3]];
+		}else{
+			return [data[1], data[3]];
+		};
+	};
 };
 
 /* 6. 更新群组信息模态框组件 */
 var UpdateGroupInfoController = function(groupID){
+	var obj = this;
 	var modal = $(
 		'<div class="modal fade" id="modal-group-edit">\n' +
 		'	<div class="modal-dialog">\n' +
@@ -671,30 +848,33 @@ var UpdateGroupInfoController = function(groupID){
 		'		</div>\n' +
 		'	</div>\n' +
 		'</div>'
-		);
+	);
 	
+	// 加载群组类别
+	this.loadCategory = function(list){
+		modal.find('[name="category"]').empty();
+		if(!Array.isArray(list)){
+			console.log(list, 'list is not array');
+		}else if(list.length == 0)
+			modal.find('[name="category"]').append('<span style="color: rgba(0,0,0,0.54); margin-left: 15px;">暂无</span>');
+		else
+			$.each(list, function(i, g){
+				modal.find('[name="category"]').append('<span class="label" style="margin-right: 5px; background-color: ' + googleColorRandomPicker() + ';">' + g + '</span>');
+			});
+	};
 	
-	var obj = this
-	this.ajaxLoad = function(){
-		$.ajax({
-			url : URLPrefix + '/group/get-instance/' + groupID,
-			data: {},
-			cache : true, 
-			async : true,
-			type : "GET",
-			dataType : 'json',
-			success : function (data){
-				if(data == 0){
-					//error message
-					callAlert('加载失败！', '<i class="material-icons">clear</i>', function(){});
-				}else{
-					obj.load(data);
-				}
-			},
-			error: function(err){
-				callAlert('加载失败！', '<i class="material-icons">clear</i>', function(){});
-			}
-		});
+	// 加载群组兴趣
+	this.loadTag = function(list){
+		modal.find('[name="tag"]').empty();
+		
+		if(!Array.isArray(list)){
+			console.log(list, 'list is not array');
+		}else if(list.length == 0)
+			modal.find('[name="tag"]').append('<span style="color: rgba(0,0,0,0.54); margin-left: 15px;">暂无</span>');
+		else
+			$.each(list, function(i, t){
+				modal.find('[name="tag"]').append('<span class="label" style="margin-right: 5px; background-color: ' + googleColorRandomPicker() + ';">' + t + '</span>');
+			});
 	};
 	
 	//加载数据
@@ -705,50 +885,13 @@ var UpdateGroupInfoController = function(groupID){
 		modal.find('[name="introduction"]').text(data.introduction);
 		
 		// 加载群组类别
-		loadCategory(data.category);
+		this.loadCategory(data.category);
 		
 		//加载群组兴趣
-		loadTag(data.tags);
+		this.loadTag(data.tags);
 	};
 	
-	// 加载群组类别
-	var loadCategory = function(list){
-		modal.find('[name="category"]').empty();
-		
-		if(list.length == 0)
-			modal.find('[name="category"]').append('<span style="color: rgba(0,0,0,0.54); margin-left: 15px;">暂无</span>');
-		else
-			$.each(list, function(i, g){
-				modal.find('[name="category"]').append('<span class="label" style="margin-right: 5px; background-color: ' + googleColorRandomPicker() + ';">' + g + '</span>');
-			});
-	};
-	
-	// 加载群组兴趣
-	var loadTag = function(list){
-		modal.find('[name="tag"]').empty();
-		
-		if(list.length == 0)
-			modal.find('[name="tag"]').append('<span style="color: rgba(0,0,0,0.54); margin-left: 15px;">暂无</span>');
-		else
-			$.each(list, function(i, t){
-				modal.find('[name="tag"]').append('<span class="label" style="margin-right: 5px; background-color: ' + googleColorRandomPicker() + ';">' + t + '</span>');
-			});
-	};
-	
-	//获取数据
-	this.getData = function(){
-		var data = {
-			name: modal.find('[name="name"]').prop('value'),
-			introduction: modal.find('[name="introduction"]').text()
-		};
-		
-		data.category = getCategory();;
-		
-		data.tags = getTag();
-		
-		return data;
-	};
-	
+	//获取群组类别数据
 	var getCategory = function(){
 		var category = [];
 		$.each(modal.find('[name="category"] .label'), function(index, item){
@@ -757,6 +900,7 @@ var UpdateGroupInfoController = function(groupID){
 		return category;
 	}
 	
+	//获取群组兴趣数据
 	var getTag = function(){
 		var tags = [];
 		$.each(modal.find('[name="tag"] .label'), function(index, item){
@@ -770,44 +914,59 @@ var UpdateGroupInfoController = function(groupID){
 		modal.find('[data-target="image"]').prop('src', ImageURLPrefix + src);
 	};
 	
-	//更新群头像
+	//更新群背景图
 	var updateGroupBGImage = function(src){
 		modal.find('[data-target="bg_image"]').prop('src', ImageURLPrefix + src);
 	};
 	
+	
+	//获取数据
+	this.getData = function(){
+		var data = {
+			name: modal.find('[name="name"]').prop('value'),
+			introduction: modal.find('[name="introduction"]').text(),
+			gid: groupID
+		};
+		
+		data.category = getCategory();;
+		
+		data.tags = getTag();
+		
+		return data;
+	};
+	
 
+	//ajax加载
+	this.ajaxLoad = function(){
+		$.ajax({
+			url : URLPrefix + '/group/operation/get-instance/' + groupID,
+			cache : true, 
+			async : true,
+			type : "GET",
+			dataType : 'json',
+			success : function (group){
+				if(group == null || group == undefined || group == 0){
+					// error message
+					// callAlert('加载失败！', '<i class="material-icons">clear</i>', function(){});
+					console.log('group is 0 or null or undefined');
+				}else{
+					obj.load(group);
+					modal.modal('show');
+				}
+			},
+			error: function(err){
+				callAlert('加载失败！', '<i class="material-icons">clear</i>', function(){});
+			}
+		});
+	};
+	
+	
 	//初始化
 	(function(){
 		//加载slimscroll
 		modal.find('[name="introduction"]').slimScroll({
 			width: '100%',
 			height: '68px' 
-		});
-		
-		//submit
-		modal.find('[data-action="submit"]').on('click', function(){
-			$.ajax({
-				url : URLPrefix + '/group/chen-operation/25/' + groupID,
-				data: obj.getData(),
-				cache : true, 
-				async : true,
-				type : "GET",
-				dataType : 'json',
-				success : function (data){
-					if(data == 0){
-						//error message
-						callAlert('错误！', '<i class="material-icons">clear</i>', function(){});
-					}else{
-						callAlert('修改成功！', '<i class="material-icons">done</i>', function(){
-							modal.modal('hide');
-							//###刷新页面
-						});
-					}
-				},
-				error: function(err){
-					callAlert('错误！', '<i class="material-icons">clear</i>', function(){});
-				}
-			});
 		});
 		
 		//更新图片
@@ -820,34 +979,63 @@ var UpdateGroupInfoController = function(groupID){
 			updateImage(groupID, '/uploadfile_beta', updateGroupBGImage);
 		});
 		
+		
 		//修改群组种类
 		modal.find('[data-action="editcategory"]').on('click', function(){
 			var MController = new multiController('群组类别', '<i class="material-icons">loyalty</i>');
 			MController.load(getCategory(), '/group/operation/get-all-category/', '/group/operation/add-category/', function(data){
-				loadCategory(data);
+				obj.loadCategory(data);
 			});
 		});
 		
-		//修改群组种类
+		//修改群组兴趣
 		modal.find('[data-action="edittag"]').on('click', function(){
-			var MController = new multiController('群组兴趣', '<i class="material-icons">loyalty</i>');
+			var MController = new multiController('群组兴趣', '<i class="material-icons">mode_edit</i>');
 			MController.load(getTag(), '/group/operation/get-all-tag/', '/group/operation/add-tag/', function(data){
-				loadTag(data);
+				obj.loadTag(data);
 			});
 		});
 		
+		
+		
+		//submit
+		modal.find('[data-action="submit"]').on('click', function(){
+			$.ajax({
+				url : URLPrefix + '/group/operation/update-basic-info/',
+				data: obj.getData(),
+				cache : true, 
+				async : true,
+				type : "GET",
+				dataType : 'json',
+				success : function (data){
+					if(data == 0){
+						//error message
+						callAlert('错误！', '<i class="material-icons">clear</i>', function(){});
+					}else{
+						callAlert('修改成功！', '<i class="material-icons">done</i>', function(){
+							window.location.reload(true);
+							// modal.modal('hide');
+						});
+					}
+				},
+				error: function(err){
+					callAlert('错误！', '<i class="material-icons">clear</i>', function(){});
+				}
+			});
+		});
+		
+
 		//关闭模态框时，自动删除
 		modal.on('hidden.bs.modal', function(){
 			$(this).remove();
 		});
-			
-		modal.modal('show');
 	})();
 	
 };
 
 /* 7. 修改群设置模态框组件 */
 var UpdateGroupSettingController = function(groupID){
+	var obj = this;
 	var modal = $(
 		'<div class="modal fade">\n' + 
 		'	<div class="modal-dialog">\n' + 
@@ -911,26 +1099,6 @@ var UpdateGroupSettingController = function(groupID){
 		'</div>'
 	);
 	
-	var obj = this;
-	this.ajaxLoad = function(){
-		$.ajax({
-			url : URLPrefix + '/group/get-instance/' + groupID,
-			data: {},
-			cache : true, 
-			async : true,
-			type : "GET",
-			dataType : 'json',
-			success : function (data){
-				if(data == 0){
-					//error message
-				}else{
-					//加载数据
-					obj.load(data);
-				}
-			}
-		});
-	};
-	
 	//加载数据
 	this.load = function(data){
 		modal.find('[name="allow_new_member_validation"]').prop('checked', data.allow_new_member_validation);
@@ -952,6 +1120,29 @@ var UpdateGroupSettingController = function(groupID){
 		return formData;
 	};
 	
+	//ajax加载
+	this.ajaxLoad = function(){
+		$.ajax({
+			url : URLPrefix + '/group/operation/get-group-settings/' + groupID,
+			cache : true, 
+			async : true,
+			type : "GET",
+			dataType : 'json',
+			success : function (data){
+				if(data == 0){
+					//error message
+				}else{
+					//加载数据
+					obj.load(data);
+							
+					//显示模态框
+					modal.modal('show');
+				}
+			}
+		});
+	};
+	
+	
 	//初始化
 	(function(){
 		//提交表单事件
@@ -972,7 +1163,7 @@ var UpdateGroupSettingController = function(groupID){
 
 			
 			$.ajax({
-				url : URLPrefix + '/group/chen-operation/26/' + groupID + '/' + option + '/' + value,
+				url : URLPrefix + '/group/operation/update-group-settings/' + groupID + '/' + option + '/' + value,
 				cache : true, 
 				async : true,
 				type : "GET",
@@ -999,15 +1190,14 @@ var UpdateGroupSettingController = function(groupID){
 		//关闭时清楚模块
 		modal.on('hidden.bs.modal', function(){
 			$(this).remove();
+			window.location.reload(true);
 		});
-		
-		//显示模态框
-		modal.modal('show');
 	})();
 };
 
 /* 8. 查看群设置模态框控件 */
 var CheckGroupSettingController = function(groupID){
+	var obj = this;
 	var modal = $(
 		'<div class="modal fade">\n' + 
 		'	<div class="modal-dialog">\n' + 
@@ -1051,29 +1241,6 @@ var CheckGroupSettingController = function(groupID){
 		'</div>'
 	);
 	
-	var obj = this;
-	this.ajaxLoad = function(){
-		$.ajax({
-			url : URLPrefix + '/group/get-instance/' + groupID,
-			data: {},
-			cache : true, 
-			async : true,
-			type : "GET",
-			dataType : 'json',
-			success : function (data){
-				if(data == 0){
-					//error message
-				}else{
-					//加载数据
-					obj.load(data);
-					
-
-				}
-			}
-		});
-	};
-	
-	
 	//加载数据
 	this.load = function(data){
 		var doneStyle = '<i class="material-icons" style="font-weight: bold;color: rgba(0,255,0,.5);">done</i>';
@@ -1086,15 +1253,34 @@ var CheckGroupSettingController = function(groupID){
 		modal.find('[name="allow_post_share_following"]').append(data.allow_post_share_following ? doneStyle : clearStyle);
 	};
 	
+	//ajax加载
+	this.ajaxLoad = function(){
+		$.ajax({
+			url : URLPrefix + '/group/operation/get-group-settings/' + groupID,
+			data: {},
+			cache : true, 
+			async : true,
+			type : "GET",
+			dataType : 'json',
+			success : function (data){
+				if(data == 0){
+					//error message
+				}else{
+					//加载数据
+					obj.load(data);
+					
+					modal.modal('show');
+				}
+			}
+		});
+	};
+	
 	//初始化
 	(function(){
 		//关闭时清楚模块
 		modal.on('hidden.bs.modal', function(){
 			$(this).remove();
 		});
-		
-		//显示模态框
-		modal.modal('show');
 	})();
 };
 
@@ -1144,7 +1330,7 @@ var CreateGroupController = function(){
 	var getData = function(){
 		return {
 			name: html.find('input:eq(0)').val(),
-			askToJoin: html.find('input[type=\'checkbox\']').is(':checked')
+			allow_new_member_validation: html.find('input[type=\'checkbox\']').is(':checked')
 		};
 	};
 	
@@ -1175,7 +1361,7 @@ var CreateGroupController = function(){
 			if(validation(data)){
 				//提交
 				$.ajax({
-					url : '/group/operation/create-group/',
+					url : URLPrefix + '/group/operation/create-group/',
 					data: data,
 					cache : false, 
 					async : false,
@@ -1186,8 +1372,8 @@ var CreateGroupController = function(){
 							callAlert('创建失败！', '<i class="material-icons">clear</i>', function(){});
 						}else{
 							callAlert('创建成功！', '<i class="material-icons">done</i>', function(){
-								html.modal('hide');
-								//result{gid: groupid, gname: groupname}
+								//html.modal('hide');
+								window.location.replace(URLPrefix + '/user/group/' + result.gid);
 							});
 						}
 					},
@@ -1328,7 +1514,7 @@ var PostController = function(){
 				if(result == 0){
 					callAlert('加载失败！', '<i class="material-icons">error_outline</i>', function(){});
 				}else{
-					modal.find('[data-name="image"]').prop('src', result.image);
+					modal.find('[data-name="image"]').prop('src', ImageURLPrefix + result.image);
 				}
 			},
 			error: function(err){

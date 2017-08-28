@@ -21,6 +21,9 @@ var testObj = function(name, inner){
 		this.name = name;
 	}
 }
+/* var a = null;
+console.log(a);
+console.log(Array.isArray(a)); */
 /* 
 var newObj = new testObj(1, 2);
 console.log(newObj.name);

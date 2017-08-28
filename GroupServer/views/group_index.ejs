@@ -189,72 +189,27 @@
 	
 		var groupid = 123;
 		
-		$.ajax({
-			url : URLPrefix + '/group/get-instance/' + groupid,
-			data: {},
-			cache : true, 
-			async : true,
-			type : "GET",
-			dataType : 'json',
-			success : function (group){
-				if(group == 0){
-					//提示错误信息
-				}else{
-				
-				//1. 加载置顶一级导航栏
-				//查询User信息
-				$.ajax({
-					url : '/user/current-user',
-					data: {},
-					cache : true, 
-					async : true,
-					type : "GET",
-					dataType : 'json',
-					success : function (user){
-						if(user == 0){
-							//提示错误信息
-						}else{
-							var dataNavTopFirst = {
-								title: '群组',
-								face_image: user.face_image,
-								name: user.name
-							};
-							var FNTController = new FirstNavTopController($('#nav-top-first'));
-							FNTController.load(dataNavTopFirst);
-						}
-					}
-				});
-				
-				
-				//2. 加载置顶二级导航栏
-				var SNTController = new SecondNavTopController($('#nav-top-second'));
-				var dataSNT = SNTController.getDataGroupSecondNavTop(group.roleinfo, group.id);
-				SNTController.load(dataSNT);
-				
-				//3. 加载左侧折叠导航(未完成)
-				var CNLController = new CollapseNavLeftController($('#nav-left-collapse'));
-				CNLController.load();
-				
-				//4. 加载群组信息栏
-				var LMController = new LeftModuleController($('.block-left'));
-				LMController.load(group);
-				
-				//5. 加载右下角按钮组件
-				var RBBController = new RightBotBtnController($('#btngroup-rightbot'));
-				var dataRBB = RBBController.getDataGroupRightBotBtn(group.roleinfo, group.id);
-				console.log()
-				RBBController.load(dataRBB);
-				/*var dataBtnGroup = getDataRightBotBtnGroup(group.roleinfo, group);
-				$('#btngroup-rightbot').createRightBotBlock(dataBtnGroup);*/
-				
-				}
-			}
-		});
+		//1. 加载置顶一级导航栏
+		//查询User信息
+		var FNTController = new FirstNavTopController($('#nav-top-first'));
+		FNTController.ajaxLoad('群组');
+		
+		//2. 加载置顶二级导航栏
+		var SNTController = new SecondNavTopController($('#nav-top-second'));
+		SNTController.ajaxLoadForGroup(groupid);
+		
+		//3. 加载左侧折叠导航(未完成)
+		var CNLController = new CollapseNavLeftController($('#nav-left-collapse'));
+		CNLController.defaultLoad();
+		
+		//4. 加载群组信息栏
+		var LMController = new LeftModuleController($('.block-left'));
+		LMController.ajaxLoadForGroup(groupid);
 		
 		
-		
-		
-		
+		//5. 加载右下角按钮组件
+		var RBBController = new RightBotBtnController($('#btngroup-rightbot'));
+		RBBController.ajaxLoadForGroup(groupid);
 		
 	});
 	</script>

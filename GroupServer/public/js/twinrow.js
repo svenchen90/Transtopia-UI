@@ -301,7 +301,7 @@ var multiController = function(title, iconStyle){
 			
 			//加载模态框数据
 			createModal.find('.modal-title').text('新增' + title);
-			createModal.find('input').prop('placeholder',　'请输入新增' + title);
+			createModal.find('input').prop('placeholder', '请输入新增' + title);
 			
 			//提交操作 addURL
 			createModal.find('[data-action="submit"]').on('click', function(){
@@ -355,6 +355,7 @@ var multiController = function(title, iconStyle){
 		var result = [];
 		
 		$.each(list, function(index, item){
+			console.log(item);
 			var data = {
 				name: item,
 				icon: iconStyle,
@@ -399,7 +400,6 @@ var multiController = function(title, iconStyle){
 				}else{
 					// 获取列表
 					var cardList = getCardListTop(result);
-			
 					// 加载数据
 					modal.reloadTop(cardList);
 				}
