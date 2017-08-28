@@ -2363,7 +2363,7 @@ router.get('/group/get-instance/123', function(req, res, next) {
 		res.json(0);
 	else
 		res.json({
-			gid: '123',
+			id: '123',
 			name: '交托帮', 
 			datetime: '2017-07-05',
 			image: 'dist/img/default6.png', 
@@ -2396,8 +2396,8 @@ router.get('/group/get-instance/123', function(req, res, next) {
 			role: 1, 
 			roleinfo: [2,3,4,6,7,8,9,11,12,16,17,18,19,20,21,22,23,24,25,101,102], 
 			slef_admin_info: [], 
-			followed: 0,
-			isMember: 0
+			followed: 1,
+			isMember: 1
 		});
 });
 
@@ -2425,7 +2425,7 @@ router.get('/user/current-user', function(req, res, next){
 			titles: ['软件工程师', '前端工程师'],
 			cates: ['资讯', '日记', '视频'],
 			tags: ['设计', '交叉口设计', '信号灯设计', '统计', '软件工程'],
-			face_image: 'dist/img/avatar04.png',
+			image: 'dist/img/avatar04.png',
 			bg_image: 'dist/img/default_group_bg.jpg',
 			country: '中国', 
 			province: '湖北', 
@@ -2508,11 +2508,121 @@ router.get('/group/chen-operation/4/123456', function(req, res, next){
 router.get('/group/chen-operation/5', function(req, res, next){
 	res.json(["交叉口设计","城市规划","交通流量统计","绘图","设计","游戏设计","篮球","PND","DLL","Movie","检测器","交通控制","安全","高效","鲁棒","研究性学习","优化","科研","会议","图论","报告","TCRP","公交","智慧城市","智慧交通","共享经济","人工智能","ACRP","研究","桥梁","铁路桥","求职","教职","车联网","编程工具","在线教学","产品需求","算法设计","游戏管理","SONGS","NBA","POR","test"]);
 });
+
 router.get('/group/chen-operation/6/123456', function(req, res, next){
 	res.json({
 		name: 123456
 	})
 });
+
+router.get('/group/operation/get-blacklist/123', function(req, res, next){
+	if(Math.random() >= 0.05){
+		res.json([
+			{
+				id: 123,
+				name: '张震宇',
+				image: 'dist/img/user1-128x128.jpg'
+			},{
+				id: 456,
+				name: '刘强',
+				image: 'dist/img/user2-160x160.jpg'
+			},{
+				id: 789,
+				name: '方怡',
+				image: 'dist/img/user3-128x128.jpg'
+			}
+		]);
+	}else{
+		res.json(0);
+	}
+});
+router.get('/group/operation/remove-user-blacklist/123/123', function(req, res, next){
+	if(Math.random() >= 0.05){
+		res.json(1);
+	}else{
+		res.json(0);
+	}
+});
+
+router.get('/group/get-category/123', function(req, res, next){
+	if(Math.random() >= 0.05){
+		res.json(['资讯', '日记', '视频']);
+	}else{
+		res.json(0);
+	}
+});
+
+/* 类别 */
+router.get('/group/operation/get-all-category/', function(req, res, next){
+	if(Math.random() >= 0.05){
+		res.json(["资讯","资源","日记","知识","工具","教学","提问","产品","直播","LOL","AI","咨询","论文","科研","项目报告","MSI","我的世界","名片"]);
+	}else{
+		res.json(0);
+	}
+});
+
+router.get('/group/operation/add-category/123', function(req, res, next){
+	res.json({name: '测试数据'});
+});
+
+router.get('/group/operation/update-category/123', function(req, res, next){
+	console.log(req.query);
+	if(Math.random() >= 0.5){
+		res.json(1);
+	}else{
+		res.json(0);
+	}
+});
+
+/* 兴趣 */
+router.get('/group/get-tag/123', function(req, res, next){
+	if(Math.random() >= 0.05){
+		res.json(['设计', '交叉口设计', '信号灯设计', '统计', '软件工程']);
+	}else{
+		res.json(0);
+	}
+});
+
+router.get('/group/operation/get-all-tag/', function(req, res, next){
+	if(Math.random() >= 0.05){
+		res.json(["交叉口设计","城市规划","交通流量统计","绘图","设计","游戏设计","篮球","PND","DLL","Movie","检测器","交通控制","安全","高效","鲁棒","研究性学习","优化","科研","会议","图论","报告","TCRP","公交","智慧城市","智慧交通","共享经济","人工智能","ACRP","研究","桥梁","铁路桥","求职","教职","车联网","编程工具","在线教学","产品需求","算法设计","游戏管理","SONGS","NBA","POR","test"]);
+	}else{
+		res.json(0);
+	}
+});
+
+router.get('/group/operation/add-tag/123', function(req, res, next){
+	res.json({name: '测试数据'});
+});
+
+router.get('/group/operation/update-tag/123', function(req, res, next){
+	console.log(req.query);
+	if(Math.random() >= 0.5){
+		res.json(1);
+	}else{
+		res.json(0);
+	}
+});
+
+router.get('/group/operation/create-group/', function(req, res, next){
+	console.log(req.query);
+	if(Math.random() >= 0.5){
+		res.json(1);
+	}else{
+		res.json(0);
+	}
+});
+
+router.get('/group/chen-operation/14', function(req, res, next){
+	console.log(req.query);
+	if(Math.random() >= 0.5){
+		res.json(1);
+	}else{
+		res.json(0);
+	}
+});
+
+
 
 
 module.exports = router;

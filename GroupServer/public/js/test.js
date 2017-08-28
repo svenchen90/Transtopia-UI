@@ -3,8 +3,12 @@ var testObj = function(name, inner){
 	var inner = inner;
 	
 	this.getInner = function(){
-		privateInner();
+		this.test();
 	};
+	
+	this.test = function(){
+		console.log(11);
+	}
 	
 	var privateInner = function(){
 		console.log(inner);
