@@ -1,0 +1,11 @@
+.multiline-ellipsis {
+	display: block;
+	display: -webkit-box;
+	height: 42px;
+	margin: 0 auto;
+	line-height: 1.4;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

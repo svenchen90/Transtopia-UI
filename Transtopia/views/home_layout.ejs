@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>交托帮</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+		<!-- Bootstrap 4.0 -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.7/js/tether.min.js" integrity="sha384-XTs3FgkjiBgo8qjEjBk0tGmf3wPrWtA6coPfQDfFEY8AnYJwjalXCiosYRBIBZX8" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	</head>
+	<body>
+		<div class="navbar navbar-fixed-top bg-faded" style="border-bottom:1px solid #ccc;">
+			<a class="navbar-brand" href="#">
+				<!-- <img src="images/logoMain.jpg" style="height:50px;"> -->
+				Transtopia
+			</a>
+			<div class="nav navbar-nav text-uppercase" style="font-weight:bold;">
+				<a class="nav-item nav-link" href="#">项目文件管理</a>
+				<a class="nav-item nav-link" href="#">应用管理</a>
+				<a class="nav-item nav-link" href="#">动态</a>
+				<a class="nav-item nav-link" href="#">消息</a>
+				<a class="nav-item nav-link" href="#">好友管理</a>
+			</div>
+			<ul class="nav navbar-nav text-uppercase float-md-right" style="font-weight:bold;">
+				<li class="nav-item">
+					<img id="nav-avatar" src="images/default_avatar_male.jpg" class="img-thumbnail navbar-btn" style="height:40px;"/>
+				</li>
+				<li class="nav-item form-inline float-xs-left">
+					<div class="input-group">
+					<input id="search-field" class="form-control" type="text" placeholder="Search">
+					<span class="input-group-btn">
+						<button id="search-btn" class="btn btn-secondary" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+					</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+		
+		<!-- Main Pennel -->
+		<div class="pannel-main">
+			<!-- Pannel at Right -->
+			<div class="pannel-right animation-toggle">
+				<div style="height: 100%;">
+					<!-- Nav of Pannel at Right -->
+					<div class="navbar">
+						<div class="navbar-brand"><a id="btn-toggle" href="#"><i class="fa fa-bars"></i></a> 我的交托邦</div>
+						<div class="nav navbar-nav float-xs-right" style="font-weight:bold;">
+							<a class="nav-item nav-link" href="#" onclick="$('#uploadFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="上传文件"><i class="fa fa-cloud-upload"></i></a>
+							<a class="nav-item nav-link" href="#" onclick="$('#createFolderModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="新建文件夹"><i class="fa fa-folder-o"></i></a>
+							<a class="nav-item nav-link" href="#" onclick="$('#createProjectModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="新建项目"><i class="fa fa-file"></i></a>
+							<a class="nav-item nav-link" href="#" onclick="$('#emptyRecycleModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="清空回收站"><i class="fa fa-recycle"></i></a>
+							<a class="nav-item nav-link" href="#" data-toggle="dropdown"><i class="fa fa-commenting-o"></i><span class="tag tag-default tag-danger float-xs-right">3</span></a>
+							<!-- Dropdown of New Message -->
+							<div class="dropdown-menu  dropdown-menu-right">
+								<h6 class="dropdown-header">显示动态消息</h6>
+								<a class="dropdown-item" href="#">2017年01月05日 09时25分23秒 用户Sven在【我的交托邦/】下上传了文件v3_copy1.docx</a>
+								<a class="dropdown-item" href="#">2017年01月05日 06时35分59秒 用户Sven在【我的交托邦/】下上传了文件amazon.pdf</a>
+								<a class="dropdown-item" href="#">2017年01月05日 06时36分36秒 用户Sven在【我的交托邦/】下上传了文件v3.docx</a>
+							</div>
+							<!-- End of Dropdown -->
+							<div class="nav-item form-inline">
+								<div class="input-group">
+									<input id="search-field" class="form-control" type="text" placeholder="Search">
+									<span class="input-group-btn">
+										<button id="search-btn" class="btn btn-secondary" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Modal of Update File -->
+					<div class="modal fade in" id="uploadFileModal" role="dialog" show="1">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">&nbsp;&nbsp;&nbsp;&nbsp;
+									<button type="button" id="uploadFileButtonClose" class="close" onclick="closeFileModal()">×</button>
+									<button type="button" style="position:relative;left:-10px;" id="uploadFileButtonMinus" class="close" onclick="minFileModal()">−</button>
+									<h4 class="modal-title">上传文件到Transtopia</h4>
+								</div>
+								<div class="modal-body" id="uploadBodyPart" size="0" donesize="0">
+									<p>请上传文件到Transtopia,你可以一次上传多个文件</p>
+									<table id="addedFiles" index="0">
+										<tbody>
+											<tr>
+												<th class="uploadTD1">文件名称</th>
+												<th class="uploadTD2">文件大小</th>
+												<th class="uploadTD3">上传进度</th>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="modal-footer">
+									<form id="formData" method="post" name="files[]" enctype="multipart/form-data">
+									<input id="uploadFile_mine" type="file" style="visibility:hidden" class="upinput" multiple="" name="files[]" onchange="showFileProcess_1()">
+										<span class="btn btn-primary upbutton" onclick="loadFileButton();">
+											<span class="btn btn-primary upname">选择文件</span>
+										</span>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- End of Modal -->
+					<!-- Modal of Create Folder -->
+					<div class="modal fade in" id="createFolderModal" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" onclick="closeModal()">×</button>
+									<h4 class="modal-title">新建文件夹</h4>
+								</div>
+								<div id="project_types" class="modal-body" type="0" number="3">
+									<span>填写文件夹名称:&nbsp;</span>
+									<input type="text" id="p_type_name" class="">
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" onclick="closeModal()">关闭</button>
+									<button type="button" class="btn btn-default" id="mp2" onclick="initNewProjectFolder('0')">确定</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- End of Modal -->
+					<!-- Modal of Create Project  -->
+					<div class="modal fade in" id="createProjectModal" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" onclick="closeModal()">×</button>
+									<h4 class="modal-title">创建项目</h4>
+								</div>
+								<div id="project_types" class="modal-body" type="0" number="3">
+									<span>选择项目类型:&nbsp;</span>
+									<select class="list-group" id="f_project_type">
+										<option value="3" id="p_type_3">调查项目</option>
+									</select>&nbsp;&nbsp;&nbsp;
+									<span>填写项目名称:&nbsp;</span>
+									<input type="text" id="p_type_name" class="">
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" onclick="closeModal()">关闭</button>
+									<button type="button" class="btn btn-default" id="mp1" onclick="initNewProject('0')">确定</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- End of Modal -->
+					<!-- Modal of Empty Recycle -->
+					<div class="modal fade in" id="emptyRecycleModal" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" onclick="closeModal()">×</button>
+									<h4 class="modal-title">清空回收站</h4>
+								</div>
+								<div class="modal-body">
+									<span>您确定要清空回收站吗？</span>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" onclick="closeModal()">取消</button>
+									<button type="button" class="btn btn-default">确定</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- End of Modal -->
+					<!-- End of Nav  -->
+					<!-- Table of Files and Projects -->
+					<table class="table table-striped table-hover">
+						<thead>
+							<tr>
+								<th>名称</th>
+								<th>修改时间</th>
+								<th>创建人</th>
+								<th>分享人员</th>
+								<th>操作功能</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+								<a href="#"><i class="fa fa-folder-o"></i> 文件夹</a>
+								</td>
+								<td>2017/01/02 21:31:38</td>
+								<td>Sven</td>
+								<td>
+								<a href="#" data-toggle="tooltip" data-placement="bottom" title="Sven"><img id="nav-avatar" src="images/default_avatar_male.jpg" class="img-thumbnail navbar-btn" style="height:30px;"/></a>
+								<a href="#" data-toggle="tooltip" data-placement="bottom" title="Sven"><img id="nav-avatar" src="images/default_avatar_male.jpg" class="img-thumbnail navbar-btn" style="height:30px;"/></a>
+								<a href="#" data-toggle="tooltip" data-placement="bottom" title="Sven"><img id="nav-avatar" src="images/default_avatar_male.jpg" class="img-thumbnail navbar-btn" style="height:30px;"/></a>
+								<a href="#" data-toggle="tooltip" data-placement="bottom" title="Sven"><img id="nav-avatar" src="images/default_avatar_male.jpg" class="img-thumbnail navbar-btn" style="height:30px;"/></a>
+								<a href="#" data-toggle="tooltip" data-placement="bottom" title="更多">...</a>
+								</td>
+								<td>
+								<a href="#" onclick="$('#sharingModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="分享"><i class="fa fa-users"></i></a>
+								<a href="#" onclick="$('#renameFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="重命名"><i class="fa fa-pencil-square-o"></i></a>
+								<a href="#" onclick="$('#copyFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="复制"><i class="fa fa-files-o"></i></a>
+								<a href="#" onclick="$('#moveFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="移动"><i class="fa fa-arrows"></i></a>
+								<a href="#" onclick="$('#deleteModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="删除"><i class="fa fa-trash"></i></a>
+								</td>
+							</tr>
+							<tr>
+								<td>
+								<a href="#"><i class="fa fa-map-o"></i> 流量调查项目</a>
+								</td>
+								<td>2017/01/02 21:31:38</td>
+								<td>Sven</td>
+								<td>-</td>
+								<td>
+								<a href="#" onclick="$('#sharingModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="分享"><i class="fa fa-users"></i></a>
+								<a href="#" onclick="$('#renameFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="重命名"><i class="fa fa-pencil-square-o"></i></a>
+								<a href="#" onclick="$('#copyFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="复制"><i class="fa fa-files-o"></i></a>
+								<a href="#" onclick="$('#moveFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="移动"><i class="fa fa-arrows"></i></a>
+								<a href="#" onclick="$('#deleteModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="删除"><i class="fa fa-trash"></i></a>
+								<a href="#" data-toggle="tooltip" data-placement="bottom" title="下载"><i class="fa fa-download"></i></a>
+								</td>
+							</tr>
+							<tr>
+								<td>
+								<a href="#"><i class="fa fa-road"></i> 信号灯配时</a>
+								</td>
+								<td>2017/01/02 21:31:38</td>
+								<td>Sven</td>
+								<td>-</td>
+								<td>
+								<a href="#" onclick="$('#sharingModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="分享"><i class="fa fa-users"></i></a>
+								<a href="#" onclick="$('#renameFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="重命名"><i class="fa fa-pencil-square-o"></i></a>
+								<a href="#" onclick="$('#copyFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="复制"><i class="fa fa-files-o"></i></a>
+								<a href="#" onclick="$('#moveFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="移动"><i class="fa fa-arrows"></i></a>
+								<a href="#" onclick="$('#deleteModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="删除"><i class="fa fa-trash"></i></a>
+								<a href="#" data-toggle="tooltip" data-placement="bottom" title="下载"><i class="fa fa-download"></i></a>
+								</td>
+							</tr>
+							<tr>
+								<td>
+								<a href="#"><i class="fa fa-lightbulb-o"></i> 其它</a>
+								</td>
+								<td>2017/01/02 21:31:38</td>
+								<td>Sven</td>
+								<td>-</td>
+								<td>
+								<a href="#" onclick="$('#sharingModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="分享"><i class="fa fa-users"></i></a>
+								<a href="#" onclick="$('#renameFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="重命名"><i class="fa fa-pencil-square-o"></i></a>
+								<a href="#" onclick="$('#copyFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="复制"><i class="fa fa-files-o"></i></a>
+								<a href="#" onclick="$('#moveFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="移动"><i class="fa fa-arrows"></i></a>
+								<a href="#" onclick="$('#deleteModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="删除"><i class="fa fa-trash"></i></a>
+								<a href="#" data-toggle="tooltip" data-placement="bottom" title="下载"><i class="fa fa-download"></i></a>
+								</td>
+							</tr>
+							<tr>
+								<td>
+								<a href="#"><i class="fa fa-file-text-o"></i> 文本文件</a>
+								</td>
+								<td>2017/01/02 21:31:38</td>
+								<td>Sven</td>
+								<td>-</td>
+								<td>
+								<a href="#" onclick="$('#sharingModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="分享"><i class="fa fa-users"></i></a>
+								<a href="#" onclick="$('#renameFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="重命名"><i class="fa fa-pencil-square-o"></i></a>
+								<a href="#" onclick="$('#copyFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="复制"><i class="fa fa-files-o"></i></a>
+								<a href="#" onclick="$('#moveFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="移动"><i class="fa fa-arrows"></i></a>
+								<a href="#" onclick="$('#deleteModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="删除"><i class="fa fa-trash"></i></a>
+								<a href="#" data-toggle="tooltip" data-placement="bottom" title="下载"><i class="fa fa-download"></i></a>
+								</td>
+							</tr>
+							<tr>
+								<td>
+								<a href="#"><i class="fa fa-file-image-o"></i> 图片文件</a>
+								</td>
+								<td>2017/01/02 21:31:38</td>
+								<td>Sven</td>
+								<td>-</td>
+								<td>
+								<a href="#" onclick="$('#sharingModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="分享"><i class="fa fa-users"></i></a>
+								<a href="#" onclick="$('#renameFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="重命名"><i class="fa fa-pencil-square-o"></i></a>
+								<a href="#" onclick="$('#copyFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="复制"><i class="fa fa-files-o"></i></a>
+								<a href="#" onclick="$('#moveFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="移动"><i class="fa fa-arrows"></i></a>
+								<a href="#" onclick="$('#deleteModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="删除"><i class="fa fa-trash"></i></a>
+								<a href="#" data-toggle="tooltip" data-placement="bottom" title="下载"><i class="fa fa-download"></i></a>
+								</td>
+							</tr>
+							<tr>
+								<td>
+								<a href="#"><i class="fa fa-file-pdf-o"></i> PDF文件</a>
+								</td>
+								<td>2017/01/02 21:31:38</td>
+								<td>Sven</td>
+								<td>-</td>
+								<td>
+								<a href="#" onclick="$('#sharingModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="分享"><i class="fa fa-users"></i></a>
+								<a href="#" onclick="$('#renameFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="重命名"><i class="fa fa-pencil-square-o"></i></a>
+								<a href="#" onclick="$('#copyFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="复制"><i class="fa fa-files-o"></i></a>
+								<a href="#" onclick="$('#moveFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="移动"><i class="fa fa-arrows"></i></a>
+								<a href="#" onclick="$('#deleteModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="删除"><i class="fa fa-trash"></i></a>
+								<a href="#" data-toggle="tooltip" data-placement="bottom" title="下载"><i class="fa fa-download"></i></a>
+								</td>
+							</tr>
+							<tr>
+								<td>
+								<a href="#"><i class="fa fa-file-word-o"></i> Word文件</a>
+								</td>
+								<td>2017/01/02 21:31:38</td>
+								<td>Sven</td>
+								<td>-</td>
+								<td>
+								<a href="#" onclick="$('#sharingModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="分享"><i class="fa fa-users"></i></a>
+								<a href="#" onclick="$('#renameFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="重命名"><i class="fa fa-pencil-square-o"></i></a>
+								<a href="#" onclick="$('#copyFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="复制"><i class="fa fa-files-o"></i></a>
+								<a href="#" onclick="$('#moveFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="移动"><i class="fa fa-arrows"></i></a>
+								<a href="#" onclick="$('#deleteModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="删除"><i class="fa fa-trash"></i></a>
+								<a href="#" data-toggle="tooltip" data-placement="bottom" title="下载"><i class="fa fa-download"></i></a>
+								</td>
+							</tr>
+							<tr>
+								<td>
+								<a href="#"><i class="fa fa-file-excel-o"></i> Excel文件</a>
+								</td>
+								<td>2017/01/02 21:31:38</td>
+								<td>Sven</td>
+								<td>-</td>
+								<td>
+								<a href="#" onclick="$('#sharingModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="分享"><i class="fa fa-users"></i></a>
+								<a href="#" onclick="$('#renameFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="重命名"><i class="fa fa-pencil-square-o"></i></a>
+								<a href="#" onclick="$('#copyFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="复制"><i class="fa fa-files-o"></i></a>
+								<a href="#" onclick="$('#moveFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="移动"><i class="fa fa-arrows"></i></a>
+								<a href="#" onclick="$('#deleteModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="删除"><i class="fa fa-trash"></i></a>
+								<a href="#" data-toggle="tooltip" data-placement="bottom" title="下载"><i class="fa fa-download"></i></a>
+								</td>
+							</tr>
+							<tr>
+								<td>
+								<a href="#"><i class="fa fa-file-powerpoint-o"></i> PPT文件</a>
+								</td>
+								<td>2017/01/02 21:31:38</td>
+								<td>Sven</td>
+								<td>-</td>
+								<td>
+								<a href="#" onclick="$('#sharingModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="分享"><i class="fa fa-users"></i></a>
+								<a href="#" onclick="$('#renameFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="重命名"><i class="fa fa-pencil-square-o"></i></a>
+								<a href="#" onclick="$('#copyFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="复制"><i class="fa fa-files-o"></i></a>
+								<a href="#" onclick="$('#moveFileModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="移动"><i class="fa fa-arrows"></i></a>
+								<a href="#" onclick="$('#deleteModal').modal('show');" data-toggle="tooltip" data-placement="bottom" title="删除"><i class="fa fa-trash"></i></a>
+								<a href="#" data-toggle="tooltip" data-placement="bottom" title="下载"><i class="fa fa-download"></i></a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<!-- End of Table -->
+					<!-- Pagination -->
+					<div class="navbar">
+						<ul class="pagination nav navbar-nav float-xs-right">
+							<li class="page-item">
+								<a class="page-link" href="#" aria-label="Previous">
+									<span aria-hidden="true">&laquo;</span>
+									<span class="sr-only">Previous</span>
+								</a>
+							</li>
+							<li class="page-item"><a class="page-link" href="#">1</a></li>
+							<li class="page-item"><a class="page-link" href="#">2</a></li>
+							<li class="page-item"><a class="page-link" href="#">3</a></li>
+							<li class="page-item"><a class="page-link" href="#">4</a></li>
+							<li class="page-item"><a class="page-link" href="#">5</a></li>
+							<li class="page-item">
+								<a class="page-link" href="#" aria-label="Next">
+									<span aria-hidden="true">&raquo;</span>
+									<span class="sr-only">Next</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<!-- End of Pagination -->
+					<!-- Modal of Sharing -->
+					<div class="modal fade in" id="sharingModal" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" onclick="closeModal()">×</button>
+									<h4 class="modal-title">分享项目--鏅鸿兘绠楁硶 v3_copy1.docx</h4>
+								</div>
+								<div class="modal-body" style="background: #f6f9fc">
+									<span style="font-size:14px;font-weight: bold;margin-left: 5px;">1个用户:</span>
+									<div style="background:white;height:200px;width:inherit;overflow-y:scroll;">
+										<table id="shareListID" style="background-color:white;width:100%">
+											<tbody>
+												<tr class="sharePeopleItem" id="share_21">
+													<td style="text-align: left;">
+														Sven
+													</td>
+													<td style="text-align: left">
+														<div class="fileContent" style="color:black" id="croleName_21">管理员</div>
+													</td>
+													<td style="text-align: right;width:80px;">
+														<select class="form-control shareOption" id="croleValue" disabled="" style="color:black;">
+															<option value="0">用户本人</option>
+															<option value="1">只读</option>
+															<option value="2">读写</option>
+															<option value="3">管理员</option>
+															<option value="4">删除</option>
+														</select>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<form>
+										<div class="input-group">
+										  <input type="text" class="form-control" placeholder="Recipient's username" aria-describedby="basic-addon2">
+										  <div class="input-group-btn">
+											<select class="form-control">
+												<option value="0">权限设置</option>
+												<option value="1">只读</option>
+												<option value="2">读写</option>
+												<option value="3">管理员</option>
+											</select>
+										  </div>
+										</div>
+										<div class="row" style="background-color:#f6f9fc;margin:5px;margin-bottom: 0px; margin-top: 10px;">
+											<div style="text-align: right">
+												<button type="button" class="btn btn-default shareButtonStyle" id="mp4" onclick="confirmShareDiag(137);" style="background: #428bca;color:white">分享</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- End of Modal -->
+					<!-- Modal of Rename File -->
+					<div class="modal fade in" id="renameFileModal" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" onclick="closeModal()">×</button>
+									<h4 class="modal-title">重命名操作</h4>
+								</div>
+								<div class="modal-body">
+									<span>当前的文件名称:</span>&nbsp;&nbsp;
+									<input id="ff_name" value="鏅鸿兘绠楁硶 v3_copy1.docx" disabled="">
+									<br>
+									<br>
+									<span>修改的文件名称:</span>&nbsp;&nbsp;
+									<input id="mm_name" value="">
+									<br>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" id="mp8" onclick="changeNameProject('137')">确定</button>
+								</div>
+							</div>
+						</div>
+					</div>					
+					<!-- End of Modal -->
+					<!-- Modal of Copy File -->
+					<div class="modal fade in" id="copyFileModal" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" onclick="closeModal()">×</button>
+									<h4 class="modal-title">请选择你要粘贴的文件位置</h4>
+								</div>
+								<div class="modal-body">
+									<ul id="projectList" moveid="133" currentactive="0" class="moveFileListUL collapse in">
+										<li class="moveFileListLI" ids="0" id="fList0">
+											<a class="tb_tit" href="javascript:void(0)" onclick="listCollaspA('0')" flag="0" id="fList_a_0" data-parent="#filelist_nav_0" data-toggle="collapse" data-target="#filelist_nav_0">
+												<i class="fa fa-plus" aria-hidden="true"></i>
+											</a>
+											<a href="javascript:void(0)" onclick="moveFileSelect('0')">
+												<i class="fa fa-folder-o" aria-hidden="true"></i>&nbsp;
+												<span class="tb_Name">我的Transtopia</span>
+											</a>
+										</li>
+										<ul class="moveFileListUL collapse" id="filelist_nav_0" ids="0">
+											<li class="moveFileListLI" ids="133" id="fList133">
+												<a href="javascript:void(0)" class="noc_tb" onclick="moveFileSelect('133')">
+													<i class="fa fa-plus" aria-hidden="true" style="opacity:0;"></i>&nbsp;
+													<i class="fa fa-folder-o" aria-hidden="true"></i>&nbsp;
+													<span class="tb_Name">Test</span>&nbsp;&nbsp;&nbsp;
+													<span class="tb_Name_User">【创建人: Sven】</span>
+												</a>
+											</li>
+										</ul>
+									</ul>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" onclick="closeModal()">关闭</button>
+									<button type="button" class="btn btn-default" id="mp6" onclick="doCopyFile()">确定</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- End of Modal -->
+					<!-- Modal of Move File -->
+					<div class="modal fade in" id="moveFileModal" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" onclick="closeModal()">×</button>
+									<h4 class="modal-title">请选择移动的文件位置</h4>
+								</div>
+								<div class="modal-body">
+									<ul id="projectList" moveid="136" currentactive="0" class="moveFileListUL collapse in">
+										<li class="moveFileListLI" ids="0" id="fList0">
+											<a class="tb_tit" href="javascript:void(0)" onclick="listCollaspA('0')" flag="0" id="fList_a_0" data-parent="#filelist_nav_0" data-toggle="collapse" data-target="#filelist_nav_0">
+												<i class="fa fa-plus" aria-hidden="true"></i>
+											</a>
+											<a href="javascript:void(0)" onclick="moveFileSelect('0')">
+												<i class="fa fa-folder-o" aria-hidden="true"></i>&nbsp;
+												<span class="tb_Name">我的Transtopia</span>
+											</a>
+										</li>
+										<ul class="moveFileListUL collapse" id="filelist_nav_0" ids="0">
+											<li class="moveFileListLI" ids="133" id="fList133">
+												<a href="javascript:void(0)" class="noc_tb" onclick="moveFileSelect('133')">
+													<i class="fa fa-plus" aria-hidden="true" style="opacity:0;"></i>&nbsp;
+													<i class="fa fa-folder-o" aria-hidden="true"></i>&nbsp;
+													<span class="tb_Name">Test</span>&nbsp;&nbsp;&nbsp;
+													<span class="tb_Name_User">【创建人: Sven】</span>
+												</a>
+											</li>
+										</ul>
+									</ul>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" onclick="closeModal()">关闭</button>
+									<button type="button" class="btn btn-default" id="mp5" onclick="doMoveFile()">确定</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- End of Modal -->
+					<!-- Modal of Delete -->
+					<div class="modal fade in" id="deleteModal" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" onclick="closeModal()">×</button>
+									<h4 class="modal-title">删除文件</h4>
+								</div>
+								<div class="modal-body">
+									<span>您确定要删除文件吗？</span>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" onclick="closeModal()">取消</button>
+									<button type="button" class="btn btn-default">确定</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- End of Modal -->
+				</div>
+			</div>
+			<!-- End of Pannel at Right -->
+			
+			<!-- Navbar at Left -->
+			<div class="nav-left animation-toggle ">
+				<nav class="nav nav-pills nav-stacked">
+					<div class="brand">项目文件管理</div>
+					<a class="nav-link" data-toggle="collapse" href="#projectCollapse"><i class="fa fa-file-o"></i><span> 交通项目<span class="tag tag-default tag-danger float-xs-right">0</span></span></a>
+					<div class="collapse" id="projectCollapse" style="background:#2c3b41;">
+						<a class="nav-link" href="#"><i class="fa fa-map-o"></i><span> 流量调查项目<span class="tag tag-default tag-warning float-xs-right">0</span></span></a>
+						<a class="nav-link" href="#"><i class="fa fa-road"></i><span> 信号灯配时<span class="tag tag-default tag-info float-xs-right">0</span></span></a>
+						<a class="nav-link" href="#"><i class="fa fa-lightbulb-o"></i><span> 其它<span class="tag tag-default tag-success float-xs-right">0</span></span></a>
+					</div>
+					<a class="nav-link" href="#"><i class="fa fa-file-text-o"></i><span> 文本文件<span class="tag tag-default tag-primary float-xs-right">0</span></span></a>
+					<a class="nav-link" href="#"><i class="fa fa-file-image-o"></i><span> 图片文件<span class="tag tag-default tag-danger float-xs-right">0</span></span></a>
+					<a class="nav-link" href="#"><i class="fa fa-file-pdf-o"></i><span> PDF文件<span class="tag tag-default tag-warning float-xs-right">0</span></span></a>
+					<a class="nav-link" href="#"><i class="fa fa-file-word-o"></i><span> Word文件<span class="tag tag-default tag-info float-xs-right">0</span></span></a>
+					<a class="nav-link" href="#"><i class="fa fa-file-excel-o"></i><span> Excel文件<span class="tag tag-default tag-success float-xs-right">0</span></span></a>
+					<a class="nav-link" href="#"><i class="fa fa-file-powerpoint-o"></i><span> PPT文件<span class="tag tag-default tag-danger float-xs-right">0</span></span></a>
+					<a class="nav-link" href="#"><i class="fa fa-trash-o"></i><span> 回收站<span class="tag tag-default tag-default float-xs-right">0</span></span></a>
+				</nav>
+				<div class="nav-pills toggle-hover">
+					<a href="#" class="nav-link"></a>
+				</div>
+			</div>
+			<!-- End of Navbar at Left -->
+		</div>
+		<!-- End of Main Pannel -->
+	<style>
+	:root{
+		--nav-top-height: 57px;
+		--nav-left-width: 250px;
+		--nav-left-width-toggle: 50px;
+		--nav-left-hover-width: 150px;
+	}
+	.pannel-main {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+
+	}
+	.pannel-main .nav-left {
+		position: absolute;
+		width: var( --nav-left-width );
+		height: 100%;
+		padding-top: var( --nav-top-height );
+		background: #222d32;
+	}
+	.pannel-main .pannel-right {
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		padding-top: var( --nav-top-height );
+		padding-left: var( --nav-left-width );
+	}
+	.animation-toggle {
+		-webkit-transition: all 0.5s ease;
+		-moz-transition: all 0.5s ease;
+		-o-transition: all 0.5s ease;
+		transition: all 0.5s ease;
+	}
+	.pannel-main.toggle .nav-left {
+		width: var( --nav-left-width-toggle );
+	}
+	.pannel-main.toggle .pannel-right {
+		padding-left: var( --nav-left-width-toggle );
+	}
+	
+	.nav-left > nav a {
+		text-decoration: none;
+		color: #999999;
+	}
+	.nav-left > nav a:hover {
+		text-decoration: none;
+		color: #fff;
+		background: rgba(255,255,255,0.2);
+	}
+	.nav-left > nav .brand {
+		padding-left: 1rem;
+		height: 65px;
+		font-size: 18px;
+		line-height: 60px;
+		color: #999999;
+	}
+	.nav-left > nav .brand:hover {
+		color: #fff;
+		background: none;
+	}
+	.nav-left > nav a.toggle > span {
+		display: none;
+	}
+	.nav-left > nav .brand.toggle {
+		visibility: hidden;
+	}
+	.nav-left > .toggle-hover {
+		position: fixed;
+		background: #222d32;
+		width: var( --nav-left-hover-width );
+		display: none;
+	}
+	.nav-left > .toggle-hover a{
+		text-decoration: none;
+		color: #fff;
+		background: rgba(255,255,255,0.2);
+	}
+	
+	.nav-link {
+		color: #727272;
+	}
+	.my-border {
+		border: 1px solid #ccc;
+		background-color: red;
+	}
+	</style>
+	<script>
+	/* Enable Tooltip */
+	$(function () {
+		$('[data-toggle="tooltip"]').tooltip()
+	})
+	
+	<!-- Toggle Nav on Left -->
+	$("#btn-toggle").on('click',function(e){
+		e.preventDefault();
+		$(".pannel-main").toggleClass("toggle");
+		$(".nav-left > nav .brand").toggleClass("toggle");
+		$(".nav-left > nav a").toggleClass("toggle");
+		$(".nav-left > nav a").off("mouseenter");
+		$(".nav-left > nav a.toggle")
+			.on("mouseenter",function(e){
+				$(".nav-left .toggle-hover")
+					.css({top: $(this).position().top+1, left: $(this).position().left + $(this).outerWidth(true)})
+					.show()
+					.children("a").html($(this).children("span").html());
+			})
+			.on("mouseleave",function(e){
+				$(".nav-left .toggle-hover").hide();
+			});
+	});
+	</script>
+	</body>
+</html>

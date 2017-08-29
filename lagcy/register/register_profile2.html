@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Transpotia | 完善个人信息</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="plugins/iCheck/square/blue.css">
+</head>
+<body class="hold-transition register-page">
+<div class="register-box">
+  <div class="register-logo">
+    <a href=""><b>Transpotia</b></a>
+  </div>
+
+  <div class="register-box-body">
+    <p class="login-box-msg"><b>完善用户资料（2/3）</b></p>
+
+    <form action="" method="post" data-toggle="validator">
+			<div class="form-group">
+				<select type="text" class="form-control" id="inputGenre" multiple="multiple" data-placeholder="请选择兴趣类别" data-error="请选择兴趣类别" required>
+				</select>
+				<div class="help-block with-errors"></div>
+			</div>
+			
+			<div class="form-group">
+				<select type="text" class="form-control" id="inputTag" multiple="multiple" data-placeholder="请选择兴趣标签" data-error="请选择兴趣标签" required>
+				</select>
+				<div class="help-block with-errors"></div>
+			</div>
+			
+			<div class="form-group">
+				 <textarea type="number" id="inputIntroduction" class="form-control" placeholder="个人信息" data-error="请输入个人信息" rows="3" required></textarea>
+				<div class="help-block with-errors"></div>
+			</div>
+			
+			
+      <div class="row">
+        <div class="col-xs-6">
+          <a class="btn btn-primary btn-block btn-flat">上一步</a>
+        </div>
+        <div class="col-xs-6">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">下一步</button>
+        </div>
+        <!-- /.col -->
+      </div>
+    </form>
+  </div>
+  <!-- /.form-box -->
+</div>
+<!-- /.register-box -->
+
+<!-- jQuery 2.2.3 -->
+<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<!-- iCheck -->
+<script src="plugins/iCheck/icheck.min.js"></script>
+<!-- Form Validation -->
+<script src="http://1000hz.github.io/bootstrap-validator/dist/validator.min.js"></script>
+<!-- Select 2 -->
+<link href="plugins/select2/select2.min.css" rel="stylesheet" />
+<link href="plugins/select2/select2-bootstrap.css" rel="stylesheet" />
+<script src="plugins/select2/select2.min.js"></script>
+<script src="plugins/select2/i18n/zh-CN.js"></script>
+
+<script>
+	$.fn.select2.defaults.set("theme", "bootstrap");
+	$('#inputGenre').select2({
+		tags:true,
+		language: 'zh-CN'
+	});
+	$('#inputTag').select2({
+		tags:true,
+		language: 'zh-CN'
+	});
+</script>
+
+</body>
+</html>

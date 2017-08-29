@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Transpotia | 完善个人信息</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="plugins/iCheck/square/blue.css">
+</head>
+<body class="hold-transition register-page">
+<div class="register-box">
+  <div class="register-logo">
+    <a href=""><b>Transpotia</b></a>
+  </div>
+
+  <div class="register-box-body">
+    <p class="login-box-msg"><b>完善用户资料（3/3）</b></p>
+
+    <form action="" method="post" data-toggle="validator">
+			<div class="form-group" id="inputAvatar">
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="上传用户头像">
+					<div class="input-group-addon btn btn-default btn-file post-file">
+						<i class="fa fa-user"></i> 上传头像 <input name="avatar" type="file" single>
+					</div>
+				</div>
+				<img id="imgblock" class="img-thumbnail col-xs-6 col-xs-push-3" src="dist/img/default_avatar_male.jpg" style="margin-top:10px;"/>
+				<div class="clearfix"></div>
+			</div>
+			
+			<div class="form-group" id="inputPoster">
+				<div class="input-group my-colorpicker2">
+					<input type="text" class="form-control" placeholder="上传封面">
+					<div class="input-group-addon btn btn-default color-picker">
+						<i class="fa fa-paint-brush"></i>
+					</div>
+					<div class="input-group-addon btn btn-default btn-file post-file">
+						<i class="fa fa-image"></i><input name="poster" type="file" single>
+					</div>
+				</div>
+				<img id="imgblock" class="img-thumbnail col-xs-12" src="dist/img/default_backgroup.jpg" style="margin-top:10px;"/>
+				<div id="colorblock" class="img-thumbnail col-xs-12" style="margin-top:10px; height: 200px; display: none;"></div>
+				<div class="clearfix"></div>
+			</div>
+			
+      <div class="row">
+        <div class="col-xs-6">
+          <a class="btn btn-primary btn-block btn-flat">上一步</a>
+        </div>
+        <div class="col-xs-6">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">完成</button>
+        </div>
+        <!-- /.col -->
+      </div>
+    </form>
+  </div>
+  <!-- /.form-box -->
+</div>
+<!-- /.register-box -->
+
+<!-- jQuery 2.2.3 -->
+<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<!-- iCheck -->
+<script src="plugins/iCheck/icheck.min.js"></script>
+<!-- Form Validation -->
+<script src="http://1000hz.github.io/bootstrap-validator/dist/validator.min.js"></script>
+<!-- Select 2 -->
+<link href="plugins/select2/select2.min.css" rel="stylesheet" />
+<link href="plugins/select2/select2-bootstrap.css" rel="stylesheet" />
+<script src="plugins/select2/select2.min.js"></script>
+<script src="plugins/select2/i18n/zh-CN.js"></script>
+<!-- Bootstrap Color Picker -->
+<link rel="stylesheet" href="plugins/colorpicker/bootstrap-colorpicker.min.css">
+<script src="plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+
+<script>
+	var imageUploadHandle = function(blockID){
+		$(blockID).find('.post-file :file').on('change', function(){
+			var input = $(this),
+				numFiles = input.get(0).files ? input.get(0).files.length : 1,
+				label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+			input.trigger('fileselect', [numFiles, label]);
+		});
+		
+		$(blockID).find('.post-file :file').on('fileselect', function(event, numFiles, label) {
+			var input = $(this).parents('.input-group').find(':text'),
+				log = numFiles > 1 ? numFiles + ' files selected' : label;
+			
+			if( input.length ) {
+				input.val(log);
+			} else {
+				if( log ) alert(log);
+			}
+		});
+		$(function () {
+			$(blockID).find('.post-file :file').change(function () {
+				if (this.files && this.files[0]) {
+					var reader = new FileReader();
+					reader.onload = imageIsLoaded1;
+					reader.readAsDataURL(this.files[0]);
+				}
+			});
+		});
+		function imageIsLoaded1(e) {
+			$(blockID).find('#imgblock').attr('src', e.target.result);
+			$(blockID).find('#imgblock').show();
+			$(blockID).find('#colorblock').hide();
+		};
+	};
+	
+	//头像
+	imageUploadHandle('#inputAvatar');
+	imageUploadHandle('#inputPoster');
+	
+	//背景图
+	/*
+	$('#inputPoster .color-picker').on('click', function(e){
+		$('#inputPoster [name="poster"]').remove();
+	});
+	$('#inputPoster .post-file').on('click', function(e){
+		if($('#inputPoster .post-file').find('[name="poster"]').length == 0)
+			$(this).append('<input name="poster" type="file" single>');
+	});
+	*/
+	
+	
+	$('.color-picker').colorpicker().on('changeColor', function(e) {
+		$(this).closest('.form-group').find('[type="text"]').val(e.color.toString('hex'));
+		$(this).closest('.form-group').find('#colorblock').css('background-color', e.color.toString('hex'));
+		
+		$(this).closest('.form-group').find('#imgblock').hide();
+		$(this).closest('.form-group').find('#colorblock').show();
+		
+		//$(this).css('background-color', e.color.toString('hex'));
+	});
+	$(".my-colorpicker2").on('changeColor', function(e){
+		console.log(e);
+	});
+	
+	
+</script>
+
+</body>
+</html>
