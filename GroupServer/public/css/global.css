@@ -1,6 +1,7 @@
 /* Font */
 body {
  font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+ overflow:hidden;
 }
 
 /* Multi-Menu */
@@ -143,123 +144,41 @@ input:checked + .slider:before {
 }
 /* modal */
 
-
-/* 主展示框 */
-.content-wrapper {
+/* 主显示框 */
+.main-block{
 	margin-left: 360px;
-	border-left:none !important;
+	height: calc(100vh - 105px);
+	background-color: rgba(236,240,245,1);
 }
 
-.content-wrapper section {
-	position: relative;
-	padding-right: 15px;
-	padding-left: 15px;
+.main-content{
+	padding: 15px;
+}
+/* 主显示框 */
+
+/* 动态 */
+.post{
+	padding: 15px;
+	border-radius: 2px;
+	background-color: #fff;
+	box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
 }
 
-@media only screen and (min-width: 1500px) {
-	.post-wall {
-		column-count: 4;
-	}
-}
-@media only screen and (max-width: 1500px) {
-	.post-wall {
-		column-count: 3;
-	}
-}
-@media only screen and (max-width: 992px) {
-	.post-wall {
-		column-count: 2;
-	}
-}
-@media only screen and (max-width: 600px) {
-	.post-wall {
-		column-count: 1;
-	}
+.post [data-name="title"] {
+	margin-bottom: 15px;
 }
 
-@media only screen and (min-width: 1500px) {
-	.tag-wall {
-		column-count: 5;
-	}
-}
-@media only screen and (max-width: 1500px) {
-	.tag-wall {
-		column-count: 3;
-	}
-}
-@media only screen and (max-width: 992px) {
-	.tag-wall {
-		column-count: 2;
-	}
-}
-@media only screen and (max-width: 600px) {
-	.tag-wall {
-		column-count: 1;
-	}
+.post .divider{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-top: 1px solid #ddd;
 }
 
-@media only screen and (min-width: 1500px) {
-	.user-wall {
-		column-count: 4;
-	}
-}
-@media only screen and (max-width: 1500px) {
-	.user-wall {
-		column-count: 3;
-	}
-}
-@media only screen and (max-width: 992px) {
-	.user-wall {
-		column-count: 2;
-	}
-}
-@media only screen and (max-width: 600px) {
-	.user-wall {
-		column-count: 1;
-	}
+.post .list-inline {
+	padding-bottom: 10px;
 }
 
-
-.tag-wall, .user-wall{
-	column-gap: 30px;
-}
-
-
-.content-wrapper section .create-post {
-	margin: 0px 10px;
-}
-
-.content-wrapper section .create-post .box-header img {
-	top:-5px;
-	width: 40px;
-	height: 40px;
-	border-color: #fff;
-	border-style: solid;
-	border-width: 1px;
-}
-
-.content-wrapper section .create-post .box-header span:nth-child(2) {
-	margin-left: 10px;
-	font-weight: 500;
-	line-height:40px;
-	color:#bdbdbd;
-	cursor: text;
-}
-
-.content-wrapper section .create-post .box-header span:nth-child(3) {
-	line-height:40px;
-}
-
-.content-wrapper section .create-post .box-header span:nth-child(3) a {
-	padding:10px;
-	width:40px;
-	height:40px;
-	font-size:18px;
-	background-color:#eeeeee;
-	border-radius: 50%;
-	color:#757575;
-}
-/* ！主展示框 */
+/* 动态 */
 
 
 /* User-card */

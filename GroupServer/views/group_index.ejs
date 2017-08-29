@@ -29,12 +29,8 @@
 		<!-- 右下角按钮组 -->
 		<div id="btngroup-rightbot"></div>
 		
-		<!-- Content Wrapper. Contains page content -->
-		<div class="content-wrapper">
-			<!-- 主要展示框 -->
-				<div class="row">
-			
-				</div>
+		<!-- 主要展示框 -->
+		<div id="main-block"></div>
 			
 			
 			<!-- Control Sidebar -->
@@ -134,17 +130,18 @@
 	<!-- 测试 -->
 	<script src="js/test.js"></script>
 	
-	
 	<script>
 	//页面初始化
+	
 	$( document ).ready(function() {
 		
-		
+
+		/*
 		//slimScroll
 		$(".post-wall").slimScroll({
         height: '500px'
     });
-		
+		/*
 		//搜索
 		/*
 		var formatState = function(data) {
@@ -211,6 +208,9 @@
 		var RBBController = new RightBotBtnController($('#btngroup-rightbot'));
 		RBBController.ajaxLoadForGroup(groupid);
 		
+		//6. 加载动态
+		var temp = new MainBlockController($('#main-block'));
+		temp.ajaxLoadGroupPost(123);
 	});
 	</script>
 	

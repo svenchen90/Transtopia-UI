@@ -1,2 +1,0 @@
-/group/update-instance
-/group/update-private

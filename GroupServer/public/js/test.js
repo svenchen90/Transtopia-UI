@@ -21,6 +21,22 @@ var testObj = function(name, inner){
 		this.name = name;
 	}
 }
+/*
+	$.ajax({
+		url : '/testtest/2',
+		cache : true, 
+		async : true,
+		type : "GET",
+		dataType : 'json',
+		success : function (data){
+			console.log(data, '#######');
+		},
+		error: function(err){
+			console.log(err);
+		}
+	});
+*/
+
 /* var a = null;
 console.log(a);
 console.log(Array.isArray(a)); */

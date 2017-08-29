@@ -6,8 +6,8 @@
 	4. 左下角按钮控件 - RightBotBtnController
 	5. 左侧信息控件 - LeftModuleController
 	10. 动态控件 - PostController
+	11. 主展示区空间 - MainBlockController
 Group：
-	
 	6. 更新群组信息模态框组件 - UpdateGroupInfoController
 	7. 修改群设置模态框组件 - UpdateGroupSettingController(groupID)
 	8. 查看群设置模态框控件 - CheckGroupSettingController(groupID)
@@ -197,7 +197,7 @@ var SecondNavTopController = function(target){
 			type : "GET",
 			dataType : 'json',
 			success : function(listOfAuthoriy){
-				if(!Array.isArray(listOfAuthoriy) || listOfAuthoriy == 0){
+				if(!Array.isArray(listOfAuthoriy) || listOfAuthoriy === '0'){
 					console.log(listOfAuthoriy, 'listOfAuthoriy is not array');
 				}else{
 					var data = obj.getDataGroupSecondNavTop(listOfAuthoriy, groupID);
@@ -423,7 +423,7 @@ var RightBotBtnController = function(target){
 			type : "GET",
 			dataType : 'json',
 			success : function(listOfAuthoriy){
-				if(!Array.isArray(listOfAuthoriy) || listOfAuthoriy == 0){
+				if(!Array.isArray(listOfAuthoriy) || listOfAuthoriy === '0'){
 					console.log(listOfAuthoriy, 'listOfAuthoriy is not array');
 				}else{
 					var data = obj.getDataGroupRightBotBtn(listOfAuthoriy, groupID);
@@ -765,37 +765,121 @@ var LeftModuleController = function(target){
 			name: '申请加入',
 			icon: '<i class="material-icons">group_add</i>',
 			callback: function(){
+				singleLineInput('申请加入群组', '请输入申请请求(不多于50字)', function(message){
+					$.ajax({
+						url : URLPrefix + '???????' + groupID + '/' + message,
+						cache : true, 
+						async : true,
+						type : "GET",
+						dataType : 'json',
+						success : function (result){
+							if(result == 1){
+								callAlert('已发送！', '<i class="material-icons">done</i>', function(){
+									window.location.reload(true);
+								});
+							}else{
+								callAlert('错误！', '<i class="material-icons">clear</i>', function(){});
+							}
+						},
+						error: function(err){
+							callAlert('错误！', '<i class="material-icons">clear</i>', function(){});
+						}
+					});
+				});
+				
+				
 				
 			}
 		},{
 			name: '退出群组',
 			icon: '<i class="material-icons">not_interested</i>',
 			callback: function(){
-				
+				callConfirm('确认框', '您确认要退出该群组？', 
+					function(){
+						$.ajax({
+							url : URLPrefix + '???????' + groupID,
+							cache : true, 
+							async : true,
+							type : "GET",
+							dataType : 'json',
+							success : function (result){
+								if(result == 1){
+									callAlert('退出群组！', '<i class="material-icons">done</i>', function(){
+										window.location.reload(true);
+									});
+								}else{
+									callAlert('错误！', '<i class="material-icons">clear</i>', function(){});
+								}
+							},
+							error: function(err){
+								callAlert('错误！', '<i class="material-icons">clear</i>', function(){});
+							}
+						});
+					},
+					function(){
+						console.log(1);
+					}
+				);
 			}
 		},{
 			name: '关注群组',
 			icon: '<i class="material-icons">check_box</i>',
 			callback: function(){
-				
+				$.ajax({
+					url : URLPrefix + '???????' + groupID,
+					cache : true, 
+					async : true,
+					type : "GET",
+					dataType : 'json',
+					success : function (result){
+						if(result == 1){
+							callAlert('关注成功！', '<i class="material-icons">done</i>', function(){
+								window.location.reload(true);
+							});
+						}else{
+							callAlert('错误！', '<i class="material-icons">clear</i>', function(){});
+						}
+					},
+					error: function(err){
+						callAlert('错误！', '<i class="material-icons">clear</i>', function(){});
+					}
+				});
 			}
 		},{
 			name: '取消关注',
 			icon: '<i class="material-icons">indeterminate_check_box</i>',
 			callback: function(){
-				
+				$.ajax({
+					url : URLPrefix + '???????' + groupID,
+					cache : true, 
+					async : true,
+					type : "GET",
+					dataType : 'json',
+					success : function (result){
+						if(result == 1){
+							callAlert('已取消关注！', '<i class="material-icons">done</i>', function(){
+								window.location.reload(true);
+							});
+						}else{
+							callAlert('错误！', '<i class="material-icons">clear</i>', function(){});
+						}
+					},
+					error: function(err){
+						callAlert('错误！', '<i class="material-icons">clear</i>', function(){});
+					}
+				});
 			}
 		}];
 		
 		//逻辑判断
 		if(isOwner == 1){
 			return [];
-		}else if(isMember){
+		}else if(isMember == 1){
 			return [data[1]];
-		}else if(isFollower){
+		}else if(isFollower == 1){
 			return [data[0], data[3]];
 		}else{
-			return [data[1], data[3]];
+			return [data[0], data[2]];
 		};
 	};
 };
@@ -1397,11 +1481,7 @@ var CreateGroupController = function(){
 
 /* 10. 动态发布/修改控件 - PostController */
 var PostController = function(){
-	/* 
-	data: {
-		id:
-	}
-	 */
+	var obj = this;
 	var modal = $(
 		'<div class="modal fade">\n' +
 		'	<div class="modal-dialog">\n' +
@@ -1455,6 +1535,20 @@ var PostController = function(){
 	//初始化editor
 	var editor = getEditor(); 
 	
+	// 加载category数据
+	var loadCategory = function(list){
+		modal.find('[data-value="catagories"]').empty();
+		
+		if(!Array.isArray(list)){
+			console.log('not a list');
+		}else if(list.length == 0){
+			modal.find('[data-value="catagories"]').append('<span style="color: rgba(0,0,0,0.54); margin-left: 15px;">暂无</span>');
+		}else{
+			$.each(list, function(i, g){
+				modal.find('[data-value="catagories"]').append('<span class="label" style="margin-right: 5px; background-color: ' + googleColorRandomPicker() + ';">' + g + '</span>');
+			});
+		}
+	};
 	
 	// 获取category数据
 	var getCategory = function(){
@@ -1465,18 +1559,20 @@ var PostController = function(){
 		return category;
 	};
 	
-	// 加载category数据
-	var loadCategory = function(list){
-		modal.find('[data-value="catagories"]').empty();
+	// 加载Tag数据
+	var loadTag = function(list){
+		modal.find('[data-value="tags"]').empty();
 		
-		if(list.length == 0)
-			modal.find('[data-value="catagories"]').append('<span style="color: rgba(0,0,0,0.54); margin-left: 15px;">暂无</span>');
-		else
+		if(!Array.isArray(list)){
+			console.log('not a list');
+		}else if(list.length == 0){
+			modal.find('[data-value="tags"]').append('<span style="color: rgba(0,0,0,0.54); margin-left: 15px;">暂无</span>');
+		}else{
 			$.each(list, function(i, g){
-				modal.find('[data-value="catagories"]').append('<span class="label" style="margin-right: 5px; background-color: ' + googleColorRandomPicker() + ';">' + g + '</span>');
+				modal.find('[data-value="tags"]').append('<span class="label" style="margin-right: 5px; background-color: ' + googleColorRandomPicker() + ';">' + g + '</span>');
 			});
+		}
 	};
-	
 	
 	// 获取tag数据
 	var getTag = function(){
@@ -1487,25 +1583,12 @@ var PostController = function(){
 		return tags;
 	};
 	
-	// 加载tag数据
-	var loadTag = function(list){
-		modal.find('[data-value="tags"]').empty();
-		
-		if(list.length == 0)
-			modal.find('[data-value="tags"]').append('<span style="color: rgba(0,0,0,0.54); margin-left: 15px;">暂无</span>');
-		else
-			$.each(list, function(i, g){
-				modal.find('[data-value="tags"]').append('<span class="label" style="margin-right: 5px; background-color: ' + googleColorRandomPicker() + ';">' + g + '</span>');
-			});
-	};
-	
-	
-	
+
+	// 群组新动态
 	this.groupNewPost = function(gid){
 		//加载图片
 		$.ajax({
-			url : URLPrefix + '/group/get-instance/' + gid,
-			data: {},
+			url : URLPrefix + '/group/operation/get-instance/' + gid,
 			cache : true, 
 			async : true,
 			type : "GET",
@@ -1522,128 +1605,71 @@ var PostController = function(){
 			}
 		});
 		
-		//初始化群组分享范围
+		
+		// 分享动态初始值
+		modal.find('[data-target="sharewith"]').text('公开');
+		modal.find('[data-target="sharewith"]').attr('data-value', '1');
+		// 初始化群组分享范围
 		modal.find('[data-action="sharedwith"]').on('click', function(){
 			var currentValue = modal.find('[data-target="sharewith"]').attr('data-value');
 			shareWithForGroup(currentValue);
 		});
 		
-		//确定提交 ?????
+		//确定提交
 		modal.find('[data-action="submit"]').on('click', function(){
 			//获取数据
 			var cata = getCategory();
 			var tags = getTag();
 			
-			
+			//编辑器内容
 			var content = $('<div>' + $(editor).find('#editor').html() + '</div>');
 			// 处理图片
 			var images = [];
 			$.each(content.find('img'), function(index, item){
-				
 				if($(item).attr("src").startsWith("data:image")){
 					images.push($(item).attr("src"));
 					content.find('img:eq(' + index + ')').attr("src", gid + "_" + index + ".png");
 				}
 			});
 			
-			
 			var post = {
 				gid: gid,
-				title: $(modal).find('[name="title"]').val(),
+				title: modal.find('[name="title"]').val(),
 				content: content.html(),
 				category: cata,
 				tags: tags,
-				authority: $(modal).find('[data-target="sharewith"]').attr('data-value'),
-				allowshare: ($(modal).find('[type="checkbox"]').is(':checked') ? 1 : 0),
-				images: JSON.stringify(images)
+				authority: modal.find('[data-target="sharewith"]').attr('data-value'),
+				allowshare: (modal.find('[type="checkbox"]').is(':checked') ? 1 : 0),
+				images: JSON.stringify(images),
+				lat: '0',
+				lng: '0'
 			};
 			
-			
-			console.log(post);
-			
-			//获取geo
-			if (navigator.geolocation) {
-				navigator.geolocation.getCurrentPosition(function(position){
-					post.lat = position.coords.latitude;
-					post.lng = position.coords.longitude;
-					
-					$.ajax({
-						url : URLPrefix + '/group/chen-operation/14',
-						data: post,
-						cache : true, 
-						async : true,
-						type : "POST",
-						dataType : 'json',
-						success : function (result){
-							if(result == 0){
-								callAlert('发布失败！', '<i class="material-icons">error_outline</i>', function(){});
-							}else{
-								callAlert('发布成功！', '<i class="material-icons">done</i>', function(){
-									modal.modal('hide');
-								});
-							}
-						},
-						error: function(err){
-							callAlert('发布失败！', '<i class="material-icons">error_outline</i>', function(){});
-						}
-					});
-				});
-			}else { 
-				//错误提示
-				console.log('无法获取路径！');
-			}
+			$.ajax({
+				url : URLPrefix + '/group/operation/add-group-post/',
+				data: post,
+				cache : true, 
+				async : true,
+				type : "POST",
+				dataType : 'json',
+				success : function (result){
+					if(result == 0){
+						callAlert('发布失败！', '<i class="material-icons">error_outline</i>', function(){});
+					}else{
+						callAlert('发布成功！', '<i class="material-icons">done</i>', function(){
+							modal.modal('hide');
+						});
+					}
+				},
+				error: function(err){
+					callAlert('发布失败！', '<i class="material-icons">error_outline</i>', function(){});
+				}
+			});
 		});
+		
+		modal.modal('show');
 	};
 	
-	
-	//初始化
-	(function(){
-		//加载编辑器
-		modal.find('.editor-block').append(editor);
-		
-		//加载兴趣类别
-		modal.find('[data-target="catagories"]').on('click', function(){
-			//获取当前值
-			var list = [];
-			
-			$.each(modal.find('[data-value="catagories"] .label'), function(index, item){
-				list.push($(item).text());
-			});
-			
-			var MController = new multiController('动态类别', '<i class="material-icons">loyalty</i>');
-			MController.load(getCategory(), '/group/operation/get-all-category/', '/group/operation/add-category/', function(data){
-				loadCategory(data);
-			});
-			
-		});
-		
-		//加载兴趣话题
-		$(modal).find('[data-target="tags"]').on('click', function(){
-			//获取当前值
-			var list = [];
-
-			$.each($(modal).find('[data-value="tags"] > span'), function(index, item){
-				list.push($(item).text());
-			});
-			
-			var MController = new multiController('兴趣类别', '<i class="material-icons">loyalty</i>');
-			MController.load(getTag(), '/group/operation/get-all-tag/', '/group/operation/add-tag/', function(data){
-					loadTag(data);
-				});
-		});
-		
-		modal.on('hidden.bs.modal', function(){
-			$(this).remove();
-		});
-
-		modal.modal('show');
-		
-	})();
-	
-	
-	
-	
-	/* 局部方法 */
 	//初始化群组分享范围
 	var shareWithForGroup = function(value){
 		var sharedWithModal = $(
@@ -1676,6 +1702,7 @@ var PostController = function(){
 		//初始化
 		(function(){
 			//赋值
+			console.log(value);
 			sharedWithModal.find('[type="radio"][value="' + value + '"]').prop('checked', 'checked');
 			
 			//提交表单
@@ -1703,4 +1730,184 @@ var PostController = function(){
 		})();
 	};
 	
+	//初始化
+	(function(){
+		//加载编辑器
+		modal.find('.editor-block').append(editor);
+		
+		//加载兴趣类别
+		modal.find('[data-target="catagories"]').on('click', function(){
+			var MController = new multiController('动态类别', '<i class="material-icons">loyalty</i>');
+			MController.load(getCategory(), '/group/operation/get-all-category/', '/group/operation/add-category/', function(data){
+				loadCategory(data);
+			});
+			
+		});
+		
+		//加载兴趣话题
+		$(modal).find('[data-target="tags"]').on('click', function(){
+			var MController = new multiController('兴趣类别', '<i class="material-icons">loyalty</i>');
+			MController.load(getTag(), '/group/operation/get-all-tag/', '/group/operation/add-tag/', function(data){
+					loadTag(data);
+				});
+		});
+		
+		modal.on('hidden.bs.modal', function(){
+			$(this).remove();
+		});
+	})();
+};
+
+
+/* 11. 主展示区空间  */
+var MainBlockController = function(target){
+	var obj = this;
+	var mainBlcok = $(
+		'<div class="main-block">\n' +
+		'	<section class="content-header">\n' +
+		'		<h1>\n' +
+		'			<span data-name="title"></span>\n' +
+		'			<small></small>\n' +
+		'		</h1>\n' +
+		'		<ol class="breadcrumb">\n' +
+		'			<li><a href="#"><i class="fa fa-dashboard"></i> 群组</a></li>\n' +
+		'			<li class="active">动态</li>\n' +
+		'		</ol>\n' +
+		'	</section>\n' +
+		'	<div class="main-content">\n' +
+		'			<div class="col-lg-4" data-col>\n' +
+		'			</div>\n' +
+		'			<div class="col-lg-4" data-col>\n' +
+		'			</div>\n' +
+		'			<div class="col-lg-4" data-col></div>\n' +
+		'	</div>\n' +
+		'</div>'
+	);
+	
+	//加载标题栏
+	this.loadHeader = function(title){
+		mainBlcok.find('.content-header [data-name="title"]').text(title);
+	};
+	
+	this.loadPost = function(list){
+		var listOfCol = [];
+		var heightOfCOl = [];
+		$.each(mainBlcok.find('.main-content [data-col]'), function(index, item){
+			listOfCol.push($(item));
+			heightOfCOl.push(0);
+		});
+		
+		
+		
+		
+		$.each(list, function(index, post){
+			var indexOfCol = findSmallestIndex(heightOfCOl);
+			listOfCol[indexOfCol].append(Post(post));
+			heightOfCOl[indexOfCol] = listOfCol[indexOfCol].height();
+		});
+	};
+	
+
+	this.ajaxLoadGroupPost = function(groupid){
+		//????uid
+		$.ajax({
+			url : URLPrefix + '/group/operation/get-group-posts/' + groupid + '/' + 10,
+			cache : true, 
+			async : true,
+			type : "GET",
+			dataType : 'json',
+			success : function (post){
+				if(post === '0'){
+					console.log(post, '错误');
+				}else{
+					obj.loadPost(post);
+				}
+			},
+			error: function(err){
+				console.log(err);
+			}
+		});
+		
+	};
+	
+	
+	var findSmallestIndex = function(array){
+		if(!Array.isArray(array) || array.length == 0){
+			return -1;
+		}else{
+			var index = 0;
+			var value = array[0];
+			for(i=1; i<array.length; i++){
+				if(array[i] < value){
+					value = array[i];
+					index = i;
+				}
+			};
+			return index;
+		}
+	};
+	
+	var Post = function(data){
+		var post = $(
+			'<div class="post">\n' +
+			'	<div class="user-block">\n' +
+			'		<img class="img-circle img-bordered-sm" data-name="userimage">\n' +
+			'				<span class="username">\n' +
+			'					<a href="#" data-name="username"></a>\n' +
+			'					<a href="#" class="pull-right btn-box-tool"><i class="material-icons">more_vert</i></a>\n' +
+			'				</span>\n' +
+			'		<span class="description" data-name="posttime"></span>\n' +
+			'	</div>\n' +
+			'	<div data-name="title">\n' +
+			'		<a href="#" data-name="posttile"></a>\n' +
+			'	</div>\n' +
+			'	<div data-name="content">\n' +
+			'		<div class="row">\n' +
+			'			<img  class="img-responsive" data-name="postimage">\n' +
+			'		</div>\n' +
+			'	</div>\n' +
+			'	<div class="row divider"></div>\n' +
+			'	<ul class="list-inline">\n' +
+			'		<li><a href="#" class="link-black text-sm" title="转发"><i class="fa fa-share margin-r-5"></i></a></li>\n' +
+			'		<li><a href="#" class="link-black text-sm" title="点赞"><i class="fa fa-thumbs-o-up margin-r-5"></i></a></li>\n' +
+			'		<li><a href="#" class="link-black text-sm" title="备注"><i class="fa fa-pencil margin-r-5"></i></a></li>\n' +
+			'		<li><a href="#" class="link-black text-sm" title="附件"><i class="fa fa-file margin-r-5"></i></a></li>\n' +
+			'		<li class="pull-right">\n' +
+			'			<a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i> 评论(0)</a></li>\n' +
+			'	</ul>\n' +
+			'</div>'
+		);
+
+		
+		//初始化
+		(function(){
+			post.find('[data-name="userimage"]').attr('src', ImageURLPrefix + data.gimage);
+			post.find('[data-name="username"]').text(data.gname);
+			
+			
+			post.find('[data-name="posttime"]').text(data.datetime);
+			post.find('[data-name="posttile"]').text(data.title);
+			//content
+			
+			
+			if($(data.content).find('img').length > 0){
+				var src = $($(data.content).find('img')[0]).attr('src');
+				post.find('[data-name="postimage"]').attr('src', src);
+			}else{
+				post.find('.post .content').prepend(data.content);
+			}
+		})();
+		
+
+		return post;
+	};
+	
+	//初始化
+	(function(){
+		mainBlcok.find('.main-content').slimScroll({
+			height: 'calc(100vh - 140px)' 
+		});
+		
+		target.append(mainBlcok);
+	})();
 };

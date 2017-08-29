@@ -6,6 +6,7 @@
 4. 创建新的菜单（最多二级） - createMenu(data)
 5. 上传图片 - UpdateImage(id, requestURL, callback)
 6. 给卡片添加popup - bindHoverTo(data, target)
+7. 小输入框 - singleLineInput = function(title, placeholder, callback)
 */
 
 /* 1. Google 随机取色器 */ 
@@ -53,16 +54,17 @@ var callAlert = function(text, icon, callback){
 };
 
 /* 3. 确认框 */
-var callConfirm = function(title, text, actionConfirm, dataConfirm, actionCancel, dataCancel){
+var callConfirm = function(title, text, actionConfirm, actionCancel){
 	$.confirm({
 		title: title,
 		content: text,
 		buttons: {
 			确定: function () {
-				actionConfirm(dataConfirm);
+				actionConfirm();
 				/* callAlert('操作完成', 'done'); */
 			},
 			取消: function () {
+				actionCancel();
 			}
 		}
 	});
@@ -201,4 +203,49 @@ var bindHoverTo = function(data, target) {
 	target.attr('data-content', '<h4 style="line-height: 30px;">' + content + '</h4>');
 
 	target.popover({html : true, trigger: 'hover'});
+};
+
+/* 7. 小输入框 */
+var singleLineInput = function(title, placeholder, callback){
+	var modal = $(
+		'<div class="modal fade">\n' +
+		'	<div class="modal-dialog">\n' +
+		'		<div class="modal-content">\n' +
+		'			<div class="modal-header">\n' +
+		'				<button type="button" class="close btn-close" data-dismiss="modal">&times;</button>\n' +
+		'				<h4 class="modal-title"></h4>\n' +
+		'			</div>\n' +
+		'			<div class="modal-body">\n' +
+		'				<div class="form-group">\n' +
+		'					<input type="text" class="form-control" />\n' +
+		'				</div>\n' +
+		'			</div>\n' +
+		'			<div class="modal-footer">\n' +
+		'				<a href="javascript: void(0);" data-action="submit">确定</a>\n' +
+		'				<a href="javascript: void(0);" data-dismiss="modal">关闭</a>\n' +
+		'			</div>\n' +
+		'		</div>\n' +
+		'	</div>\n' + 
+		'</div>'
+	);
+	
+	//初始化
+	(function(){
+		modal.find('.modal-title').text(title);
+		modal.find('input').attr('placeholder', placeholder);
+		
+		//submit
+		modal.find('[data-action="submit"]').on('click', function(){
+			//获取数据
+			var input = modal.find('input').val();
+			callback(input);
+		});
+		
+		
+		modal.on('hidden.bs.modal', function(){
+			$(this).remove();
+		});
+		
+		modal.modal('show');
+	})();
 };

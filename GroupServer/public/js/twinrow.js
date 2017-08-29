@@ -227,7 +227,6 @@ var multiController = function(title, iconStyle){
 		
 		var loc = data.loc;
 		
-		
 		//加载数据
 		if(data.id)
 			card.attr('data-id', data.id);
@@ -355,7 +354,6 @@ var multiController = function(title, iconStyle){
 		var result = [];
 		
 		$.each(list, function(index, item){
-			console.log(item);
 			var data = {
 				name: item,
 				icon: iconStyle,
@@ -520,8 +518,7 @@ var multiController = function(title, iconStyle){
 	
 	
 	/* 初始化 */
-	(
-		function(){
+	(function(){
 			// 加载第一行搜索
 			modal.getTwinRow().find('[data-action="searchtop"]').on('change', function(evt){
 				var query = $(this).val();
