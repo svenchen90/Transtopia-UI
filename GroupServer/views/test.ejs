@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <link rel="apple-touch-icon" href="//mindmup.s3.amazonaws.com/lib/img/apple-touch-icon.png" /> -->
+    <!-- <link rel="shortcut icon" href="http://mindmup.s3.amazonaws.com/lib/img/favicon.ico" > -->
+    <!-- <link href="external/google-code-prettify/prettify.css" rel="stylesheet"> -->
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet">
+	
+	<link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+    
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+	
+	<script src="/test/jquery.hotkeys.js"></script>
+    
+	<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <!-- <script src="external/google-code-prettify/prettify.js"></script> -->
+		<!-- <link href="index.css" rel="stylesheet"> -->
+    <script src="/test/bootstrap-wysiwyg.js"></script>
+	
+	<script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
+	
+	
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="../plugins/jQueryUI/jquery-ui.min.js"></script>
+  </head>
+  <body>
+
+<div class="container">
+	<div class="test" class="ui-widget-content">12313</div>
+	<img src ="../dist/img/photo2.png">
+  <div class="hero-unit">
+	<div id="alerts"></div>
+    
+
+
+  </div>
+</div>
+
+<style>
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+</style>
+<script>
+(function($){
+	$.fn.transWysiwyg = function(userOptions){
+		var options = $.extend({}, $.fn.transWysiwyg.defaults, userOptions);
+		
+		//错误信息
+		var errorMsg = $('<div></div>');
+		var errorAlert = function(reason, detail) {
+			var msg='';
+			if (reason==='unsupported-file-type') { msg = "Unsupported format " +detail; }
+			else {
+				console.log("error uploading file", reason, detail);
+			}
+			$('<div class="alert alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>'+ 
+			 '<strong>File upload error</strong> '+msg+' </div>').prependTo(errorMsg);
+		}; 
+		
+		//初始化toolbar
+		var toolBar = $(
+			'<div class="btn-toolbar">\n' +
+			'  	<div class="btn-group">\n' +
+			'		<a class="btn dropdown-toggle" data-toggle="dropdown" title="Font" toolbar-container="font"><i class="icon-font"></i><b class="caret"></b></a>\n' +
+			'	  	<ul class="dropdown-menu">\n' +
+			'	  	</ul>\n' +
+			'	</div>\n' +
+			'	<div class="btn-group">\n' +
+			'		<a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="icon-text-height"></i>&nbsp;<b class="caret"></b></a>\n' +
+			'	  	<ul class="dropdown-menu">\n' +
+			'	  		<li><a data-edit="fontSize 5"><font size="5">Huge</font></a></li>\n' +
+			'	  		<li><a data-edit="fontSize 3"><font size="3">Normal</font></a></li>\n' +
+			'	  		<li><a data-edit="fontSize 1"><font size="1">Small</font></a></li>\n' +
+			'	  	</ul>\n' +
+			'	</div>\n' +
+			'	<div class="btn-group">\n' +
+			'		<a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="icon-bold"></i></a>\n' +
+			'		<a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="icon-italic"></i></a>\n' +
+			'		<a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="icon-strikethrough"></i></a>\n' +
+			'		<a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="icon-underline"></i></a>\n' +
+			'	</div>\n' +
+			'	<div class="btn-group">\n' +
+			'		<a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="icon-list-ul"></i></a>\n' +
+			'		<a class="btn" data-edit="insertorderedlist" title="Number list"><i class="icon-list-ol"></i></a>\n' +
+			'		<a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="icon-indent-left"></i></a>\n' +
+			'		<a class="btn" data-edit="indent" title="Indent (Tab)"><i class="icon-indent-right"></i></a>\n' +
+			'	</div>\n' +
+			'	<div class="btn-group">\n' +
+			'		<a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="icon-align-left"></i></a>\n' +
+			'		<a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="icon-align-center"></i></a>\n' +
+			'		<a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="icon-align-right"></i></a>\n' +
+			'		<a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="icon-align-justify"></i></a>\n' +
+			'	</div>\n' +
+			'	<div class="btn-group">\n' +
+			'		<a class="btn dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="icon-link"></i></a>\n' +
+			'		<div class="dropdown-menu input-append">\n' +
+			'			<input class="span2" placeholder="URL" type="text" data-edit="createLink"/>\n' +
+			'			<button class="btn" type="button">Add</button>\n' +
+			'		</div>\n' +
+			'		<a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="icon-cut"></i></a>\n' +
+			'	</div>\n' +
+			'	<div class="btn-group">\n' +
+			'		<div class="fileUpload btn">\n' +
+			'			<span><i class="icon-picture"></i></span>\n' +
+			'			<input type="file" class="upload" data-edit="insertImage"/>\n' +
+			'		</div>/n' +
+			'	</div>\n' +
+			'	<div class="btn-group">\n' +
+			'		<a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>\n' +
+			'		<a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a>\n' +
+			'	</div>\n' +
+			'</div>'
+		);
+		
+		//加载字体
+		var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier', 
+            'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
+            'Times New Roman', 'Verdana'];
+        var fontTarget = toolBar.find('[toolbar-container="font"]').siblings('.dropdown-menu');
+		$.each(fonts, function (idx, fontName) {
+		  fontTarget.append($('<li><a data-edit="fontName ' + fontName +'" style="font-family:\''+ fontName +'\'">'+fontName + '</a></li>'));
+		});
+		
+		//超链接下拉框
+		toolBar.find('.dropdown-menu input').click(function() {return false;})
+			.change(function () {$(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');})
+			.keydown('esc', function () {this.value='';$(this).change();});
+		
+		//加载tooltip（图片按钮未加载）
+		toolBar.find('a[title]').tooltip({container:'body'});
+		
+		
+		
+		//加载编辑器
+		var editor = $('<div></div>');
+		
+		//
+		
+		
+		editor.wysiwyg({ fileUploadError: errorAlert, toolbarSelector: toolBar} );
+		
+		
+		$(this).append(errorMsg);
+		$(this).append(toolBar);
+		$(this).append(editor);
+		
+		
+		//添加后加载
+		editor.slimScroll({
+			height: '300px'
+		});
+
+	};
+	
+
+	$.fn.transWysiwyg.default = {
+		hotKeys: {
+			'ctrl+b meta+b': 'bold',
+			'ctrl+i meta+i': 'italic',
+			'ctrl+u meta+u': 'underline',
+			'ctrl+z meta+z': 'undo',
+			'ctrl+y meta+y meta+shift+z': 'redo',
+			'ctrl+l meta+l': 'justifyleft',
+			'ctrl+r meta+r': 'justifyright',
+			'ctrl+e meta+e': 'justifycenter',
+			'ctrl+j meta+j': 'justifyfull',
+			'shift+tab': 'outdent',
+			'tab': 'indent'
+		},
+		toolbarSelector: '[data-role=editor-toolbar]',
+		commandRole: 'edit',
+		activeToolbarClass: 'btn-info',
+		selectionMarker: 'edit-focus-marker',
+		selectionColor: 'darkgrey',
+		dragAndDropImages: true,
+		fileUploadError: function (reason, detail) { console.log("File upload error", reason, detail); }
+	};
+	
+})(jQuery);
+
+
+</script>
+
+
+<script>
+	/*
+	var buildToolBar = function(){
+		var toolBar = $(
+			'<div class="btn-toolbar">\n' +
+			'  	<div class="btn-group">\n' +
+			'		<a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="icon-font"></i><b class="caret"></b></a>\n' +
+			'	  	<ul class="dropdown-menu">\n' +
+			'	  	</ul>\n' +
+			'	</div>\n' +
+			'	<div class="btn-group">\n' +
+			'		<a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="icon-text-height"></i>&nbsp;<b class="caret"></b></a>\n' +
+			'	  	<ul class="dropdown-menu">\n' +
+			'	  		<li><a data-edit="fontSize 5"><font size="5">Huge</font></a></li>\n' +
+			'	  		<li><a data-edit="fontSize 3"><font size="3">Normal</font></a></li>\n' +
+			'	  		<li><a data-edit="fontSize 1"><font size="1">Small</font></a></li>\n' +
+			'	  	</ul>\n' +
+			'	</div>\n' +
+			'	<div class="btn-group">\n' +
+			'		<a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="icon-bold"></i></a>\n' +
+			'		<a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="icon-italic"></i></a>\n' +
+			'		<a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="icon-strikethrough"></i></a>\n' +
+			'		<a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="icon-underline"></i></a>\n' +
+			'	</div>\n' +
+			'	<div class="btn-group">\n' +
+			'		<a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="icon-list-ul"></i></a>\n' +
+			'		<a class="btn" data-edit="insertorderedlist" title="Number list"><i class="icon-list-ol"></i></a>\n' +
+			'		<a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="icon-indent-left"></i></a>\n' +
+			'		<a class="btn" data-edit="indent" title="Indent (Tab)"><i class="icon-indent-right"></i></a>\n' +
+			'	</div>\n' +
+			'	<div class="btn-group">\n' +
+			'		<a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="icon-align-left"></i></a>\n' +
+			'		<a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="icon-align-center"></i></a>\n' +
+			'		<a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="icon-align-right"></i></a>\n' +
+			'		<a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="icon-align-justify"></i></a>\n' +
+			'	</div>\n' +
+			'	<div class="btn-group">\n' +
+			'		<a class="btn dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="icon-link"></i></a>\n' +
+			'		<div class="dropdown-menu input-append">\n' +
+			'			<input class="span2" placeholder="URL" type="text" data-edit="createLink"/>\n' +
+			'			<button class="btn" type="button">Add</button>\n' +
+			'		</div>\n' +
+			'		<a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="icon-cut"></i></a>\n' +
+			'	</div>\n' +
+			'	<div class="btn-group">\n' +
+			'		<div class="fileUpload btn">\n' +
+			'			<span><i class="icon-picture"></i></span>\n' +
+			'			<input type="file" class="upload" data-edit="insertImage"/>\n' +
+			'		</div>/n' +
+			'	</div>\n' +
+			'	<div class="btn-group">\n' +
+			'		<a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>\n' +
+			'		<a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a>\n' +
+			'	</div>\n' +
+			'</div>'
+		);
+		
+		var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier', 
+            'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
+            'Times New Roman', 'Verdana'];
+        var fontTarget = $(toolBar).find('#editFont').siblings('.dropdown-menu');
+		$.each(fonts, function (idx, fontName) {
+		  fontTarget.append($('<li><a data-edit="fontName ' + fontName +'" style="font-family:\''+ fontName +'\'">'+fontName + '</a></li>'));
+		});
+		
+		
+		
+		toolBar.find('.dropdown-menu input').click(function() {return false;})
+			.change(function () {$(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');})
+			.keydown('esc', function () {this.value='';$(this).change();});
+	 
+		
+		
+		toolBar.find('a[title]').tooltip({container:'body'});
+	  
+		
+		
+		
+		return toolBar;
+		//$(".hero-unit").prepend(toolBar);
+	};
+
+
+
+  $(function(){
+    function initToolbarBootstrapBindings() {
+      
+	  //buildToolBar();
+	  
+ 
+	
+	};
+	
+	function showErrorAlert (reason, detail) {
+		var msg='';
+		if (reason==='unsupported-file-type') { msg = "Unsupported format " +detail; }
+		else {
+			console.log("error uploading file", reason, detail);
+		}
+		$('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>'+ 
+		 '<strong>File upload error</strong> '+msg+' </div>').prependTo('#alerts');
+	};
+	
+	
+    initToolbarBootstrapBindings();
+	var temp  = buildToolBar();
+	
+	var editor = $(    
+		'<div id="editor">\n' +
+		'  Go ahead&hellip;\n' +
+		'</div>'
+	);
+	
+	$(editor).wysiwyg({ fileUploadError: showErrorAlert, toolbarSelector: temp} );
+	$(".hero-unit").prepend(temp);
+	$(".hero-unit").prepend(editor);
+  });
+  */
+  
+	$('img').resizable({"minHeight": 50,aspectRatio: true});
+	$(".hero-unit").transWysiwyg();
+</script>
+</html>

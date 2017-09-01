@@ -2668,4 +2668,10 @@ router.get('/group/operation/get-group-posts/:groupid/:size', function(req, res,
 	}]);
 });
 
+router.get('/test', function(req, res, next){
+	res.render('test');
+});
+
+
+
 module.exports = router;
