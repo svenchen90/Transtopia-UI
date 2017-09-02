@@ -21,6 +21,7 @@ var testObj = function(name, inner){
 		this.name = name;
 	}
 }
+
 /*
 	$.ajax({
 		url : '/testtest/2',
