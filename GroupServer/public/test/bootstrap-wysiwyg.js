@@ -40,6 +40,7 @@
 					command = commandArr.shift(),
 					args = commandArr.join(' ') + (valueArg || '');
 				document.execCommand(command, 0, args);
+				
 				updateToolbar();
 			},
 			bindHotkeys = function (hotKeys) {
@@ -84,6 +85,7 @@
 				editor.focus();
 				$.each(files, function (idx, fileInfo) {
 					if (/^image\//.test(fileInfo.type)) {
+							//此处修改，使得image resizable
 						$.when(readFileIntoDataUrl(fileInfo)).done(function (dataUrl) {
 							execCommand('insertimage', dataUrl);
 						}).fail(function (e) {

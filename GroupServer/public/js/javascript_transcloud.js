@@ -42,6 +42,7 @@ var createFileCardHTML = function(data){
 	var html = $(
 		'<div class="col-lg-2 col-md-3 col-sm-4">\n' +
 		'	<div class="file-card" style="background-color: ' + (data.bgcolor ? data.bgcolor : googleColorRandomPicker()) + ';" data-dir="' + data.dir + '" data-type="' + data.type + '">\n'+
+		' 	<div class="pull-right" >私有</div>\n'+
 		'		<div class="card-body">\n'+
 		'			<div class="content-default">\n'+
 		'				<i class="material-icons">' + (data.icon ? data.icon : 'insert_drive_file') + '</i>\n'+

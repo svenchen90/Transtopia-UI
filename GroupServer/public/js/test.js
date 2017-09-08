@@ -22,6 +22,12 @@ var testObj = function(name, inner){
 	}
 }
 
+/* var reg = /^[A-Za-z]+$/;
+var str = 'abc';
+console.log(str.match(reg));
+ */
+
+
 /*
 	$.ajax({
 		url : '/testtest/2',
