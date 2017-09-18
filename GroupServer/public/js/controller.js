@@ -1866,36 +1866,71 @@ var MainBlockController = function(target){
 			'			<img  class="img-responsive" data-name="postimage">\n' +
 			'		</div>\n' +
 			'	</div>\n' +
+			'	<div data-name="category" style="margin-top: 10px;"><i class="fa fa-tasks margin-r-5" title="动态类别"></i></div>\n' +
+			'	<div data-name="tag"><i class="fa fa-tags margin-r-5" title="动态话题"></i></div>\n' +
 			'	<div class="row divider"></div>\n' +
 			'	<ul class="list-inline">\n' +
-			'		<li><a href="#" class="link-black text-sm" title="转发"><i class="fa fa-share margin-r-5"></i></a></li>\n' +
-			'		<li><a href="#" class="link-black text-sm" title="点赞"><i class="fa fa-thumbs-o-up margin-r-5"></i></a></li>\n' +
-			'		<li><a href="#" class="link-black text-sm" title="备注"><i class="fa fa-pencil margin-r-5"></i></a></li>\n' +
-			'		<li><a href="#" class="link-black text-sm" title="附件"><i class="fa fa-file margin-r-5"></i></a></li>\n' +
 			'		<li class="pull-right">\n' +
 			'			<a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i> 评论(0)</a></li>\n' +
 			'	</ul>\n' +
+			' <div class="clearfix"></div>\n' + 
 			'</div>'
 		);
 
 		
 		//初始化
 		(function(){
+			//发布者信息
 			post.find('[data-name="userimage"]').attr('src', ImageURLPrefix + data.gimage);
 			post.find('[data-name="username"]').text(data.gname);
 			
-			
+			// 标题
 			post.find('[data-name="posttime"]').text(data.datetime);
+			// 标题
 			post.find('[data-name="posttile"]').text(data.title);
-			//content
 			
-			
+			// 内容
 			if($(data.content).find('img').length > 0){
 				var src = $($(data.content).find('img')[0]).attr('src');
 				post.find('[data-name="postimage"]').attr('src', src);
 			}else{
-				post.find('.post .content').prepend(data.content);
+				post.find('.content').prepend(data.content);
 			}
+			
+			//加载category数据
+			if(!Array.isArray(data.category) || data.category.length == 0){
+				post.find('[data-name="category"]').append('暂无');
+			}else{
+				$.each(data.category, function(i, g){
+					post.find('[data-name="category"]').append('<span class="label" style="margin-left: 5px; background-color: ' + googleColorRandomPicker() + ';">' + g + '</span>');
+				});
+			}
+			
+			//加载tag			
+			if(!Array.isArray(data.tags) || data.tags.length == 0){
+				post.find('[data-name="tag"]').append('暂无');
+			}else{
+				$.each(data.tags, function(i, g){
+					post.find('[data-name="tag"]').append('<span class="label" style="margin-left: 5px; background-color: ' + googleColorRandomPicker() + ';">' + g + '</span>');
+				});
+			}
+			
+			
+			
+			/* 底端菜单栏 */
+			//是否允许被分享
+			if(data.allowShare == 1)
+				post.find('.list-inline').append('<li><a href="#" class="link-black text-sm" title="转发"><i class="fa fa-share margin-r-5"></i></a></li>');
+			
+			//点赞
+			post.find('.list-inline').append('<li><a href="#" class="link-black text-sm" title="点赞"><i class="fa fa-thumbs-o-up margin-r-5"></i></a></li>');
+			
+			//备注
+			post.find('.list-inline').append('<li><a href="#" class="link-black text-sm" title="备注"><i class="fa fa-pencil margin-r-5"></i></a></li>');
+			
+			//附件 
+			post.find('.list-inline').append('<li><a href="#" class="link-black text-sm" title="附件"><i class="fa fa-file margin-r-5"></i></a></li>');
+			
 		})();
 		
 

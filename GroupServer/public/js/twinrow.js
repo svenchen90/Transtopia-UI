@@ -1,7 +1,8 @@
 /* # */
 /* 双行模态框 */
 var TwinRow = function(title){
-	 var twinRow = $(
+	var obj = this;
+	var twinRow = $(
 		'<div class="modal fade">\n' +
 		'	<div class="modal-dialog" style="width: 50vw;">\n' +
 		'		<div class="modal-content">\n' +
@@ -23,7 +24,7 @@ var TwinRow = function(title){
 		'				<div class="row-top">\n' +
 		'					<!-- 上排数据 -->\n' +
 		'				</div>\n' +
-		'				<div class=="divider" style="margin-top:10px; margin-bottom:10px; border-bottom: 1px solid #ddd;"></div>\n' +
+		'				<div class="row divider" style="margin-top:10px; margin-bottom:10px; border-bottom: 1px solid #ddd;"></div>\n' +
 		'				<div style="display: inline-block; line-height: 34px;"></div>\n' +
 		'				<div class="form-group pull-right" style="width: 250px;">\n' +
 		'					<div class="input-group">\n' +
@@ -63,6 +64,18 @@ var TwinRow = function(title){
 		
 		twinRow.on('hidden.bs.modal', function(){
 			$(this).remove();
+		});
+		
+		//顶端搜索
+		twinRow.find('[data-action="searchtop"]').on('change', function(evt){
+			var query = $(this).val();
+			obj.searchTop(query);
+		});
+		
+		// 加载第二行搜索
+		twinRow.find('[data-action="searchbot"]').on('change', function(evt){
+			var query = $(this).val();
+			obj.searchBot(query);
 		});
 		
 		twinRow.modal('show');
@@ -105,8 +118,8 @@ var TwinRow = function(title){
 	
 	// 6. 重加载
 	this.reload = function(listTop, listBOt){
-		reloadTop(listTop);
-		reloadBot(listBOt);
+		this.reloadTop(listTop);
+		this.reloadBot(listBOt);
 	};
 	
 	// 7. 第一行添加到表尾
@@ -116,7 +129,7 @@ var TwinRow = function(title){
 	
 	// 8. 第一行添加到表头
 	this.prependTop = function(item){
-		console.log('待实现');
+		twinRow.find('.row-top').prepend(item);
 	};
 	
 	// 9 第一行添加列表到表尾

@@ -30,8 +30,12 @@
 		<div id="btngroup-rightbot"></div>
 		
 		<!-- 主要展示框 -->
-		<div id="main-block"></div>
+		<div id="main-block">
 			
+		</div>
+		
+		
+		
 			
 		<!-- Control Sidebar -->
 		<aside class="control-sidebar control-sidebar-dark">
@@ -129,12 +133,499 @@
 	<!-- 测试 -->
 	<script src="js/test.js"></script>
 	
+	<style>
+		.shared-with .modal-dialog {
+			width: 500px;
+		}
+		
+		.shared-with .modal-body {
+			padding: 0;
+		}
+		
+		.shared-with .modal-body label {
+			display: block !important;
+			margin-bottom: 0 !important;
+			line-height: 50px !important;
+			padding-left: 30px;
+			font-weight: 500 !important;
+			cursor: pointer;
+		}
+		
+		.shared-with .modal-body label:hover {
+			background-color: rgba(0,0,0,0.1);
+		}
+		
+		.shared-with .modal-body label[disabled]:hover {
+			background-color: rgba(255,0,0,0.3);
+		}
+		
+		.shared-with .modal-body label span{
+			padding-left: 20px;
+			font-size: 16px;
+			color: #757575;
+		}
+		
+		.shared-with .modal-body .user-label {
+			padding-left: 10px;
+		}
+		
+		.shared-with .modal-body .collapse {
+			background-color: rgba(0,0,0,0.05);
+		}
+
+		.shared-with .modal-body .name-list {
+			line-height: 17px;
+			padding: 0 15px 15px;
+			word-break: break-all;
+		}
+	</style>
+	<script>
+		var SharedWithModal = function(){
+			var modal = $(
+				'<div class="modal fade shared-with">\n' + 
+				'	<div class="modal-dialog">\n' + 
+				'		<div class="modal-content">\n' + 
+				'			<div class="modal-header">\n' + 
+				'				<button type="button" class="close" data-dismiss="modal">&times;</button>\n' + 
+				'				<h5 class="modal-title">\n' + 
+				'					请选择分享范围\n' + 
+				'				</h5>\n' + 
+				'			</div>\n' + 
+				'			<div class="modal-body">\n' + 
+				'				<div class="form-group">\n' + 
+				'				</div>\n' + 
+				'			</div>\n' + 
+				'			<div class="modal-footer">\n' + 
+				'				<a data-action="submit">提交</a>\n' + 
+				'				<a data-dismiss="modal">关闭</a>\n' + 
+				'			</div>\n' + 
+				'		</div>\n' + 
+				'	</div>\n' + 
+				'</div>'
+			);
+			
+			//获取简单Label
+			var getLabel = function(data){
+				var label = $(
+					'<label>\n' + 
+					'	<input type="radio" name="r1" class="minimal" value=' + data.value + '>\n' + 
+					'	<span>' + data.icon + ' ' + data.name + '</span>\n' + 
+					'</label>'
+				);
+				
+				return label;
+			};
+			
+			//获取collapse
+			var getCollapse = function(data, selectedTag, selectedUser){
+				var collapse = $(
+					'<div class="panel-body collapse">\n' + 
+					'</div>'
+				);
+				
+				collapse.empty();
+				//标签模块
+				$.each(data, function(index, item){
+					var label = $(
+						'<label data-type="tag">\n' + 
+						'	<input type="checkbox" name="c1" class="minimal"  data-id="' + item.id + '">\n' + 
+						'	<span><i class="fa fa-tag"></i> ' + item.name + '</span>\n' + 
+						'</label>' 
+					);
+
+					if(selectedTag.includes(item.id))
+						label.find('input').prop('checked', true);
+					
+					collapse.append(label);
+				});
+				
+				//加载被选中数据
+				var loadSelectedUser = function(data){
+					nameList.empty();
+					$.each(data, function(index, item){
+						var user = $('<span class="user-label" user-id="' + item.id + '" user-image="' + item.image + '" user-bg="' + item.bg_image + '">' + item.name + '</span>');
+						nameList.append(user);
+					});
+				};
+				
+				//获取被选中用户数据
+				var getSelectedUser = function(){
+					var result = [];
+					
+					$.each(selectLabel.find('.user-label'), function(index,item){
+						console.log(index);
+						result.push({
+							id: $(item).attr('user-id'),
+							name: $(item).text(),
+							image: $(item).attr('user-image'),
+							bg_image: $(item).attr('user-bg')
+						});
+					});
+					
+					return result;
+				};
+				
+				
+				//用户选定模块
+				var selectLabel = $(
+					'	<label>\n' + 
+					'		<span><a href="#"><i class="fa fa-plus-circle"></i> 从好友中选取</a></span>\n' + 
+					'		<div class="name-list"></div>\n' + 
+					'	</label>'
+				);
+				
+				var nameList = selectLabel.find('.name-list');
+				loadSelectedUser(selectedUser);
+				collapse.append(selectLabel);
+				
+				//点击事件
+				selectLabel.click(function(){
+					var FTController = new FriendTagController();
+						FTController.ajaxLoad(
+							getSelectedUser(),
+							function(data,modal){
+								loadSelectedUser(data);
+								modal.modal('hide');
+							}
+						);
+				});
+				
+				return collapse;
+			};
+			
+			
+			
+			//获取数据
+			var getData = function(){
+				var result = {
+					type: '',
+					selectedTag: [],
+					selectedUser: []
+				};
+				
+				result.type = modal.find('[name="r1"]:checked').val();
+				
+				if(result.type == 3 || result.type == 4){
+					var collapse = modal.find('.collapse[data-target="' + result.type + '"]');
+					
+					$.each(collapse.find('[data-type="tag"] input:checked'), function(index, item){
+						result.selectedTag.push($(item).attr('data-id'));
+					});
+					
+					$.each(collapse.find('.user-label'), function(index, item){
+						result.selectedUser.push($(item).attr('user-id'));
+					});
+				};
+				
+				return result;
+			};
+			
+			//群组菜单
+			this.loadForGroup = function(id, type){
+				//群组菜单
+				var groupData = [
+					{
+						name: '公开',
+						icon: '<i class="fa fa-globe"></i>',
+						value: 1
+					},
+					{
+						name: '仅群组可见',
+						icon: '<i class="fa fa-eye-slash"></i>',
+						value: 2
+					}
+				];
+			
+				var container = modal.find('.modal-body .form-group');
+				container.empty();
+				$.each(groupData, function(index, item){
+					var label = getLabel(item);
+					container.append(label);
+					
+					if(type == item.value)
+						label.find('input').prop('checked', true);
+				});
+				
+				//submit
+				modal.find('[data-action="submit"]').unbind('click');
+				modal.find('[data-action="submit"]').click(function(){
+					console.log(getData());
+				});
+				
+				modal.modal('show');
+			};
+			
+
+			//为个人添加
+			this.loadForIndividual = function(id, type, selectdTag, selectdUser, tagList){
+				//个人数据
+				var individualData = [
+					{
+						name: '公开',
+						icon: '<i class="fa fa-globe"></i>',
+						value: 1
+					},
+					{
+						name: '朋友圈',
+						icon: '<i class="fa fa-user-circle-o"></i></i>',
+						value: 2
+					},
+					{
+						name: '部分可见',
+						icon: '<i class="fa fa-plus-square"></i>',
+						value: 3
+					},
+					{
+						name: '不可见',
+						icon: '<i class="fa fa-minus-square"></i>',
+						value: 4
+					},
+					{
+						name: '私有',
+						icon: '<i class="fa fa-eye-slash"></i>',
+						value: 5
+					}
+				];
+				
+				var container = modal.find('.modal-body .form-group');
+				container.empty();
+				$.each(individualData, function(index, item){
+					var label = getLabel(item).addClass('toggle-btn');
+					container.append(label);
+					
+					var collapse;
+					if(item.value == 3 || item.value == 4){
+						if( item.value == type){
+							collapse = getCollapse(tagList, selectdTag, selectdUser);
+							collapse.addClass('in');
+						}else
+							collapse = getCollapse(tagList, [], []);
+					
+						label.attr('data-target', item.value);
+						
+						collapse.attr('data-target', item.value)
+							.addClass('toggle-content');
+					}
+					container.append(collapse);
+					
+					if(type == item.value)
+						label.find('input').prop('checked', true);
+						
+					
+				});
+				
+				//点击互斥时间
+				container.find('.toggle-btn').click(function(){
+					var value = $(this).attr('data-target');
+					$.each(container.find('.toggle-content'), function(index, item){
+						var collapse = $(item);
+						if(collapse.attr('data-target') == value){
+							collapse.collapse('show');
+						}else{
+							collapse.collapse('hide');
+						}
+					});
+				});
+				
+				
+				
+				//submit
+				modal.find('[data-action="submit"]').unbind('click');
+				modal.find('[data-action="submit"]').click(function(){
+					console.log(getData());
+				});
+				
+				modal.modal('show');
+			};
+			
+			
+			
+			//初始化
+			(function(){
+				
+				modal.on('hidden.bs.modal', function(){
+					$(this).remove();
+				}).on('shown.bs.modal', function(){
+					$(this).find('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+						checkboxClass: 'icheckbox_minimal-blue',
+						radioClass: 'iradio_minimal-blue'
+					});
+				});
+				
+			})();
+		};
+	
+		
+		var temp = new SharedWithModal();
+		temp.loadForIndividual('1', 3, [123,234], [{id: 123, name: '张震宇'}, {id: 123, name: '张震宇'},{id: 123, name: '张震宇'}],[{id: 123, name: '测试1'},{id: 234, name: '测试2'}]);
+		//temp.loadForGroup('1', 2);
+	
+		var getHoverUserCard = function(data){
+			var card = $(
+				'<div class="col-lg-2 col-md-4 col-sm-6" data-id="' + data.id + '">\n' +
+				'	<div class="card-user" style="background-color: ' + googleColorRandomPicker() + ';">\n' +
+				'		<div class="card-user-header" style="background: url(\'' + data.bg_image + '\') no-repeat center center; height: 90px;">\n' +
+				'			<div class="clearfix"></div>\n' +
+				'			<div style="text-align: center; margin-top: 40px;">\n' +
+				'				<img src="' + data.image + '" class="img-circle" style="width: 40px;height: 40px;">\n' +
+				'			</div>\n' +
+				'		</div>\n' +
+				'		<div class="card-user-body" style="height: 80px;">\n' +
+				'			<div class="name" style="inline-height: 80px;" data-name="name">' + data.name + '</div>\n' +
+				'		</div>\n' +
+				'		<div class="card-hover"></div>\n' +
+				'	</div>\n' +
+				'</div>'
+			);
+			return card;
+		};
+		
+		
+		
+		var FriendTagController = function(){
+			var obj = this;
+			TwinRow.call(this, '好友名单');
+			
+			var modal = this.getTwinRow();
+			
+			//获取卡片
+			var getCard = function(data, place){
+				var card = getHoverUserCard(data);
+				card.attr('allowremove', '');
+				card.attr('allowsearch', '');
+				if(place == 1){
+					card.find('.card-hover').html('<i class="material-icons">add_circle_outline</i>');
+				}else if(place == 2){
+					card.find('.card-hover').html('<i class="material-icons">clear</i>');
+				}else{
+					console.log('error');
+				}
+				
+				var top = modal.find('.row-top');
+				var bot = modal.find('.row-bot');
+				card.click(function(){
+					if(card.closest('.row-top').length == 1){
+						card.find('.card-hover').html('<i class="material-icons">clear</i>');
+						obj.prependBot(card);
+					}else if(card.closest('.row-bot').length == 1){
+						card.find('.card-hover').html('<i class="material-icons">add_circle_outline</i>');
+						obj.prependTop(card);
+					}else{
+						console.log('error');
+					}
+				});
+				
+				return card;
+			};
+			
+			var getCardList = function(list, place){
+				var result = [];
+				$.each(list, function(index, item){
+					result.push(getCard(item, place));
+				});
+				
+				return result;
+			};
+			
+			var getDifferent = function(list1, list2){
+				var result = [];
+				
+				$.each(list1, function(idx1, item1){
+					var signal = true;
+					$.each(list2, function(idx2, item2){
+						if(item1.id == item2.id){
+							signal = false;
+							return false;
+						}
+					});
+					if(signal)
+						result.push(item1);
+				});
+				
+				return result;
+			};
+			
+			//添加submit事件
+			var bindSubmit = function(callback){
+				modal.find('[data-action=submit]').unbind('click');
+				modal.find('[data-action=submit]').click(function(){
+					callback(obj.getData(), modal);
+				})
+			};
+			
+			//加载数据
+			var load = function(dataTop, dataBot, callback){
+				var listTop = getCardList(getDifferent(dataTop, dataBot), 1);
+				var listBot = getCardList(dataBot, 2);
+				
+				bindSubmit(callback);
+				obj.reload(listTop, listBot);
+			};
+			
+			//ajax加载
+			this.ajaxLoad = function(dataBot, callback){
+				$.ajax({
+					url : URL_GET_FRIEND,
+					type : "GET",
+					dataType : 'json',
+					success : function (list){
+						if(!Array.isArray(list)){
+							callAlert('加载失败!', '<i class="material-icons">clear</i>', function(){});
+						}else{
+							load(list, dataBot, callback);
+						}
+					},
+					error: function(err){
+						callAlert('添加失败!', '<i class="material-icons">clear</i>', function(){});
+					}
+				});
+			};
+		};
+		
+		
+		//var temp = new FriendTagController();
+		//temp.load([{id: 1, name: '张震宇', image: '../dist/img/user3-128x128.jpg', bg_image: '../dist/img/photo2.png'},{id: 2, name: '刘强', image: '../dist/img/user3-128x128.jpg', bg_image: '../dist/img/photo2.png'}],[{id: 1, name: '张震宇', image: '../dist/img/user3-128x128.jpg', bg_image: '../dist/img/photo2.png'}]);
+	</script>
+	<style>
+		.card-user {
+			cursor: pointer;
+		}
+	
+		.card-hover {
+			display: none;
+			height: 170px;
+			text-align:center;
+		}
+		
+		.card-hover i{
+			position: relative;
+			top: 50px;
+			font-size: 70px;
+			color: rgba(255,255,255,0.8);
+		}
+	
+		.card-user:hover .card-hover{
+			display: block;
+		}
+		
+		.card-user:hover .card-user-header, .card-user:hover .card-user-body {
+			display: none;
+		}
+	</style>
+	
+	
+	
+	
 	<script>
 	//页面初始化
 	
 	$( document ).ready(function() {
 		
+		//iCheck for checkbox and radio inputs
+    
+		
 
+		
 		/*
 		//slimScroll
 		$(".post-wall").slimScroll({
@@ -210,6 +701,9 @@
 		//6. 加载动态
 		var temp = new MainBlockController($('#main-block'));
 		temp.ajaxLoadGroupPost(123);
+		
+		//$(transCloudModal).transCloud({title: '文件管理', dirFull: '/TransCloud/交托帮', dirRoot: '/TransCloud', dataRequest: '/getFileFolder', createCard: createFileCardHTML})
+		$('#testtest').modal('show');
 	});
 	</script>
 	
@@ -323,14 +817,6 @@ var getEditor = function (data) {
 	 return html;
 };
 	
-	
-	/*
-	$('#abc [type="checkbox"]').on('click', function(){
-		console.log($(this).is(':checked'));
-		
-	});
-	*/
-
 	</script>
 	
 </html>

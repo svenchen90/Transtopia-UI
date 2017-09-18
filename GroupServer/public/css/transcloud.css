@@ -11,7 +11,7 @@
 		cursor: pointer;
 	}
 	
-	.file-card:before, .file-card:after{
+	.file-card .card-body:before, .file-card .card-body:after{
 		content: "";
 		display: block;
 		padding-top: 25%; 	/* initial ratio of 1:1*/
@@ -26,7 +26,48 @@
 		font-size: 60px;
 	}
 /* ！文件卡片样式 */
-	
+
+
+/* ribbon */
+.corner-ribbon{
+  width: 50px;
+  background: #e43;
+  text-align: center;
+  line-height: 5px;
+  letter-spacing: 1px;
+  color: #f0f0f0;
+}
+
+/* Custom styles */
+
+.corner-ribbon.sticky{
+  position: relative;
+}
+
+.corner-ribbon.shadow{
+  box-shadow: 0 0 3px rgba(0,0,0,.3);
+}
+
+.corner-ribbon.top-right{
+  top: 15px;
+  right: -80px;
+
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+.corner-ribbon.white{background: #f0f0f0; color: #555;}
+.corner-ribbon.black{background: #333;}
+.corner-ribbon.grey{background: #999;}
+.corner-ribbon.blue{background: #39d;}
+.corner-ribbon.green{background: #2c7;}
+.corner-ribbon.turquoise{background: #1b9;}
+.corner-ribbon.purple{background: #95b;}
+.corner-ribbon.red{background: #e43;}
+.corner-ribbon.orange{background: #e82;}
+.corner-ribbon.yellow{background: #ec0;}
+
+
 /* 2. 路径样式 */
 .dir-item {
 	color: rgba(0,0,0,.5);
