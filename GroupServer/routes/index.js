@@ -2674,4 +2674,18 @@ router.get('/test', function(req, res, next){
 
 
 
+router.get('/testtest', function(req, res, next) {
+	console.log('####');
+	console.log(req.query);
+	if( Math.random() >0.5 )
+		res.json(1);
+	else
+		res.json(2);
+});
+
+router.get('/test1', function(req, res, next) {
+	res.render('testtest');
+});
+
+
 module.exports = router;

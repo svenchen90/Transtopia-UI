@@ -13,6 +13,17 @@ router.get('/', function(req, res, next) {
   res.render('contact', {abc:1});
 });
 
+router.get('/testtest', function(req, res, next) {
+	if( Math.random() >0.5 )
+		res.json(1);
+	else
+		res.json(2);
+});
+
+router.get('/test1', function(req, res, next) {
+	res.render('testtest');
+});
+
 router.get('/addfriendbyemail', function(req, res, next) {
   res.json({abc: 111});
 });
