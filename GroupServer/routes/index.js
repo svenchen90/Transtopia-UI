@@ -2726,5 +2726,12 @@ router.get('/test1', function(req, res, next) {
 	res.render('testtest');
 });
 
+//云盘
+router.get('/cloud_index', function(req, res, next) {
+	res.render('cloud_index');
+});
+
+
+
 
 module.exports = router;
