@@ -250,4 +250,8 @@ var singleLineInput = function(title, placeholder, callback){
 	})();
 };
 
-
+var formatDatetime = function (datetime) {
+    datetime = datetime.split(" ");
+    var eles = datetime[0].split("_");
+    return eles[0] + "年" + eles[1] + "月" + eles[2] + "号 " + eles[3]+":"+eles[4]+":"+eles[5];
+};

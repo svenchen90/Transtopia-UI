@@ -22,6 +22,15 @@ var testObj = function(name, inner){
 	}
 }
 
+var abc = function(a, b){
+	this.a = a;
+	var b = b;
+};
+
+var cde = function(){
+	abc.call(this, 1,2);
+};
+
 /* var reg = /^[A-Za-z]+$/;
 var str = 'abc';
 console.log(str.match(reg));

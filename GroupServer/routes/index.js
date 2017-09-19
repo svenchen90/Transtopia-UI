@@ -2623,7 +2623,7 @@ router.get('/group/chen-operation/14', function(req, res, next){
 	}
 });
 
-router.get('/group/get-authority-for-current-user/123', function(req, res, next){
+router.get('/group/get-authority-for-current-user/:gid', function(req, res, next){
 	if(Math.random() >= 0.6){
 		res.json([2,3,4,6,7,8,9,11,12,16,17,18,19,20,21,22,23,24,25,101,102]);
 	}else if(Math.random() >= 0.5){
@@ -2725,6 +2725,50 @@ router.get('/testtest', function(req, res, next) {
 router.get('/test1', function(req, res, next) {
 	res.render('testtest');
 });
+
+router.get('/timeline', function(req, res, next) {
+	res.render('timeline');
+});
+
+router.get('/get-notice/:groupid', function(req, res, next) {
+	res.json(
+		[
+			{	
+				id: 111,
+				uid: 123,
+				uname: '张震宇',
+				uimage: 'dist/img/default6.png',
+				content: '这是一条公告',
+				datetime: '2017_05_03_01_05_45',
+				hasAuthority : 0
+			},{
+				id: 222,
+				uid: 123,
+				uname: '张震宇',
+				uimage: 'dist/img/default6.png',
+				content: '这是一条公告这是一条公告',
+				datetime: '2017_05_03_01_05_45',
+				hasAuthority : 1
+			}
+		]
+	);
+});
+
+router.get('/add-notice', function(req, res, next) {
+	console.log(req.query)
+	res.json(1);
+});
+
+router.get('/delete-notice', function(req, res, next) {
+	console.log(req.query)
+	res.json(1);
+});
+
+router.get('/edit-notice', function(req, res, next) {
+	console.log(req.query)
+	res.json(1);
+});
+
 
 //云盘
 router.get('/cloud_index', function(req, res, next) {
