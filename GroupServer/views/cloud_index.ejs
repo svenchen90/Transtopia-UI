@@ -125,10 +125,6 @@
 		<!-- <div id="nav-left-collapse"></div> -->
 		
 		<style>
-		
-		#main-block {
-			height: calc(100vh - 102px);
-		}
 	
 		#main-block #left-block {
 			display: inline-table;
@@ -142,18 +138,6 @@
 			display: inline-table;
 			height: 100%;
 			background-color: rgba(0,0,0,.05);
-		}
-		
-		#main-block #middle-block[data-width="0"] {
-			width: calc(100% - 600px);
-		}
-		
-		#main-block #middle-block[data-width="1"] {
-			width: calc(100% - 300px);
-		}
-		
-		#main-block #middle-block[data-width="2"] {
-			width: calc(100%);
 		}
 		
 		#main-block #right-block {
@@ -171,78 +155,81 @@
 	</style>
 		
 		<!-- 主要展示框 -->
-		<!-- <div id="main-block" style="display: table-row;width: 800px;">
-			<div id="left-block" style="display: table-cell;">
-				<div style="display: table-cell;">
-					<ul>
-						<li class="item"><i class="fa fa-bars"></i>我的云盘</li>
-						<li class="item"><i class="fa fa-bars"></i>我的云盘</li>
-						<li class="item"><i class="fa fa-bars"></i>我的云盘</li>
-						<li class="item"><i class="fa fa-bars"></i>我的云盘</li>
-						<li class="item"><i class="fa fa-bars"></i>我的云盘</li>
-					</ul>
-				</div>
-			</div><div id="middle-block" style="display: table-cell;">
-			13123
-			<p>asdfasf</p>
-			<p>asdfasf</p>
-			<p>asdfasf</p>
-			<p>asdfasf</p>
-			</div><div id="right-block" style="display: table-cell;">
-				333
-				<p>asdfasf</p><p>asdfasf</p><p>asdfasf</p>
-			</div>
-		</div> -->
+		<style>
+			.main-block {
+				width: 100%;
+				height: calc(100vh - 102px);
+			}
+			
+			.main-block tr {
+			
+			}
+			
+			.main-block td{
+				/* padding: 15px !important; */
+				vertical-align: top;
+			}
+			
+			.main-block .left-block {
+				width: 200px;
+				background-color: rgba(255,0,0,0.1);
+			}
+			
+			.nav-list {
+				list-style: none;
+				padding: 15px 0 15px 0;
+				margin: 0;
+			}
+			
+			.nav-list .item {
+				padding: 12px 0 12px 20px;
+				font-size: 18px;
+				
+			}
+			.nav-list .item i{
+				padding-right: 20px;
+			}
+			
+			.nav-list .item:hover {
+				background-color: rgba(0,0,0,.08);
+				font-weight: 600;
+			}
+			
+			
+			.main-block .middle-block {
+				background-color: rgba(0,255,0,0.1);
+			}
+						
+			.main-block .right-block {
+				width: 300px;
+				background-color: rgba(0,0,255,0.1);
+			}
+			
+			
+			
+		</style>
 		
-		<table>
+		<table class="main-block">
 			<tbody>
 				<tr>
-					<td style="width: 300px;background-color: rgba(255,0,0,0.1);">asfsadf</td>
-					<td style="background-color: rgba(0,255,0,0.1);">
+					<td class="left-block">
+						<ul class="nav-list">
+							<li class="item"><i class="fa fa-bars"></i>我的云盘</li>
+							<li class="item"><i class="fa fa-bars"></i>我的云盘</li>
+							<li class="item"><i class="fa fa-bars"></i>我的云盘</li>
+							<li class="item"><i class="fa fa-bars"></i>我的云盘</li>
+							<li class="item"><i class="fa fa-bars"></i>我的云盘</li>
+						</ul>
+					</td>
+					<td class="middle-block">
 						<p>fasfased</p>
 						<p>fasfased</p>
 						<p>fasfased</p>
 					</td>
-					<td style="width: 300px;background-color: rgba(0,0,255,0.1);">asfsadf</td>
+					<td class="right-block">asfsadf</td>
 				</tr>
 			</tbody>
 		</table>
-		<style>
-			table {
-				width: 100%;
-				height: calc(100vh - 102px);
-			}
-			tr {
-			}
-			td{
-				padding-top: 15px;
-				vertical-align: top;
-				
-			}
-		</style>
-		
-		
-		<style>
-		#left-block ul {
-			list-style: none;
-			padding: 15px 0 15px 0;
-			margin: 0;
-		}
-		
-		#left-block ul .item {
-			padding: 12px 0 12px 20px;
-			font-size: 18px;
-			
-		}
-		#left-block ul .item i{
-			padding-right: 20px;
-		}
-		
-		#left-block ul .item:hover {
-			background-color: rgba(0,0,0,.08);
-			font-weight: 600;
-		};
-		</style>
 		
 		
 		<!-- 右下角按钮组 -->
