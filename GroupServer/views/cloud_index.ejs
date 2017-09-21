@@ -10,6 +10,7 @@
     
 	<body>
 		<!-- 置顶一级导航栏 -->
+		<div class="box-shadow">
 		<nav class="navbar navbar-default" style="margin-bottom:0; border-radius:0;border-bottom: none;">
 		  <div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
@@ -25,7 +26,11 @@
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
-						<li class="active"><a href="#">{link1}</a></li>
+						<li class="">
+							<a href="#">
+								<i class="fa fa-bars"></i>
+							</a>
+						</li>
 						<li><a href="#">{link1}</a></li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">{Dropdown}<span class="caret"></span></a>
@@ -100,6 +105,13 @@
 				</div><!-- /.navbar-collapse -->
 		  </div><!-- /.container-fluid -->
 		</nav>
+		</div>
+		<style>
+		.box-shadow {
+			-webkit-box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
+			box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
+		}
+		</style>
 		
 		
 		<!-- <div id="nav-top-st">
@@ -113,38 +125,126 @@
 		<!-- <div id="nav-left-collapse"></div> -->
 		
 		<style>
-	.margin-left-300 {
-		margin-left: 300px;
-	}
+		
+		#main-block {
+			height: calc(100vh - 102px);
+		}
 	
-	.margin-right-300 {
-		margin-right: 300px;
-	}
-	
-	
-	#main-block {
-		height: calc(100vh - 102px);
-		background-color: rgba(255,0,0,0.1);
-		border: 1px solid black;
-	}
-	
-	
-	#main-block {
-		transition: all 700ms;
-	}
-	
+		#main-block #left-block {
+			display: inline-table;
+			width: 300px; 
+			height: 100%; 
+			background-color: rgba(0,0,0,.05);
+			
+		}
+		
+		#main-block #middle-block {
+			display: inline-table;
+			height: 100%;
+			background-color: rgba(0,0,0,.05);
+		}
+		
+		#main-block #middle-block[data-width="0"] {
+			width: calc(100% - 600px);
+		}
+		
+		#main-block #middle-block[data-width="1"] {
+			width: calc(100% - 300px);
+		}
+		
+		#main-block #middle-block[data-width="2"] {
+			width: calc(100%);
+		}
+		
+		#main-block #right-block {
+			display: inline-table;
+			width: 300px; 
+			height: 100%; 
+			background-color: rgba(255,255,255, 1);
+			-webkit-box-shadow: 0 3px 4px 0 rgba(0,0,0,0.14), 0 3px 3px -2px rgba(0,0,0,0.12), 0 1px 8px 0 rgba(0,0,0,0.2);
+			box-shadow: 0 3px 4px 0 rgba(0,0,0,0.14), 0 3px 3px -2px rgba(0,0,0,0.12), 0 1px 8px 0 rgba(0,0,0,0.2);
+		}
+		
+		#left-block, #middle-block, #left-block {
+			transition: all 300ms;
+		}
 	</style>
 		
 		<!-- 主要展示框 -->
-		<div id="left-block" style="position: absolute; top: 102px; left: 0;width: 300px; height: calc(100vh - 102px);background-color: rgba(0,255,0,0.1);border: 1px solid black;">
-			3123123123
-		</div>
-		<div id="main-block" class="margin-left-300 margin-right-300">
-			12312312
-		</div>
-		<div id="right-block" style="position: absolute; top: 102px; right: 0;width: 300px; height: calc(100vh - 102px);background-color: rgba(0,255,0,0.1);border: 1px solid black;">
-			3123
-		</div>
+		<!-- <div id="main-block" style="display: table-row;width: 800px;">
+			<div id="left-block" style="display: table-cell;">
+				<div style="display: table-cell;">
+					<ul>
+						<li class="item"><i class="fa fa-bars"></i>我的云盘</li>
+						<li class="item"><i class="fa fa-bars"></i>我的云盘</li>
+						<li class="item"><i class="fa fa-bars"></i>我的云盘</li>
+						<li class="item"><i class="fa fa-bars"></i>我的云盘</li>
+						<li class="item"><i class="fa fa-bars"></i>我的云盘</li>
+					</ul>
+				</div>
+			</div><div id="middle-block" style="display: table-cell;">
+			13123
+			<p>asdfasf</p>
+			<p>asdfasf</p>
+			<p>asdfasf</p>
+			<p>asdfasf</p>
+			</div><div id="right-block" style="display: table-cell;">
+				333
+				<p>asdfasf</p><p>asdfasf</p><p>asdfasf</p>
+			</div>
+		</div> -->
+		
+		<table>
+			<tbody>
+				<tr>
+					<td style="width: 300px;background-color: rgba(255,0,0,0.1);">asfsadf</td>
+					<td style="background-color: rgba(0,255,0,0.1);">
+						<p>fasfased</p>
+						<p>fasfased</p>
+						<p>fasfased</p>
+					</td>
+					<td style="width: 300px;background-color: rgba(0,0,255,0.1);">asfsadf</td>
+				</tr>
+			</tbody>
+		</table>
+		<style>
+			table {
+				width: 100%;
+				height: calc(100vh - 102px);
+			}
+			tr {
+			}
+			td{
+				padding-top: 15px;
+				vertical-align: top;
+				
+			}
+		</style>
+		
+		
+		<style>
+		#left-block ul {
+			list-style: none;
+			padding: 15px 0 15px 0;
+			margin: 0;
+		}
+		
+		#left-block ul .item {
+			padding: 12px 0 12px 20px;
+			font-size: 18px;
+			
+		}
+		#left-block ul .item i{
+			padding-right: 20px;
+		}
+		
+		#left-block ul .item:hover {
+			background-color: rgba(0,0,0,.08);
+			font-weight: 600;
+		};
+		</style>
+		
+		
 		<!-- 右下角按钮组 -->
 		<div id="btngroup-rightbot">
 			
@@ -177,7 +277,7 @@
 	<script src="plugins/AdminLTE-2.3.11/js/app.min.js"></script> -->
 	
 	<!-- Slimscroll -->
-	<!-- <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script> -->
+	<script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
 	
 	<!-- bootstrap-fileinput -->
 	<!-- <link href="plugins/bootstrap-fileinput/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
@@ -225,15 +325,45 @@
 	
 	<script>
 	//页面初始化
+	$('td').click(function(){
+		$(this).hide();
+	});
+	
 	$( document ).ready(function() {
 		console.log('加载...');
 		$('#main-block').click(function(){
-			$('#left-block').toggle('700');
-			$('#right-block').toggle('700');
-			$(this).toggleClass('margin-left-300').toggleClass('margin-right-300');
+			toggleCollapseBlock($('#left-block'));
+			toggleCollapseBlock($('#right-block'));
 		});
-		
 	});
+	/*
+	var toggleLeftBlock = function(){
+		var leftBlock = $('#main-block #left-block'),
+		middleBlock = $('#main-block #middle-block');
+		
+		leftBlock.css('left', '-250px');
+		console.log(leftBlock.position());
+		middleBlock.css('margin-left', 0);
+		
+	};
+	*/
+	var toggleCollapseBlock = function(target){
+		var middle = $('#middle-block');
+		
+		if(target.hasClass('hide')){
+			target.removeClass('hide');
+			toggleMiddleBlock(-1);
+		}else{
+			target.addClass('hide');
+			toggleMiddleBlock(1);
+		}
+	};
+	
+	var toggleMiddleBlock = function(toggle){
+		var middle = $('#middle-block');
+		middle.attr('data-width', parseInt(middle.attr('data-width')) + toggle);
+	};
+	
 	</script>
 </html>
 
