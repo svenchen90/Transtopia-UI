@@ -125,30 +125,6 @@
 		<!-- <div id="nav-left-collapse"></div> -->
 		
 		<style>
-	
-		#main-block #left-block {
-			display: inline-table;
-			width: 300px; 
-			height: 100%; 
-			background-color: rgba(0,0,0,.05);
-			
-		}
-		
-		#main-block #middle-block {
-			display: inline-table;
-			height: 100%;
-			background-color: rgba(0,0,0,.05);
-		}
-		
-		#main-block #right-block {
-			display: inline-table;
-			width: 300px; 
-			height: 100%; 
-			background-color: rgba(255,255,255, 1);
-			-webkit-box-shadow: 0 3px 4px 0 rgba(0,0,0,0.14), 0 3px 3px -2px rgba(0,0,0,0.12), 0 1px 8px 0 rgba(0,0,0,0.2);
-			box-shadow: 0 3px 4px 0 rgba(0,0,0,0.14), 0 3px 3px -2px rgba(0,0,0,0.12), 0 1px 8px 0 rgba(0,0,0,0.2);
-		}
-		
 		#left-block, #middle-block, #left-block {
 			transition: all 300ms;
 		}
@@ -158,7 +134,7 @@
 		<style>
 			.main-block {
 				width: 100%;
-				height: calc(100vh - 102px);
+				
 			}
 			
 			.main-block tr {
@@ -170,9 +146,15 @@
 				vertical-align: top;
 			}
 			
+			.main-block td .content {
+				height: calc(100vh - 102px);
+				overflow-y: auto;
+			}
+			
 			.main-block .left-block {
 				width: 200px;
-				background-color: rgba(255,0,0,0.1);
+				background-color: rgba(0,0,0,.05);
+				
 			}
 			
 			.nav-list {
@@ -184,27 +166,125 @@
 			.nav-list .item {
 				padding: 12px 0 12px 20px;
 				font-size: 18px;
-				
+				color: rgba(0,0,0,.7);
+				cursor: pointer;
 			}
 			.nav-list .item i{
 				padding-right: 20px;
 			}
 			
-			.nav-list .item:hover {
+			.nav-list .item:hover, .nav-list .item.active {
 				background-color: rgba(0,0,0,.08);
+				color: rgba(0,0,0,1);
 				font-weight: 600;
 			}
 			
 			
-			.main-block .middle-block {
-				background-color: rgba(0,255,0,0.1);
-			}
-						
-			.main-block .right-block {
-				width: 300px;
-				background-color: rgba(0,0,255,0.1);
+			.nav-list .divider {
+				border-top: 0.05em solid rgba(0,0,0,.1);
 			}
 			
+			.main-block .middle-block {
+				background-color: rgba(0,0,0,.05);
+			}
+			
+			.main-block .middle-block .folder-block {
+				padding: 15px;
+			}
+			
+			.main-block .middle-block .file-block {
+				padding: 15px;
+			}
+			
+			
+			.main-block .right-block {
+				width: 300px;
+				-webkit-box-shadow: 0 3px 4px 0 rgba(0,0,0,0.14), 0 3px 3px -2px rgba(0,0,0,0.12), 0 1px 8px 0 rgba(0,0,0,0.2);
+				box-shadow: 0 3px 4px 0 rgba(0,0,0,0.14), 0 3px 3px -2px rgba(0,0,0,0.12), 0 1px 8px 0 rgba(0,0,0,0.2);
+			}
+			
+			.customized-scrollbar::-webkit-scrollbar-track
+			{
+				-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+				border-radius: 5px;
+				background-color: #F5F5F5;
+			}
+
+			.customized-scrollbar::-webkit-scrollbar
+			{
+				width: 6px;
+				background-color: #F5F5F5;
+			}
+
+			.customized-scrollbar::-webkit-scrollbar-thumb
+			{
+				border-radius: 5px;
+				-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+				background-color: rgba(0,0,0,0.3);
+			}
+			
+			.noselect {
+				-webkit-touch-callout: none; /* iOS Safari */
+					-webkit-user-select: none; /* Safari */
+					 -khtml-user-select: none; /* Konqueror HTML */
+						 -moz-user-select: none; /* Firefox */
+							-ms-user-select: none; /* Internet Explorer/Edge */
+									user-select: none; /* Non-prefixed version, currently
+																				supported by Chrome and Opera */
+			}
+			
+			.col-lg-2 {
+				
+			}
+			
+			.folder {
+				height: 50px;
+				color: rgba(0,0,0,.5);
+				background-color: rgba(255,255,255,1);
+				margin-bottom: 15px;
+				-webkit-box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
+				box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
+				cursor: pointer;
+				word-break: break-all; 
+				border-radius: 3px;
+			}
+			
+			.folder:hover, .folder.active {
+				background-color: rgba(66, 133, 244, 1);
+			}
+			
+			.folder:hover .icon, .folder.active .icon{
+				background-color: rgba(255, 255, 255, 1);
+			}
+			
+			.folder:hover .name, .folder.active .name {
+				color: rgba(255, 255, 255, 1);
+			}
+			
+			.file {
+				background-color: rgba(255,255,255,1);
+				margin-bottom: 15px;
+				-webkit-box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
+				box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
+				cursor: pointer;
+				border-radius: 3px;
+			}
+			
+			.file .top {
+				height: 150px;
+			}
+			
+			.file:hover .bot , .file.active .bot {
+				background-color: rgba(66, 133, 244, 1);
+			}
+			
+			.file:hover .icon, .file.active .icon{
+				background-color: rgba(255, 255, 255, 1);
+			}
+			
+			.file:hover .name, .file.active .name {
+				color: rgba(255, 255, 255, 1);
+			}
 			
 			
 		</style>
@@ -213,20 +293,139 @@
 			<tbody>
 				<tr>
 					<td class="left-block">
-						<ul class="nav-list">
-							<li class="item"><i class="fa fa-bars"></i>我的云盘</li>
-							<li class="item"><i class="fa fa-bars"></i>我的云盘</li>
-							<li class="item"><i class="fa fa-bars"></i>我的云盘</li>
-							<li class="item"><i class="fa fa-bars"></i>我的云盘</li>
-							<li class="item"><i class="fa fa-bars"></i>我的云盘</li>
-						</ul>
+						<div class="content customized-scrollbar">
+							<ul class="nav-list">
+								<li class="item noselect"><i class="fa fa-bars"></i>我的云盘</li>
+								<li class="item noselect"><i class="fa fa-bars"></i>我的云盘</li>
+								<li class="divider"></li>
+								<li class="item noselect"><i class="fa fa-bars"></i>我的云盘</li>
+								<li class="item noselect"><i class="fa fa-bars"></i>我的云盘</li>
+								<li class="item noselect"><i class="fa fa-bars"></i>我的云盘</li>
+							</ul>
+						</div>
 					</td>
 					<td class="middle-block">
-						<p>fasfased</p>
-						<p>fasfased</p>
-						<p>fasfased</p>
+						<div class="content customized-scrollbar">
+							<div class="folder-block">
+								<p style="color: rgba(0,0,0,.54); font-weight: 600;">文件夹</p>
+								
+								<div class="folder-content row">
+									<div class="col-lg-2 col-md-4 col-sm-6">
+										<div class="folder noselect" title="123123113212132">
+										<span class="icon" style="line-height: 50px;font-size: 24px; border-radius: 50%; padding: 4px 6px; margin-left: 10px;margin-top: -15px;"><i class="fa fa-folder"></i></span>
+										<span style="padding-left: 15px;font-weight: 600;overflow: hidden;white-space:nowrap;text-overflow:ellipsis; width:calc(100% - 50px);display:inline-block;">fasfdasfasdfsa1231231231fsfsaf</span>
+										</div>
+									</div>
+									<div class="col-lg-2 col-md-4 col-sm-6">
+										<div class="folder">
+										
+										</div>
+									</div>
+									<div class="col-lg-2 col-md-4 col-sm-6">
+										<div class="folder">
+										
+										</div>
+									</div>
+									<div class="col-lg-2 col-md-4 col-sm-6">
+										<div class="folder">
+										
+										</div>
+									</div>
+									<div class="col-lg-2 col-md-4 col-sm-6">
+										<div class="folder">
+										
+										</div>
+									</div>
+									<div class="col-lg-2 col-md-4 col-sm-6">
+										<div class="folder">
+										
+										</div>
+									</div>
+									<div class="col-lg-2 col-md-4 col-sm-6">
+										<div class="folder">
+										
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="file-block">
+								<p style="color: rgba(0,0,0,.54); font-weight: 600;">文件</p>
+								<div class="folder-content row">
+									<div class="col-lg-2 col-md-4 col-sm-6">
+										<div class="file noselect">
+											<div class="top"></div>
+											<div class="bot">
+												<span class="icon" style="line-height: 50px;font-size: 24px; border-radius: 50%; padding: 4px 6px; margin-left: 10px;margin-top: -15px;"><i class="fa fa-file-excel-o"></i></span>
+												<span style="padding-left: 15px;font-weight: 600;overflow: hidden;white-space:nowrap;text-overflow:ellipsis; width:calc(100% - 50px);display:inline-block;">fasfdasfasdfsa1231231231fsfsaf</span>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-2 col-md-4 col-sm-6">
+										<div class="file noselect">
+											<div class="top"></div>
+											<div class="bot">
+												<span class="icon" style="line-height: 50px;font-size: 24px; border-radius: 50%; padding: 4px 6px; margin-left: 10px;margin-top: -15px;"><i class="fa fa-file-excel-o"></i></span>
+												<span style="padding-left: 15px;font-weight: 600;overflow: hidden;white-space:nowrap;text-overflow:ellipsis; width:calc(100% - 50px);display:inline-block;">fasfdasfasdfsa1231231231fsfsaf</span>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-2 col-md-4 col-sm-6">
+										<div class="file noselect">
+											<div class="top"></div>
+											<div class="bot">
+												<span class="icon" style="line-height: 50px;font-size: 24px; border-radius: 50%; padding: 4px 6px; margin-left: 10px;margin-top: -15px;"><i class="fa fa-file-excel-o"></i></span>
+												<span style="padding-left: 15px;font-weight: 600;overflow: hidden;white-space:nowrap;text-overflow:ellipsis; width:calc(100% - 50px);display:inline-block;">fasfdasfasdfsa1231231231fsfsaf</span>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-2 col-md-4 col-sm-6">
+										<div class="file noselect">
+											<div class="top"></div>
+											<div class="bot">
+												<span class="icon" style="line-height: 50px;font-size: 24px; border-radius: 50%; padding: 4px 6px; margin-left: 10px;margin-top: -15px;"><i class="fa fa-file-excel-o"></i></span>
+												<span style="padding-left: 15px;font-weight: 600;overflow: hidden;white-space:nowrap;text-overflow:ellipsis; width:calc(100% - 50px);display:inline-block;">fasfdasfasdfsa1231231231fsfsaf</span>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-2 col-md-4 col-sm-6">
+										<div class="file noselect">
+											<div class="top"></div>
+											<div class="bot">
+												<span class="icon" style="line-height: 50px;font-size: 24px; border-radius: 50%; padding: 4px 6px; margin-left: 10px;margin-top: -15px;"><i class="fa fa-file-excel-o"></i></span>
+												<span style="padding-left: 15px;font-weight: 600;overflow: hidden;white-space:nowrap;text-overflow:ellipsis; width:calc(100% - 50px);display:inline-block;">fasfdasfasdfsa1231231231fsfsaf</span>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-2 col-md-4 col-sm-6">
+										<div class="file noselect">
+											<div class="top"></div>
+											<div class="bot">
+												<span class="icon" style="line-height: 50px;font-size: 24px; border-radius: 50%; padding: 4px 6px; margin-left: 10px;margin-top: -15px;"><i class="fa fa-file-excel-o"></i></span>
+												<span style="padding-left: 15px;font-weight: 600;overflow: hidden;white-space:nowrap;text-overflow:ellipsis; width:calc(100% - 50px);display:inline-block;">fasfdasfasdfsa1231231231fsfsaf</span>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-2 col-md-4 col-sm-6">
+										<div class="file noselect">
+											<div class="top"></div>
+											<div class="bot">
+												<span class="icon" style="line-height: 50px;font-size: 24px; border-radius: 50%; padding: 4px 6px; margin-left: 10px;margin-top: -15px;"><i class="fa fa-file-excel-o"></i></span>
+												<span style="padding-left: 15px;font-weight: 600;overflow: hidden;white-space:nowrap;text-overflow:ellipsis; width:calc(100% - 50px);display:inline-block;">fasfdasfasdfsa1231231231fsfsaf</span>
+											</div>
+										</div>
+									</div>
+									
+								</div>
+							</div>
+						</div>
 					</td>
-					<td class="right-block">asfsadf</td>
+					<td class="right-block">
+						<div class="content customized-scrollbar">
+							<p>fasfased</p>
+							<p>fasfased</p>
+							<p>fasfased</p>
+						</div>
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -312,10 +511,6 @@
 	
 	<script>
 	//页面初始化
-	$('td').click(function(){
-		$(this).hide();
-	});
-	
 	$( document ).ready(function() {
 		console.log('加载...');
 		$('#main-block').click(function(){
