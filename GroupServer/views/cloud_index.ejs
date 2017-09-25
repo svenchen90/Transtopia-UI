@@ -11,65 +11,65 @@
 	<body>
 		<!-- 置顶一级导航栏 -->
 		<div class="box-shadow">
-		<nav class="navbar navbar-default" style="margin-bottom:0; border-radius:0;border-bottom: none;">
-		  <div class="container-fluid">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="#">{Brand}</a>
-				</div>
+			<nav class="navbar navbar-default" style="margin-bottom:0; border-radius:0;border-bottom: none;">
+				<div class="container-fluid">
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="#">{Brand}</a>
+					</div>
 
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-					<ul class="nav navbar-nav">
-						<li class="">
-							<a href="#" data-toggle="left-collapse">
-								<i class="fa fa-bars"></i>
-							</a>
-						</li>
-						<li><a href="#">{link1}</a></li>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">{Dropdown}<span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">{sublink}</a></li>
-								<li><a href="#">{sublink}</a></li>
-								<li><a href="#">{sublink}</a></li>
-								<li class="divider"></li>
-								<li><a href="#">{sublink}</a></li>
-								<li class="divider"></li>
-								<li><a href="#">{sublink}</a></li>
-							</ul>
-						</li>
-					</ul>
-					<form class="navbar-form navbar-left">
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Search">
-						</div>
-					</form>
-					<ul class="nav navbar-nav navbar-right">
-						<li><a href="#">{link1}</a></li>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">{Dropdown}<span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">{sublink}</a></li>
-								<li><a href="#">{sublink}</a></li>
-								<li><a href="#">{sublink}</a></li>
-								<li class="divider"></li>
-								<li><a href="#">{sublink}</a></li>
-								<li class="divider"></li>
-								<li><a href="#">{sublink}</a></li>
-							</ul>
-						</li>
-					</ul>
-				</div><!-- /.navbar-collapse -->
-		  </div><!-- /.container-fluid -->
-		</nav>
-		
-		<nav class="navbar navbar-default" style="margin-bottom:0; border-radius:0;border-top: none;">
+					<!-- Collect the nav links, forms, and other content for toggling -->
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li class="">
+								<a href="#" data-toggle="left-collapse">
+									<i class="fa fa-bars"></i>
+								</a>
+							</li>
+							<li><a href="#">{link1}</a></li>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">{Dropdown}<span class="caret"></span></a>
+								<ul class="dropdown-menu">
+									<li><a href="#">{sublink}</a></li>
+									<li><a href="#">{sublink}</a></li>
+									<li><a href="#">{sublink}</a></li>
+									<li class="divider"></li>
+									<li><a href="#">{sublink}</a></li>
+									<li class="divider"></li>
+									<li><a href="#">{sublink}</a></li>
+								</ul>
+							</li>
+						</ul>
+						<form class="navbar-form navbar-left">
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="Search">
+							</div>
+						</form>
+						<ul class="nav navbar-nav navbar-right">
+							<li><a href="#">{link1}</a></li>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">{Dropdown}<span class="caret"></span></a>
+								<ul class="dropdown-menu">
+									<li><a href="#">{sublink}</a></li>
+									<li><a href="#">{sublink}</a></li>
+									<li><a href="#">{sublink}</a></li>
+									<li class="divider"></li>
+									<li><a href="#">{sublink}</a></li>
+									<li class="divider"></li>
+									<li><a href="#">{sublink}</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div><!-- /.navbar-collapse -->
+				</div><!-- /.container-fluid -->
+			</nav>
+			
+			<nav class="navbar navbar-default" style="margin-bottom:0; border-radius:0;border-top: none;">
 		  <div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
 				<div class="navbar-header">
@@ -128,6 +128,10 @@
 		<style>
 		#left-block, #middle-block, #left-block {
 			transition: all 300ms;
+		}
+		
+		.navbar li a {
+			font-weight: 600;
 		}
 	</style>
 		
@@ -306,8 +310,10 @@
 			.file .top {
 				height: 150px;
 				opacity: 0.3;
+				/*
 				background-image: url(http://127.0.0.1:3000/dist/img/default6.png);
 				background-size: 100%;
+				*/
 			}
 			
 			.file:hover .top, .file:active .top {
@@ -373,9 +379,27 @@
 					<td class="middle-block">
 						<div class="content customized-scrollbar">
 							<div class="folder-block">
-								<p style="color: rgba(0,0,0,.54); font-weight: 600;">文件夹</p>
+								<div style="margin-bottom: 15px;">
+									<span style="color: rgba(0,0,0,.54); font-weight: 600;">文件夹</span>
+									<span class="pull-right">
+										<span class="dropdown">
+											<a href="#" class="dropdown-toggle" data-toggle="dropdown" style="margin-right: 10px;color: rgba(0,0,0,.54); font-weight: 600; text-decoration: none;">{Dropdown}</a>
+											<ul class="dropdown-menu">
+												<li><a href="#">{sublink}</a></li>
+												<li><a href="#">{sublink}</a></li>
+												<li><a href="#">{sublink}</a></li>
+												<li class="divider"></li>
+												<li><a href="#">{sublink}</a></li>
+												<li class="divider"></li>
+												<li><a href="#">{sublink}</a></li>
+											</ul>
+										</span>
+										<span style="color: rgba(0,0,0,.54); font-weight: 600;"><i class="fa fa-arrow-down"></i></span>
+									</span>
+								</div>
+								
 								<div class="folder-content row">
-									<div class="col-lg-2 col-md-4 col-sm-6">
+									<div class="col-lg-2 col-md-4 col-sm-6" folder>
 										<div class="folder noselect" title="123123113212132">
 										<span class="icon"><i class="fa fa-folder"></i></span>
 										<span class="name">fasfdasfasdfsa1231231231fsfsaf</span>
@@ -420,13 +444,54 @@
 									
 								</div>
 							</div>
+							
+							<style>
+							</style>
+							
 							<div class="file-block">
 								<p style="color: rgba(0,0,0,.54); font-weight: 600;">文件</p>
 								<div class="folder-content row">
+									<div class="col-lg-2 col-md-4 col-sm-6" file>
+										<div class="file noselect">
+											<div class="top">
+												<iframe id="frame" src="http://127.0.0.1:3000/dist/img/New Text Document.txt" width="100%" scrolling="no" frameborder="0">
+												</iframe>
+											</div>
+											<div class="bot">
+												<span class="icon"><i class="fa fa-file-excel-o"></i></span>
+												<span class="name">fasfdasfasdfsa1231231231fsfsaf</span>
+											</div>
+										</div>
+									</div>
 									<div class="col-lg-2 col-md-4 col-sm-6">
 										<div class="file noselect">
 											<div class="top">
-												
+												<iframe id="testtest" src="http://127.0.0.1:3000/dist/img/extofgong_chen.pdf" width="100%" scrolling="no" frameborder="0">
+												</iframe>
+											</div>
+											<div class="bot">
+												<span class="icon"><i class="fa fa-file-excel-o"></i></span>
+												<span class="name">fasfdasfasdfsa1231231231fsfsaf</span>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-2 col-md-4 col-sm-6">
+										<div class="file noselect">
+											<div class="top">
+												<iframe id="frame" src="http://127.0.0.1:3000/dist/img/photo1.png" width="100%" scrolling="no" frameborder="0">
+												</iframe>
+											</div>
+											<div class="bot">
+												<span class="icon"><i class="fa fa-file-excel-o"></i></span>
+												<span class="name">fasfdasfasdfsa1231231231fsfsaf</span>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-2 col-md-4 col-sm-6">
+										<div class="file noselect">
+											<div class="top">
+												<iframe id="frame" src="http://127.0.0.1:3000/dist/img/controller.js" width="100%" scrolling="no" frameborder="0">
+												</iframe>
 											</div>
 											<div class="bot">
 												<span class="icon"><i class="fa fa-file-excel-o"></i></span>
@@ -456,40 +521,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="col-lg-2 col-md-4 col-sm-6">
-										<div class="file noselect">
-											<div class="top">
-												
-											</div>
-											<div class="bot">
-												<span class="icon"><i class="fa fa-file-excel-o"></i></span>
-												<span class="name">fasfdasfasdfsa1231231231fsfsaf</span>
-											</div>
-										</div>
-									</div>
-									<div class="col-lg-2 col-md-4 col-sm-6">
-										<div class="file noselect">
-											<div class="top">
-												
-											</div>
-											<div class="bot">
-												<span class="icon"><i class="fa fa-file-excel-o"></i></span>
-												<span class="name">fasfdasfasdfsa1231231231fsfsaf</span>
-											</div>
-										</div>
-									</div>
-									<div class="col-lg-2 col-md-4 col-sm-6">
-										<div class="file noselect">
-											<div class="top">
-												
-											</div>
-											<div class="bot">
-												<span class="icon"><i class="fa fa-file-excel-o"></i></span>
-												<span class="name">fasfdasfasdfsa1231231231fsfsaf</span>
-											</div>
-										</div>
-									</div>
-									<div class="col-lg-2 col-md-4 col-sm-6">
+									<div class="col-lg-2 col-md-4 col-sm-6" file>
 										<div class="file noselect">
 											<div class="top">
 												
@@ -508,9 +540,7 @@
 					<td class="right-block">
 						<div class="content customized-scrollbar">
 							<div style="padding: 15px;">
-								<p>fasfased</p>
-								<p>fasfased</p>
-								<p>fasfased</p>
+
 							</div>
 							
 						</div>
@@ -518,6 +548,7 @@
 				</tr>
 			</tbody>
 		</table>
+		
 		
 		
 		<style>
@@ -639,25 +670,28 @@
 	<!-- 自定义插件与样式 -->
 	<!-- 全局css -->
 	
-	
-	
-	
 	<!-- 测试 -->
 	<script src="js/test.js"></script>
 	
 	<script>
+	$("iframe").contents().find("img").attr("style","width:100%;height:100%");
+	//$("#iframe").contents().find(".change-class").css('background-color', 'black');
+	
+	$('[folder], [file]').draggable({zIndex: 2500,revert: true});
+	$('[folder]').droppable();
+	
 	$('[data-toggle="right-block"]').click(function(){
-		$('.right-block').toggle(400);
+		$('.right-block').toggle(200);
 	});
 	
 	$('[data-toggle="left-block"]').click(function(){
 		$(this).find('i').toggleClass('fa-angle-double-left , fa-angle-double-right');
-		$('.left-block').toggle(400);
+		$('.left-block').toggle(200);
 	});
 	
 	
 	$('[data-toggle="left-collapse"]').click(function(){
-		$('.left-collapse').toggle(400);
+		$('.left-collapse').toggle(200);
 	});
 	
 	
