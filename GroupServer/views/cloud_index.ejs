@@ -10,183 +10,25 @@
     
 	<body>
 		<!-- 置顶一级导航栏 -->
-		<div class="box-shadow">
-			<nav class="navbar navbar-default" style="margin-bottom:0; border-radius:0;border-bottom: none;">
-				<div class="container-fluid">
-					<!-- Brand and toggle get grouped for better mobile display -->
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						</button>
-						<a class="navbar-brand" href="#">{Brand}</a>
-					</div>
-
-					<!-- Collect the nav links, forms, and other content for toggling -->
-					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-						<ul class="nav navbar-nav">
-							<li class="">
-								<a href="#" data-toggle="left-collapse">
-									<i class="fa fa-bars"></i>
-								</a>
-							</li>
-							<li><a href="#">{link1}</a></li>
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">{Dropdown}<span class="caret"></span></a>
-								<ul class="dropdown-menu">
-									<li><a href="#">{sublink}</a></li>
-									<li><a href="#">{sublink}</a></li>
-									<li><a href="#">{sublink}</a></li>
-									<li class="divider"></li>
-									<li><a href="#">{sublink}</a></li>
-									<li class="divider"></li>
-									<li><a href="#">{sublink}</a></li>
-								</ul>
-							</li>
-						</ul>
-						<form class="navbar-form navbar-left">
-							<div class="form-group">
-								<input type="text" class="form-control" placeholder="Search">
-							</div>
-						</form>
-						<ul class="nav navbar-nav navbar-right">
-							<li><a href="#">{link1}</a></li>
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">{Dropdown}<span class="caret"></span></a>
-								<ul class="dropdown-menu">
-									<li><a href="#">{sublink}</a></li>
-									<li><a href="#">{sublink}</a></li>
-									<li><a href="#">{sublink}</a></li>
-									<li class="divider"></li>
-									<li><a href="#">{sublink}</a></li>
-									<li class="divider"></li>
-									<li><a href="#">{sublink}</a></li>
-								</ul>
-							</li>
-						</ul>
-					</div><!-- /.navbar-collapse -->
-				</div><!-- /.container-fluid -->
-			</nav>
-			
-			<nav class="navbar navbar-default" style="margin-bottom:0; border-radius:0;border-top: none;">
-		  <div class="container-fluid">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					</button>
-				</div>
-
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2" >
-					<ul class="nav navbar-nav">
-						<li class=""><a href="#">{link1}<span class="caret"></span></a></li>
-						<li><a href="#">{link1}<span class="caret"></span></a></li>
-					</ul>
-					<ul class="nav navbar-nav navbar-right">
-						<li><a href="#" data-toggle="right-block"><i class="fa fa-info-circle"></i></a></li>
-						<li><a href="#">{link1}</a></li>
-						
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">{Dropdown}<span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">{sublink}</a></li>
-								<li><a href="#">{sublink}</a></li>
-								<li><a href="#">{sublink}</a></li>
-								<li class="divider"></li>
-								<li><a href="#">{sublink}</a></li>
-								<li class="divider"></li>
-								<li><a href="#">{sublink}</a></li>
-							</ul>
-						</li>
-					</ul>
-				</div><!-- /.navbar-collapse -->
-		  </div><!-- /.container-fluid -->
-		</nav>
+		<div class="nav-top">
+			<div id="firstNavTop"></div>
+			<div id="secondNavTop"></div>
 		</div>
-		<style>
-		.box-shadow {
-			-webkit-box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
-			box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
-		}
-		</style>
-		
-		
-		<!-- <div id="nav-top-st">
-		
-		</div> -->
-		<!-- 置顶二级导航栏 -->
-		
-		<!-- <div id="nav-top-nd"></div> -->
-		
-		<!-- 左侧可隐藏导航栏 -->
-		<!-- <div id="nav-left-collapse"></div> -->
-		
+	
 		<style>
 		#left-block, #middle-block, #left-block {
 			transition: all 300ms;
 		}
 		
-		.navbar li a {
-			font-weight: 600;
-		}
+		
 	</style>
 		
 		<!-- 主要展示框 -->
 		<style>
-			.main-block {
-				width: 100%;
-				
-			}
-			
-			.main-block tr {
-			
-			}
-			
-			.main-block td{
-				/* padding: 15px !important; */
-				vertical-align: top;
-			}
-			
-			.main-block td .content {
-				height: calc(100vh - 102px);
-				overflow-y: auto;
-			}
-			
 			.main-block .left-block {
 				width: 200px;
 				background-color: rgba(0,0,0,.05);
 				
-			}
-			
-			.nav-list {
-				list-style: none;
-				padding: 15px 0 15px 0;
-				margin: 0;
-			}
-			
-			.nav-list .item {
-				padding: 12px 0 12px 20px;
-				font-size: 18px;
-				color: rgba(0,0,0,.7);
-				cursor: pointer;
-			}
-			.nav-list .item i{
-				padding-right: 20px;
-			}
-			
-			.nav-list .item:hover, .nav-list .item.active {
-				background-color: rgba(0,0,0,.08);
-				color: rgba(0,0,0,1);
-				font-weight: 600;
-			}
-			
-			
-			.nav-list .divider {
-				border-top: 0.05em solid rgba(0,0,0,.1);
 			}
 			
 			.main-block [data-toggle="left-block"] {
@@ -222,39 +64,9 @@
 				box-shadow: 0 3px 4px 0 rgba(0,0,0,0.14), 0 3px 3px -2px rgba(0,0,0,0.12), 0 1px 8px 0 rgba(0,0,0,0.2);
 			}
 			
-			.customized-scrollbar::-webkit-scrollbar-track
-			{
-				-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-				border-radius: 5px;
-				background-color: #F5F5F5;
-			}
-
-			.customized-scrollbar::-webkit-scrollbar
-			{
-				width: 6px;
-				background-color: #F5F5F5;
-			}
-
-			.customized-scrollbar::-webkit-scrollbar-thumb
-			{
-				border-radius: 5px;
-				-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-				background-color: rgba(0,0,0,0.3);
-			}
 			
-			.noselect {
-				-webkit-touch-callout: none; /* iOS Safari */
-					-webkit-user-select: none; /* Safari */
-					 -khtml-user-select: none; /* Konqueror HTML */
-						 -moz-user-select: none; /* Firefox */
-							-ms-user-select: none; /* Internet Explorer/Edge */
-									user-select: none; /* Non-prefixed version, currently
-																				supported by Chrome and Opera */
-			}
 			
-			.col-lg-2 {
-				
-			}
+			
 			
 			.folder {
 				height: 50px;
@@ -354,10 +166,12 @@
 			
 		</style>
 		
+		<div id="mainBlock"></div>
+		
 		<table class="main-block">
 			<tbody>
 				<tr>
-					<td class="left-block">
+					<!-- <td class="left-block">
 						<div class="content customized-scrollbar">
 							<ul class="nav-list">
 								<li class="item noselect"><i class="fa fa-bars"></i>我的云盘</li>
@@ -369,14 +183,16 @@
 							</ul>
 						</div>
 					</td>
-					<td style="background-color: rgba(0,0,0,.05);">
+					 -->
+					<!-- <td style="background-color: rgba(0,0,0,.05);">
 						<div class="content">
 							<div data-toggle="left-block">
 								<i class="fa fa-angle-double-left"></i>
 							</div>
 						</div>
 					</td>
-					<td class="middle-block">
+					 -->
+					<!-- <td class="middle-block">
 						<div class="content customized-scrollbar">
 							<div class="folder-block">
 								<div style="margin-bottom: 15px;">
@@ -537,7 +353,8 @@
 							</div>
 						</div>
 					</td>
-					<td class="right-block">
+					 -->
+					<!-- <td class="right-block">
 						<div class="content customized-scrollbar">
 							<div style="padding: 15px;">
 
@@ -545,72 +362,38 @@
 							
 						</div>
 					</td>
+					 -->
 				</tr>
 			</tbody>
 		</table>
 		
-		
-		
-		<style>
-		.left-collapse {
-			display: none;
-			position: fixed;
-			top: 0;
-			height: 100%;
-			width: 300px;
-			background: rgba(255,255,255,1);
-			overflow-y:auto;
-			-webkit-box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
-			box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
-		}
-		
-		.left-collapse .brand {
-			padding: 15px 15px 0 15px; color: rgba(0,0,0,.5);
-		}
-		
-		.left-collapse .brand .title{
-		font-size: 20px;  font-weight: 600;
-		}
-		.left-collapse [data-toggle="left-collapse"] {
-			cursor: pointer;
-			padding: 5px;
-			border-radius: 2px;
-		}
-		
-		.left-collapse [data-toggle="left-collapse"]:hover {
-			background-color: rgba(0,0,0,.3);
-			color: rgba(255,255,255,1);
-		}
-		</style>
-		
-		
-		<div class="left-collapse customized-scrollbar">
+		<!-- <div class="left-collapse customized-scrollbar">
 			<div class="brand">
-				<span class="title">Transtopia</span>
+				<span class="title noselect"><a href="#">Transtopia</a></span>
 				<span data-toggle="left-collapse" class="pull-right"><i class="fa fa-arrow-left"></i></span>
 			</div>
-			<ul class="nav-list">
-				<li class="item noselect"><i class="fa fa-bars"></i>我的云盘</li>
-				<li class="item noselect"><i class="fa fa-bars"></i>我的云盘</li>
+			<ul class="nav-list noselect" style="min-height: calc(100vh - 75px - 43px);">
+				<li class="item"><a href="#"><i class="fa fa-bars"></i>我的云盘</a></li>
+				<li class="item"><a href="#"><i class="fa fa-bars"></i>我的云盘</a></li>
+				<li class="item"><a href="#"><i class="fa fa-bars"></i>我的云盘</a></li>
 				<li class="divider"></li>
-				<li class="item noselect"><i class="fa fa-bars"></i>我的云盘</li>
-				<li class="item noselect"><i class="fa fa-bars"></i>我的云盘</li>
-				<li class="item noselect"><i class="fa fa-bars"></i>我的云盘</li>
+				<li class="item"><a href="#"><i class="fa fa-bars"></i>我的云盘</a></li>
+				<li class="item"><a href="#"><i class="fa fa-bars"></i>我的云盘</a></li>
+				<li class="item"><a href="#"><i class="fa fa-bars"></i>我的云盘</a></li>
 			</ul>
+			
+			<div class="about-trans noselect" style="padding: 0 15px 15px 15px;color: rgba(0,0,0,0.3);">
+				<p style="margin:0;">©2017 Transtopia • Privacy </p>
+				<p style="margin:0;">Policy • Terms of Service </p>
+				<p style="margin:0;">Region • Brands </p>
+			</div>
 		</div>
+		 -->
+		
 		<!-- 右下角按钮组 -->
 		<div id="btngroup-rightbot">
 			
 		</div>
-		
-		<!-- Control Sidebar -->
-		<!-- <aside class="control-sidebar control-sidebar-dark">
-			<div class="tab-content">
-				<div class="tab-pane active" id="control-sidebar-theme">
-				</div>
-			</div>
-		</aside>
-		<div class="control-sidebar-bg"></div> -->
 	</body>
 	
 	<!-- 插件与样式 -->
@@ -668,68 +451,46 @@
 	
 	
 	<!-- 自定义插件与样式 -->
+	
+	<!-- Static -->
+	<script src="js_gamma/static.js"></script>
+	
+	<!-- Module -->
+	<script src="js_gamma/module.js"></script>
 	<!-- 全局css -->
+	<link href="css_gamma/global.css" rel="stylesheet">
 	
 	<!-- 测试 -->
-	<script src="js/test.js"></script>
+	<script src="js_gamma/test_data.js"></script>
 	
 	<script>
-	$("iframe").contents().find("img").attr("style","width:100%;height:100%");
+	var FNT = new FirstNavTop();
+	FNT.setBrand(dataBrand.name, dataBrand.href);
+	FNT.appendCollapseBtn();
+	FNT.setLeftBtnList(dataNavLink);
+	$('#firstNavTop').append(FNT.getModule());
+	
+	var SNT = new SecondNavTop();
+	SNT.setNav(dataNav);
+	$('#secondNavTop').append(SNT.getModule());
+	
+	var MB = new MainBlock();
+	MB.add(dataMainBlockContent);
+	MB.getModule().find('.content').css('height', 'calc(100vh - 102px)');
+	$('#mainBlock').append(MB.getModule());
+	
+	var LC = new LeftCollapse();
+	LC.setBrand(dataBrand.name, dataBrand.href);
+	LC.setNav(dataLeftCollapseNav);
+	$('body').append(LC.getModule());
+	
+	/*$("iframe").contents().find("img").attr("style","width:100%;height:100%");
 	//$("#iframe").contents().find(".change-class").css('background-color', 'black');
 	
 	$('[folder], [file]').draggable({zIndex: 2500,revert: true});
 	$('[folder]').droppable();
-	
-	$('[data-toggle="right-block"]').click(function(){
-		$('.right-block').toggle(200);
-	});
-	
-	$('[data-toggle="left-block"]').click(function(){
-		$(this).find('i').toggleClass('fa-angle-double-left , fa-angle-double-right');
-		$('.left-block').toggle(200);
-	});
-	
-	
-	$('[data-toggle="left-collapse"]').click(function(){
-		$('.left-collapse').toggle(200);
-	});
-	
-	
-	//页面初始化
-	$( document ).ready(function() {
-		console.log('加载...');
-		$('#main-block').click(function(){
-			toggleCollapseBlock($('#left-block'));
-			toggleCollapseBlock($('#right-block'));
-		});
-	});
-	/*
-	var toggleLeftBlock = function(){
-		var leftBlock = $('#main-block #left-block'),
-		middleBlock = $('#main-block #middle-block');
-		
-		leftBlock.css('left', '-250px');
-		console.log(leftBlock.position());
-		middleBlock.css('margin-left', 0);
-		
-	};
 	*/
-	var toggleCollapseBlock = function(target){
-		var middle = $('#middle-block');
-		
-		if(target.hasClass('hide')){
-			target.removeClass('hide');
-			toggleMiddleBlock(-1);
-		}else{
-			target.addClass('hide');
-			toggleMiddleBlock(1);
-		}
-	};
 	
-	var toggleMiddleBlock = function(toggle){
-		var middle = $('#middle-block');
-		middle.attr('data-width', parseInt(middle.attr('data-width')) + toggle);
-	};
 	
 	</script>
 </html>

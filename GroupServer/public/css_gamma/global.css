@@ -1,0 +1,137 @@
+/* Nav Top */
+.nav-top {
+	-webkit-box-shadow: 
+		0 4px 5px 0 rgba(0,0,0,0.14),
+		0 1px 10px 0 rgba(0,0,0,0.12),
+		0 2px 4px -1px rgba(0,0,0,0.2);
+	box-shadow: 
+		0 4px 5px 0 rgba(0,0,0,0.14),
+		0 1px 10px 0 rgba(0,0,0,0.12),
+		0 2px 4px -1px rgba(0,0,0,0.2);
+}
+
+.nav-top .navbar li a, .nav-top .navbar-brand{
+	color: rgba(0,0,0,0.6);
+}
+
+
+/* End of Nav Top */
+
+/* Main Block */
+.main-block {
+	width: 100%;
+}
+
+.main-block tr {
+}
+
+.main-block td{
+	vertical-align: top;
+}
+
+.main-block td .content {
+	/* height: calc(100vh - 102px); */
+	padding: 15px;
+	overflow-y: auto;
+}
+/* End of Main Block */
+
+
+/* Left Collapse */ 
+.left-collapse {
+	display: none;
+	position: fixed;
+	top: 0;
+	height: 100%;
+	width: 300px;
+	background: rgba(255,255,255,1);
+	overflow-y:auto;
+	-webkit-box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
+	box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
+}
+
+.left-collapse .brand {
+	padding: 15px 15px 0 15px;
+	color: rgba(0,0,0,.5);
+}
+
+.left-collapse .brand .title a{
+	color: rgba(0,0,0,.5);
+	font-size: 20px;
+	font-weight: 600;
+	text-decoration:none;
+}
+
+.left-collapse [data-toggle="left-collapse"] {
+	padding: 5px;
+	border-radius: 2px;
+	cursor: pointer;
+}
+
+.left-collapse [data-toggle="left-collapse"]:hover {
+	background-color: rgba(0,0,0,.3);
+	color: rgba(255,255,255,1);
+}
+/* End of Left Collapse */ 
+
+/* 自定义导航栏样式 */
+.nav-list {
+	list-style: none;
+	padding: 15px 0 15px 0;
+	margin: 0;
+}
+
+.nav-list .item {
+	padding: 12px 0 12px 20px;
+	font-size: 18px;
+}
+.nav-list .item a {
+	text-decoration: none;
+	color: rgba(0,0,0,.7);
+}
+
+.nav-list .item i{
+	padding-right: 20px;
+}
+
+.nav-list .item:hover, .nav-list .item.active {
+	background-color: rgba(0,0,0,.08);
+	color: rgba(0,0,0,1);
+	font-weight: 600;
+}
+
+.nav-list .divider {
+	border-top: 0.05em solid rgba(0,0,0,.1);
+}
+/* End of 自定义导航栏样式 */
+
+/* 自定义滚动条 */
+.customized-scrollbar::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 5px;
+	background-color: #F5F5F5;
+}
+
+.customized-scrollbar::-webkit-scrollbar {
+	width: 6px;
+	background-color: #F5F5F5;
+}
+
+.customized-scrollbar::-webkit-scrollbar-thumb {
+	border-radius: 5px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: rgba(0,0,0,0.3);
+}
+/* End of 自定义滚动条 */
+
+/* 不可选 */
+.noselect {
+	-webkit-touch-callout: none; /* iOS Safari */
+		-webkit-user-select: none; /* Safari */
+		 -khtml-user-select: none; /* Konqueror HTML */
+			 -moz-user-select: none; /* Firefox */
+				-ms-user-select: none; /* Internet Explorer/Edge */
+						user-select: none; /* Non-prefixed version, currently
+																	supported by Chrome and Opera */
+}
+/* End of 不可选 */

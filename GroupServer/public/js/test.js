@@ -25,11 +25,20 @@ var testObj = function(name, inner){
 var abc = function(a, b){
 	this.a = a;
 	var b = b;
+	
+	this.getB = function(){
+		console.log(b);
+	};
 };
 
 var cde = function(){
 	abc.call(this, 1,2);
+	
+	this.xxx = function(){
+		this.getB();
+	};
 };
+
 
 /* var reg = /^[A-Za-z]+$/;
 var str = 'abc';
