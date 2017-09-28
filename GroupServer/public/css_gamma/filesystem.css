@@ -1,0 +1,105 @@
+/* 左侧导航栏 */
+.main-block .left-block {
+	width: 200px;
+	background-color: rgba(0,0,0,.05);
+	
+}
+/* End of 左侧导航栏 */
+/* 左侧导航栏toggle */
+.main-block [data-toggle="left-block"] {
+	margin-top: 10px;
+	padding: 5px 0 5px 5px;
+	cursor: pointer;
+	border-radius: 2px;
+}
+
+.main-block [data-toggle="left-block"]:hover {
+	background-color: rgba(66, 133, 244, 1);
+	color: rgba(255,255,255,1);
+	font-size: 20px;
+}
+/* End of 左侧导航栏toggle */
+/* 中间主控栏目 */
+.main-block .middle-block {
+	background-color: rgba(0,0,0,.05);
+}
+
+.main-block .middle-block .file-folder-block {
+	padding: 15px;
+}
+
+.main-block .middle-block .file-folder-block [data-name="sort-by"] {
+	padding: 10px;
+	border-radius: 2px;
+}
+
+.main-block .middle-block .file-folder-block [data-name="sort-by"]:hover {
+	background-color: rgba(0,0,0,.08);
+}
+
+.main-block .middle-block .file-folder-block [data-name="ascending"] i {
+	padding: 10px;
+	border-radius: 50%;
+	color: rgba(0,0,0,.54);
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.main-block .middle-block .file-folder-block [data-name="ascending"]:hover i {
+	background-color: rgba(0,0,0,.08);
+}
+
+.main-block .middle-block .file-folder-block .loadmore {
+	border: 1px solid rgba(0,0,0,.1);
+}
+
+.main-block .middle-block .file-folder-block .loadmore:hover {
+	border: none;
+	font-weight: 600;
+	background-color: rgba(0,0,0,.08);
+}
+/* End of 中间主控栏目 */
+/* 文件夹 */
+.folder {
+	height: 50px;
+	color: rgba(0,0,0,.5);
+	background-color: rgba(255,255,255,1);
+	margin-bottom: 15px;
+	-webkit-box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
+	box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
+	cursor: pointer;
+	border-radius: 3px;
+}
+
+.folder:hover, .folder.active {
+	background-color: rgba(66, 133, 244, 1);
+}
+
+.folder .icon {
+	line-height: 50px;
+	font-size: 24px;
+	border-radius: 50%;
+	padding: 4px 6px;
+	margin-left: 10px;
+	margin-top: -15px;
+}
+
+.folder:hover .icon, .folder.active .icon{
+	background-color: rgba(255, 255, 255, 1);
+}
+
+.folder .name {
+	display:inline-block;
+	padding-left: 15px;
+	width:calc(100% - 50px);
+	font-weight: 600;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis; 
+}
+
+.folder:hover .name, .folder.active .name {
+	color: rgba(255, 255, 255, 1);
+}
+/* End of 文件夹 */
+

@@ -108,3 +108,53 @@ var dataLeftCollapseNav = [
 		action: fun
 	}
 ];
+
+var dataListOfFolder = [
+	{
+		id: '',
+		name: '测试文件夹'
+	},
+	{
+		id: '',
+		name: '测试文件夹'
+	},
+	{
+		id: '',
+		name: '测试文件夹'
+	},
+	{
+		id: '',
+		name: '测试文件夹'
+	},
+	{
+		id: '',
+		name: '测试文件夹'
+	},
+	{
+		id: '',
+		name: '测试文件夹'
+	}
+];
+
+var dataListOfFile = [
+	{
+		id: '',
+		name: '测试文件',
+		src: 'http://127.0.0.1:3000/dist/img/New Text Document.txt'
+	},
+	{
+		id: '',
+		name: '测试文件',
+		src: 'http://127.0.0.1:3000/dist/img/extofgong_chen.pdf'
+	},
+	{
+		id: '',
+		name: '测试文件',
+		src: 'http://127.0.0.1:3000/dist/img/photo1.png'
+	},
+	{
+		id: '',
+		name: '测试文件',
+		src: 'http://127.0.0.1:3000/dist/img/controller.js'
+	},
+];

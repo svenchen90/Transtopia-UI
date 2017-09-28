@@ -25,89 +25,13 @@
 		
 		<!-- 主要展示框 -->
 		<style>
-			.main-block .left-block {
-				width: 200px;
-				background-color: rgba(0,0,0,.05);
-				
-			}
-			
-			.main-block [data-toggle="left-block"] {
-				margin-top: 10px;
-				padding: 5px;
-				cursor: pointer;
-				border-radius: 2px;
-			}
-			
-			.main-block [data-toggle="left-block"]:hover {
-				background-color: rgba(66, 133, 244, 1);
-				color: rgba(255,255,255,1);
-				font-size: 20px;
-			}
-			
-			
-			.main-block .middle-block {
-				background-color: rgba(0,0,0,.05);
-			}
-			
-			.main-block .middle-block .folder-block {
-				padding: 15px;
-			}
-			
-			.main-block .middle-block .file-block {
-				padding: 15px;
-			}
-			
-			
+
 			.main-block .right-block {
 				width: 300px;
+				/*
 				-webkit-box-shadow: 0 3px 4px 0 rgba(0,0,0,0.14), 0 3px 3px -2px rgba(0,0,0,0.12), 0 1px 8px 0 rgba(0,0,0,0.2);
-				box-shadow: 0 3px 4px 0 rgba(0,0,0,0.14), 0 3px 3px -2px rgba(0,0,0,0.12), 0 1px 8px 0 rgba(0,0,0,0.2);
-			}
-			
-			
-			
-			
-			
-			.folder {
-				height: 50px;
-				color: rgba(0,0,0,.5);
-				background-color: rgba(255,255,255,1);
-				margin-bottom: 15px;
-				-webkit-box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
-				box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
-				cursor: pointer;
-				border-radius: 3px;
-			}
-			
-			.folder:hover, .folder.active {
-				background-color: rgba(66, 133, 244, 1);
-			}
-			
-			.folder .icon {
-				line-height: 50px;
-				font-size: 24px;
-				border-radius: 50%;
-				padding: 4px 6px;
-				margin-left: 10px;
-				margin-top: -15px;
-			}
-			
-			.folder:hover .icon, .folder.active .icon{
-				background-color: rgba(255, 255, 255, 1);
-			}
-			
-			.folder .name {
-				display:inline-block;
-				padding-left: 15px;
-				width:calc(100% - 50px);
-				font-weight: 600;
-				overflow: hidden;
-				white-space:nowrap;
-				text-overflow:ellipsis; 
-			}
-			
-			.folder:hover .name, .folder.active .name {
-				color: rgba(255, 255, 255, 1);
+				box-shadow: -3px 0 4px 0 rgba(0,0,0,0.14), 0 3px 3px -2px rgba(0,0,0,0.12), 0 1px 8px 0 rgba(0,0,0,0.2);
+				*/
 			}
 			
 			.file {
@@ -163,7 +87,7 @@
 				color: rgba(255, 255, 255, 1);
 			}
 			
-			
+	
 		</style>
 		
 		<div id="mainBlock"></div>
@@ -171,224 +95,12 @@
 		<table class="main-block">
 			<tbody>
 				<tr>
-					<!-- <td class="left-block">
-						<div class="content customized-scrollbar">
-							<ul class="nav-list">
-								<li class="item noselect"><i class="fa fa-bars"></i>我的云盘</li>
-								<li class="item noselect"><i class="fa fa-bars"></i>我的云盘</li>
-								<li class="divider"></li>
-								<li class="item noselect"><i class="fa fa-bars"></i>我的云盘</li>
-								<li class="item noselect"><i class="fa fa-bars"></i>我的云盘</li>
-								<li class="item noselect"><i class="fa fa-bars"></i>我的云盘</li>
-							</ul>
-						</div>
-					</td>
-					 -->
-					<!-- <td style="background-color: rgba(0,0,0,.05);">
-						<div class="content">
-							<div data-toggle="left-block">
-								<i class="fa fa-angle-double-left"></i>
-							</div>
-						</div>
-					</td>
-					 -->
-					<!-- <td class="middle-block">
-						<div class="content customized-scrollbar">
-							<div class="folder-block">
-								<div style="margin-bottom: 15px;">
-									<span style="color: rgba(0,0,0,.54); font-weight: 600;">文件夹</span>
-									<span class="pull-right">
-										<span class="dropdown">
-											<a href="#" class="dropdown-toggle" data-toggle="dropdown" style="margin-right: 10px;color: rgba(0,0,0,.54); font-weight: 600; text-decoration: none;">{Dropdown}</a>
-											<ul class="dropdown-menu">
-												<li><a href="#">{sublink}</a></li>
-												<li><a href="#">{sublink}</a></li>
-												<li><a href="#">{sublink}</a></li>
-												<li class="divider"></li>
-												<li><a href="#">{sublink}</a></li>
-												<li class="divider"></li>
-												<li><a href="#">{sublink}</a></li>
-											</ul>
-										</span>
-										<span style="color: rgba(0,0,0,.54); font-weight: 600;"><i class="fa fa-arrow-down"></i></span>
-									</span>
-								</div>
-								
-								<div class="folder-content row">
-									<div class="col-lg-2 col-md-4 col-sm-6" folder>
-										<div class="folder noselect" title="123123113212132">
-										<span class="icon"><i class="fa fa-folder"></i></span>
-										<span class="name">fasfdasfasdfsa1231231231fsfsaf</span>
-										</div>
-									</div>
-									<div class="col-lg-2 col-md-4 col-sm-6">
-										<div class="folder noselect" title="123123113212132">
-										<span class="icon"><i class="fa fa-folder"></i></span>
-										<span class="name">fasfdasfasdfsa1231231231fsfsaf</span>
-										</div>
-									</div>
-									<div class="col-lg-2 col-md-4 col-sm-6">
-										<div class="folder noselect" title="123123113212132">
-										<span class="icon"><i class="fa fa-folder"></i></span>
-										<span class="name">fasfdasfasdfsa1231231231fsfsaf</span>
-										</div>
-									</div>
-									<div class="col-lg-2 col-md-4 col-sm-6">
-										<div class="folder noselect" title="123123113212132">
-										<span class="icon"><i class="fa fa-folder"></i></span>
-										<span class="name">fasfdasfasdfsa1231231231fsfsaf</span>
-										</div>
-									</div>
-									<div class="col-lg-2 col-md-4 col-sm-6">
-										<div class="folder noselect" title="123123113212132">
-										<span class="icon"><i class="fa fa-folder"></i></span>
-										<span class="name">fasfdasfasdfsa1231231231fsfsaf</span>
-										</div>
-									</div>
-									<div class="col-lg-2 col-md-4 col-sm-6">
-										<div class="folder noselect" title="123123113212132">
-										<span class="icon"><i class="fa fa-folder"></i></span>
-										<span class="name">fasfdasfasdfsa1231231231fsfsaf</span>
-										</div>
-									</div>
-									<div class="col-lg-2 col-md-4 col-sm-6">
-										<div class="folder noselect" title="123123113212132">
-										<span class="icon"><i class="fa fa-folder"></i></span>
-										<span class="name">fasfdasfasdfsa1231231231fsfsaf</span>
-										</div>
-									</div>
-									
-								</div>
-							</div>
-							
-							<style>
-							</style>
-							
-							<div class="file-block">
-								<p style="color: rgba(0,0,0,.54); font-weight: 600;">文件</p>
-								<div class="folder-content row">
-									<div class="col-lg-2 col-md-4 col-sm-6" file>
-										<div class="file noselect">
-											<div class="top">
-												<iframe id="frame" src="http://127.0.0.1:3000/dist/img/New Text Document.txt" width="100%" scrolling="no" frameborder="0">
-												</iframe>
-											</div>
-											<div class="bot">
-												<span class="icon"><i class="fa fa-file-excel-o"></i></span>
-												<span class="name">fasfdasfasdfsa1231231231fsfsaf</span>
-											</div>
-										</div>
-									</div>
-									<div class="col-lg-2 col-md-4 col-sm-6">
-										<div class="file noselect">
-											<div class="top">
-												<iframe id="testtest" src="http://127.0.0.1:3000/dist/img/extofgong_chen.pdf" width="100%" scrolling="no" frameborder="0">
-												</iframe>
-											</div>
-											<div class="bot">
-												<span class="icon"><i class="fa fa-file-excel-o"></i></span>
-												<span class="name">fasfdasfasdfsa1231231231fsfsaf</span>
-											</div>
-										</div>
-									</div>
-									<div class="col-lg-2 col-md-4 col-sm-6">
-										<div class="file noselect">
-											<div class="top">
-												<iframe id="frame" src="http://127.0.0.1:3000/dist/img/photo1.png" width="100%" scrolling="no" frameborder="0">
-												</iframe>
-											</div>
-											<div class="bot">
-												<span class="icon"><i class="fa fa-file-excel-o"></i></span>
-												<span class="name">fasfdasfasdfsa1231231231fsfsaf</span>
-											</div>
-										</div>
-									</div>
-									<div class="col-lg-2 col-md-4 col-sm-6">
-										<div class="file noselect">
-											<div class="top">
-												<iframe id="frame" src="http://127.0.0.1:3000/dist/img/controller.js" width="100%" scrolling="no" frameborder="0">
-												</iframe>
-											</div>
-											<div class="bot">
-												<span class="icon"><i class="fa fa-file-excel-o"></i></span>
-												<span class="name">fasfdasfasdfsa1231231231fsfsaf</span>
-											</div>
-										</div>
-									</div>
-									<div class="col-lg-2 col-md-4 col-sm-6">
-										<div class="file noselect">
-											<div class="top">
-												
-											</div>
-											<div class="bot">
-												<span class="icon"><i class="fa fa-file-excel-o"></i></span>
-												<span class="name">fasfdasfasdfsa1231231231fsfsaf</span>
-											</div>
-										</div>
-									</div>
-									<div class="col-lg-2 col-md-4 col-sm-6">
-										<div class="file noselect">
-											<div class="top">
-												
-											</div>
-											<div class="bot">
-												<span class="icon"><i class="fa fa-file-excel-o"></i></span>
-												<span class="name">fasfdasfasdfsa1231231231fsfsaf</span>
-											</div>
-										</div>
-									</div>
-									<div class="col-lg-2 col-md-4 col-sm-6" file>
-										<div class="file noselect">
-											<div class="top">
-												
-											</div>
-											<div class="bot">
-												<span class="icon"><i class="fa fa-file-excel-o"></i></span>
-												<span class="name">fasfdasfasdfsa1231231231fsfsaf</span>
-											</div>
-										</div>
-									</div>
-									
-								</div>
-							</div>
-						</div>
-					</td>
-					 -->
-					<!-- <td class="right-block">
-						<div class="content customized-scrollbar">
-							<div style="padding: 15px;">
-
-							</div>
-							
-						</div>
-					</td>
+					
+					<!-- 
 					 -->
 				</tr>
 			</tbody>
 		</table>
-		
-		<!-- <div class="left-collapse customized-scrollbar">
-			<div class="brand">
-				<span class="title noselect"><a href="#">Transtopia</a></span>
-				<span data-toggle="left-collapse" class="pull-right"><i class="fa fa-arrow-left"></i></span>
-			</div>
-			<ul class="nav-list noselect" style="min-height: calc(100vh - 75px - 43px);">
-				<li class="item"><a href="#"><i class="fa fa-bars"></i>我的云盘</a></li>
-				<li class="item"><a href="#"><i class="fa fa-bars"></i>我的云盘</a></li>
-				<li class="item"><a href="#"><i class="fa fa-bars"></i>我的云盘</a></li>
-				<li class="divider"></li>
-				<li class="item"><a href="#"><i class="fa fa-bars"></i>我的云盘</a></li>
-				<li class="item"><a href="#"><i class="fa fa-bars"></i>我的云盘</a></li>
-				<li class="item"><a href="#"><i class="fa fa-bars"></i>我的云盘</a></li>
-			</ul>
-			
-			<div class="about-trans noselect" style="padding: 0 15px 15px 15px;color: rgba(0,0,0,0.3);">
-				<p style="margin:0;">©2017 Transtopia • Privacy </p>
-				<p style="margin:0;">Policy • Terms of Service </p>
-				<p style="margin:0;">Region • Brands </p>
-			</div>
-		</div>
-		 -->
 		
 		<!-- 右下角按钮组 -->
 		<div id="btngroup-rightbot">
@@ -457,9 +169,13 @@
 	
 	<!-- Module -->
 	<script src="js_gamma/module.js"></script>
+	
 	<!-- 全局css -->
 	<link href="css_gamma/global.css" rel="stylesheet">
 	
+	<!-- 文件 -->
+	<script src="js_gamma/filesystem.js"></script>
+	<link href="css_gamma/filesystem.css" rel="stylesheet">
 	<!-- 测试 -->
 	<script src="js_gamma/test_data.js"></script>
 	
@@ -474,19 +190,54 @@
 	SNT.setNav(dataNav);
 	$('#secondNavTop').append(SNT.getModule());
 	
-	var MB = new MainBlock();
-	MB.add(dataMainBlockContent);
-	MB.getModule().find('.content').css('height', 'calc(100vh - 102px)');
-	$('#mainBlock').append(MB.getModule());
-	
 	var LC = new LeftCollapse();
 	LC.setBrand(dataBrand.name, dataBrand.href);
 	LC.setNav(dataLeftCollapseNav);
 	$('body').append(LC.getModule());
 	
-	/*$("iframe").contents().find("img").attr("style","width:100%;height:100%");
-	//$("#iframe").contents().find(".change-class").css('background-color', 'black');
+	var LB_FS = new LeftBlock_FS();
+	LB_FS.setNav(dataLeftCollapseNav);
 	
+	var MB_FS = new MiddleBlock_FS();
+	var FF_Block = new FileFolderBlock();
+	FF_Block.setTitle('文件夹');
+	FF_Block.setSortBy(SORTBYMENU);
+	var FController = new FolderController();
+	var folders = FController.getFolderList(dataListOfFolder);
+	FF_Block.loadFileFolder(folders);
+	MB_FS.append(FF_Block.getModule());
+	
+	var FF_Block2 = new FileFolderBlock();
+	FF_Block2.setTitle('文件');
+	FF_Block2.setSortBy(SORTBYMENU);
+	var FIController = new FileController();
+	var files = FIController.getFileList(dataListOfFile);
+	FF_Block2.loadFileFolder(files);
+	MB_FS.append(FF_Block2.getModule());
+	
+	var RB_FS = new RightBlock_FS();
+	
+	var MB = new MainBlock();
+	LB_FS.getModule().find('.content').css('height', 'calc(100vh - 102px)');
+	MB.add(LB_FS.getModule());
+	LB_FS.getToggleBtn().find('.content').css('height', 'calc(100vh - 102px)');
+	MB.add(LB_FS.getToggleBtn());
+	
+	MB_FS.getModule().find('.content').css('height', 'calc(100vh - 102px)');
+	MB.add(MB_FS.getModule());
+	
+	RB_FS.getModule().find('.content').css('height', 'calc(100vh - 102px)');
+	MB.add(RB_FS.getModule());
+	
+	$('#mainBlock').append(MB.getModule());
+	
+	
+	
+	//console.log($("iframe").contents().find("img"));
+	/*
+	$("iframe").contents().find("img").attr("style","width:100%;height:100%");
+	//$("#iframe").contents().find(".change-class").css('background-color', 'black');
+
 	$('[folder], [file]').draggable({zIndex: 2500,revert: true});
 	$('[folder]').droppable();
 	*/
