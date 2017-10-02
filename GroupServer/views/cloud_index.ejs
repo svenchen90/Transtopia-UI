@@ -8,103 +8,19 @@
 		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	</head>
     
-	<body>
+	<body class="customized-scrollbar testButton">
 		<!-- 置顶一级导航栏 -->
 		<div class="nav-top">
 			<div id="firstNavTop"></div>
 			<div id="secondNavTop"></div>
 		</div>
-	
-		<style>
-		#left-block, #middle-block, #left-block {
-			transition: all 300ms;
-		}
-		
-		
-	</style>
 		
 		<!-- 主要展示框 -->
-		<style>
-
-			.main-block .right-block {
-				width: 300px;
-				/*
-				-webkit-box-shadow: 0 3px 4px 0 rgba(0,0,0,0.14), 0 3px 3px -2px rgba(0,0,0,0.12), 0 1px 8px 0 rgba(0,0,0,0.2);
-				box-shadow: -3px 0 4px 0 rgba(0,0,0,0.14), 0 3px 3px -2px rgba(0,0,0,0.12), 0 1px 8px 0 rgba(0,0,0,0.2);
-				*/
-			}
-			
-			.file {
-				background-color: rgba(255,255,255,1);
-				margin-bottom: 15px;
-				-webkit-box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
-				box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
-				cursor: pointer;
-				border-radius: 3px;
-			}
-			
-			.file .top {
-				height: 150px;
-				opacity: 0.3;
-				/*
-				background-image: url(http://127.0.0.1:3000/dist/img/default6.png);
-				background-size: 100%;
-				*/
-			}
-			
-			.file:hover .top, .file:active .top {
-				opacity: 1;
-			}
-			
-			.file:hover .bot , .file.active .bot {
-				background-color: rgba(66, 133, 244, 1);
-			}
-			
-			.file .icon {
-				padding: 4px 6px;
-				margin-left: 10px;
-				margin-top: -15px;
-				line-height: 50px;
-				font-size: 24px;
-				border-radius: 50%;
-			}
-			
-			.file:hover .icon, .file.active .icon{
-				background-color: rgba(255, 255, 255, 1);
-			}
-			
-			.file .name {
-				display:inline-block;
-				width:calc(100% - 50px);
-				padding-left: 15px;
-				font-weight: 600;
-				overflow: hidden;
-				white-space:nowrap;
-				text-overflow:ellipsis; 
-			}
-			
-			.file:hover .name, .file.active .name {
-				color: rgba(255, 255, 255, 1);
-			}
-			
-	
-		</style>
-		
-		<div id="mainBlock"></div>
-		
-		<table class="main-block">
-			<tbody>
-				<tr>
-					
-					<!-- 
-					 -->
-				</tr>
-			</tbody>
-		</table>
+		<div id="mainBlock">
+		</div>
 		
 		<!-- 右下角按钮组 -->
 		<div id="btngroup-rightbot">
-			
 		</div>
 	</body>
 	
@@ -162,6 +78,10 @@
 	<script src="plugins/bootstrap-wysiwyg/bootstrap-wysiwyg.js"></script> -->
 	
 	
+	<link href="plugins/contextMenu.js-master/contextMenu.min.css" rel="stylesheet">
+	<script src="plugins/contextMenu.js-master/contextMenu.js"></script>
+	
+	
 	<!-- 自定义插件与样式 -->
 	
 	<!-- Static -->
@@ -183,11 +103,14 @@
 	var FNT = new FirstNavTop();
 	FNT.setBrand(dataBrand.name, dataBrand.href);
 	FNT.appendCollapseBtn();
-	FNT.setLeftBtnList(dataNavLink);
+	FNT.appendPage('私人');
+	FNT.appendNav(dataNav1);
+	//FNT.setLeftBtnList(dataNavLink);
 	$('#firstNavTop').append(FNT.getModule());
 	
 	var SNT = new SecondNavTop();
-	SNT.setNav(dataNav);
+	SNT.appendNav(dataNav2);
+	SNT.appendNav(dataNav3);
 	$('#secondNavTop').append(SNT.getModule());
 	
 	var LC = new LeftCollapse();
@@ -196,24 +119,37 @@
 	$('body').append(LC.getModule());
 	
 	var LB_FS = new LeftBlock_FS();
-	LB_FS.setNav(dataLeftCollapseNav);
+	LB_FS.setNav(dataLeftBlockNav);
 	
 	var MB_FS = new MiddleBlock_FS();
-	var FF_Block = new FileFolderBlock();
-	FF_Block.setTitle('文件夹');
-	FF_Block.setSortBy(SORTBYMENU);
-	var FController = new FolderController();
-	var folders = FController.getFolderList(dataListOfFolder);
-	FF_Block.loadFileFolder(folders);
-	MB_FS.append(FF_Block.getModule());
 	
-	var FF_Block2 = new FileFolderBlock();
-	FF_Block2.setTitle('文件');
-	FF_Block2.setSortBy(SORTBYMENU);
-	var FIController = new FileController();
-	var files = FIController.getFileList(dataListOfFile);
-	FF_Block2.loadFileFolder(files);
-	MB_FS.append(FF_Block2.getModule());
+	var folderBlock = new FolderBlock();
+	//folderBlock.setTitle('文件夹');
+	//folderBlock.setSortBy(SORTBYMENU);
+	folderBlock.addList(dataListOfFolder);
+	folderBlock.addList(dataListOfFolder);
+	MB_FS.append(folderBlock.getModule());
+	
+	folderBlock.getModule().find('[data-type="folder"]').click(function(){
+		var id = $(this).attr('data-index');
+		folderBlock.remove(id);
+		console.log($(this).attr('data-index'));
+	});
+	
+	
+	
+	
+	var folderBlock2 = new FileFolderBlock(new File());
+	folderBlock2.setTitle('文件');
+	folderBlock2.initSortBy(SORTBYMENU);
+	folderBlock2.addList(dataListOfFile);
+	MB_FS.append(folderBlock2.getModule());
+	
+	folderBlock2.getModule().find('[data-type="file"]').click(function(){
+		var id = $(this).attr('data-index');
+		folderBlock2.remove(id);
+		console.log($(this).attr('data-index'));
+	});
 	
 	var RB_FS = new RightBlock_FS();
 	
@@ -230,19 +166,68 @@
 	MB.add(RB_FS.getModule());
 	
 	$('#mainBlock').append(MB.getModule());
+	</script>
 	
-	
-	
-	//console.log($("iframe").contents().find("img"));
-	/*
-	$("iframe").contents().find("img").attr("style","width:100%;height:100%");
-	//$("#iframe").contents().find(".change-class").css('background-color', 'black');
-
-	$('[folder], [file]').draggable({zIndex: 2500,revert: true});
-	$('[folder]').droppable();
-	*/
-	
-	
+	<script>
+	var menu = [{
+					name: 'create',
+					img: 'images/create.png',
+					title: 'create button',
+					fun: function () {
+							alert('i am add button')
+					}
+			}, {
+					name: 'update',
+					img: 'images/update.png',
+					title: 'update button',
+					subMenu: [{
+							name: 'merge',
+							title: 'It will merge row',
+							img:'images/merge.png',
+							fun: function () {
+									alert('It will merge row')
+							}
+					}, {
+							name: 'replace',
+							title: 'It will replace row',
+							img:'images/replace.png',
+							subMenu: [{
+									name: 'replace top 100',
+									img:'images/top.png',
+									fun:function(){
+									alert('It will replace top 100 rows');
+									}
+	 
+							}, {
+									name: 'replace all',
+									img:'images/all.png',
+									fun:function(){
+									alert('It will replace all rows');
+									}
+							}]
+					}]
+			}, {
+					name: 'delete',
+					img: 'images/delete.png',
+					title: 'delete button',
+					subMenu: [{
+							'name': 'soft delete',
+							img:'images/soft_delete.png',
+							fun:function(){
+							alert('You can recover back');
+							}
+					}, {
+							'name': 'hard delete',
+							img:'images/hard_delete.png',
+							fun:function(){
+							alert('It will delete permanently');
+							}
+					}]
+	 
+			}];
+			 
+	//Calling context menu
+	 $('.loadmore').contextMenu(menu);
 	</script>
 </html>
 

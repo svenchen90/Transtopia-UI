@@ -13,16 +13,14 @@ Beta版本: 模块
 // 1. 顶端一级导航栏 
 var FirstNavTop = function(){
 	var module = $(
-		'<nav class="navbar" style="margin-bottom:0; border-radius:0;border-bottom: none;">\n' +
+		'<nav class="navbar noselect" style="margin-bottom:0; border-radius:0;border-bottom: none;">\n' +
 		'	<div class="container-fluid">\n' +
 		'		<!-- Brand and toggle get grouped for better mobile display -->\n' +
 		'		<div class="navbar-header">\n' +
 		'			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">\n' +
-		'			<span class="icon-bar"></span>\n' +
-		'			<span class="icon-bar"></span>\n' +
-		'			<span class="icon-bar"></span>\n' +
+		'				<i class="fa fa-bars"></i>\n' +
 		'			</button>\n' +
-		'			<a class="navbar-brand" href="#"></a>\n' +
+		'			<a data-type="brand" class="navbar-brand" href="javascript:void(0)"></a>\n' +
 		'		</div>\n' +
 		'		<!-- Collect the nav links, forms, and other content for toggling -->\n' +
 		'		<div class="collapse navbar-collapse" id="navbar-collapse-1">\n' +
@@ -44,32 +42,38 @@ var FirstNavTop = function(){
 
 	// 设置商标
 	this.setBrand = function(title, href){
-		module.find('.navbar-brand').attr('href', href).text(title);
+		module.find('[data-type="brand"]').attr('href', href).text(title);
+	};
+	
+	//设置page标签
+	this.appendPage = function(title){
+		module.find('.navbar-header')
+			.append('<span data-type="page" class="navbar-brand" href="javascript:void(0)" style="cursor: default;">' + title + '</span>');
 	};
 	
 	// 设置collapse btn
 	this.appendCollapseBtn = function(callback){
 		var btn = $(
-			'<ul class="nav navbar-nav">\n' +
-			'	<li>\n' +
-			'		<a href="#" data-type="btn-collapse">\n' +
-			'			<i class="fa fa-bars"></i>\n' +
-			'		</a>\n' +
-			'	</li>\n' +
-			'</ul>'
+			'<a class="navbar-brand" href="javascript:void(0)" data-type="btn-collapse">\n' +
+			'	<i class="fa fa-bars"></i>\n' +
+			'</a>'
 		);
 		
-		btn.find('[data-type="btn-collapse"]')
-			.unbind('click')
+		btn.unbind('click')
 			.click(function(){
 				$('.left-collapse').toggle(ANIMATION_TIME);
 			});
 			
-		module.find('#navbar-collapse-1').prepend(btn);
+		module.find('.navbar-header').append(btn);
+	};
+	
+	//添加Nav
+	this.appendNav = function(nav){
+		module.find('#navbar-collapse-1').append(nav);
 	};
 	
 	// 设置靠左list
-	this.setLeftBtnList = function(leftList){
+	/* this.setLeftBtnList = function(leftList){
 		var container = module.find('[data-type="left-list"]');
 		
 		$.each(leftList, function(index, item){
@@ -81,17 +85,13 @@ var FirstNavTop = function(){
 				container.append(link);
 			}
 		});
-	};
+	}; */
 	
 	// 设置Search
 	this.setSearch = function(){
 		
 	};
 	
-	// 设置靠右list
-	this.setRightBtnList = function(rightList){
-		
-	};
 	
 	// 获取module
 	this.getModule = function(){
@@ -102,14 +102,12 @@ var FirstNavTop = function(){
 // 2. 顶端二级导航栏
 var SecondNavTop = function(){
 	var module = $(
-		'<nav class="navbar" style="margin-bottom:0; border-radius:0;border-top: none;">\n' +
+		'<nav class="navbar noselect" style="margin-bottom:0; border-radius:0;border-top: none;">\n' +
 		'	<div class="container-fluid">\n' +
 		'		<!-- Brand and toggle get grouped for better mobile display -->\n' +
 		'		<div class="navbar-header">\n' +
 		'			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-2">\n' +
-		'			<span class="icon-bar"></span>\n' +
-		'			<span class="icon-bar"></span>\n' +
-		'			<span class="icon-bar"></span>\n' +
+		'			<i class="fa fa-bars"></i>\n' +
 		'			</button>\n' +
 		'		</div>\n' +
 		'		<div class="collapse navbar-collapse" id="navbar-collapse-2" >\n' +
@@ -120,14 +118,9 @@ var SecondNavTop = function(){
 	);
 	
 	// 设置导航
-	this.setNav = function(navList){
-		var container = module.find('#navbar-collapse-2').empty();
-		
-		$.each(navList, function(index, nav){
-			container.append(nav);
-		});
+	this.appendNav = function(nav){
+		module.find('#navbar-collapse-2').append(nav);
 	};
-	// <i class="fa fa-info-circle">
 	
 	// 获取module
 	this.getModule = function(){
@@ -138,7 +131,7 @@ var SecondNavTop = function(){
 // 3. 主控栏
 var MainBlock = function(){
 	var module = $(
-		'<table class="main-block">\n' +
+		'<table class="main-block noselect">\n' +
 		'	<tbody>\n' +
 		'		<tr>\n' +
 		'			<!-- 主控区域内容 -->\n' +
@@ -168,7 +161,7 @@ var LeftCollapse = function(){
 	var module = $(
 		'<div class="left-collapse customized-scrollbar">\n' +
 		'	<div class="brand">\n' +
-		'		<span class="title noselect"><a href="#" style="text-decoration:none;color: rgba(0,0,0,.5);">Transtopia</a></span>\n' +
+		'		<span class="title noselect"><a href="javascript:void(0)" style="text-decoration:none;color: rgba(0,0,0,.5);">Transtopia</a></span>\n' +
 		'		<span data-toggle="left-collapse" class="pull-right"><i class="fa fa-arrow-left"></i></span>\n' +
 		'	</div>\n' +
 		'	<ul class="nav-list noselect" style="min-height: calc(100vh - 75px - 43px);">\n' +

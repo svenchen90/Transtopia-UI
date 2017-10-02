@@ -1,3 +1,16 @@
+/* Body 滚动条 */
+body {
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+@media screen and (min-width: 768px) {
+	body {
+		overflow-x: hidden;
+		overflow-y: hidden;
+	}
+}
+/* End of Body 滚动条 */
 /* Nav Top */
 .nav-top {
 	-webkit-box-shadow: 
