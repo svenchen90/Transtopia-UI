@@ -8,7 +8,7 @@
 		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	</head>
     
-	<body class="customized-scrollbar testButton">
+	<body class="customized-scrollbar">
 		<!-- 置顶一级导航栏 -->
 		<div class="nav-top">
 			<div id="firstNavTop"></div>
@@ -122,19 +122,14 @@
 	LB_FS.setNav(dataLeftBlockNav);
 	
 	var MB_FS = new MiddleBlock_FS();
+	MB_FS.openFolder(1);
 	
-	var folderBlock = new FolderBlock();
+	/*var folderBlock = new FolderBlock();
 	//folderBlock.setTitle('文件夹');
 	//folderBlock.setSortBy(SORTBYMENU);
 	folderBlock.addList(dataListOfFolder);
-	folderBlock.addList(dataListOfFolder);
+	//folderBlock.addList(dataListOfFolder);
 	MB_FS.append(folderBlock.getModule());
-	
-	folderBlock.getModule().find('[data-type="folder"]').click(function(){
-		var id = $(this).attr('data-index');
-		folderBlock.remove(id);
-		console.log($(this).attr('data-index'));
-	});
 	
 	
 	
@@ -149,10 +144,10 @@
 		var id = $(this).attr('data-index');
 		folderBlock2.remove(id);
 		console.log($(this).attr('data-index'));
-	});
+	});*/
 	
 	var RB_FS = new RightBlock_FS();
-	
+
 	var MB = new MainBlock();
 	LB_FS.getModule().find('.content').css('height', 'calc(100vh - 102px)');
 	MB.add(LB_FS.getModule());

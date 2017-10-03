@@ -209,3 +209,24 @@ var dataListOfFile = [
 		src: 'http://127.0.0.1:3000/dist/img/controller.js'
 	},
 ];
+
+var dataMenu = [
+	{
+		name: '1231',
+		action: function(data){
+			console.log(data);
+		}
+	},
+	{
+		name: '1231',
+		action: function(data){
+			console.log(data);
+		}
+	},
+	{
+		name: '1231',
+		action: function(data){
+			console.log(data);
+		}
+	}
+];

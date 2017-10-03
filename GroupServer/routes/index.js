@@ -2775,6 +2775,70 @@ router.get('/cloud_index', function(req, res, next) {
 	res.render('cloud_index');
 });
 
+router.get('/folder_authority', function(req, res, next) {
+	res.json([0,1,2,3,4,5,6,7,8]);
+});
+
+router.get('/file_authority', function(req, res, next) {
+	res.json([0,1,2,3,4,5,6,7]);
+});
+
+router.get('/getallinfolder', function(req, res, next) {
+	var dataListOfFolder = [
+		{
+			id: '1',
+			name: '测试文件夹'
+		},
+		{
+			id: '2',
+			name: '测试文件夹'
+		},
+		{
+			id: '3',
+			name: '测试文件夹'
+		},
+		{
+			id: '4',
+			name: '测试文件夹'
+		},
+		{
+			id: '5',
+			name: '测试文件夹'
+		},
+		{
+			id: '6',
+			name: '测试文件夹'
+		}
+	];
+
+	var dataListOfFile = [
+		{
+			id: '1',
+			name: '测试文件',
+			src: 'http://127.0.0.1:3000/dist/img/New Text Document.txt'
+		},
+		{
+			id: '2',
+			name: '测试文件',
+			src: 'http://127.0.0.1:3000/dist/img/extofgong_chen.pdf'
+		},
+		{
+			id: '3',
+			name: '测试文件',
+			src: 'http://127.0.0.1:3000/dist/img/photo1.png'
+		},
+		{
+			id: '4',
+			name: '测试文件',
+			src: 'http://127.0.0.1:3000/dist/img/controller.js'
+		},
+	]
+	
+	res.json({
+		folder: dataListOfFolder,
+		file: dataListOfFile
+	});
+});
 
 
 
