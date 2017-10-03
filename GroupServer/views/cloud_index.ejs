@@ -78,8 +78,8 @@
 	<script src="plugins/bootstrap-wysiwyg/bootstrap-wysiwyg.js"></script> -->
 	
 	
-	<link href="plugins/contextMenu.js-master/contextMenu.min.css" rel="stylesheet">
-	<script src="plugins/contextMenu.js-master/contextMenu.js"></script>
+	<!-- <link href="plugins/contextMenu.js-master/contextMenu.min.css" rel="stylesheet">
+	<script src="plugins/contextMenu.js-master/contextMenu.js"></script> -->
 	
 	
 	<!-- 自定义插件与样式 -->
@@ -168,67 +168,6 @@
 	$('#mainBlock').append(MB.getModule());
 	</script>
 	
-	<script>
-	var menu = [{
-					name: 'create',
-					img: 'images/create.png',
-					title: 'create button',
-					fun: function () {
-							alert('i am add button')
-					}
-			}, {
-					name: 'update',
-					img: 'images/update.png',
-					title: 'update button',
-					subMenu: [{
-							name: 'merge',
-							title: 'It will merge row',
-							img:'images/merge.png',
-							fun: function () {
-									alert('It will merge row')
-							}
-					}, {
-							name: 'replace',
-							title: 'It will replace row',
-							img:'images/replace.png',
-							subMenu: [{
-									name: 'replace top 100',
-									img:'images/top.png',
-									fun:function(){
-									alert('It will replace top 100 rows');
-									}
-	 
-							}, {
-									name: 'replace all',
-									img:'images/all.png',
-									fun:function(){
-									alert('It will replace all rows');
-									}
-							}]
-					}]
-			}, {
-					name: 'delete',
-					img: 'images/delete.png',
-					title: 'delete button',
-					subMenu: [{
-							'name': 'soft delete',
-							img:'images/soft_delete.png',
-							fun:function(){
-							alert('You can recover back');
-							}
-					}, {
-							'name': 'hard delete',
-							img:'images/hard_delete.png',
-							fun:function(){
-							alert('It will delete permanently');
-							}
-					}]
-	 
-			}];
-			 
-	//Calling context menu
-	 $('.loadmore').contextMenu(menu);
-	</script>
 </html>
 
 
