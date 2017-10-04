@@ -143,19 +143,20 @@ var dataLeftBlockNav = [
 		action: fun
 	},
 	{
-		icon: '<i class="fa fa-gear"></i>',
-		name: '其它',
+		icon: '<i class="fa fa-star"></i>',
+		name: '星标',
 		action: fun
 	},
 	'divider',
 	{
-		icon: '<i class="fa fa-gear"></i>',
-		name: '其它',
+		icon: '<i class="fa fa-trash"></i>',
+		name: '回收站',
 		action: fun
 	},
+	'divider',
 	{
-		icon: '<i class="fa fa-gear"></i>',
-		name: '其它',
+		icon: '<i class="fa fa-cloud-upload"></i>',
+		name: '升级空间',
 		action: fun
 	}
 ];

@@ -113,6 +113,15 @@
 .folder:hover .name, .folder.active .name {
 	color: rgba(255, 255, 255, 1);
 }
+
+.folder.disabled {
+	background-color:  rgba(255,0,0,0.3);
+}
+
+.folder.able {
+	opacity: 0.3 !important;
+}
+
 /* End of 文件夹 */
 /* 文件 */
 .file {

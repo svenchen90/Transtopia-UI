@@ -20,8 +20,9 @@ var LeftBlock_FS = function(){
 		
 		var container = module.find('.nav-list:first');
 		$.each(list, function(index, item){
-			if(item == 'divider')
+			if(item == 'divider'){
 				container.append('<li class="divider"></li>');
+			}
 			else{
 				var nav = $('<li class="item noselect"><a href="javascript: void(0)">' + item.icon + item.name + '</a></li>');
 				nav.click(function(ev){
@@ -129,91 +130,42 @@ var LeftBlock_FS = function(){
 			ev.preventDefault();
 			ev.stopPropagation();
 			$('.customize-menu').remove();
-
+			module.find('.active').removeClass('active');
+			$(ev.target).closest('.folder, .file').toggleClass('active');
+			
 			if($(ev.target).closest('.folder')[0]){
 				var id = $(ev.target).closest('.folder').attr('data-id');
-				$.ajax({
-					url : GET_AUTHORITY_FOLDER,
-					data: {
-						id: id
-					},
-					type : "GET",
-					dataType : 'json',
-					success : function (result){
-						var menu = Menu(ev.pageX, ev.pageY,result,folderMenuSet);
-						$('body').append(menu);
-						menu.show(300);
-					},
-					error: function(err){
-						console.log(err);
-					}
-				});
+				FolderMenu(ev, id);
 			}else if($(ev.target).closest('.file')[0]){
-				var id = $(ev.target).closest('.folder').attr('data-id');
-				$.ajax({
-					url : GET_AUTHORITY_FILE,
-					data: {
-						id: id
-					},
-					type : "GET",
-					dataType : 'json',
-					success : function (result){
-						var menu = Menu(ev.pageX, ev.pageY,result,fileMenuSet);
-						$('body').append(menu);
-						menu.show(300);
-					},
-					error: function(err){
-						console.log(err);
-					}
-				});
+				var id = $(ev.target).closest('.file').attr('data-id');
+				FileMenu(ev, id);
 			}else {
 				console.log(3);
 			}
 		});
 		
-		$('body').on(' contextmenu',function(ev){
+		$('body').on('click contextmenu',function(ev){
 			$('.customize-menu').remove();
 		});
-		$(window).on('resize click', function(ev){
+		$(window).on('resize ', function(ev){
 			$('.customize-menu').remove();
 		});
 		
 	};
-	// 右键点击事件
-	/* folder.find('.folder').contextmenu(function(ev){
-		ev.preventDefault();
-		ev.stopPropagation();
-		
-
-		var id = $(this).attr('data-id');
-		$.ajax({
-			url : GET_AUTHORITY_FOLDER,
-			data: {
-				id: id
-			},
-			type : "GET",
-			dataType : 'json',
-			success : function (result){
-				var menu = Menu(ev.pageX, ev.pageY,result,folderMenuSet);
-				$('body').append(menu);
-				menu.show(300);
-			},
-			error: function(err){
-				console.log(err);
-			}
+	
+	// 初始化左键点击
+	var initActive = function(){
+		module.click(function(ev){
+			module.find('.active').removeClass('active');
+			$(ev.target).closest('.folder, .file').toggleClass('active');
 		});
-		
-		
-	});
-	
-	 */
-	
-	
+	};
 	
 	// 初始化
 	(function(){
 		initSortBy(SORTBYMENU);
 		initMenu();
+		initActive();
 		
 		folderBlock.setTitle('文件夹');
 		module.find('.content:first').append(folderBlock.getModule());
@@ -232,14 +184,20 @@ var LeftBlock_FS = function(){
 			type : "GET",
 			dataType : 'json',
 			success : function (result){
+				// 加载文件夹
 				folderBlock.addList(result.folder);
+				//加载文件
 				fileBlock.addList(result.file);
+				// 加载路径
+				// 加载当前文件夹
+				currentDir = id;
 			},
 			error: function(err){
 				console.log(err);
 			}
 		});
 	};
+	
 	
 	
 	
@@ -284,6 +242,7 @@ var FileFolderBlock = function(modal){
 	var obj = this;
 	var data = [];
 	var modal = modal;
+	var activeIdx;
 	//var sortBy = 0,
 	//	ascending = 1;
 	
@@ -294,13 +253,12 @@ var FileFolderBlock = function(modal){
 		module.find('[data-name="title"]').text(title);
 	};
 	
-	
 	// 添加单个
 	this.add = function(d){
 		var f = modal.generator(d, data.length);
 		var fObj = $.extend({}, d, {target: f});
 		data.push(fObj);
-		module.find('.file-folder-content').append(f)		
+		module.find('.file-folder-content').append(f);		
 	};
 	
 	// 添加列表
@@ -337,6 +295,18 @@ var FileFolderBlock = function(modal){
 		console.log(query);
 	};
 	
+	// 设置active
+	this.active = function(index){
+		if(activeIdx){
+			data[activeIdx].target.find('.folder, .file').removeClass('active');
+		}else{
+			
+		}
+		
+		data[index].target.find('.folder, .file').addClass('active');
+		activeIdx = index;
+	};
+	
 	// 清空
 	this.clear = function(){
 		data = [];
@@ -369,6 +339,54 @@ var Folder = function(){
 				'	</div>\n' +
 				'</div>'
 			);
+			
+			if(data.authority.includes(4)){
+				folder.draggable({
+					zIndex: 2500,
+					revert: true,
+					opacity: 0.6
+				});
+			}
+			
+			folder.droppable({
+				drop: function( event, ui ) {
+					/* 
+						ui.draggable : drag对象
+						event.target : drop对象
+					*/
+					var idDrag = $(ui.draggable).find('.file, .folder').attr('data-id');
+					var idDrop = $(event.target).find('.file, .folder').attr('data-id');
+					if(data.authority.includes(5)){
+						console.log(idDrag, idDrop);
+					}else{
+						console.log('not able');
+					}
+					$(event.target).find('.folder').removeClass('disabled able');
+					
+					/* fsAgent.move(id, idDrag, idDrop, 
+						function(result){
+							callAlert('移动成功！', 'done', obj.refresh);
+						}, 
+						function(result){
+							callAlert('移动失败！', 'done', obj.refresh);
+						}
+					); */
+				},
+				over: function( event, ui ) {
+					if(data.authority.includes(5)){
+						$(event.target).find('.folder').addClass('able');
+					}else{
+						$(event.target).find('.folder').addClass('disabled');
+					}
+				},
+				out: function( event, ui ) {
+					if(data.authority.includes(5)){
+						$(event.target).find('.folder').removeClass('able');
+					}else{
+						$(event.target).find('.folder').removeClass('disabled');
+					}
+				}
+			});
 			
 			return folder;
 		}else{
@@ -412,6 +430,15 @@ var File = function(){
 				'	</div>\n' +
 				'</div>'
 			);
+			
+			if(data.authority.includes(4)){
+				file.draggable({
+					opacity: 0.6,
+					zIndex: 2500,
+					revert: true
+				});
+			}
+			
 			return file;
 		}else{
 			console.log('error', data);
@@ -440,10 +467,17 @@ var RightBlock_FS = function(){
 	};
 };
 
-const folderMenuSet = [
+const FOLDER_MENU_SET = [
 	{
 		icon: '<i class="fa fa-folder-open-o"></i>',
 		name: '打开',
+		action: function(){
+			
+		}
+	},
+	{
+		icon: '<i class="fa fa-download"></i>',
+		name: '下载',
 		action: function(){
 			
 		}
@@ -491,8 +525,8 @@ const folderMenuSet = [
 		}
 	},
 	{
-		icon: '<i class="fa fa-eye"></i>',
-		name: '观看权限',
+		icon: '<i class="fa fa-share-alt"></i>',
+		name: '分享',
 		action: function(){
 			
 		}
@@ -506,10 +540,17 @@ const folderMenuSet = [
 	}
 ];
 
-const fileMenuSet = [
+const FILE_MENU_SET = [
 	{
 		icon: '<i class="fa fa-folder-open-o"></i>',
 		name: '打开',
+		action: function(){
+			
+		}
+	},
+	{
+		icon: '<i class="fa fa-download"></i>',
+		name: '下载',
 		action: function(){
 			
 		}
@@ -550,8 +591,8 @@ const fileMenuSet = [
 		}
 	},
 	{
-		icon: '<i class="fa fa-eye"></i>',
-		name: '观看权限',
+		icon: '<i class="fa fa-share-alt"></i>',
+		name: '分享',
 		action: function(){
 			
 		}
@@ -586,4 +627,46 @@ var Menu = function(x, y, list, folderMenuSet){
 		});	
 		return menu;
 	}
+};
+
+// 文件夹菜单
+var FolderMenu = function(ev, id){
+	$.ajax({
+		url : GET_AUTHORITY_FOLDER,
+		data: {
+			id: id
+		},
+		type : "GET",
+		dataType : 'json',
+		success : function (result){
+			// 移除其他菜单
+			$('.customize-menu').remove();
+			var menu = Menu(ev.pageX, ev.pageY,result,FOLDER_MENU_SET);
+			$('body').append(menu);
+			menu.show(300);
+		},
+		error: function(err){
+			console.log(err);
+		}
+	});
+};
+
+// 文件菜单
+var FileMenu = function(ev, id){
+	$.ajax({
+		url : GET_AUTHORITY_FILE,
+		data: {
+			id: id
+		},
+		type : "GET",
+		dataType : 'json',
+		success : function (result){
+			var menu = Menu(ev.pageX, ev.pageY,result,FILE_MENU_SET);
+			$('body').append(menu);
+			menu.show(300);
+		},
+		error: function(err){
+			console.log(err);
+		}
+	});
 };

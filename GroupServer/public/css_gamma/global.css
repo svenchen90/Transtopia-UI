@@ -100,11 +100,12 @@ body {
 }
 .nav-list .item a {
 	text-decoration: none;
-	color: rgba(0,0,0,.7);
+	color: rgba(0,0,0,.6);
 }
 
 .nav-list .item i{
 	padding-right: 20px;
+	
 }
 
 .nav-list .item:hover, .nav-list .item.active {
@@ -113,8 +114,12 @@ body {
 	font-weight: 600;
 }
 
+.nav-list .item.active i {
+	color: rgb(66,133,244);
+}
+
 .nav-list .divider {
-	border-top: 0.05em solid rgba(0,0,0,.1);
+	border-top: 1px solid rgba(0,0,0,.1);
 }
 /* End of 自定义导航栏样式 */
 

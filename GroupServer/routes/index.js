@@ -2776,37 +2776,43 @@ router.get('/cloud_index', function(req, res, next) {
 });
 
 router.get('/folder_authority', function(req, res, next) {
-	res.json([0,1,2,3,4,5,6,7,8]);
+	res.json([0,1,2,3,4,5,6,7,8,9]);
 });
 
 router.get('/file_authority', function(req, res, next) {
-	res.json([0,1,2,3,4,5,6,7]);
+	res.json([0,1,2,3,4,5,6,7,8]);
 });
 
 router.get('/getallinfolder', function(req, res, next) {
 	var dataListOfFolder = [
 		{
 			id: '1',
+			authority: [0,1,2,3,6,7,8],
 			name: '测试文件夹'
 		},
 		{
 			id: '2',
+			authority: [0,1,2,3,4,5,6,7,8],
 			name: '测试文件夹'
 		},
 		{
 			id: '3',
+			authority: [0,1,2,3,4,5,6,7,8],
 			name: '测试文件夹'
 		},
 		{
 			id: '4',
+			authority: [0,1,2,3,4,5,6,7,8],
 			name: '测试文件夹'
 		},
 		{
 			id: '5',
+			authority: [0,1,2,3,4,5,6,7,8],
 			name: '测试文件夹'
 		},
 		{
 			id: '6',
+			authority: [0,1,2,3,4,5,6,7,8],
 			name: '测试文件夹'
 		}
 	];
@@ -2814,21 +2820,25 @@ router.get('/getallinfolder', function(req, res, next) {
 	var dataListOfFile = [
 		{
 			id: '1',
+			authority: [0,1,2,3,5,6,7,8],
 			name: '测试文件',
 			src: 'http://127.0.0.1:3000/dist/img/New Text Document.txt'
 		},
 		{
 			id: '2',
+			authority: [0,1,2,3,4,5,6,7,8],
 			name: '测试文件',
 			src: 'http://127.0.0.1:3000/dist/img/extofgong_chen.pdf'
 		},
 		{
 			id: '3',
+			authority: [0,1,2,3,4,5,6,7,8],
 			name: '测试文件',
 			src: 'http://127.0.0.1:3000/dist/img/photo1.png'
 		},
 		{
 			id: '4',
+			authority: [0,1,2,3,4,5,6,7,8],
 			name: '测试文件',
 			src: 'http://127.0.0.1:3000/dist/img/controller.js'
 		},
