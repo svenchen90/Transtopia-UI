@@ -2898,4 +2898,14 @@ router.get('/delete_folder', function(req, res, next) {
 	res.json(1);
 });
 
+router.get('/rename_file', function(req, res, next) {
+	console.log(req.query);
+	res.json(1);
+});
+
+router.get('/rename_folder', function(req, res, next) {
+	console.log(req.query);
+	res.json(1);
+});
+
 module.exports = router;

@@ -433,6 +433,62 @@ var LeftBlock_FS = function(middleBlock, dirNav){
 		});
 	};
 	
+	// 重命名文件
+	this.renameFile = function(id){
+		singleLineInput('文件重命名', '请输入新的文件名称', function(input){
+			// Validate
+			$.ajax({
+				url : RENAME_FILE,
+				data: {
+					id: id,
+					name: input
+				},
+				type : "GET",
+				dataType : 'json',
+				success : function (result){
+					if(result == 1){
+						obj.openFolder(currentDir);
+						
+						callAlert('操作成功！', '<i class="material-icons">done</i>', function(){});
+					}else{
+						callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+					}
+				},
+				error: function(err){
+					callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+				}
+			});
+		})
+	};
+	
+	// 重命名文件
+	this.renameFolder = function(id){
+		singleLineInput('文件夹重命名', '请输入新的文件夹名称', function(input){
+			// Validate
+			$.ajax({
+				url : RENAME_FOLDER,
+				data: {
+					id: id,
+					name: input
+				},
+				type : "GET",
+				dataType : 'json',
+				success : function (result){
+					if(result == 1){
+						obj.openFolder(currentDir);
+						callAlert('操作成功！', '<i class="material-icons">done</i>', function(){});
+					}else{
+						callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+					}
+				},
+				error: function(err){
+					callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+				}
+			});
+		})
+	};
+	
+	
 	// 文件和文件夹点击样式
 	var decoration = function(target, previousTarget ,className){
 		var allSet = "active copy cut";
@@ -780,8 +836,8 @@ const FOLDER_MENU_SET = [
 	{
 		icon: '<i class="fa fa-eraser"></i>',
 		name: '重命名',
-		action: function(){
-			
+		action: function(target, controller){
+			controller.renameFolder(target.find('.folder').attr('data-id'));
 		}
 	},
 	{
@@ -846,8 +902,8 @@ const FILE_MENU_SET = [
 	{
 		icon: '<i class="fa fa-eraser"></i>',
 		name: '重命名',
-		action: function(){
-			
+		action: function(target, controller){
+			controller.renameFile(target.find('.file').attr('data-id'));
 		}
 	},
 	{

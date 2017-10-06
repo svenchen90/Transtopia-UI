@@ -12,6 +12,8 @@ const MOVE_FILE_TO = '/move_file_to';
 const MOVE_FOLDER_TO = '/move_folder_to';
 const DELETE_FILE = '/delete_file';
 const DELETE_FOLDER = '/delete_folder';
+const RENAME_FILE = '/rename_file';
+const RENAME_FOLDER = '/rename_folder';
 
 
 const ANIMATION_TIME = 200;
