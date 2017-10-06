@@ -123,7 +123,8 @@ var LeftBlock_FS = function(middleBlock, dirNav){
 	var sortBy;
 	var ascending;
 	
-	var c_target; // 1. file; 2 folder;
+	var c_id; 
+	var c_type; // 1. file; 2 folder;
 	var c_atcion; // 1.copy; 2. cut;
 	
 	var folderBlock = new FileFolderBlock(new Folder(), this);
@@ -260,24 +261,26 @@ var LeftBlock_FS = function(middleBlock, dirNav){
 	};
 	
 	// 复制
-	this.copy = function(target){
-		decoration(target, c_target, 'copy');
-		c_target = target
+	this.copy = function(id, type){
+		decoration(id, type , 'copy', c_id);
+		c_id = id;
+		c_type = type;
 		c_atcion = 1;
 	};
 	
 	// 剪切
-	this.cut = function(target){
-		decoration(target, c_target, 'cut');
-		c_target = target
+	this.cut = function(id, type){
+		decoration(id, type , 'cut', c_id);
+		c_id = id;
+		c_type = type;
 		c_atcion = 2;
 	};
 	
 	// 粘贴
 	this.paste = function(target){
-		id = c_target.find('.file, .folder').attr('data-id');
+		id = c_id;
 		idTarget = target.find('.folder').attr('data-id');
-		type = (c_target.attr('data-type') == 'file' ? 1 : 2);
+		type = c_type;
 		
 		if(c_atcion == 1){
 			if(type == 1){
@@ -294,6 +297,7 @@ var LeftBlock_FS = function(middleBlock, dirNav){
 		}else{
 			console.log('error');
 		}
+		clearCopyCut();
 	};
 	
 	// 复制文件
@@ -359,6 +363,7 @@ var LeftBlock_FS = function(middleBlock, dirNav){
 					success : function (result){
 						if(result == 1){
 							obj.openFolder(currentDir);
+
 							callAlert('移动成功！', '<i class="material-icons">done</i>', function(){});
 						}else{
 							callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
@@ -522,12 +527,18 @@ var LeftBlock_FS = function(middleBlock, dirNav){
 	};
 	
 	
-	// 文件和文件夹点击样式
-	var decoration = function(target, previousTarget ,className){
+	// 文件和文件夹点击样式 id, type , 'copy', c_id
+	var decoration = function(id, type ,className, c_id /* target, previousTarget ,className */){
 		var allSet = "active copy cut";
-		if(previousTarget)
-			previousTarget.find('.file, .folder').removeClass(allSet);
-		target.find('.file, .folder').addClass(className);
+		if(c_id)
+			module.find('[data-id="' + c_id + '"]').removeClass(allSet);
+		module.find('[data-id="' + id + '"].' + (type == 1 ? 'file' : 'folder')).addClass(className);
+	};
+	
+	var clearCopyCut = function(){
+		c_id = 'undefined';
+		c_type = 'undefined';
+		c_action = 'undefined';
 	};
 	
 	// 获取组件
@@ -849,14 +860,14 @@ const FOLDER_MENU_SET = [
 		icon: '<i class="fa fa-files-o"></i>',
 		name: '复制',
 		action: function(target, controller){
-			controller.copy(target);
+			controller.copy(target.find('.folder').attr('data-id'),2);
 		}
 	},
 	{
 		icon: '<i class="fa fa-scissors"></i>',
 		name: '剪切',
 		action: function(target, controller){
-			controller.cut(target);
+			controller.cut(target.find('.folder').attr('data-id'),2);
 		}
 	},
 	{
@@ -916,6 +927,18 @@ const FILE_MENU_SET = [
 		icon: '<i class="fa fa-download"></i>',
 		name: '下载',
 		action: function(target, controller){
+			function downloadFile(url, name){
+					var link = document.createElement("a");
+					link.download = name;
+					link.href = url;
+					document.body.appendChild(link);
+					link.click();
+					document.body.removeChild(link);
+					delete link;
+			}
+			
+			downloadFile('js_gamma/module.js', 'abc');
+			//window.location.href = 'js_gamma/module.js';
 			//window.location='js_gamma/module.js';
 			//download('js_gamma/module.js');
 			//window.location.href = 'js_gamma/module.js';
@@ -930,14 +953,14 @@ const FILE_MENU_SET = [
 		icon: '<i class="fa fa-files-o"></i>',
 		name: '复制',
 		action: function(target, controller){
-			controller.copy(target);
+			controller.copy(target.find('.file').attr('data-id'),1);
 		}
 	},
 	{
 		icon: '<i class="fa fa-scissors"></i>',
 		name: '剪切',
 		action: function(target, controller){
-			controller.cut(target);
+			controller.cut(target.find('.file').attr('data-id'),1);
 		}
 	},
 	{
