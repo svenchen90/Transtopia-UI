@@ -83,6 +83,8 @@
 	
 	
 	<!-- 自定义插件与样式 -->
+	<!-- 插件 -->
+	<script src="js_gamma/gear.js"></script>
 	
 	<!-- Static -->
 	<script src="js_gamma/static.js"></script>
@@ -109,20 +111,25 @@
 	$('#firstNavTop').append(FNT.getModule());
 	
 	var SNT = new SecondNavTop();
-	SNT.appendNav(dataNav2);
+	var dirNav = new DirNav();
+	SNT.appendNav(dirNav.getModule());
 	SNT.appendNav(dataNav3);
 	$('#secondNavTop').append(SNT.getModule());
 	
 	var LC = new LeftCollapse();
 	LC.setBrand(dataBrand.name, dataBrand.href);
-	LC.setNav(dataLeftCollapseNav);
+	LC.setNav(LEFT_COLLAPSE);
 	$('body').append(LC.getModule());
 	
-	var LB_FS = new LeftBlock_FS();
-	LB_FS.setNav(dataLeftBlockNav);
 	
-	var MB_FS = new MiddleBlock_FS();
+	
+	
+	var MB_FS = new MiddleBlock_FS(dirNav);
+	dirNav.setBase({id: '1', name: '我的云盘'}, MB_FS.openFolder);
 	MB_FS.openFolder(1);
+	
+	var LB_FS = new LeftBlock_FS(MB_FS, dirNav);
+	LB_FS.setNav(navLeft_FS);
 	
 	/*var folderBlock = new FolderBlock();
 	//folderBlock.setTitle('文件夹');

@@ -188,7 +188,11 @@ var LeftCollapse = function(){
 			if(nav == 'divider')
 				container.append('<li class="divider"></li>');
 			else{
-				container.append('<li class="item"><a href="' + nav.href + '">' + nav.icon + nav.name + '</a></li>')
+				var link = $('<li class="item"><a href="javascript:void(0)">' + nav.icon + nav.name + '</a></li>\n');
+				link.click(function(){
+					window.location.href = nav.href;
+				});
+				container.append(link)
 			}
 		});
 	};

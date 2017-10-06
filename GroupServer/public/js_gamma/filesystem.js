@@ -1,5 +1,48 @@
+const navLeft_FS = [
+	{
+		icon: '<i class="fa fa-cloud"></i>',
+		name: '我的云盘',
+		action: function(middleBlock, dirNav){
+			dirNav.clear();
+			dirNav.setBase({id: '1', name: '我的云盘'}, middleBlock.openFolder);
+			middleBlock.openFolder(0);
+		}
+	},
+	{
+		icon: '<i class="fa fa-share-alt"></i>',
+		name: '分享给我',
+		action: function(middleBlock, dirNav){
+			dirNav.clear();
+			dirNav.setBase({id: '1', name: '分享给我'}, middleBlock.openFolder);
+			middleBlock.openFolder(0);
+		}
+	},
+	{
+		icon: '<i class="fa fa-star"></i>',
+		name: '星标',
+		action: function(middleBlock, dirNav){
+			
+		}
+	},
+	{
+		icon: '<i class="fa fa-trash"></i>',
+		name: '回收站',
+		action: function(middleBlock, dirNav){
+			
+		}
+	},
+	'divider',
+	{
+		icon: '<i class="fa fa-cloud-upload"></i>',
+		name: '升级空间',
+		action: function(middleBlock, dirNav){
+			
+		}
+	}
+];
+
 // 左侧导航栏
-var LeftBlock_FS = function(){
+var LeftBlock_FS = function(middleBlock, dirNav){
 	var module = $(
 		'<td class="left-block">\n' +
 		'	<div class="content customized-scrollbar">\n' +
@@ -26,7 +69,10 @@ var LeftBlock_FS = function(){
 			else{
 				var nav = $('<li class="item noselect"><a href="javascript: void(0)">' + item.icon + item.name + '</a></li>');
 				nav.click(function(ev){
-					item.action(ev);
+					container.find('.item').removeClass('active');
+					nav.addClass('active');
+					
+					item.action(middleBlock,dirNav);
 				});
 				container.append(nav);
 			}
@@ -63,7 +109,7 @@ var LeftBlock_FS = function(){
 };
 
 // 中部展示框
- var MiddleBlock_FS = function(){
+ var MiddleBlock_FS = function(dirNav){
 	var module = $(
 		'<td class="middle-block">\n' +
 		'	<div class="content customized-scrollbar">\n' +
@@ -72,9 +118,16 @@ var LeftBlock_FS = function(){
 		'</td>'
 	);
 	var obj = this;
-	var currentDir,sortBy,ascending;
-	var folderBlock = new FileFolderBlock(new Folder());
-	var fileBlock = new FileFolderBlock(new File());
+	var currentDir;
+	
+	var sortBy;
+	var ascending;
+	
+	var c_target; // 1. file; 2 folder;
+	var c_atcion; // 1.copy; 2. cut;
+	
+	var folderBlock = new FileFolderBlock(new Folder(), this);
+	var fileBlock =	new FileFolderBlock(new File(), this);
 	
 	// 初始化排序模块
 	var initSortBy = function(menu){
@@ -135,12 +188,12 @@ var LeftBlock_FS = function(){
 			
 			if($(ev.target).closest('.folder')[0]){
 				var id = $(ev.target).closest('.folder').attr('data-id');
-				FolderMenu(ev, id);
+				FolderMenu(ev, id, obj);
 			}else if($(ev.target).closest('.file')[0]){
 				var id = $(ev.target).closest('.file').attr('data-id');
-				FileMenu(ev, id);
+				FileMenu(ev, id, obj);
 			}else {
-				console.log(3);
+				PanelMenu(ev, currentDir);
 			}
 		});
 		
@@ -185,10 +238,13 @@ var LeftBlock_FS = function(){
 			dataType : 'json',
 			success : function (result){
 				// 加载文件夹
+				folderBlock.clear();
 				folderBlock.addList(result.folder);
 				//加载文件
+				fileBlock.clear();
 				fileBlock.addList(result.file);
 				// 加载路径
+				dirNav.setDir(result.dir, obj.openFolder);
 				// 加载当前文件夹
 				currentDir = id;
 			},
@@ -198,8 +254,192 @@ var LeftBlock_FS = function(){
 		});
 	};
 	
+	// 复制
+	this.copy = function(target){
+		decoration(target, c_target, 'copy');
+		c_target = target
+		c_atcion = 1;
+	};
 	
+	// 剪切
+	this.cut = function(target){
+		decoration(target, c_target, 'cut');
+		c_target = target
+		c_atcion = 2;
+	};
 	
+	// 粘贴
+	this.paste = function(target){
+		id = c_target.find('.file, .folder').attr('data-id');
+		idTarget = target.find('.folder').attr('data-id');
+		type = (c_target.attr('data-type') == 'file' ? 1 : 2);
+		
+		if(c_atcion == 1){
+			if(type == 1){
+				this.copyFileTO(id, idTarget);
+			}else{
+				this.copyFolderTO(id, idTarget);
+			}
+		}else if(c_atcion == 2){
+			if(type == 1){
+				this.moveFileTo(id, idTarget);
+			}else{
+				this.moveFolderTo(id, idTarget);
+			}
+		}else{
+			console.log('error');
+		}
+	};
+	
+	// 复制文件
+	this.copyFileTO = function(id, idTarget){
+		$.ajax({
+			url : COPY_FILE_TO,
+			data: {
+				id: id,
+				idTarget: idTarget
+			},
+			type : "GET",
+			dataType : 'json',
+			success : function (result){
+				if(result == 1){
+					obj.openFolder(currentDir);
+					callAlert('复制成功！', '<i class="material-icons">done</i>', function(){});
+				}else{
+					callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+				}
+			},
+			error: function(err){
+				callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+			}
+		});
+	};
+	
+	// 复制文件夹
+	this.copyFolderTO = function(id, idTarget){
+		$.ajax({
+			url : COPY_FOLDER_TO,
+			data: {
+				id: id,
+				idTarget: idTarget
+			},
+			type : "GET",
+			dataType : 'json',
+			success : function (result){
+				if(result == 1){
+					obj.openFolder(currentDir);
+					callAlert('复制成功！', '<i class="material-icons">done</i>', function(){});
+				}else{
+					callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+				}
+			},
+			error: function(err){
+				callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+			}
+		});
+	};
+	
+	// 移动文件
+	this.moveFileTo = function(id, idTarget){
+		$.ajax({
+			url : MOVE_FILE_TO,
+			data: {
+				id: id,
+				idTarget: idTarget
+			},
+			type : "GET",
+			dataType : 'json',
+			success : function (result){
+				if(result == 1){
+					obj.openFolder(currentDir);
+					callAlert('移动成功！', '<i class="material-icons">done</i>', function(){});
+				}else{
+					callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+				}
+			},
+			error: function(err){
+				callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+			}
+		});
+	};
+	
+	// 移动文件夹
+	this.moveFolderTo = function(id, idTarget){
+		$.ajax({
+			url : MOVE_FOLDER_TO,
+			data: {
+				id: id,
+				idTarget: idTarget
+			},
+			type : "GET",
+			dataType : 'json',
+			success : function (result){
+				if(result == 1){
+					obj.openFolder(currentDir);
+					callAlert('移动成功！', '<i class="material-icons">done</i>', function(){});
+				}else{
+					callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+				}
+			},
+			error: function(err){
+				callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+			}
+		});
+	};
+	
+	// 删除文件
+	this.deleteFile = function(id){
+		$.ajax({
+			url : DELETE_FILE,
+			data: {
+				id: id
+			},
+			type : "GET",
+			dataType : 'json',
+			success : function (result){
+				if(result == 1){
+					obj.openFolder(currentDir);
+					callAlert('删除成功！', '<i class="material-icons">done</i>', function(){});
+				}else{
+					callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+				}
+			},
+			error: function(err){
+				callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+			}
+		});
+	};
+	
+	// 删除文件夹
+	this.deleteFolder = function(id){
+		$.ajax({
+			url : DELETE_FOLDER,
+			data: {
+				id: id
+			},
+			type : "GET",
+			dataType : 'json',
+			success : function (result){
+				if(result == 1){
+					obj.openFolder(currentDir);
+					callAlert('删除成功！', '<i class="material-icons">done</i>', function(){});
+				}else{
+					callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+				}
+			},
+			error: function(err){
+				callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+			}
+		});
+	};
+	
+	// 文件和文件夹点击样式
+	var decoration = function(target, previousTarget ,className){
+		var allSet = "active copy cut";
+		if(previousTarget)
+			previousTarget.find('.file, .folder').removeClass(allSet);
+		target.find('.file, .folder').addClass(className);
+	};
 	
 	// 获取组件
 	this.getModule = function(){
@@ -224,7 +464,7 @@ const SORTBYMENU = [
 ];
 
 // 文件夹 和 文件模块
-var FileFolderBlock = function(modal){
+var FileFolderBlock = function(modal, controller){
 	var module = $(
 		'<div class="file-folder-block">\n' +
 		'	<!-- 标题 -->\n' +
@@ -255,7 +495,7 @@ var FileFolderBlock = function(modal){
 	
 	// 添加单个
 	this.add = function(d){
-		var f = modal.generator(d, data.length);
+		var f = modal.generator(d, data.length, controller);
 		var fObj = $.extend({}, d, {target: f});
 		data.push(fObj);
 		module.find('.file-folder-content').append(f);		
@@ -329,7 +569,7 @@ var Folder = function(){
 	};
 	
 	// 生成器
-	this.generator = function(data, index){
+	this.generator = function(data, index, controller){
 		if(validate(data)){
 			var folder = $(
 				'<div class="col-lg-2 col-md-4 col-sm-6" data-type="folder">\n' +
@@ -354,23 +594,18 @@ var Folder = function(){
 						ui.draggable : drag对象
 						event.target : drop对象
 					*/
-					var idDrag = $(ui.draggable).find('.file, .folder').attr('data-id');
+					var idDrag = $(ui.draggable).closest('[data-type="file"], [data-type="folder"]').find('.file, .folder').attr('data-id');
 					var idDrop = $(event.target).find('.file, .folder').attr('data-id');
 					if(data.authority.includes(5)){
-						console.log(idDrag, idDrop);
+						if($(ui.draggable).closest('[data-type="file"]').attr('data-type') == 'file'){
+							controller.moveFileTo(idDrag, idDrop);
+						}else{
+							controller.moveFolderTo(idDrag, idDrop);
+						}
 					}else{
-						console.log('not able');
+						callAlert('暂无权限！', '<i class="material-icons">error_outline</i>', function(){});
 					}
 					$(event.target).find('.folder').removeClass('disabled able');
-					
-					/* fsAgent.move(id, idDrag, idDrop, 
-						function(result){
-							callAlert('移动成功！', 'done', obj.refresh);
-						}, 
-						function(result){
-							callAlert('移动失败！', 'done', obj.refresh);
-						}
-					); */
 				},
 				over: function( event, ui ) {
 					if(data.authority.includes(5)){
@@ -414,7 +649,7 @@ var File = function(){
 	};
 	
 	// 生成器
-	this.generator = function(data, index){
+	this.generator = function(data, index, controller){
 		if(validate(data)){
 			var file = $(
 				'<div class="col-lg-2 col-md-4 col-sm-6" data-type="file">\n' +
@@ -432,7 +667,7 @@ var File = function(){
 			);
 			
 			if(data.authority.includes(4)){
-				file.draggable({
+				file.find('.bot').draggable({
 					opacity: 0.6,
 					zIndex: 2500,
 					revert: true
@@ -449,6 +684,45 @@ var File = function(){
 	this.match = function(data, query){
 		return true;
 	}
+};
+
+var DirNav = function(){
+	var nav = $(
+		'<ul class="nav navbar-nav" data-type="left-list">\n' +
+		'</ul>'
+	);
+	
+	// 设置根目录
+	this.setBase = function(base, callback){
+		nav.find('.nav-base').remove();
+		var link = $('<li class="nav-base"><a href="javascript: void(0)"><span>' + base.name + '</span> <i class="fa fa-angle-down"></i></a></li>\n');
+		link.click(function(ev){
+			callback(base.id);
+		});
+		nav.append(link);
+	};
+	
+	// 设置路径
+	this.setDir = function(list, callback){
+		nav.find('.nav-dir').remove();
+		$.each(list, function(index, item){
+			var link = $('<li class="nav-dir"><a href="javascript: void(0)"><span>' + item.name + '</span> <i class="fa fa-angle-down"></i></a></li>\n');
+			link.click(function(ev){
+				callback(item.id);
+			});
+			nav.append(link);
+		});
+	};
+	
+	this.clear = function(){
+		nav.find('li').remove();
+	};
+	
+	// 获取模组
+	this.getModule = function(){
+		return nav;
+	};
+	
 };
 
 // 右侧信息栏
@@ -485,22 +759,22 @@ const FOLDER_MENU_SET = [
 	{
 		icon: '<i class="fa fa-files-o"></i>',
 		name: '复制',
-		action: function(){
-			
+		action: function(target, controller){
+			controller.copy(target);
 		}
 	},
 	{
 		icon: '<i class="fa fa-scissors"></i>',
 		name: '剪切',
-		action: function(){
-			
+		action: function(target, controller){
+			controller.cut(target);
 		}
 	},
 	{
 		icon: '<i class="fa fa-clipboard"></i>',
 		name: '粘贴',
-		action: function(){
-			
+		action: function(target, controller){
+			controller.paste(target);
 		}
 	},
 	{
@@ -513,8 +787,8 @@ const FOLDER_MENU_SET = [
 	{
 		icon: '<i class="fa fa-trash-o"></i>',
 		name: '删除',
-		action: function(){
-			
+		action: function(target, controller){
+			controller.deleteFolder(target.find('.folder').attr('data-id'));
 		}
 	},
 	{
@@ -558,15 +832,15 @@ const FILE_MENU_SET = [
 	{
 		icon: '<i class="fa fa-files-o"></i>',
 		name: '复制',
-		action: function(){
-			
+		action: function(target, controller){
+			controller.copy(target);
 		}
 	},
 	{
 		icon: '<i class="fa fa-scissors"></i>',
 		name: '剪切',
-		action: function(){
-			
+		action: function(target, controller){
+			controller.cut(target);
 		}
 	},
 	{
@@ -579,6 +853,52 @@ const FILE_MENU_SET = [
 	{
 		icon: '<i class="fa fa-trash-o"></i>',
 		name: '删除',
+		action: function(target, controller){
+			controller.deleteFile(target.find('.file').attr('data-id'));
+		}
+	},
+	{
+		icon: '<i class="fa fa-link"></i>',
+		name: '链接',
+		action: function(){
+			
+		}
+	},
+	{
+		icon: '<i class="fa fa-share-alt"></i>',
+		name: '分享',
+		action: function(){
+			
+		}
+	},
+	{
+		icon: '<i class="fa fa-key"></i>',
+		name: '修改权限',
+		action: function(){
+			
+		}
+	}
+];
+
+
+const	Panel_MENU_SET = [
+	{
+		icon: '<i class="fa fa-clipboard"></i>',
+		name: '上传文件',
+		action: function(){
+			
+		}
+	},
+	{
+		icon: '<i class="fa fa-clipboard"></i>',
+		name: '上传文件夹',
+		action: function(){
+			
+		}
+	},
+	{
+		icon: '<i class="fa fa-clipboard"></i>',
+		name: '粘贴',
 		action: function(){
 			
 		}
@@ -606,8 +926,9 @@ const FILE_MENU_SET = [
 	}
 ];
 
+
 // 右键菜单
-var Menu = function(x, y, list, folderMenuSet){
+var Menu = function(x, y, list, folderMenuSet, target, controller){
 	var menu = $(
 		'<ul class="dropdown-menu customize-menu" style="position: absolute; top: ' + y + 'px; left: ' + x + 'px;">\n' +
 		'	<!-- 二级子菜单 -->\n' +
@@ -621,7 +942,7 @@ var Menu = function(x, y, list, folderMenuSet){
 			var item = folderMenuSet[i];
 			var l = $('<li><a href="javascript: void(0)">' + item.icon + item.name + '</a></li>\n');
 			l.click(function(){
-				item.action();
+				item.action(target, controller);
 			})
 			menu.append(l);
 		});	
@@ -630,7 +951,7 @@ var Menu = function(x, y, list, folderMenuSet){
 };
 
 // 文件夹菜单
-var FolderMenu = function(ev, id){
+var FolderMenu = function(ev, id, controller){
 	$.ajax({
 		url : GET_AUTHORITY_FOLDER,
 		data: {
@@ -639,9 +960,8 @@ var FolderMenu = function(ev, id){
 		type : "GET",
 		dataType : 'json',
 		success : function (result){
-			// 移除其他菜单
-			$('.customize-menu').remove();
-			var menu = Menu(ev.pageX, ev.pageY,result,FOLDER_MENU_SET);
+			var target = $(ev.target).closest('[data-type="folder"]');
+			var menu = Menu(ev.pageX, ev.pageY,result,FOLDER_MENU_SET, target, controller);
 			$('body').append(menu);
 			menu.show(300);
 		},
@@ -652,7 +972,7 @@ var FolderMenu = function(ev, id){
 };
 
 // 文件菜单
-var FileMenu = function(ev, id){
+var FileMenu = function(ev, id, controller){
 	$.ajax({
 		url : GET_AUTHORITY_FILE,
 		data: {
@@ -661,7 +981,30 @@ var FileMenu = function(ev, id){
 		type : "GET",
 		dataType : 'json',
 		success : function (result){
-			var menu = Menu(ev.pageX, ev.pageY,result,FILE_MENU_SET);
+			var target = $(ev.target).closest('[data-type="file"]');
+			var menu = Menu(ev.pageX, ev.pageY,result,FILE_MENU_SET, target, controller);
+			$('body').append(menu);
+			menu.show(300);
+		},
+		error: function(err){
+			console.log(err);
+		}
+	});
+};
+
+// 面板菜单
+var PanelMenu = function(ev, id){
+	$.ajax({
+		url : GET_AUTHORITY_FOLDER,
+		data: {
+			id: id
+		},
+		type : "GET",
+		dataType : 'json',
+		success : function (result){
+			// 移除其他菜单
+			$('.customize-menu').remove();
+			var menu = Menu(ev.pageX, ev.pageY,result,Panel_MENU_SET);
 			$('body').append(menu);
 			menu.show(300);
 		},

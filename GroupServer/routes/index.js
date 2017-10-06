@@ -2842,14 +2842,60 @@ router.get('/getallinfolder', function(req, res, next) {
 			name: '测试文件',
 			src: 'http://127.0.0.1:3000/dist/img/controller.js'
 		},
-	]
+	];
+	
+	var dataListOfDir = [
+		{
+			id: '1',
+			name: '交托帮'
+		},
+		{
+			id: '2',
+			name: '项目1'
+		},
+		{
+			id: '3',
+			name: '小组3'
+		}
+	];
+	
+	console.log(req.query.id);
 	
 	res.json({
 		folder: dataListOfFolder,
-		file: dataListOfFile
+		file: dataListOfFile,
+		dir: dataListOfDir
 	});
 });
 
+router.get('/copy_file_to', function(req, res, next) {
+	console.log(req.query);
+	res.json(1);
+});
 
+router.get('/copy_folder_to', function(req, res, next) {
+	console.log(req.query);
+	res.json(1);
+});
+
+router.get('/move_file_to', function(req, res, next) {
+	console.log(req.query);
+	res.json(1);
+});
+
+router.get('/move_folder_to', function(req, res, next) {
+	console.log(req.query);
+	res.json(1);
+});
+
+router.get('/delete_file', function(req, res, next) {
+	console.log(req.query);
+	res.json(1);
+});
+
+router.get('/delete_folder', function(req, res, next) {
+	console.log(req.query);
+	res.json(1);
+});
 
 module.exports = router;
