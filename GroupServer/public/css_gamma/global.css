@@ -31,6 +31,54 @@ body {
 	vertical-align: middle;
 }
 /* !模态框居中 */
+/* modal */
+.modal-backdrop {
+	opacity:0.1 !important;
+}
+.modal .modal-dialog {
+	box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2);
+}
+
+.modal .modal-dialog .modal-content {
+	border-radius: 4px;
+}
+
+.modal .modal-dialog .modal-content .modal-header {
+	border-bottom:none;
+}
+
+.modal .modal-dialog .modal-content .modal-header .modal-title {
+	font-size: 20px;
+	font-weight: 700;
+}
+
+.modal .modal-dialog .modal-content .modal-body .row {
+	margin-top: 30px;
+}
+
+.modal .modal-dialog .modal-content .modal-body .row .menu-label{
+	font-size: 16px;
+	color: rgba(0,0,0,0.7);
+}
+
+.modal .modal-dialog .modal-content .modal-body .row .menu-choice{
+	font-size: 14px;
+	font-weight: 500;
+	color: #222;
+	cursor: pointer;
+}
+
+.modal .modal-dialog .modal-content .modal-footer {
+	border-top:none;
+}
+
+.modal .modal-dialog .modal-content .modal-footer a{
+	margin-right: 30px;
+	font-weight: 500;
+	color: #2196F3;
+	cursor: pointer;
+}
+/* modal */
 /* Nav Top */
 .nav-top {
 	-webkit-box-shadow: 

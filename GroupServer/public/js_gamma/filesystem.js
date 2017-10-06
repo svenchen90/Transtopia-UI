@@ -254,6 +254,11 @@ var LeftBlock_FS = function(middleBlock, dirNav){
 		});
 	};
 	
+	this.openFile = function(id){
+		console.log(id);
+		window.open("js_gamma/module.js", '_blank');
+	};
+	
 	// 复制
 	this.copy = function(target){
 		decoration(target, c_target, 'copy');
@@ -341,96 +346,124 @@ var LeftBlock_FS = function(middleBlock, dirNav){
 	
 	// 移动文件
 	this.moveFileTo = function(id, idTarget){
-		$.ajax({
-			url : MOVE_FILE_TO,
-			data: {
-				id: id,
-				idTarget: idTarget
-			},
-			type : "GET",
-			dataType : 'json',
-			success : function (result){
-				if(result == 1){
-					obj.openFolder(currentDir);
-					callAlert('移动成功！', '<i class="material-icons">done</i>', function(){});
-				}else{
-					callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
-				}
-			},
-			error: function(err){
-				callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+		callConfirm('文件移动', '您确定要移动该文件？', 
+			function(){
+				$.ajax({
+					url : MOVE_FILE_TO,
+					data: {
+						id: id,
+						idTarget: idTarget
+					},
+					type : "GET",
+					dataType : 'json',
+					success : function (result){
+						if(result == 1){
+							obj.openFolder(currentDir);
+							callAlert('移动成功！', '<i class="material-icons">done</i>', function(){});
+						}else{
+							callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+						}
+					},
+					error: function(err){
+						callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+					}
+				});
+			}, 
+			function(){
+				
 			}
-		});
+		);
 	};
 	
 	// 移动文件夹
 	this.moveFolderTo = function(id, idTarget){
-		$.ajax({
-			url : MOVE_FOLDER_TO,
-			data: {
-				id: id,
-				idTarget: idTarget
-			},
-			type : "GET",
-			dataType : 'json',
-			success : function (result){
-				if(result == 1){
-					obj.openFolder(currentDir);
-					callAlert('移动成功！', '<i class="material-icons">done</i>', function(){});
-				}else{
-					callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
-				}
-			},
-			error: function(err){
-				callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+		callConfirm('文件夹移动', '您确定要移动该文件夹？', 
+			function(){
+				$.ajax({
+					url : MOVE_FOLDER_TO,
+					data: {
+						id: id,
+						idTarget: idTarget
+					},
+					type : "GET",
+					dataType : 'json',
+					success : function (result){
+						if(result == 1){
+							obj.openFolder(currentDir);
+							callAlert('移动成功！', '<i class="material-icons">done</i>', function(){});
+						}else{
+							callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+						}
+					},
+					error: function(err){
+						callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+					}
+				});
+			}, 
+			function(){
+				
 			}
-		});
+		);
 	};
 	
 	// 删除文件
 	this.deleteFile = function(id){
-		$.ajax({
-			url : DELETE_FILE,
-			data: {
-				id: id
-			},
-			type : "GET",
-			dataType : 'json',
-			success : function (result){
-				if(result == 1){
-					obj.openFolder(currentDir);
-					callAlert('删除成功！', '<i class="material-icons">done</i>', function(){});
-				}else{
-					callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
-				}
-			},
-			error: function(err){
-				callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+		callConfirm('删除文件', '您确定删除该文件？', 
+			function(){
+				$.ajax({
+					url : DELETE_FILE,
+					data: {
+						id: id
+					},
+					type : "GET",
+					dataType : 'json',
+					success : function (result){
+						if(result == 1){
+							obj.openFolder(currentDir);
+							callAlert('删除成功！', '<i class="material-icons">done</i>', function(){});
+						}else{
+							callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+						}
+					},
+					error: function(err){
+						callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+					}
+				});
+			}, 
+			function(){
+				
 			}
-		});
+		);
 	};
 	
 	// 删除文件夹
 	this.deleteFolder = function(id){
-		$.ajax({
-			url : DELETE_FOLDER,
-			data: {
-				id: id
-			},
-			type : "GET",
-			dataType : 'json',
-			success : function (result){
-				if(result == 1){
-					obj.openFolder(currentDir);
-					callAlert('删除成功！', '<i class="material-icons">done</i>', function(){});
-				}else{
-					callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
-				}
-			},
-			error: function(err){
-				callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+		callConfirm('删除文件', '您确定删除该文件？', 
+			function(){
+				$.ajax({
+					url : DELETE_FOLDER,
+					data: {
+						id: id
+					},
+					type : "GET",
+					dataType : 'json',
+					success : function (result){
+						if(result == 1){
+							obj.openFolder(currentDir);
+							callAlert('删除成功！', '<i class="material-icons">done</i>', function(){});
+						}else{
+							callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+						}
+					},
+					error: function(err){
+						callAlert('错误！', '<i class="material-icons">error_outline</i>', function(){});
+					}
+				});
+			}, 
+			function(){
+				
 			}
-		});
+		);
 	};
 	
 	// 重命名文件
@@ -801,13 +834,13 @@ const FOLDER_MENU_SET = [
 	{
 		icon: '<i class="fa fa-folder-open-o"></i>',
 		name: '打开',
-		action: function(){
-			
+		action: function(target, controller){
+			controller.openFolder(target.find('.folder').attr('data-id'));
 		}
 	},
 	{
 		icon: '<i class="fa fa-download"></i>',
-		name: '下载',
+		name: '打包下载',
 		action: function(){
 			
 		}
@@ -858,7 +891,8 @@ const FOLDER_MENU_SET = [
 		icon: '<i class="fa fa-share-alt"></i>',
 		name: '分享',
 		action: function(){
-			
+			var abc = new SharedWithModal();
+			abc.loadForGroup(1,1);
 		}
 	},
 	{
@@ -874,15 +908,22 @@ const FILE_MENU_SET = [
 	{
 		icon: '<i class="fa fa-folder-open-o"></i>',
 		name: '打开',
-		action: function(){
-			
+		action: function(target, controller){
+			controller.openFile(target.find('.file').attr('data-id'));
 		}
 	},
 	{
 		icon: '<i class="fa fa-download"></i>',
 		name: '下载',
-		action: function(){
-			
+		action: function(target, controller){
+			//window.location='js_gamma/module.js';
+			//download('js_gamma/module.js');
+			//window.location.href = 'js_gamma/module.js';
+			//window.open('js_gamma/module.js');
+			//$.fileDownload('js_gamma/module.js');
+			/* $.fileDownload('js_gamma/module.js')
+				.done(function () { alert('File download a success!'); })
+				.fail(function () { alert('File download failed!'); }); */
 		}
 	},
 	{
@@ -923,8 +964,9 @@ const FILE_MENU_SET = [
 	{
 		icon: '<i class="fa fa-share-alt"></i>',
 		name: '分享',
-		action: function(){
-			
+		action: function(target, controller){
+			var abc = new SharedWithModal();
+			abc.loadForGroup(1,1);
 		}
 	},
 	{
@@ -1068,4 +1110,519 @@ var PanelMenu = function(ev, id){
 			console.log(err);
 		}
 	});
+};
+
+
+
+var SharedWithModal = function(id){
+	var obj = this;
+	var modal = $(
+		'<div class="modal fade shared-with">\n' +
+		'	<div class="modal-dialog">\n' +
+		'		<div class="modal-content">\n' +
+		'			<div class="modal-header">\n' +
+		'				<button type="button" class="close" data-dismiss="modal">&times;</button>\n' +
+		'				<h5 class="modal-title">\n' +
+		'					请选择分享范围\n' +
+		'				</h5>\n' +
+		'			</div>\n' +
+		'			<div class="modal-body">\n' +
+		'				<div class="form-group">\n' +
+		'				</div>\n' +
+		'			</div>\n' +
+		'			<div class="modal-footer">\n' +
+		'				<a data-action="submit">提交</a>\n' +
+		'				<a data-dismiss="modal">关闭</a>\n' +
+		'			</div>\n' +
+		'		</div>\n' +
+		'	</div>\n' +
+		'</div>'
+	);
+
+
+	//获取简单Label
+	var getLabel = function(data){
+		var label = $(
+			'<label>\n' +
+			'	<input type="radio" name="r1" class="minimal" value=' + data.value + '>\n' +
+			'	<span>' + data.icon + ' ' + data.name + '</span>\n' +
+			'</label>'
+		);
+		
+		return label;
+	};
+
+	//获取collapse
+	var getCollapse = function(data, selectedTag, selectedUser){
+		
+		var collapse = $(
+			'<div class="panel-body collapse">\n' +
+			'</div>'
+		);
+
+		collapse.empty();
+		//标签模块
+		$.each(data, function(index, item){
+			var label = $(
+				'<label data-type="tag">\n' +
+				'	<input type="checkbox" name="c1" class="minimal"  data-id="' + item.name + '">\n' +
+				'	<span><i class="fa fa-tag"></i> ' + item.name + '</span>\n' +
+				'	<span class="pull-right"<a href="javascript: void(0);" data-action="checklist" style="margin-right:10px;color: #3c8dbc;">查看</a></span>\n' +
+				'</label>'
+			);
+
+			if(selectedTag.includes(item.name))
+				label.find('input').prop('checked', true);
+			
+			label.find('[data-action="checklist"]').on('click',function(ev){
+				ev.stopImmediatePropagation()
+				$.ajax({
+					url : URL_GET_USERS_IN_FRIEND_TAG,
+					data: {
+						name: item.name
+					},
+					type : "GET",
+					dataType : 'json',
+					success : function (result){
+						if(result === '0'){
+							callAlert('失败！', '<i class="material-icons">clear</i>', function(){});
+						}else{
+							var FTController = new FriendTagController(id);
+							FTController.ajaxLoad(
+									result,
+									function(data, modal){
+										$.ajax({
+											url : URL_ADD_USERS_TO_FRIEND_TAG,
+											data: {
+												name: item.name,
+												uids: JSON.stringify(data)
+											},
+											type : "GET",
+											dataType : 'json',
+											success : function (result){
+												if(result == 0){
+													callAlert('失败！', '<i class="material-icons">clear</i>', function(){});
+												}else{
+													
+													modal.modal('hide');
+												}
+											},
+											error: function(err){
+												console.log(err);
+											}
+										});
+									}
+								);
+							
+							
+						}
+					},
+					error: function(err){
+						console.log(err);
+					}
+				});
+			});
+			
+			collapse.append(label);
+		});
+
+		//加载被选中数据
+		var loadSelectedUser = function(data){
+			nameList.empty();
+			$.each(data, function(index, uid){
+				$.ajax({
+					url : URL_GET_INDIVIDUAL_INSTANCE + uid,
+					type : "GET",
+					dataType : 'json',
+					success : function (user){
+						if(data == 0){
+							console.log(data, '错误');
+						}else{
+							
+							var u = $('<span class="user-label" user-id="' + user.id + '" user-image="' + user.image + '" user-bg="' + user.bg_image + '">' + user.name + '</span>');
+							nameList.append(u);
+						}
+					},
+					error: function(err){
+						console.log(err);
+					}
+				});
+			});
+		};
+
+		//获取被选中用户数据
+		var getSelectedUser = function(){
+			var result = [];
+
+			$.each(selectLabel.find('.user-label'), function(index,item){
+				console.log(index);
+				result.push({
+					id: $(item).attr('user-id'),
+					name: $(item).text(),
+					image: $(item).attr('user-image'),
+					bg_image: $(item).attr('user-bg')
+				});
+			});
+
+			return result;
+		};
+
+		var getSelectedUID = function(){
+			var result = [];
+
+			$.each(selectLabel.find('.user-label'), function(index,item){
+				console.log(index);
+				result.push($(item).attr('user-id'));
+			});
+
+			return result;
+		};
+
+
+		//用户选定模块
+		var selectLabel = $(
+			'	<label>\n' +
+			'		<span><a href="#"><i class="fa fa-plus-circle"></i> 从好友中选取</a></span>\n' +
+			'		<div class="name-list"></div>\n' +
+			'	</label>'
+		);
+
+		var nameList = selectLabel.find('.name-list');
+		loadSelectedUser(selectedUser);
+		collapse.append(selectLabel);
+
+		//点击事件
+		selectLabel.click(function(){
+			var FTController = new FriendTagController(id);
+				FTController.ajaxLoad(
+					getSelectedUser(),
+					function(data,modal){
+						//console.log(1);
+						//console.log(data);
+						callConfirm('新建标签','您是否要创建一个新的标签？',
+							function(){
+								// 不创建标签
+								singleLineInput('创建新标签', '请输入您要创建的新标签名称', function(tagTitle){
+									console.log(data);
+									$.ajax({
+										url : URL_CREATE_FRIEND_TAG,
+										data: {
+											name: tagTitle
+										},
+										type : "GET",
+										dataType : 'json',
+										success : function (result){
+											if(result == 0){
+												callAlert('添加标签失败！', '<i class="material-icons">clear</i>', function(){});
+											}else if(result == 1){
+												callAlert('已存在！', '<i class="material-icons">clear</i>', function(){});
+											}else if(result == 2){
+												var idList = [];
+												$.each(data, function(index, user){
+													idList.push(user);
+												});
+												$.ajax({
+													url : URL_ADD_USER_TO_FRIEND_TAG,
+													data: {
+														uids: JSON.stringify(idList),
+														name: tagTitle
+													},
+													type : "GET",
+													dataType : 'json',
+													success : function (result){
+														if(result == 0){
+															callAlert('添加标签失败！', '<i class="material-icons">clear</i>', function(){});
+														}else if(result == 1){
+															callAlert('添加成功！', '<i class="material-icons">done</i>', function(){
+																appendToCollapse(tagTitle,tagTitle);
+																clearSelectedUserTag();
+																modal.modal('hide');
+															});
+														}
+													},
+													error: function(err){
+														console.log(err);
+													}
+												});
+											}
+										},
+										error: function(err){
+											console.log(err);
+										}
+									});
+								});
+							},
+							function(){
+								console.log(data);
+								// 创建标签
+								loadSelectedUser(data);
+								modal.modal('hide');
+							}
+						);
+					}
+				);
+		});
+
+		return collapse;
+	};
+
+	var appendToCollapse = function(tid, name){
+		$.each(modal.find('.collapse'), function(index, collapse){
+			var label = $(
+				'<label data-type="tag">\n' +
+				'	<input type="checkbox" name="c1" class="minimal"  data-id="' + tid + '" checked>\n' +
+				'	<span><i class="fa fa-tag"></i> ' + name + '</span>\n' +
+				'	<span class="pull-right"<a href="javascript: void(0);" data-action="checklist" style="margin-right:10px;color: #3c8dbc;">查看</a></span>\n' +
+				'</label>'
+			);
+			
+			label.find('[data-action="checklist"]').on('click',function(ev){
+				ev.stopImmediatePropagation()
+				$.ajax({
+					url : URL_GET_USERS_IN_FRIEND_TAG,
+					data: {
+						name: name
+					},
+					type : "GET",
+					dataType : 'json',
+					success : function (result){
+						if(result === '0'){
+							callAlert('失败！', '<i class="material-icons">clear</i>', function(){});
+						}else{
+							var FTController = new FriendTagController(id);
+							FTController.ajaxLoad(
+									result,
+									function(data, modal){
+										$.ajax({
+											url : URL_ADD_USERS_TO_FRIEND_TAG,
+											data: {
+												name: name,
+												uids: JSON.stringify(data)
+											},
+											type : "GET",
+											dataType : 'json',
+											success : function (result){
+												if(result == 0){
+													callAlert('失败！', '<i class="material-icons">clear</i>', function(){});
+												}else{
+													
+													modal.modal('hide');
+												}
+											},
+											error: function(err){
+												console.log(err);
+											}
+										});
+									}
+								);
+							
+							
+						}
+					},
+					error: function(err){
+						console.log(err);
+					}
+				});
+			});
+			
+			
+			
+			$(collapse).prepend(label);
+			label.iCheck({
+				checkboxClass: 'icheckbox_minimal-blue'
+			});
+		});
+	};
+
+	var clearSelectedUserTag = function(){
+		modal.find('.name-list').empty();
+	}
+
+	//获取数据
+	var getData = function(){
+		var result = {
+			type: '',
+			selectedTag: [],
+			selectedUser: []
+		};
+
+		result.type = modal.find('[name="r1"]:checked').val();
+
+		if(result.type == 3 || result.type == 4){
+			var collapse = modal.find('.collapse[data-target="' + result.type + '"]');
+
+			$.each(collapse.find('[data-type="tag"] input:checked'), function(index, item){
+				result.selectedTag.push($(item).attr('data-id'));
+			});
+
+			$.each(collapse.find('.user-label'), function(index, item){
+				result.selectedUser.push($(item).attr('user-id'));
+			});
+		};
+
+		return result;
+	};
+
+	//群组菜单
+	this.loadForGroup = function(id, type, callback){
+		//群组菜单
+		var groupData = [
+			{
+				name: '公开',
+				icon: '<i class="fa fa-globe"></i>',
+				value: 1
+			},
+			{
+				name: '仅群成员可见',
+				icon: '<i class="fa fa-user-circle-o"></i></i>',
+				value: 2
+			},
+			{
+				name: '部分成员可见',
+				icon: '<i class="fa fa-plus-square"></i>',
+				value: 3
+			},
+			{
+				name: '部分成员不可见',
+				icon: '<i class="fa fa-minus-square"></i>',
+				value: 4
+			},
+			{
+				name: '仅群主可见',
+				icon: '<i class="fa fa-eye-slash"></i>',
+				value: 5
+			}
+		];
+
+		var container = modal.find('.modal-body .form-group');
+		container.empty();
+		$.each(groupData, function(index, item){
+			var label = getLabel(item);
+			container.append(label);
+
+			if(type == item.value)
+				label.find('input').prop('checked', true);
+		});
+
+		//submit
+		modal.find('[data-action="submit"]').unbind('click');
+		modal.find('[data-action="submit"]').click(function(){
+			callback(getData(), modal);
+		});
+
+		modal.modal('show');
+	};
+
+	//ajax为个人添加
+	this.ajaxLoadForIndividual = function(type, selectedTag, selectedUser, callback){
+		$.ajax({
+			url : URL_GET_FRIEND_TAG,
+			type : "GET",
+			dataType : 'json',
+			success : function (tag){
+				if(!Array.isArray(tag)){
+					callAlert('加载标签失败！', '<i class="material-icons">clear</i>', function(){});
+				}else{
+					loadForIndividual(type, selectedTag, selectedUser, tag, callback);
+				}
+			},
+			error: function(err){
+				console.log(err);
+			}
+		});
+	};
+
+	//为个人添加
+	var loadForIndividual = function(type, selectedTag, selectedUser, tagList, callback){
+		//个人数据
+		var individualData = [
+			{
+				name: '公开',
+				icon: '<i class="fa fa-globe"></i>',
+				value: 1
+			},
+			{
+				name: '朋友圈',
+				icon: '<i class="fa fa-user-circle-o"></i></i>',
+				value: 2
+			},
+			{
+				name: '部分可见',
+				icon: '<i class="fa fa-plus-square"></i>',
+				value: 3
+			},
+			{
+				name: '不可见',
+				icon: '<i class="fa fa-minus-square"></i>',
+				value: 4
+			},
+			{
+				name: '私有',
+				icon: '<i class="fa fa-eye-slash"></i>',
+				value: 5
+			}
+		];
+
+		var container = modal.find('.modal-body .form-group');
+		container.empty();
+		$.each(individualData, function(index, item){
+			var label = getLabel(item).addClass('toggle-btn');
+			container.append(label);
+
+			var collapse;
+			if(item.value == 3 || item.value == 4){
+				if( item.value == type){
+					collapse = getCollapse(tagList, selectedTag, selectedUser);
+					collapse.addClass('in');
+				}else
+					collapse = getCollapse(tagList, [], []);
+
+				label.attr('data-target', item.value);
+
+				collapse.attr('data-target', item.value)
+					.addClass('toggle-content');
+			}
+			container.append(collapse);
+
+			if(type == item.value)
+				label.find('input').prop('checked', true);
+
+
+		});
+
+		//点击互斥时间
+		container.find('.toggle-btn').click(function(){
+			var value = $(this).attr('data-target');
+			$.each(container.find('.toggle-content'), function(index, item){
+				var collapse = $(item);
+				if(collapse.attr('data-target') == value){
+					collapse.collapse('show');
+				}else{
+					collapse.collapse('hide');
+				}
+			});
+		});
+
+
+
+		//submit
+		modal.find('[data-action="submit"]').unbind('click');
+		modal.find('[data-action="submit"]').click(function(){
+			callback(getData(), modal);
+		});
+
+		modal.modal('show');
+	};
+
+	//初始化
+	(function(){
+		modal.on('hidden.bs.modal', function(){
+			$(this).remove();
+		}).on('shown.bs.modal', function(){
+			$(this).find('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+				checkboxClass: 'icheckbox_minimal-blue',
+				radioClass: 'iradio_minimal-blue'
+			});
+		});
+	})();
 };

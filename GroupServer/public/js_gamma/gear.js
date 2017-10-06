@@ -78,3 +78,19 @@ var singleLineInput = function(title, placeholder, callback){
 		modal.modal('show');
 	})();
 };
+/* 3. 确认框 */
+var callConfirm = function(title, text, actionConfirm, actionCancel){
+	$.confirm({
+		title: title,
+		content: text,
+		buttons: {
+			确定: function () {
+				actionConfirm();
+				/* callAlert('操作完成', 'done'); */
+			},
+			取消: function () {
+				actionCancel();
+			}
+		}
+	});
+};
