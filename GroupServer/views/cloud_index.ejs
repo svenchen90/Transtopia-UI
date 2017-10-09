@@ -178,15 +178,464 @@
 	RB_FS.getModule().find('.content').css('height', 'calc(100vh - 102px)');
 	MB.add(RB_FS.getModule());
 	
-	console.log($('[data-type="left-list"]'));
 	
 	$('[data-type="left-list"] [data-ation="toggle"]').click(function(){
 		RB_FS.toggle();
-		console.log(1);
 	});
 	
 	$('#mainBlock').append(MB.getModule());
 	
+	var SelectBox = function(){
+		var module = $(
+			'<div class="modal fade select-box noselect">\n' +
+			'	<div class="modal-dialog">\n' +
+			'		<div class="modal-content">\n' +
+			'			<div class="modal-header">\n' +
+			'				<button type="button" class="close" data-dismiss="modal">&times;</button>\n' +
+			'				<h5 class="modal-title">\n' +
+			'				</h5>\n' +
+			'			</div>\n' +
+			'			<div class="modal-body">\n' +
+			'				<div class="form-group">\n' +
+			'				</div>\n' +
+			'			</div>\n' +
+			'			<div class="modal-footer">\n' +
+			'				<a data-action="submit">提交</a>\n' +
+			'				<a data-dismiss="modal">关闭</a>\n' +
+			'			</div>\n' +
+			'		</div>\n' +
+			'	</div>\n' +
+			'</div>'
+		);
+		
+		// 设置标题
+		this.setTitle = function(title){
+			module.find('.modal-title').text(title);
+		};
+		
+		// 添加
+		this.add = function(object){
+			module.find('.form-group').append(object.getModule());
+			/*label.find('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+				checkboxClass: 'icheckbox_minimal-blue',
+				radioClass: 'iradio_minimal-blue'
+			});*/
+		};
+		
+		// 删除
+		this.remove = function(index){
+			/*var object = list[index];
+			delete list[index];
+			object.getModule().remove();*/
+		};
+		
+		// 清空
+		this.clear = function(){
+			module.find('.form-group').empty();
+		};
+		
+		// 获取模块
+		this.getModule = function(){
+			return module;
+		};
+	};
+	
+	var SelectLabel = function(data){
+		var module = $(
+			'<label>\n' +
+			'	<input type="radio" name="r1" value="' + data.value + '">\n' +
+			'	<span data-type="icon">' + data.icon + '</span>\n' +
+			'	<span data-type="name">' + data.name + '</span>\n' +
+			'	<span class="pull-right" style="margin-right: 20px;"><a href="#">设置</a></span>\n' +
+			'	<div class="clearfix"></div>\n' +
+			'</label>'
+		);
+		
+		// 设置index
+		this.setIndex = function(index){
+			module.attr('data-index', index);
+		};
+		
+		// 获取index
+		this.getIndex = function(){
+			return module.attr('data-index');
+		};
+		
+		// 获取模块
+		this.getModule = function(){
+			return module;
+		};
+	};
+	
+	var SelectCollapse = function(data){
+		var module = $(
+			'<div>\n' +
+			'	<label>\n' +
+			'		<input type="radio" name="r1" value="' + data.value + '" data-action="collapse">\n' +
+			'		<span>' + data.icon + '</span>\n' +
+			'		<span>' + data.name + '</span>\n' +
+			'		<!-- <span class="pull-right" style="margin-right: 20px;"><a href="#"></a></span>\n -->' +
+			'		<div class="clearfix"></div>\n' +
+			'	</label>\n' +
+			'	<div class="collapse">\n' +
+			'	<!-- 复选框 -->\n' +
+			'	</div>\n' +
+			'</div>'
+			
+		);
+		
+		// 设置index
+		this.setIndex = function(index){
+			module.attr('data-index', index);
+		};
+		
+		// 添加
+		this.add = function(object){
+			module.find('.collapse').append(object.getModule());
+		}
+		
+		
+		// 获取模块
+		this.getModule = function(){
+			return module;
+		};
+	};
+	
+	var SelectCollapseLable = function(data){
+		var module = $(
+			'<label data-type="tag">\n' +
+			'	<input type="checkbox" name="c1"  data-id="' + data.name + '">\n' +
+			'	<span><i class="fa fa-tag"></i></span>\n' +
+			'	<span>' + data.name + '</span>\n' +
+			'	<span class="pull-right" style="margin-right:10px;"><a href="#">查看</a></span>\n' +
+			'	<div class="clearfix"></div>\n' +
+			'</label>\n'
+		);
+		
+		// 获取模块
+		this.getModule = function(){
+			return module;
+		};
+	};
+	
+	var selectBox = new SelectBox();
+	selectBox.setTitle('{请输入标题}');
+	selectBox.add(new SelectLabel(
+		{
+			icon: '<i class="fa fa-gear"></i>',
+			name: '标签1',
+			value: '1'
+		}
+	));
+	selectBox.add(new SelectLabel(
+		{
+			icon: '<i class="fa fa-gear"></i>',
+			name: '标签1标签1标签',
+			value: '1'
+		}
+	));
+	
+	var collapse1 = new SelectCollapse(
+		{
+			icon: '<i class="fa fa-gear"></i>',
+			name: '标签1标签1标签',
+			value: '1'
+		}
+	);
+	collapse1.add(new SelectCollapseLable(
+		{
+			icon: '<i class="fa fa-gear"></i>',
+			name: '标签1标签1标签',
+			value: '1'
+		}
+	));
+	selectBox.add(collapse1);
+	
+	var collapse2 = new SelectCollapse(
+		{
+			icon: '<i class="fa fa-gear"></i>',
+			name: '标签1标签1标签',
+			value: '2'
+		}
+	);
+	collapse2.add(new SelectCollapseLable(
+		{
+			icon: '<i class="fa fa-gear"></i>',
+			name: '标签1标签1标签',
+			value: '1'
+		}
+	));
+	selectBox.add(collapse2);
+	
+	selectBox.getModule().modal('show');
+	// Collapse 控制器
+	selectBox.getModule().find('[data-action="collapse"]').click(function(){
+		var all = selectBox.getModule().find('.collapse');
+		var target = $(this).closest('label').next('.collapse');
+		all.not(target).collapse('hide');
+		target.collapse('show');	
+	});
+	
+	$('body').append(selectBox.getModule());
+	
+	/* # */
+/* 双行模态框 */
+var TwinRow = function(title){
+	var obj = this;
+	var twinRow = $(
+		'<div class="modal fade">\n' +
+		'	<div class="modal-dialog" style="width: 50vw;">\n' +
+		'		<div class="modal-content">\n' +
+		'			<div class="modal-header">\n' +
+		'				<button type="button" class="close btn-close" data-dismiss="modal">&times;</button>\n' +
+		'				<h4 class="modal-title"></h4>\n' +
+		'			</div>\n' +
+		'			<div class="modal-body">\n' +
+		'				<div style="display: inline-block; line-height: 34px; font-size:20px;padding-left:15px;" class="top-title"></div>\n' +
+		'				<div class="form-group pull-right" style="width: 250px;">\n' +
+		'					<div class="input-group">\n' +
+		'						<input type="text" class="form-control" placeholder="搜索...(区分大小写)" data-action="searchtop"/>\n' +
+		'						<div class="input-group-addon" style="cursor: pointer;">\n' +
+		'							<i class="fa fa-search"></i>\n' +
+		'						</div>\n' +
+		'					</div>\n' +
+		'				</div>\n' +
+		'				<div class="clearfix"></div>\n' +
+		'				<div class="row-top">\n' +
+		'					<!-- 上排数据 -->\n' +
+		'				</div>\n' +
+		'				<div class="row divider" style="margin-top:10px; margin-bottom:10px; border-bottom: 1px solid #ddd;"></div>\n' +
+		'				<div style="display: inline-block; line-height: 34px;font-size:20px;padding-left:15px;" class="bottom-title"></div>\n' +
+		'				<div class="form-group pull-right" style="width: 250px;">\n' +
+		'					<div class="input-group">\n' +
+		'						<input type="text" class="form-control" placeholder="搜索...(区分大小写)" data-action="searchbot"/>\n' +
+		'						<div class="input-group-addon" style="cursor: pointer;">\n' +
+		'							<i class="fa fa-search"></i>\n' +
+		'						</div>\n' +
+		'					</div>\n' +
+		'				</div>\n' +
+		'				<div class="clearfix"></div>\n' +
+		'				<div class="row-bot">\n' +
+		'					<!-- 下排数据 -->\n' +
+		'				</div>\n' +
+		'				<div class="clearfix"></div>\n' +
+		'			</div>\n' +
+		'			<div class="modal-footer">\n' +
+		'				<a href="javascript: void(0);" data-action="submit">确定</a>\n' +
+		'				<a href="javascript: void(0);" data-dismiss="modal">关闭</a>\n' +
+		'			</div>\n' +
+		'		</div>\n' +
+		'	</div>\n' + 
+		'</div>'
+	);
+	
+	/* 初始化 */
+	(function(){
+		//加载模态框标题
+		twinRow.find('.modal-title').text(title);
+		
+		//加载slimscroll
+		twinRow.find('.row-top').slimScroll({
+			height: '20vh'
+		});
+		twinRow.find('.row-bot').slimScroll({
+			height: '40vh'
+		});
+		
+		twinRow.on('hidden.bs.modal', function(){
+			$(this).remove();
+		});
+		
+		//顶端搜索
+		twinRow.find('[data-action="searchtop"]').on('change', function(evt){
+			var query = $(this).val();
+			obj.searchTop(query);
+		});
+		
+		// 加载第二行搜索
+		twinRow.find('[data-action="searchbot"]').on('change', function(evt){
+			var query = $(this).val();
+			obj.searchBot(query);
+		});
+	})();
+	
+	
+	/* 方法体 */
+	// 1. 获取Modal
+	this.getTwinRow= function(){
+		return twinRow;
+	};
+	
+	// 1) 修改顶端标题
+	this.changeTopTitle=function(title)
+	{
+		twinRow.find('.top-title').empty();
+		twinRow.find('.top-title').html(title);
+	}
+	// 2) 修改顶端标题
+	this.changeBottomTitle=function(title)
+	{
+		twinRow.find('.bottom-title').empty();
+		twinRow.find('.bottom-title').html(title);
+	}
+	
+	
+	// 2. 清空第一行
+	this.emptyTop = function(){
+		twinRow.find('.row-top [allowremove]').remove();
+	};
+	
+	// 3. 清空第二行
+	this.emptyBot = function(){
+		twinRow.find('.row-bot [allowremove]').remove();
+	};
+	
+	// 4. 重加载第二行
+	this.reloadTop = function(itemList){
+		this.emptyTop();
+		
+		$.each(itemList, function(index, item){
+			twinRow.find('.row-top').append(item);
+		});
+	};
+	
+	// 5. 重加载第二行
+	this.reloadBot = function(itemList){
+		this.emptyBot();
+		
+		$.each(itemList, function(index, item){
+			twinRow.find('.row-bot').append(item);
+		});
+	};
+	
+	// 6. 重加载
+	this.reload = function(listTop, listBOt){
+		this.reloadTop(listTop);
+		this.reloadBot(listBOt);
+	};
+	
+	// 7. 第一行添加到表尾
+	this.appendTop = function(item){
+		item.find('.content-hover i').replaceWith('<i class="material-icons">add_circle_outline</i>');
+		twinRow.find('.row-top').append(item);
+	};
+	
+	// 8. 第一行添加到表头
+	this.prependTop = function(item){
+		item.find('.content-hover i').replaceWith('<i class="material-icons">add_circle_outline</i>');
+		twinRow.find('.row-top').prepend(item);
+	};
+	
+	// 9 第一行添加列表到表尾
+	this.appendListTop = function(list){
+		$.each(list, function(index, item){
+			this.appendTop(item);
+		});
+	};
+	
+	// 10. 第二行添加到表尾
+	this.appendBot = function(item){
+		item.find('.content-hover i').replaceWith('<i class="material-icons">highlight_off</i>');
+		twinRow.find('.row-bot').append(item);
+	};
+	
+	// 11. 第二行添加到表头
+	this.prependBot = function(item){
+		item.find('.content-hover i').replaceWith('<i class="material-icons">highlight_off</i>');
+		twinRow.find('.row-bot').prepend(item);
+	};
+	
+	// 12 第二行添加列表到表尾
+	this.appendListBot = function(list){
+		$.each(list, function(index, item){
+			this.appendBot(item);
+		});
+	};
+	
+	
+	/* 13. 搜索第一行 */
+	this.searchTop = function(query){
+		$.each(twinRow.find('.row-top [allowsearch]'), function(index,item){
+			var name = $(item).find('[data-name="name"]').text();
+			if(!name.match(query)){
+				$(item).addClass('hide');
+			}else
+				$(item).removeClass('hide');
+		});
+	};
+	
+	/* 13. 搜索第二行 */
+	this.searchBot = function(query){
+		$.each(twinRow.find('.row-bot [allowsearch]'), function(index,item){
+			var name = $(item).find('[data-name="name"]').text();
+			if(!name.match(query)){
+				$(item).addClass('hide');
+			}else
+				$(item).removeClass('hide');
+		});
+	};
+	
+	/* 14. 移动到第一行 */
+	this.moveToTop = function(item){
+		item.find('.content-hover i').replaceWith('<i class="material-icons">add_circle_outline</i>');
+		this.appendTop(item);
+	};
+	
+	/* 15. 移动到第二行 */
+	this.moveToBot = function(item){
+		item.find('.content-hover i').replaceWith('<i class="material-icons">highlight_off</i>');
+		this.appendBot(item);
+	};
+	
+	/* 16. 获取数据 */
+	this.getData = function(){
+		var data = [];
+		$.each(twinRow.find('.row-bot').find('[allowremove]'), function(index, item){
+			data.push({
+				id: $(item).attr('data-id'),
+				name: $(item).find('[data-name="name"]').text()
+			});
+		});
+		return data;
+	};
+};
+/* ！双行模态框 */
+	
+	var twinRow = new TwinRow('{标题}');
+	twinRow.getTwinRow().modal('show');
+	
+	
+	var UserCard = function(data, icon){
+		var module = $(
+			'<div class="col-lg-2 col-md-3 col-sm-4" allowsearch allowremove data-id="' + data.id + '">\n' +
+			'	<div class="multi-card" style="background-color: ' + googleColorRandomPicker() + ';">\n' +
+			'		<div class="card-body">\n' +
+			'			<div class="content-default">' + icon + '\n' +
+			'				<div data-name="name">' + data.name + '</div>\n' +
+			'			</div>\n' +
+			'			<div class="content-hover"><i></i>\n' +
+			'				<div></div>\n' +
+			'			</div>\n' +
+			'		</div>\n' +
+			'	</div>\n' +
+			'</div>\n'
+		);
+		return module;
+	};
+	
+	//<i class="material-icons">face</i>
+	twinRow.appendBot(UserCard({id: 1, name: '测试测试'}, '<i class="material-icons">face</i>'));
+	twinRow.getTwinRow().click(function(ev){
+		var target = ev.target.closest('[allowremove]');
+		if(target){
+			if($(target).closest('.row-top').length > 0){
+				twinRow.moveToBot($(target));
+			}else{
+				twinRow.moveToTop($(target));
+			}
+			
+		};
+	});
 	</script>
 	
 </html>
