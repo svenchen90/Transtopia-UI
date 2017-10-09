@@ -2841,7 +2841,7 @@ router.get('/getallinfolder', function(req, res, next) {
 			authority: [0,1,2,3,4,5,6,7,8],
 			name: '测试文件',
 			src: 'http://127.0.0.1:3000/dist/img/controller.js'
-		},
+		}
 	];
 	
 	var dataListOfDir = [

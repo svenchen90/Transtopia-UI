@@ -3,6 +3,39 @@
 	transition: all 300ms;
 }
 /* End of 动画效果 */
+/* Animation */
+@keyframes colorchange
+{
+	0%   {color: red;}
+	25%  {color: yellow;}
+	50%  {color: blue;}
+	75%  {color: green;}
+	100% {color: red;}
+}
+
+@-webkit-keyframes colorchange /* Safari and Chrome - necessary duplicate */
+{
+	0%   {color: red;}
+	25%  {color: yellow;}
+	50%  {color: blue;}
+	75%  {color: green;}
+	100% {color: red;}
+}
+
+@keyframes opacitychange
+{
+	0%   {opacity: 0.3;}
+	50% {opacity: 1;}
+	100% {opacity: 0.3;}
+}
+
+@-webkit-keyframes opacitychange /* Safari and Chrome - necessary duplicate */
+{
+	0%   {opacity: 0.3;}
+	50% {opacity: 1;}
+	100% {opacity: 0.3;}
+}
+/* End of Animation */
 /* 左侧导航栏 */
 .main-block .left-block {
 	width: 200px;
@@ -122,11 +155,13 @@
 	opacity: 0.3 !important;
 }
 
+
 .folder.copy {
-	background-color:  rgba(0,0,255,0.3);
+	animation: opacitychange 3s infinite; /* animation-name followed by duration in seconds*/
+	-webkit-animation: opacitychange 3s infinite; /* Chrome and Safari */
 }
 .folder.cut {
-	background-color:  rgba(0,255,0,0.3);
+	opacity:0.3;
 }
 /* End of 文件夹 */
 /* 文件 */
@@ -187,11 +222,12 @@
 }
 
 .file.copy .bot {
-	background-color:  rgba(0,0,255,0.3);
+	animation: opacitychange 3s infinite; /* animation-name followed by duration in seconds*/
+	-webkit-animation: opacitychange 3s infinite; /* Chrome and Safari */
 }
 
 .file.cut .bot {
-	background-color:  rgba(0,255,0,0.3);
+	opacity:0.3;
 }
 
 /* End of 文件 */

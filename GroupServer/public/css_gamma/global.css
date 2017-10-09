@@ -1,4 +1,4 @@
-/* Body 滚动条 */
+/* Body 滚动条 + Search框 */
 body {
 	overflow-x: hidden;
 	overflow-y: auto;
@@ -9,8 +9,14 @@ body {
 		overflow-x: hidden;
 		overflow-y: hidden;
 	}
+	
+	[data-type="search"] {
+		width: calc(100vw - 1200px) !important;
+		min-width : 200px;
+		max-width : 600px;
+	}
 }
-/* End of Body 滚动条 */
+/* End of Body 滚动条 + Search框 */
 /* 模态框居中 */
 .modal {
 	text-align: center;

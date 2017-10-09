@@ -178,6 +178,13 @@
 	RB_FS.getModule().find('.content').css('height', 'calc(100vh - 102px)');
 	MB.add(RB_FS.getModule());
 	
+	console.log($('[data-type="left-list"]'));
+	
+	$('[data-type="left-list"] [data-ation="toggle"]').click(function(){
+		RB_FS.toggle();
+		console.log(1);
+	});
+	
 	$('#mainBlock').append(MB.getModule());
 	
 	</script>

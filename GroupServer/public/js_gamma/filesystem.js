@@ -835,6 +835,15 @@ var RightBlock_FS = function(){
 		'</td>'
 	);
 	
+	// toggle
+	this.toggle = function(){
+		module.toggle(ANIMATION_TIME);
+	};
+	
+	(function(){
+		module.css('display', 'none');
+	})()
+	
 	// 获取module
 	this.getModule = function(){
 		return module;

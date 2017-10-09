@@ -20,7 +20,7 @@ var FirstNavTop = function(){
 		'			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">\n' +
 		'				<i class="fa fa-bars"></i>\n' +
 		'			</button>\n' +
-		'			<a data-type="brand" class="navbar-brand" href="javascript:void(0)"></a>\n' +
+		'			<a data-type="brand" class="navbar-brand" href="javascript:void(0)" data-type="brand"></a>\n' +
 		'		</div>\n' +
 		'		<!-- Collect the nav links, forms, and other content for toggling -->\n' +
 		'		<div class="collapse navbar-collapse" id="navbar-collapse-1">\n' +
@@ -29,7 +29,7 @@ var FirstNavTop = function(){
 		'			</ul>\n' +
 		'			<form class="navbar-form navbar-left">\n' +
 		'				<div class="form-group">\n' +
-		'					<input type="text" class="form-control" placeholder="搜索">\n' +
+		'					<input type="text" class="form-control" placeholder="搜索" data-type="search">\n' +
 		'				</div>\n' +
 		'			</form>\n' +
 		'			<ul class="nav navbar-nav navbar-right">\n' +
