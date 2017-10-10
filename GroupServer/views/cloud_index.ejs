@@ -622,9 +622,12 @@
 	};
 	/* ！用户卡片 */
 	
+	var TwinRowUser = function(selectedUser, allUser, callback){
+		
+	};
 	
 	var twinRow = new TwinRow('{标题}');
-	twinRow.getTwinRow().modal('show');
+	//twinRow.getTwinRow().modal('show');
 	twinRow.appendBot(UserCard({id: 1, name: '测试测试'}));
 	
 	twinRow.getTwinRow().click(function(ev){

@@ -102,3 +102,20 @@ var googleColorRandomPicker = function(){
 	//console.log(color_list[random]);
 	return color_list[random];
 };
+/* 5.  求差集 list1 - list2 */
+var getDifferenceSet = function(list1, list2, key){
+	var set = [];
+	$.each(list1, function(index1, item1){
+		var flag = true;
+		$.each(list2, function(index2, item2){
+			if(item1[key] == item2[key]){
+				flag = false;
+				return false;
+			}
+		});
+		if(flag){
+			set.push(item1);
+		}
+	});
+	return set;
+};
