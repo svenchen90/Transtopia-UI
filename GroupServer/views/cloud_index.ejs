@@ -22,6 +22,7 @@
 		<!-- 右下角按钮组 -->
 		<div id="btngroup-rightbot">
 		</div>
+		
 	</body>
 	
 	<!-- 插件与样式 -->
@@ -238,28 +239,62 @@
 		this.getModule = function(){
 			return module;
 		};
+		
+		//重新加载
+		this.rebind = function(){
+			module.find('input[type="radio"]')
+				.unbind('click')
+				.click(function(ev){
+					var all = module.find('.collapse');
+					var target = $(this).closest('label').next('.collapse');
+					all.not(target).collapse('hide');
+					target.collapse('show');
+				});
+		};
+		
+		// 获取数据
+		this.getData = function(){
+			var result = {
+				value: '',
+				tags: [],
+				users: []
+			};
+			var value = module.find('input[type="radio"]:checked').attr('value');
+			result.value = value;
+			
+			var target = module.find('input[type="radio"]:checked').closest('label').next('.collapse');
+			
+			if(target.length){
+
+				$.each(target.find('[data-type="tag"] [type="checkbox"]:checked'), function(index, item){
+					result.tags.push($(item).attr('data-id'));
+				});
+				
+				$.each(target.find('[data-type="default"] [data-container="item"] [data-type="item"]'), function(index, item){
+					result.users.push($(item).attr('data-id'));
+				});
+			}
+			return result;
+		};
+		
+		(function(){
+			// 清空
+			module.on('hidden.bs.modal', function(){
+				$(this).remove();
+			});
+		})();
 	};
 	
-	var SelectLabel = function(data){
+	var SelectLabel = function(data, icon){
 		var module = $(
 			'<label>\n' +
 			'	<input type="radio" name="r1" value="' + data.value + '">\n' +
-			'	<span data-type="icon">' + data.icon + '</span>\n' +
+			'	<span data-type="icon">' + icon + '</span>\n' +
 			'	<span data-type="name">' + data.name + '</span>\n' +
-			'	<span class="pull-right" style="margin-right: 20px;"><a href="#">设置</a></span>\n' +
+			'	<!-- <span class="pull-right" style="margin-right: 20px;"><a href="javascript:void(0)">设置</a></span> -->\n' +
 			'	<div class="clearfix"></div>\n' +
 			'</label>'
 		);
-		
-		// 设置index
-		this.setIndex = function(index){
-			module.attr('data-index', index);
-		};
-		
-		// 获取index
-		this.getIndex = function(){
-			return module.attr('data-index');
-		};
 		
 		// 获取模块
 		this.getModule = function(){
@@ -267,14 +302,14 @@
 		};
 	};
 	
-	var SelectCollapse = function(data){
+	var SelectCollapse = function(data, icon){
 		var module = $(
 			'<div>\n' +
 			'	<label>\n' +
-			'		<input type="radio" name="r1" value="' + data.value + '" data-action="collapse">\n' +
-			'		<span>' + data.icon + '</span>\n' +
+			'		<input type="radio" name="r1" value="' + data.value + '">\n' +
+			'		<span>' + icon + '</span>\n' +
 			'		<span>' + data.name + '</span>\n' +
-			'		<!-- <span class="pull-right" style="margin-right: 20px;"><a href="#"></a></span>\n -->' +
+			'		<!-- <span class="pull-right" style="margin-right: 20px;"><a href="javascript:void(0)">设置</a></span> -->\n' +
 			'		<div class="clearfix"></div>\n' +
 			'	</label>\n' +
 			'	<div class="collapse">\n' +
@@ -283,17 +318,24 @@
 			'</div>'
 			
 		);
-		
-		// 设置index
-		this.setIndex = function(index){
-			module.attr('data-index', index);
-		};
-		
+
 		// 添加
 		this.add = function(object){
 			module.find('.collapse').append(object.getModule());
 		}
 		
+		// 选取
+		this.getSelect = function(value, tags){
+			if(data.value == value){
+				module.find('input[type="radio"]').prop('checked', 1);
+				$.each(module.find('[data-type="tag"]'), function(index, item){
+					var tagName = $(item).find('input').attr('data-id');
+					if(tags.includes(tagName))
+						$(item).find('input').prop('checked', 1);
+				});
+				module.find('.collapse').addClass('in');
+			}
+		};
 		
 		// 获取模块
 		this.getModule = function(){
@@ -301,85 +343,190 @@
 		};
 	};
 	
-	var SelectCollapseLable = function(data){
+	var SelectCollapseLable = function(data, icon, callback){
 		var module = $(
 			'<label data-type="tag">\n' +
 			'	<input type="checkbox" name="c1"  data-id="' + data.name + '">\n' +
-			'	<span><i class="fa fa-tag"></i></span>\n' +
-			'	<span>' + data.name + '</span>\n' +
-			'	<span class="pull-right" style="margin-right:10px;"><a href="#">查看</a></span>\n' +
+			'	<span>' + icon + '</span>\n' +
+			'	<span data-name>' + data.name + '</span>\n' +
+			'	<span class="pull-right" style="margin-right:10px;"><a href="javascript:void(0)">查看</a></span>\n' +
 			'	<div class="clearfix"></div>\n' +
 			'</label>\n'
 		);
 		
+		module.find('a').click(function(ev){
+			callback(data.name);
+		});
+		
 		// 获取模块
 		this.getModule = function(){
 			return module;
 		};
 	};
 	
-	var selectBox = new SelectBox();
-	selectBox.setTitle('{请输入标题}');
-	selectBox.add(new SelectLabel(
-		{
-			icon: '<i class="fa fa-gear"></i>',
-			name: '标签1',
-			value: '1'
-		}
-	));
-	selectBox.add(new SelectLabel(
-		{
-			icon: '<i class="fa fa-gear"></i>',
-			name: '标签1标签1标签',
-			value: '1'
-		}
-	));
+	var SelectCollapseLableDefault = function(text, icon, callback){
+		var obj = this;
+		var module = $(
+			'<label data-type="default" style="line-height: 30px !important;">\n' +
+			'	<span>' + icon + '</span>\n' +
+			'	<span>' + text + '</span>\n' +
+			'	<span class="pull-right" style="margin-right:10px;"><a href="javascript:void(0)">查看</a></span>\n' +
+			'	<div class="clearfix"></div>\n' +
+			'	<span data-container="item"></span>\n' +
+			'</label>\n'
+		);
+		
+		// 添加
+		this.add = function(data){
+			module.find('[data-container="item"]').append(
+				'<span data-type="item" data-id="' + data.id + '" style="padding-left: 10px;">' + data.name + '</span>\n'
+			);
+		};
+		
+		// 清空
+		this.clear = function(){
+			module.find('[data-container="item"]').empty();
+		};
+		
+		// 获取模块
+		this.getModule = function(){
+			return module;
+		};
+		
+		// 获取数据
+		this.getData = function(){
+			var result = [];
+			$.each(module.find('[data-type="item"]'), function(index, item){
+				result.push(
+					{
+						id: $(item).attr('data-id'),
+						name: $(item).text()
+					}
+				);
+			});
+			return result;
+		};
+		
+		module.find('a').click(function(ev){
+			var selected = obj.getData();
+			callback(selected);
+		});
+	};
 	
-	var collapse1 = new SelectCollapse(
-		{
-			icon: '<i class="fa fa-gear"></i>',
-			name: '标签1标签1标签',
-			value: '1'
-		}
-	);
-	collapse1.add(new SelectCollapseLable(
-		{
-			icon: '<i class="fa fa-gear"></i>',
-			name: '标签1标签1标签',
-			value: '1'
-		}
-	));
-	selectBox.add(collapse1);
+	// 展示选项框(File Authority For Individual) visibility & eiditable
+	var showSelectBox_FAI = function(fileID, url){
+		var selectBox = new SelectBox();
+		selectBox.setTitle('请选择范围');
+		
+		//加载
+		var list = [
+			{
+				value: 1,
+				name: '公开',
+				icon: '<i class="fa fa-globe"></i>'
+			},
+			{
+				value: 2,
+				name: '朋友圈',
+				icon: '<i class="fa fa-user-circle-o"></i>'
+			},
+			{
+				value: 3,
+				name: '部分好友有权限',
+				icon: '<i class="fa fa-plus-square"></i>'
+			},
+			{
+				value: 4,
+				name: '部分好友无权限',
+				icon: '<i class="fa fa-minus-square"></i>'
+			},
+			{
+				value: 5,
+				name: '私有',
+				icon: '<i class="fa fa-eye-slash"></i>'
+			}
+		];
+		
+		// 获取拥有权限
+		$.ajax({
+			url : url,
+			data: {
+				id: fileID
+			},
+			type : "GET",
+			dataType : 'json',
+			success : function (authority){
+				if([1,2,5].includes(authority)){
+				}else if(Array.isArray(authority.tags)&&Array.isArray(authority.users)){
+					var selectTags = authority.tags;
+					var selectUsers = authority.users;
+					
+					// 获取好友标签列表
+					$.ajax({
+						url : GET_FRIEND_TAG_LIST,
+						type : "GET",
+						dataType : 'json',
+						success : function (tags){
+							if(!Array.isArray(tags)){
+								callAlert('加载标签失败！', '<i class="material-icons">clear</i>', function(){});
+							}else{
+								$.each(list, function(index, item){
+									if(item.value == 3 || item.value == 4){
+										var collapse = new SelectCollapse(item, item.icon);
+										
+										$.each(tags, function(index2, item2){
+											collapse.add(new SelectCollapseLable(item2, '<i class="fa fa-tags"></i>'));
+										});
+										var temp2 = new SelectCollapseLableDefault(
+											'从好友列表中选取',
+											'<i class="fa fa-plus-square-o" style="color: green"></i>',
+											function(){
+												console.log(1);
+											}
+										);
+										
+										if(authority.value == item.value)
+											$.each(selectUsers, function(index3, item3){
+												temp2.add(item3);
+											});
+										collapse.add(temp2);
+										
+										collapse.getSelect(authority.value, selectTags);
+										selectBox.add(collapse);
+									}else{
+										selectBox.add(new SelectLabel(item, item.icon));
+									}
+								});
+								
+								selectBox.rebind();
+								
+								selectBox.getModule().find('[data-action="submit"]').click(function(){
+									var data = selectBox.getData();
+									console.log(data);
+								});
+
+								selectBox.getModule().modal('show');
+							}
+						},
+						error: function(err){
+							console.log(err);
+						}
+					});
+				}else{
+					console.log('error');
+				}
+			},
+			error: function(err){
+				console.log(err);
+			}
+		});
+
+	};
 	
-	var collapse2 = new SelectCollapse(
-		{
-			icon: '<i class="fa fa-gear"></i>',
-			name: '标签1标签1标签',
-			value: '2'
-		}
-	);
-	collapse2.add(new SelectCollapseLable(
-		{
-			icon: '<i class="fa fa-gear"></i>',
-			name: '标签1标签1标签',
-			value: '1'
-		}
-	));
-	selectBox.add(collapse2);
-	
-	selectBox.getModule().modal('show');
-	// Collapse 控制器
-	selectBox.getModule().find('[data-action="collapse"]').click(function(){
-		var all = selectBox.getModule().find('.collapse');
-		var target = $(this).closest('label').next('.collapse');
-		all.not(target).collapse('hide');
-		target.collapse('show');	
-	});
-	
-	$('body').append(selectBox.getModule());
+	showSelectBox_FAI(12222222, GET_FILE_VISIBILITY_LIST);
 	
 	/* # */
-/* 双行模态框 */
+	/* 双行模态框 */
 	var TwinRow = function(title){
 		var twinRow = $(
 			'<div class="modal fade">\n' +
@@ -621,6 +768,8 @@
 		return module;
 	};
 	/* ！用户卡片 */
+	
+	
 	
 	var TwinRowUser = function(selectedUser, allUser, callback){
 		

@@ -14,6 +14,11 @@ const DELETE_FILE = '/delete_file';
 const DELETE_FOLDER = '/delete_folder';
 const RENAME_FILE = '/rename_file';
 const RENAME_FOLDER = '/rename_folder';
+const GET_FILE_VISIBILITY_LIST = "/file_visibility";
+
+
+// 其它
+const GET_FRIEND_TAG_LIST = '/get_friend_tag_list';
 
 
 const ANIMATION_TIME = 200;
