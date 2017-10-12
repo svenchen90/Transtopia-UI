@@ -185,7 +185,7 @@
 	});
 	
 	$('#mainBlock').append(MB.getModule());
-	
+/*
 	var SelectBox = function(){
 		var module = $(
 			'<div class="modal fade select-box noselect">\n' +
@@ -217,17 +217,10 @@
 		// 添加
 		this.add = function(object){
 			module.find('.form-group').append(object.getModule());
-			/*label.find('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-				checkboxClass: 'icheckbox_minimal-blue',
-				radioClass: 'iradio_minimal-blue'
-			});*/
 		};
 		
 		// 删除
 		this.remove = function(index){
-			/*var object = list[index];
-			delete list[index];
-			object.getModule().remove();*/
 		};
 		
 		// 清空
@@ -316,7 +309,6 @@
 			'	<!-- 复选框 -->\n' +
 			'	</div>\n' +
 			'</div>'
-			
 		);
 
 		// 添加
@@ -412,7 +404,264 @@
 			callback(selected);
 		});
 	};
+*/
 	
+	var SelectBoxComponent = function(){
+		// 1. 选择框主体
+		this.getSelectBox = function(title){
+			var module = $(
+				'<div class="modal fade select-box noselect">\n' +
+				'	<div class="modal-dialog">\n' +
+				'		<div class="modal-content">\n' +
+				'			<div class="modal-header">\n' +
+				'				<button type="button" class="close" data-dismiss="modal">&times;</button>\n' +
+				'				<h5 class="modal-title">' + title + '</h5>\n' +
+				'			</div>\n' +
+				'			<div class="modal-body">\n' +
+				'				<div class="form-group select-box-container">\n' +
+				'				</div>\n' +
+				'			</div>\n' +
+				'			<div class="modal-footer">\n' +
+				'				<a data-action="submit">提交</a>\n' +
+				'				<a data-dismiss="modal">关闭</a>\n' +
+				'			</div>\n' +
+				'		</div>\n' +
+				'	</div>\n' +
+				'</div>'
+			);
+			return module;
+		};
+		
+		// 2. 单选样式
+		this.getRadio = function(data, icon){
+			var module = $(
+				'<label>\n' +
+				'	<input type="radio" name="r1" data-value="' + data.value + '" data-type="radio">\n' +
+				'	<span data-type="icon">' + icon + '</span>\n' +
+				'	<span data-type="name">' + data.name + '</span>\n' +
+				'	<!-- <span class="pull-right" style="margin-right: 20px;"><a href="javascript:void(0)">设置</a></span> -->\n' +
+				'	<div class="clearfix"></div>\n' +
+				'</label>'
+			);
+			return module;
+		};
+		
+		// 3. 折叠框
+		this.getCollapse = function(data, icon){
+			var module = $(
+				'<div>\n' +
+				'	<label>\n' +
+				'		<input type="radio" name="r1" data-value="' + data.value + '" data-type="collapse">\n' +
+				'		<span>' + icon + '</span>\n' +
+				'		<span>' + data.name + '</span>\n' +
+				'		<!-- <span class="pull-right" style="margin-right: 20px;"><a href="javascript:void(0)">设置</a></span> -->\n' +
+				'		<div class="clearfix"></div>\n' +
+				'	</label>\n' +
+				'	<div class="collapse">\n' +
+				'	<!-- 复选框 -->\n' +
+				'	</div>\n' +
+				'</div>'
+			);
+			return module;
+		};
+		
+		// 4. 复选框-折叠框
+		this.getMulti_Collapse = function(data, icon){
+			var module = $(
+				'<label data-type="tag">\n' +
+				'	<input type="checkbox" name="c1"  data-value="' + data.name + '">\n' +
+				'	<span>' + icon + '</span>\n' +
+				'	<span data-name>' + data.name + '</span>\n' +
+				'	<span class="pull-right" style="margin-right:10px;"><a href="javascript:void(0)">查看</a></span>\n' +
+				'	<div class="clearfix"></div>\n' +
+				'</label>\n'
+			);
+			return module;
+		};
+		
+		// 5. 点击框-折叠框
+		this.getSimple_Collapse = function(text, icon){
+			var module = $(
+				'<label data-type="tail" style="line-height: 30px !important;">\n' +
+				'	<span>' + icon + '</span>\n' +
+				'	<span>' + text + '</span>\n' +
+				'	<span class="pull-right" style="margin-right:10px;"><a href="javascript:void(0)">查看</a></span>\n' +
+				'	<div class="clearfix"></div>\n' +
+				'	<span data-container="item"></span>\n' +
+				'</label>\n'
+			);
+			return module;
+		};
+	};
+	
+	var SelectBox = function(title, radios, selected){
+		var SBComponent = new SelectBoxComponent();
+		// 主框
+		var selectBox = SBComponent.getSelectBox(title);
+		selectBox.modal('show');
+		selectBox.on('hidden.bs.modal', function(){
+			$(this).remove();
+		});
+		
+		// 1) 添加单选
+		var appendRadio = function(data){
+			var container = selectBox.find('.select-box-container');
+			var radio = SBComponent.getRadio(data, data.icon);
+			container.append(radio);
+			return radio;
+		};
+		
+		// 2) 添加折叠框
+		var appendCollapse = function(data){
+			var container = selectBox.find('.select-box-container');
+			var collapse = SBComponent.getCollapse(data, data.icon);
+
+			var subContainer = collapse.find('.collapse');
+			$.each(data.sublist, function(index, item){
+				var checkBox = SBComponent.getMulti_Collapse(item, item.icon);
+				subContainer.append(checkBox);
+			});
+			
+			var simpleLabel = SBComponent.getSimple_Collapse(data.tail.text, data.tail.icon);
+			subContainer.append(simpleLabel);
+			
+			container.append(collapse);
+			return collapse;
+		};
+		
+		// 3) collapse 点击效果
+		var rebindCollapse = function(){
+			selectBox.find('input[type="radio"]')
+				.unbind('click')
+				.click(function(ev){
+					var all = selectBox.find('.collapse');
+					var target = $(this).closest('label').next('.collapse');
+					all.not(target).collapse('hide');
+					target.collapse('show');
+				});
+		};
+		
+		// 4) 加载selected
+		var loadSelected = function(){
+			var target = selectBox.find('.select-box-container input[type="radio"][data-value="' + selected.value + '"]');
+			target.prop('checked', 1);
+			if(target.attr('data-type') == 'radio'){
+				selectBox.find('.collapse').removeClass('in');
+			}else if(target.attr('data-type') == 'collapse'){
+				var collapse = target.closest('label').next('.collapse');
+				collapse.addClass('in');
+				
+				$.each(selected.sublist, function(index, item){
+					collapse.find('[data-type="tag"] input[data-value="' + item + '"]').prop('checked', 1);;
+				});
+				
+				var container = collapse.find('[data-type="tail"] [data-container="item"]');
+				$.each(selected.tail, function(index, item){
+					container.append('<span data-type="item" data-id="' + item.id + '" style="padding-left: 10px;">' + item.name + '</span>\n');
+				});
+				
+			}else{
+				console.log('err');
+			}
+		};
+		
+		// 初始化
+		var init = function(){
+			$.each(radios, function(index, item){
+				if(item.sublist == undefined){
+					appendRadio(item);
+				}else{
+					appendCollapse(item);
+				}
+			});
+		};
+		
+		
+		
+		
+		
+		init();
+		rebindCollapse();
+		loadSelected();
+	};
+	
+	var radios = [
+		{
+			value: 1,
+			name: '{一级名称}',
+			icon: '<i class="fa fa-gear"></i>'
+		},
+		{
+			value: 2,
+			name: '{一级名称}',
+			icon: '<i class="fa fa-gear"></i>'
+		},
+		{
+			value: 3,
+			name: '{一级名称}',
+			icon: '<i class="fa fa-gear"></i>'
+		},
+		{
+			value: 4,
+			name: '{一级名称}',
+			icon: '<i class="fa fa-gear"></i>',
+			sublist: [
+				{
+					name: '{二级菜单1}',
+					icon: '<i class="fa fa-tags"></i>'
+				},
+				{
+					name: '{二级菜单2}',
+					icon: '<i class="fa fa-tags"></i>'
+				}
+			],
+			tail: {
+				text: '{简单框}',
+				icon: '<i class="fa fa-plus-square-o" style="color: green;"></i>'
+			}
+		},
+		{
+			value: 5,
+			name: '{一级名称}',
+			icon: '<i class="fa fa-gear"></i>',
+			sublist: [
+				{
+					name: '{二级菜单1}',
+					icon: '<i class="fa fa-tags"></i>'
+				},
+				{
+					name: '{二级菜单2}',
+					icon: '<i class="fa fa-tags"></i>'
+				}
+			],
+			tail: {
+				text: '{简单框}',
+				icon: '<i class="fa fa-plus-square-o" style="color: green;"></i>'
+			}
+		}
+	];
+	
+	var selected = {
+		value: 5,
+		sublist: [
+			'{二级菜单2}'
+		],
+		tail: [
+			{
+				id: 1,
+				name: '张震宇'
+			},
+			{
+				id: 2,
+				name: '刘强'
+			}
+		]
+	};
+	
+	
+	SelectBox('{主框标题}', radios, selected)
+	
+	/*
 	// 展示选项框(File Authority For Individual) visibility & eiditable
 	var showSelectBox_FAI = function(fileID, url){
 		var selectBox = new SelectBox();
@@ -524,7 +773,7 @@
 	};
 	
 	showSelectBox_FAI(12222222, GET_FILE_VISIBILITY_LIST);
-	
+	*/
 	/* # */
 	/* 双行模态框 */
 	var TwinRow = function(title){
