@@ -33,7 +33,7 @@ var callAlert = function(text, icon, callback){
 	}, 1000);
 };
 
-/* 2. 提示框 */
+/* 2. 输入框 */
 var singleLineInput = function(title, placeholder, callback){
 	var modal = $(
 		'<div class="modal fade">\n' +
@@ -66,8 +66,7 @@ var singleLineInput = function(title, placeholder, callback){
 		modal.find('[data-action="submit"]').on('click', function(){
 			//获取数据
 			var input = modal.find('input').val();
-			callback(input);
-			modal.modal('hide');
+			callback(input, modal);
 		});
 		
 		
@@ -119,3 +118,4 @@ var getDifferenceSet = function(list1, list2, key){
 	});
 	return set;
 };
+

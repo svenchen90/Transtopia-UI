@@ -14,13 +14,15 @@ const DELETE_FILE = '/delete_file';
 const DELETE_FOLDER = '/delete_folder';
 const RENAME_FILE = '/rename_file';
 const RENAME_FOLDER = '/rename_folder';
-const GET_FILE_VISIBILITY_LIST = "/file_visibility";
-const GET_FILE_VISIBILITY_LIST = '';
-const GET_FOLDER_VISIBILITY_LIST = '';
+const GET_FILE_VISIBILITY_LIST = "/get_file_visibility_list";
+const GET_FOLDER_VISIBILITY_LIST = '/get_folder_visibility_list';
 
 // 其它
 const GET_FRIEND_TAG_LIST = '/get_friend_tag_list';
-
+const CREATE_FRIEND_TAG = '/create_friend_tag';
+const UPDATE_FRIEND_TAG = '/update_friend_tag';
+const GET_FRIEND_LIST = '/get_friend_list';
+const GET_FRIEND_IN_TAG = '/get_friend_in_tag';
 
 const ANIMATION_TIME = 200;
 const FILE_LOAD_LIMIT = 20;

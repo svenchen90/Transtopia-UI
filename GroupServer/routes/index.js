@@ -2931,17 +2931,18 @@ router.get('/get_friend_tag_list', function(req, res, next) {
 		]
 	);
 });
-router.get('/file_visibility', function(req, res, next) {
+
+router.get('/get_file_visibility_list', function(req, res, next) {
 	console.log(req.query);
 	res.json(
 		{
 			value: 3,
-			tags: [
+			sublist: [
 				 '标签1',
 				 '标签2',
 				 '标签4'
 			],
-			users: [
+			tail: [
 				{
 					id: 1,
 					name: '张震宇'
@@ -2958,5 +2959,78 @@ router.get('/file_visibility', function(req, res, next) {
 		}
 	);
 });
+
+router.get('/get_folder_visibility_list', function(req, res, next) {
+	console.log(req.query);
+	res.json(
+		{
+			value: 3,
+			sublist: [
+				 '标签1',
+				 '标签2',
+				 '标签4'
+			],
+			tail: [
+				{
+					id: 1,
+					name: '张震宇'
+				},
+				{
+					id: 2,
+					name: '刘强'
+				},
+				{
+					id: 3,
+					name: '李玉'
+				}
+			]
+		}
+	);
+});
+
+router.get('/get_friend_list', function(req, res, next) {
+	console.log(req.query);
+	res.json(
+		[
+			{
+				id: 1,
+				name: '张震宇'
+			},
+			{
+				id: 2,
+				name: '刘强'
+			},
+			{
+				id: 3,
+				name: '李玉'
+			},
+			{
+				id: 4,
+				name: '陈红'
+			}
+		]
+	);
+});
+router.get('/create_friend_tag', function(req, res, next) {
+	console.log(req.query);
+	res.json(1);
+});
+router.get('/update_friend_tag', function(req, res, next) {
+	console.log(req.query);
+	res.json(1);
+});
+router.get('/get_friend_in_tag', function(req, res, next) {
+	console.log(req.query);
+	res.json(
+		[
+			{
+				id: 1,
+				name: '张震宇'
+			}
+		]
+	);
+});
+
+
 
 module.exports = router;
