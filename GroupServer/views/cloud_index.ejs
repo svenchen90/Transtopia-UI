@@ -504,7 +504,7 @@
 		});
 		
 		// 1) 添加单选
-		var appendRadio = function(data){
+		var appendRadio = function(data, callback1, callback2){
 			var container = selectBox.find('.select-box-container');
 			var radio = SBComponent.getRadio(data, data.icon);
 			container.append(radio);
@@ -519,10 +519,18 @@
 			var subContainer = collapse.find('.collapse');
 			$.each(data.sublist, function(index, item){
 				var checkBox = SBComponent.getMulti_Collapse(item, item.icon);
+				checkBox.find('a').click(function(){
+					console.log(1);
+				});
+				
 				subContainer.append(checkBox);
+				
 			});
 			
 			var simpleLabel = SBComponent.getSimple_Collapse(data.tail.text, data.tail.icon);
+			simpleLabel.find('a').click(function(){
+				console.log(2);
+			});
 			subContainer.append(simpleLabel);
 			
 			container.append(collapse);
@@ -576,14 +584,42 @@
 			});
 		};
 		
-		
-		
-		
-		
 		init();
 		rebindCollapse();
 		loadSelected();
 	};
+	
+	var SelectBox_VisibilityIndividual = function(fid, type){
+		var url;
+		if(type == 1){
+			// 文件
+			url = GET_FILE_VISIBILITY_LIST;
+		}else if(type == 2){
+			// 文件夹
+			url = GET_FOLDER_VISIBILITY_LIST;
+		}else{
+			console.log('error');
+		}
+		
+		//获取被选定名单
+		$.ajax({
+			url : url,
+			data: {
+				id: fid
+			},
+			type : "GET",
+			dataType : 'json',
+			success : function (result){
+				
+			},
+			error: function(err){
+				console.log(err);
+			}
+		});
+		
+	};
+	
+	
 	
 	var radios = [
 		{

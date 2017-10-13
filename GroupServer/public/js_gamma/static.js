@@ -15,7 +15,8 @@ const DELETE_FOLDER = '/delete_folder';
 const RENAME_FILE = '/rename_file';
 const RENAME_FOLDER = '/rename_folder';
 const GET_FILE_VISIBILITY_LIST = "/file_visibility";
-
+const GET_FILE_VISIBILITY_LIST = '';
+const GET_FOLDER_VISIBILITY_LIST = '';
 
 // 其它
 const GET_FRIEND_TAG_LIST = '/get_friend_tag_list';
