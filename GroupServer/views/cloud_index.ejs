@@ -57,10 +57,10 @@
 	<script src="plugins/iCheck/icheck.min.js"></script>
 	
 	<!-- Select 2 -->
-	<!-- <link href="plugins/select2/select2.min.css" rel="stylesheet" />
+	<link href="plugins/select2/select2.min.css" rel="stylesheet" />
 	<link href="plugins/select2/select2-bootstrap.css" rel="stylesheet" />
 	<script src="plugins/select2/select2.full.min.js"></script>
-	<script src="plugins/select2/i18n/zh-CN.js"></script> -->
+	<script src="plugins/select2/i18n/zh-CN.js"></script>
 	
 	<!-- JQuery Confirm -->
 	<link rel="stylesheet" href="plugins/jquery-confirm/jquery-confirm.min.css">
@@ -106,6 +106,14 @@
 	
 	<!-- 全局css -->
 	<link href="css_gamma/global.css" rel="stylesheet">
+	
+	<!-- 自定义插件 -->
+	<!-- TwinRow -->
+	<script src="js_gamma/twinrow.js"></script>
+	<link href="css_gamma/twinrow.css" rel="stylesheet">
+	<!-- SelectBox -->
+	<script src="js_gamma/selectbox.js"></script>
+	<link href="css_gamma/selectbox.css" rel="stylesheet">
 	
 	<!-- 文件 -->
 	<script src="js_gamma/filesystem.js"></script>
@@ -185,646 +193,89 @@
 	});
 	
 	$('#mainBlock').append(MB.getModule());
-/*
-	var SelectBox = function(){
-		var module = $(
-			'<div class="modal fade select-box noselect">\n' +
+
+	var LinkBox = function(){
+		var modal = $(
+			'<div class="modal fade">\n' +
 			'	<div class="modal-dialog">\n' +
 			'		<div class="modal-content">\n' +
 			'			<div class="modal-header">\n' +
-			'				<button type="button" class="close" data-dismiss="modal">&times;</button>\n' +
-			'				<h5 class="modal-title">\n' +
-			'				</h5>\n' +
+			'				<button type="button" class="close btn-close" data-dismiss="modal">&times;</button>\n' +
+			'				<h4 class="modal-title">' + '分享链接给' + '</h4>\n' +
 			'			</div>\n' +
 			'			<div class="modal-body">\n' +
 			'				<div class="form-group">\n' +
+			'					<label><i class="fa fa-link"></i> 链接开关</label>\n' +
+			'					<label class="switch pull-right">\n' +
+			'						<input name="switch" type="checkbox">\n' +
+			'						<div class="slider round"></div>\n' +
+			'					</label>\n' +
+			'				</div>\n' +
+			'				<div class="details" style="display: none;">\n' +
+			'					<div class="form-group">\n' +
+			'						<label><i class="fa fa-copy"></i> 链接</label>\n' +
+			'						<input type="text" class="form-control" value="' + 'http://127.0.0.1:3000/cloud_index' +'" disabled/>\n' +
+			'					</div>\n' +
+			'					<div class="form-group">\n' +
+			'						<label><i class="fa fa-users"></i> 分享链接给</label>\n' +
+			'						<select class="form-control shared-with" style="width: 100%;"></select>\n' +
+			'					</div>\n' +
+			'					<div class="form-group">\n' +
+			'						<label><i class="fa fa-eye"></i> 密码</label>\n' +
+			'						<label class="switch pull-right">\n' +
+			'							<input name="switch-password" type="checkbox">\n' +
+			'							<div class="slider round"></div>\n' +
+			'						</label>\n' +
+			'						<input type="password" name="password" class="form-control" placeholder="请输入密码" style="display: none;"/>\n' +
+			'					</div>\n' +
 			'				</div>\n' +
 			'			</div>\n' +
 			'			<div class="modal-footer">\n' +
-			'				<a data-action="submit">提交</a>\n' +
-			'				<a data-dismiss="modal">关闭</a>\n' +
+			'				<a href="javascript: void(0);" data-action="submit">确定</a>\n' +
+			'				<a href="javascript: void(0);" data-dismiss="modal">关闭</a>\n' +
 			'			</div>\n' +
 			'		</div>\n' +
-			'	</div>\n' +
+			'	</div>\n' + 
 			'</div>'
 		);
 		
-		// 设置标题
-		this.setTitle = function(title){
-			module.find('.modal-title').text(title);
-		};
-		
-		// 添加
-		this.add = function(object){
-			module.find('.form-group').append(object.getModule());
-		};
-		
-		// 删除
-		this.remove = function(index){
-		};
-		
-		// 清空
-		this.clear = function(){
-			module.find('.form-group').empty();
-		};
-		
-		// 获取模块
-		this.getModule = function(){
-			return module;
-		};
-		
-		//重新加载
-		this.rebind = function(){
-			module.find('input[type="radio"]')
-				.unbind('click')
-				.click(function(ev){
-					var all = module.find('.collapse');
-					var target = $(this).closest('label').next('.collapse');
-					all.not(target).collapse('hide');
-					target.collapse('show');
-				});
-		};
-		
-		// 获取数据
-		this.getData = function(){
-			var result = {
-				value: '',
-				tags: [],
-				users: []
-			};
-			var value = module.find('input[type="radio"]:checked').attr('value');
-			result.value = value;
-			
-			var target = module.find('input[type="radio"]:checked').closest('label').next('.collapse');
-			
-			if(target.length){
-
-				$.each(target.find('[data-type="tag"] [type="checkbox"]:checked'), function(index, item){
-					result.tags.push($(item).attr('data-id'));
-				});
-				
-				$.each(target.find('[data-type="default"] [data-container="item"] [data-type="item"]'), function(index, item){
-					result.users.push($(item).attr('data-id'));
-				});
-			}
-			return result;
-		};
-		
+		//初始化
 		(function(){
-			// 清空
-			module.on('hidden.bs.modal', function(){
+			modal.on('hidden.bs.modal', function(){
 				$(this).remove();
 			});
-		})();
-	};
-	
-	var SelectLabel = function(data, icon){
-		var module = $(
-			'<label>\n' +
-			'	<input type="radio" name="r1" value="' + data.value + '">\n' +
-			'	<span data-type="icon">' + icon + '</span>\n' +
-			'	<span data-type="name">' + data.name + '</span>\n' +
-			'	<!-- <span class="pull-right" style="margin-right: 20px;"><a href="javascript:void(0)">设置</a></span> -->\n' +
-			'	<div class="clearfix"></div>\n' +
-			'</label>'
-		);
-		
-		// 获取模块
-		this.getModule = function(){
-			return module;
-		};
-	};
-	
-	var SelectCollapse = function(data, icon){
-		var module = $(
-			'<div>\n' +
-			'	<label>\n' +
-			'		<input type="radio" name="r1" value="' + data.value + '">\n' +
-			'		<span>' + icon + '</span>\n' +
-			'		<span>' + data.name + '</span>\n' +
-			'		<!-- <span class="pull-right" style="margin-right: 20px;"><a href="javascript:void(0)">设置</a></span> -->\n' +
-			'		<div class="clearfix"></div>\n' +
-			'	</label>\n' +
-			'	<div class="collapse">\n' +
-			'	<!-- 复选框 -->\n' +
-			'	</div>\n' +
-			'</div>'
-		);
-
-		// 添加
-		this.add = function(object){
-			module.find('.collapse').append(object.getModule());
-		}
-		
-		// 选取
-		this.getSelect = function(value, tags){
-			if(data.value == value){
-				module.find('input[type="radio"]').prop('checked', 1);
-				$.each(module.find('[data-type="tag"]'), function(index, item){
-					var tagName = $(item).find('input').attr('data-id');
-					if(tags.includes(tagName))
-						$(item).find('input').prop('checked', 1);
-				});
-				module.find('.collapse').addClass('in');
-			}
-		};
-		
-		// 获取模块
-		this.getModule = function(){
-			return module;
-		};
-	};
-	
-	var SelectCollapseLable = function(data, icon, callback){
-		var module = $(
-			'<label data-type="tag">\n' +
-			'	<input type="checkbox" name="c1"  data-id="' + data.name + '">\n' +
-			'	<span>' + icon + '</span>\n' +
-			'	<span data-name>' + data.name + '</span>\n' +
-			'	<span class="pull-right" style="margin-right:10px;"><a href="javascript:void(0)">查看</a></span>\n' +
-			'	<div class="clearfix"></div>\n' +
-			'</label>\n'
-		);
-		
-		module.find('a').click(function(ev){
-			callback(data.name);
-		});
-		
-		// 获取模块
-		this.getModule = function(){
-			return module;
-		};
-	};
-	
-	var SelectCollapseLableDefault = function(text, icon, callback){
-		var obj = this;
-		var module = $(
-			'<label data-type="default" style="line-height: 30px !important;">\n' +
-			'	<span>' + icon + '</span>\n' +
-			'	<span>' + text + '</span>\n' +
-			'	<span class="pull-right" style="margin-right:10px;"><a href="javascript:void(0)">查看</a></span>\n' +
-			'	<div class="clearfix"></div>\n' +
-			'	<span data-container="item"></span>\n' +
-			'</label>\n'
-		);
-		
-		// 添加
-		this.add = function(data){
-			module.find('[data-container="item"]').append(
-				'<span data-type="item" data-id="' + data.id + '" style="padding-left: 10px;">' + data.name + '</span>\n'
-			);
-		};
-		
-		// 清空
-		this.clear = function(){
-			module.find('[data-container="item"]').empty();
-		};
-		
-		// 获取模块
-		this.getModule = function(){
-			return module;
-		};
-		
-		// 获取数据
-		this.getData = function(){
-			var result = [];
-			$.each(module.find('[data-type="item"]'), function(index, item){
-				result.push(
-					{
-						id: $(item).attr('data-id'),
-						name: $(item).text()
-					}
-				);
-			});
-			return result;
-		};
-		
-		module.find('a').click(function(ev){
-			var selected = obj.getData();
-			callback(selected);
-		});
-	};
-*/
-	
-	var SelectBoxComponent = function(){
-		// 1. 选择框主体
-		this.getSelectBox = function(title){
-			var module = $(
-				'<div class="modal fade select-box noselect">\n' +
-				'	<div class="modal-dialog">\n' +
-				'		<div class="modal-content">\n' +
-				'			<div class="modal-header">\n' +
-				'				<button type="button" class="close" data-dismiss="modal">&times;</button>\n' +
-				'				<h5 class="modal-title">' + title + '</h5>\n' +
-				'			</div>\n' +
-				'			<div class="modal-body">\n' +
-				'				<div class="form-group select-box-container">\n' +
-				'				</div>\n' +
-				'			</div>\n' +
-				'			<div class="modal-footer">\n' +
-				'				<a data-action="submit">提交</a>\n' +
-				'				<a data-dismiss="modal">关闭</a>\n' +
-				'			</div>\n' +
-				'		</div>\n' +
-				'	</div>\n' +
-				'</div>'
-			);
-			return module;
-		};
-		
-		// 2. 单选样式
-		this.getRadio = function(data, icon){
-			var module = $(
-				'<label>\n' +
-				'	<input type="radio" name="r1" data-value="' + data.value + '" data-type="radio">\n' +
-				'	<span data-type="icon">' + icon + '</span>\n' +
-				'	<span data-type="name">' + data.name + '</span>\n' +
-				'	<!-- <span class="pull-right" style="margin-right: 20px;"><a href="javascript:void(0)">设置</a></span> -->\n' +
-				'	<div class="clearfix"></div>\n' +
-				'</label>'
-			);
-			return module;
-		};
-		
-		// 3. 折叠框
-		this.getCollapse = function(data, icon){
-			var module = $(
-				'<div>\n' +
-				'	<label>\n' +
-				'		<input type="radio" name="r1" data-value="' + data.value + '" data-type="collapse">\n' +
-				'		<span>' + icon + '</span>\n' +
-				'		<span>' + data.name + '</span>\n' +
-				'		<!-- <span class="pull-right" style="margin-right: 20px;"><a href="javascript:void(0)">设置</a></span> -->\n' +
-				'		<div class="clearfix"></div>\n' +
-				'	</label>\n' +
-				'	<div class="collapse">\n' +
-				'	<!-- 复选框 -->\n' +
-				'	</div>\n' +
-				'</div>'
-			);
-			return module;
-		};
-		
-		// 4. 复选框-折叠框
-		this.getMulti_Collapse = function(data, icon, checked){
-			var module = $(
-				'<label data-type="tag">\n' +
-				'	<input type="checkbox" name="c1"  data-value="' + data.name + '" ' + (checked ? 'checked' : '') + '>\n' +
-				'	<span>' + icon + '</span>\n' +
-				'	<span data-name>' + data.name + '</span>\n' +
-				'	<span class="pull-right" style="margin-right:10px;"><a href="javascript:void(0)">查看</a></span>\n' +
-				'	<div class="clearfix"></div>\n' +
-				'</label>\n'
-			);
-			return module;
-		};
-		
-		// 5. 点击框-折叠框
-		this.getSimple_Collapse = function(text, icon){
-			var module = $(
-				'<label data-type="tail" style="line-height: 30px !important;">\n' +
-				'	<span>' + icon + '</span>\n' +
-				'	<span>' + text + '</span>\n' +
-				'	<span class="pull-right" style="margin-right:10px;"><a href="javascript:void(0)">查看</a></span>\n' +
-				'	<div class="clearfix"></div>\n' +
-				'	<span data-container="item"></span>\n' +
-				'</label>\n'
-			);
-			return module;
-		};
-	};
-	
-	var SelectBox = function(title, radios, selected){
-		var obj = this;
-		var SBComponent = new SelectBoxComponent();
-		// 主框
-		var selectBox = SBComponent.getSelectBox(title);
-		
-		// 1) 添加单选
-		this.appendRadio = function(data, callback1, callback2){
-			var container = selectBox.find('.select-box-container');
-			var radio = SBComponent.getRadio(data, data.icon);
-			container.append(radio);
-			return radio;
-		};
-		
-		// 2) 添加折叠框
-		this.appendCollapse = function(data){
-			var container = selectBox.find('.select-box-container');
-			var collapse = SBComponent.getCollapse(data, data.icon);
-
-			var subContainer = collapse.find('.collapse');
-			$.each(data.sublist, function(index, item){
-				var checkBox = SBComponent.getMulti_Collapse(item, item.icon);
-				checkBox.find('a').click(function(){
-					var name = checkBox.find('[type="checkbox"]').attr('data-value');
-					item.callback(name);
-				});
-				
-				subContainer.append(checkBox);
-				
+			
+			modal.find('.shared-with').select2({
+				multiple: true,
+				placeholder: "请选择您要分享的用户",
+				language: 'zh-CN',
+				tags: true
 			});
 			
-			var simpleLabel = SBComponent.getSimple_Collapse(data.tail.text, data.tail.icon);
-			simpleLabel.find('a').click(function(){
-				var list = [];
-				$.each(simpleLabel.find(' [data-container="item"] [data-type="item"]'), function(index, item){
-					list.push(
-						{
-							id: $(item).attr('data-id'),
-							name: $(item).text()
-						}
-					);
-				});
-				data.tail.callback(list);
-			});
-			subContainer.append(simpleLabel);
-			
-			container.append(collapse);
-			return collapse;
-		};
-		
-		// 3) collapse 点击效果
-		this.rebindCollapse = function(){
-			selectBox.find('input[type="radio"]')
-				.unbind('click')
-				.click(function(ev){
-					var all = selectBox.find('.collapse');
-					var target = $(this).closest('label').next('.collapse');
-					all.not(target).collapse('hide');
-					target.collapse('show');
-				});
-		};
-		
-		// 4) 加载selected
-		this.loadSelected = function(){
-			var target = selectBox.find('.select-box-container input[type="radio"][data-value="' + selected.value + '"]');
-			target.prop('checked', 1);
-			if(target.attr('data-type') == 'radio'){
-				selectBox.find('.collapse').removeClass('in');
-			}else if(target.attr('data-type') == 'collapse'){
-				var collapse = target.closest('label').next('.collapse');
-				collapse.addClass('in');
-				
-				$.each(selected.sublist, function(index, item){
-					collapse.find('[data-type="tag"] input[data-value="' + item + '"]').prop('checked', 1);;
-				});
-				
-				var container = collapse.find('[data-type="tail"] [data-container="item"]');
-				$.each(selected.tail, function(index, item){
-					container.append('<span data-type="item" data-id="' + item.id + '" style="padding-left: 10px;">' + item.name + '</span>\n');
-				});
-				
-			}else{
-				console.log('....');
-			}
-		};
-		
-		// 5) 添加尾部用户
-		this.reloadTailUser = function(users){
-			var container = selectBox.find('.collapse.in [data-type="tail"] [data-container="item"]').empty();
-			$.each(users, function(index, item){
-				container.append('<span data-type="item" data-id="' + item.id + '" style="padding-left: 10px;">' + item.name + '</span>\n');
-			});
-		};
-		
-		// 6) 添加新标签
-		this.appendNewTag = function(data){
-			var container = selectBox.find('.collapse.in [data-type="tail"]');
-			var checkBox = SBComponent.getMulti_Collapse(data, data.icon, true);
-			checkBox.find('a').click(function(){
-				var name = checkBox.find('[type="checkbox"]').attr('data-value');
-				data.callback(name);
-			});
-			container.before(checkBox);
-		};
-		
-		
-		// 7) 获取selectBox DOM
-		this.getModule = function(){
-			return selectBox;
-		};
-		
-		// 初始化
-		(function(){
-			$.each(radios, function(index, item){
-				if(item.type == 'radio'){
-					obj.appendRadio(item);
-				}else if(item.type == 'collapse'){
-					obj.appendCollapse(item);
+			modal.find('[name="switch"]').change(function(){
+				if($(this).is(':checked')){
+					modal.find('.details').show(ANIMATION_TIME);
 				}else{
-					console.log('error');
+					modal.find('.details').hide(ANIMATION_TIME);
 				}
 			});
 			
-			obj.loadSelected();
-			obj.rebindCollapse();
 			
-			selectBox.modal('show');
-			selectBox.on('hidden.bs.modal', function(){
-				$(this).remove();
+			modal.find('[name="switch-password"]').change(function(){
+				if($(this).is(':checked')){
+					modal.find('[name="password"]').show(ANIMATION_TIME);
+				}else{
+					modal.find('[name="password"]').hide(ANIMATION_TIME);
+				}
 			});
+			
+			
+			modal.modal('show');
 		})();
 	};
 	
-	var SelectBox_VisibilityIndividual = function(fid, type){
-		Promise
-			.all([getFriendTags(), getVisibilityList(fid, type)])
-			.then(function(data){
-				var tags = data[0];
-				var selected = data[1];
-				var radios = [
-					{
-						type: 'radio',
-						value: 1,
-						name: '公开',
-						icon: '<i class="fa fa-gear"></i>'
-					},
-					{
-						type: 'radio',
-						value: 2,
-						name: '朋友圈',
-						icon: '<i class="fa fa-gear"></i>'
-					},
-					{
-						type: 'collapse',
-						value: 3,
-						name: '部分可见',
-						icon: '<i class="fa fa-gear"></i>'
-					},
-					{
-						type: 'radio',
-						value: 4,
-						name: '仅自己可见',
-						icon: '<i class="fa fa-gear"></i>'
-					}
-				];
-				
-				// 加载tag
-				var modifyTag = function(name){
-					Promise
-						.all([getFriends(), getFriendInTag(name)])
-						.then(function(data){
-							var all = data[0];
-							var inTag = data[1];
-							TwinRowSelectUser('修改标签', all, inTag, 
-							function(users, modal){
-								updateTag(name, users, modal);
-							})
-						})
-						.catch(function(reason){
-							console.log(reason);
-						});
-				};
-				var updateTag = function(name, users, modal){
-					$.ajax({
-						url : UPDATE_FRIEND_TAG,
-						data: {
-							name: name,
-							user: users
-						},
-						type : "GET",
-						dataType : 'json',
-						success : function (result){
-							// result {value, sublist, tail}
-							if(result == 0){
-								reject('请求失败1');
-							}else{
-								selectBox.reloadTailUser([]);
-								selectBox.appendNewTag({name: name, icon: '<i class="fa fa-tags"></i>', callback: modifyTag});
-								callAlert('修改成功！', '<i class="material-icons">done</i>', function(){modal.modal('hide');});
-							}
-						},
-						error: function(err){
-							console.log('请求失败2');
-						}
-					});
-				};
-				radios[2].sublist = [];
-				$.each(tags, function(index, tag){
-					radios[2].sublist.push(
-						{
-							name: tag.name,
-							icon: '<i class="fa fa-tags"></i>',
-							callback: modifyTag
-						}
-					);
-				});
-				
-				//加载tail
-				var selectUser = function(users){
-					getFriends()
-						.then(function(data){
-							TwinRowSelectUser('选择要分享的好友', data, users, submitSelectUser);
-						})
-						.catch(function(reason){
-							console.log(reason);
-						});
-				};
-				var submitSelectUser = function(user, modal){
-					if(user.length == 0){
-						selectBox.reloadTailUser(user);
-						modal.modal('hide');
-					}else{
-						callConfirm('新建标签', '您是否要创建一个新的标签？', 
-							function(){
-								singleLineInput('新建标签', '请输入标签名称', 
-									function(name, modal2){
-										//console.log(user);
-										//console.log(name);
-										$.ajax({
-											url : CREATE_FRIEND_TAG,
-											data: {
-												name: name,
-												user: user
-											},
-											type : "GET",
-											dataType : 'json',
-											success : function (result){
-												// result {value, sublist, tail}
-												if(result == 0){
-													reject('请求失败1');
-												}else{
-													selectBox.reloadTailUser([]);
-													selectBox.appendNewTag({name: name, icon: '<i class="fa fa-tags"></i>', callback: modifyTag});
-													modal2.modal('hide');
-													modal.modal('hide');
-												}
-											},
-											error: function(err){
-												console.log('请求失败2');
-											}
-										});
-									}
-								);
-							},
-							function(){
-								selectBox.reloadTailUser(user);
-								modal.modal('hide');
-							}
-						);
-					}
-				};
-				
-				radios[2].tail = {
-					text: '从好友名单中选取',
-					icon: '<i class="fa fa-plus-square-o" style="color: green;"></i>',
-					callback: selectUser
-				};
-				
-				var selectBox = new SelectBox('个人文件分享', radios, selected);
-			}).catch(function(reason){
-				console.log(reason);
-			});
-	};
-	
-	var SelectBox_VisibilityGroup = function(fid, type){
-		Promise
-			.all([getFriendTags(), getVisibilityList(fid, type)])
-			.then(function(data){
-				var tags = data[0];
-				var selected = data[1];
-				var radios = [
-					{
-						type: 'radio',
-						value: 1,
-						name: '公开',
-						icon: '<i class="fa fa-gear"></i>'
-					},
-					{
-						type: 'radio',
-						value: 2,
-						name: '群成员可见',
-						icon: '<i class="fa fa-gear"></i>'
-					},
-					{
-						type: 'collapse',
-						value: 3,
-						name: '部分成员可见',
-						icon: '<i class="fa fa-gear"></i>'
-					},
-					{
-						type: 'radio',
-						value: 4,
-						name: '仅群主可见',
-						icon: '<i class="fa fa-gear"></i>'
-					}
-				];
-				radios[2].tail = {
-					text: '从群成员中选取',
-					icon: '<i class="fa fa-plus-square-o" style="color: green;"></i>'
-				};
-				
-				var selectBox = new SelectBox('群文件分享', radios, selected);
-			}).catch(function(reason){
-				console.log(reason);
-			});
-	};
-	
-	
-	
 	/* Promise */
-	// 获取个人文件（夹）的可见者列表
+	// 获取文件（夹）的可见者列表
 	var getVisibilityList = function(fid, type){
 		var url;
 		if(type == 1){
@@ -833,6 +284,42 @@
 		}else if(type == 2){
 			// 文件夹
 			url = GET_FOLDER_VISIBILITY_LIST;
+		}else{
+			console.log('error');
+		};
+		
+		return new Promise(function(resolve, reject){
+			$.ajax({
+				url : url,
+				data: {
+					id: fid
+				},
+				type : "GET",
+				dataType : 'json',
+				success : function (result){
+					// result {value, sublist, tail}
+					if(result == 0){
+						reject('请求失败1');
+					}else{
+						resolve(result);
+					}
+				},
+				error: function(err){
+					reject('请求失败2');
+				}
+			});
+		});
+	};
+	
+	// 获取文件（夹）的可编辑者列表
+	var getEditableList = function(fid, type){
+		var url;
+		if(type == 1){
+			// 文件
+			url = GET_FILE_Editable_LIST;
+		}else if(type == 2){
+			// 文件夹
+			url = GET_FOLDER_Editable_LIST;
 		}else{
 			console.log('error');
 		};
@@ -904,6 +391,31 @@
 		});
 	};
 	
+	// 获取小组成员列表
+	var getGroupMembers = function(groupid){
+		return new Promise(function(resolve, reject){
+			$.ajax({
+				url : GET_GROUP_MEMBER_LIST,
+				data: {
+					id: groupid
+				},
+				type : "GET",
+				dataType : 'json',
+				success : function (result){
+					// result {value, sublist, tail}
+					if(result === '0'){
+						reject('请求失败1');
+					}else{
+						resolve(result);
+					}
+				},
+				error: function(err){
+					reject('请求失败2');
+				}
+			});
+		});
+	};
+	
 	// 获取好友tag中的好友
 	var getFriendInTag = function(name){
 		return new Promise(function(resolve, reject){
@@ -929,291 +441,68 @@
 		});
 	};
 	
-	
-	SelectBox_VisibilityIndividual(1,2);
-	
-	/* # */
-	/* 双行模态框 */
-	var TwinRow = function(title){
-		var twinRow = $(
-			'<div class="modal fade">\n' +
-			'	<div class="modal-dialog" style="width: 50vw;">\n' +
-			'		<div class="modal-content">\n' +
-			'			<div class="modal-header">\n' +
-			'				<button type="button" class="close btn-close" data-dismiss="modal">&times;</button>\n' +
-			'				<h4 class="modal-title"></h4>\n' +
-			'			</div>\n' +
-			'			<div class="modal-body">\n' +
-			'				<div style="display: inline-block; line-height: 34px; font-size:20px;padding-left:15px;" class="top-title"></div>\n' +
-			'				<div class="form-group pull-right" style="width: 250px;">\n' +
-			'					<div class="input-group">\n' +
-			'						<input type="text" class="form-control" placeholder="搜索...(区分大小写)" data-action="searchtop"/>\n' +
-			'						<div class="input-group-addon" style="cursor: pointer;">\n' +
-			'							<i class="fa fa-search"></i>\n' +
-			'						</div>\n' +
-			'					</div>\n' +
-			'				</div>\n' +
-			'				<div class="clearfix"></div>\n' +
-			'				<div class="row-top">\n' +
-			'					<!-- 上排数据 -->\n' +
-			'				</div>\n' +
-			'				<div class="row divider" style="margin-top:10px; margin-bottom:10px; border-bottom: 1px solid #ddd;"></div>\n' +
-			'				<div style="display: inline-block; line-height: 34px;font-size:20px;padding-left:15px;" class="bottom-title"></div>\n' +
-			'				<div class="form-group pull-right" style="width: 250px;">\n' +
-			'					<div class="input-group">\n' +
-			'						<input type="text" class="form-control" placeholder="搜索...(区分大小写)" data-action="searchbot"/>\n' +
-			'						<div class="input-group-addon" style="cursor: pointer;">\n' +
-			'							<i class="fa fa-search"></i>\n' +
-			'						</div>\n' +
-			'					</div>\n' +
-			'				</div>\n' +
-			'				<div class="clearfix"></div>\n' +
-			'				<div class="row-bot">\n' +
-			'					<!-- 下排数据 -->\n' +
-			'				</div>\n' +
-			'				<div class="clearfix"></div>\n' +
-			'			</div>\n' +
-			'			<div class="modal-footer">\n' +
-			'				<a href="javascript: void(0);" data-action="submit">确定</a>\n' +
-			'				<a href="javascript: void(0);" data-dismiss="modal">关闭</a>\n' +
-			'			</div>\n' +
-			'		</div>\n' +
-			'	</div>\n' + 
-			'</div>'
-		);
-		var obj = this;
-		
-		/* 初始化 */
-		(function(){
-			//加载模态框标题
-			twinRow.find('.modal-title').text(title);
-			
-			//加载slimscroll
-			twinRow.find('.row-top').slimScroll({
-				height: '20vh'
-			});
-			twinRow.find('.row-bot').slimScroll({
-				height: '40vh'
-			});
-			
-			// 关闭时自动清空
-			twinRow.on('hidden.bs.modal', function(){
-				$(this).remove();
-			});
-			
-			//顶端搜索
-			twinRow.find('[data-action="searchtop"]').on('change', function(evt){
-				var query = $(this).val();
-				obj.searchTop(query);
-			});
-			
-			// 加载第二行搜索
-			twinRow.find('[data-action="searchbot"]').on('change', function(evt){
-				var query = $(this).val();
-				obj.searchBot(query);
-			});
-		})();
-		
-		
-		/* 方法体 */
-		// 1. 获取Modal
-		this.getTwinRow= function(){
-			return twinRow;
-		};
-		
-		// 1) 修改顶端标题
-		this.changeTopTitle=function(title)
-		{
-			twinRow.find('.top-title').empty();
-			twinRow.find('.top-title').html(title);
-		}
-		// 2) 修改顶端标题
-		this.changeBottomTitle=function(title)
-		{
-			twinRow.find('.bottom-title').empty();
-			twinRow.find('.bottom-title').html(title);
-		}
-		
-		
-		// 2. 清空第一行
-		this.emptyTop = function(){
-			twinRow.find('.row-top [allowremove]').remove();
-		};
-		
-		// 3. 清空第二行
-		this.emptyBot = function(){
-			twinRow.find('.row-bot [allowremove]').remove();
-		};
-		
-		// 4. 重加载第二行
-		this.reloadTop = function(itemList){
-			this.emptyTop();
-			
-			$.each(itemList, function(index, item){
-				twinRow.find('.row-top').append(item);
-			});
-		};
-		
-		// 5. 重加载第二行
-		this.reloadBot = function(itemList){
-			this.emptyBot();
-			
-			$.each(itemList, function(index, item){
-				twinRow.find('.row-bot').append(item);
-			});
-		};
-		
-		// 6. 重加载
-		this.reload = function(listTop, listBOt){
-			this.reloadTop(listTop);
-			this.reloadBot(listBOt);
-		};
-		
-		// 7. 第一行添加到表尾
-		this.appendTop = function(item){
-			item.find('.content-hover i').replaceWith('<i class="material-icons">add_circle_outline</i>');
-			twinRow.find('.row-top').append(item);
-		};
-		
-		// 8. 第一行添加到表头
-		this.prependTop = function(item){
-			item.find('.content-hover i').replaceWith('<i class="material-icons">add_circle_outline</i>');
-			twinRow.find('.row-top').prepend(item);
-		};
-		
-		// 9 第一行添加列表到表尾
-		this.appendListTop = function(list){
-			$.each(list, function(index, item){
-				this.appendTop(item);
-			});
-		};
-		
-		// 10. 第二行添加到表尾
-		this.appendBot = function(item){
-			item.find('.content-hover i').replaceWith('<i class="material-icons">highlight_off</i>');
-			twinRow.find('.row-bot').append(item);
-		};
-		
-		// 11. 第二行添加到表头
-		this.prependBot = function(item){
-			item.find('.content-hover i').replaceWith('<i class="material-icons">highlight_off</i>');
-			twinRow.find('.row-bot').prepend(item);
-		};
-		
-		// 12 第二行添加列表到表尾
-		this.appendListBot = function(list){
-			$.each(list, function(index, item){
-				this.appendBot(item);
-			});
-		};
-		
-		
-		/* 13. 搜索第一行 */
-		this.searchTop = function(query){
-			$.each(twinRow.find('.row-top [allowsearch]'), function(index,item){
-				var name = $(item).find('[data-name="name"]').text();
-				if(!name.match(query)){
-					$(item).addClass('hide');
-				}else
-					$(item).removeClass('hide');
-			});
-		};
-		
-		/* 14. 搜索第二行 */
-		this.searchBot = function(query){
-			$.each(twinRow.find('.row-bot [allowsearch]'), function(index,item){
-				var name = $(item).find('[data-name="name"]').text();
-				if(!name.match(query)){
-					$(item).addClass('hide');
-				}else
-					$(item).removeClass('hide');
-			});
-		};
-		
-		/* 15. 移动到第一行 */
-		this.moveToTop = function(item){
-			item.find('.content-hover i').replaceWith('<i class="material-icons">add_circle_outline</i>');
-			this.appendTop(item);
-		};
-		
-		/* 16. 移动到第二行 */
-		this.moveToBot = function(item){
-			item.find('.content-hover i').replaceWith('<i class="material-icons">highlight_off</i>');
-			this.appendBot(item);
-		};
-		
-		/* 17. 获取数据 */
-		this.getData = function(){
-			var data = [];
-			$.each(twinRow.find('.row-bot').find('[allowremove]'), function(index, item){
-				data.push({
-					id: $(item).attr('data-id'),
-					name: $(item).find('[data-name="name"]').text()
-				});
-			});
-			return data;
-		};
-	};
-	/* ！双行模态框 */
-	
-	/* 用户卡片 */
-	var UserCard = function(data, stick){
-		var module = $(
-			'<div class="col-lg-2 col-md-3 col-sm-4" allowsearch ' + (stick == undefined ? 'allowremove' : '') + ' data-id="' + data.id + '">\n' +
-			'	<div class="multi-card" style="background-color: ' + googleColorRandomPicker() + ';">\n' +
-			'		<div class="card-body">\n' +
-			'			<div class="content-default"><i class="material-icons">face</i>\n' +
-			'				<div data-name="name">' + data.name + '</div>\n' +
-			'			</div>\n' +
-			'			<div class="content-hover">' + (stick == undefined ? '<i></i>' : '') + '\n' +
-			'				<div></div>\n' +
-			'			</div>\n' +
-			'		</div>\n' +
-			'	</div>\n' +
-			'</div>\n'
-		);
-		return module;
-	};
-	/* ！用户卡片 */
-	
-	
-	
-	var TwinRowSelectUser = function(title, allUser, selectedUser, callback){
-		var twinRow = new TwinRow(title);
-		var topUser = getDifferenceSet(allUser, selectedUser, 'id');
-		var botUser = selectedUser;
-		
-		$.each(topUser, function(index, item){
-			twinRow.appendTop(UserCard(item));
-		});
-		
-		$.each(botUser, function(index, item){
-			twinRow.appendBot(UserCard(item));
-		});
-		
-		twinRow.getTwinRow().click(function(ev){
-			
-			var target = ev.target.closest('[allowremove]');
-			if(target){
-				if($(target).closest('.row-top').length > 0){
-					// 上层框
-					twinRow.moveToBot($(target));
-				}else{
-					// 下层框
-					twinRow.moveToTop($(target));
+	//修改文件（夹）观看权限表
+	var updateFileFolderVisibility = function(fid, type, tagadd, tagdelete, useradd, userdelete){
+		return new Promise(function(resolve, reject){
+			$.ajax({
+				url : UPDATE_FILE_FOLDER_VISIBILITY,
+				data: {
+					fid: fid,
+					type: type,
+					tagadd: tagadd,
+					tagdelete: tagdelete,
+					useradd: useradd,
+					userdelete: userdelete
+				},
+				type : "GET",
+				dataType : 'json',
+				success : function (result){
+					// result {value, sublist, tail}
+					if(result === '0'){
+						reject('请求失败1');
+					}else{
+						resolve(result);
+					}
+				},
+				error: function(err){
+					reject('请求失败2');
 				}
-			}
-			
-
-			if($(ev.target).is('[data-action="submit"]')){
-				callback(twinRow.getData(), twinRow.getTwinRow());
-			}
+			});
 		});
-		
-		twinRow.getTwinRow().modal('show');
 	};
-	</script>
 	
+	//修改文件（夹）修改权限表
+	var updateFileFolderEditable = function(fid, type, tagadd, tagdelete, useradd, userdelete){
+		return new Promise(function(resolve, reject){
+			$.ajax({
+				url : UPDATE_FILE_FOLDER_Editable,
+				data: {
+					fid: fid,
+					type: type,
+					tagadd: tagadd,
+					tagdelete: tagdelete,
+					useradd: useradd,
+					userdelete: userdelete
+				},
+				type : "GET",
+				dataType : 'json',
+				success : function (result){
+					// result {value, sublist, tail}
+					if(result === '0'){
+						reject('请求失败1');
+					}else{
+						resolve(result);
+					}
+				},
+				error: function(err){
+					reject('请求失败2');
+				}
+			});
+		});
+	};
+	
+
+	</script>
 </html>
 
 

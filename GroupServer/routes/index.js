@@ -2787,59 +2787,63 @@ router.get('/getallinfolder', function(req, res, next) {
 	var dataListOfFolder = [
 		{
 			id: '1',
+			type: '1',
 			authority: [0,1,2,3,6,7,8],
-			name: '测试文件夹'
+			name: '测试文件夹1'
 		},
 		{
 			id: '2',
+			type: '2',
 			authority: [0,1,2,3,4,5,6,7,8],
-			name: '测试文件夹'
+			name: '测试文件夹2'
 		},
 		{
 			id: '3',
 			authority: [0,1,2,3,4,5,6,7,8],
-			name: '测试文件夹'
+			name: '测试文件夹3'
 		},
 		{
 			id: '4',
 			authority: [0,1,2,3,4,5,6,7,8],
-			name: '测试文件夹'
+			name: '测试文件夹4'
 		},
 		{
 			id: '5',
 			authority: [0,1,2,3,4,5,6,7,8],
-			name: '测试文件夹'
+			name: '测试文件夹5'
 		},
 		{
 			id: '6',
 			authority: [0,1,2,3,4,5,6,7,8],
-			name: '测试文件夹'
+			name: '测试文件夹6'
 		}
 	];
 
 	var dataListOfFile = [
 		{
 			id: '1',
+			type: '1',
 			authority: [0,1,2,3,5,6,7,8],
-			name: '测试文件',
+			name: '测试文件1',
 			src: 'http://127.0.0.1:3000/dist/img/New Text Document.txt'
 		},
 		{
 			id: '2',
+			type: '2',
 			authority: [0,1,2,3,4,5,6,7,8],
-			name: '测试文件',
+			name: '测试文件2',
 			src: 'http://127.0.0.1:3000/dist/img/extofgong_chen.pdf'
 		},
 		{
 			id: '3',
 			authority: [0,1,2,3,4,5,6,7,8],
-			name: '测试文件',
+			name: '测试文件3',
 			src: 'http://127.0.0.1:3000/dist/img/photo1.png'
 		},
 		{
 			id: '4',
 			authority: [0,1,2,3,4,5,6,7,8],
-			name: '测试文件',
+			name: '测试文件4',
 			src: 'http://127.0.0.1:3000/dist/img/controller.js'
 		}
 	];
@@ -3026,6 +3030,34 @@ router.get('/get_friend_in_tag', function(req, res, next) {
 			{
 				id: 1,
 				name: '张震宇'
+			}
+		]
+	);
+});
+router.get('/update_file_folder_visibility', function(req, res, next) {
+	console.log(req.query);
+	res.json(1);
+});
+
+router.get('/get_group_member_list', function(req, res, next) {
+	console.log(req.query);
+	res.json(
+		[
+			{
+				id: 1,
+				name: '张震宇'
+			},
+			{
+				id: 2,
+				name: '刘强'
+			},
+			{
+				id: 3,
+				name: '李玉'
+			},
+			{
+				id: 4,
+				name: '陈红'
 			}
 		]
 	);

@@ -194,7 +194,7 @@ var LeftBlock_FS = function(middleBlock, dirNav){
 				var id = $(ev.target).closest('.file').attr('data-id');
 				FileMenu(ev, id, obj);
 			}else {
-				PanelMenu(ev, currentDir);
+				PanelMenu(ev, currentDir, obj);
 			}
 		});
 		
@@ -253,6 +253,16 @@ var LeftBlock_FS = function(middleBlock, dirNav){
 				console.log(err);
 			}
 		});
+	};
+	
+	//刷新
+	this.refresh = function(){
+		this.openFolder(currentDir);
+	};
+	
+	//获取路径
+	this.getCurrentDir = function(){
+		return currentDir;
 	};
 	
 	this.openFile = function(id){
@@ -673,7 +683,7 @@ var Folder = function(){
 		if(validate(data)){
 			var folder = $(
 				'<div class="col-lg-2 col-md-4 col-sm-6" data-type="folder">\n' +
-				'	<div class="folder noselect" title="' + data.name + '" data-index="' + index + '" data-id="' + data.id + '">\n' +
+				'	<div class="folder noselect" title="' + data.name + '" data-index="' + index + '" data-id="' + data.id + '" data-set="' + data.type + '">\n' +
 				'		<span class="icon"><i class="fa fa-folder"></i></span>\n' +
 				'		<span class="name">' + data.name + '</span>\n' +
 				'	</div>\n' +
@@ -753,7 +763,7 @@ var File = function(){
 		if(validate(data)){
 			var file = $(
 				'<div class="col-lg-2 col-md-4 col-sm-6" data-type="file">\n' +
-				'	<div class="file noselect" title="' + data.name + '" data-index="' + index + '" data-id="' + data.id + '">\n' +
+				'	<div class="file noselect" title="' + data.name + '" data-index="' + index + '" data-id="' + data.id + '" data-set="' + data.type + '" data-src="' + data.src + '">\n' +
 				'		<div class="top">\n' +
 				'			<iframe id="frame" src="' + data.src + '" width="100%" scrolling="no" frameborder="0">\n' +
 				'			</iframe>\n' +
@@ -904,22 +914,61 @@ const FOLDER_MENU_SET = [
 		icon: '<i class="fa fa-link"></i>',
 		name: '链接',
 		action: function(){
-			
+			LinkBox();
 		}
 	},
 	{
 		icon: '<i class="fa fa-share-alt"></i>',
 		name: '分享',
-		action: function(){
-			var abc = new SharedWithModal();
-			abc.loadForGroup(1,1);
+		action: function(target, controller){
+			var id = target.find('.folder').attr('data-id');
+			var type = target.find('.folder').attr('data-set');
+			if(type == 1){
+				//私人
+				SelectBox_VisibilityIndividual(id,2, 
+					function(){
+						controller.refresh();
+					},
+					getVisibilityList,
+					updateFileFolderVisibility
+				);
+			}else if(type == 2){
+				//群组
+				SelectBox_VisibilityGroup(id,2,
+					function(){
+						controller.refresh();
+					},
+					getVisibilityList,
+					updateFileFolderVisibility
+				);
+			}
 		}
 	},
 	{
 		icon: '<i class="fa fa-key"></i>',
 		name: '修改权限',
-		action: function(){
-			
+		action: function(target, controller){
+			var id = target.find('.folder').attr('data-id');
+			var type = target.find('.folder').attr('data-set');
+			if(type == 1){
+				//私人
+				SelectBox_VisibilityIndividual(id,2, 
+					function(){
+						controller.refresh();
+					},
+					getEditableList,
+					updateFileFolderEditable
+				);
+			}else if(type == 2){
+				//群组
+				SelectBox_VisibilityGroup(id,2,
+					function(){
+						controller.refresh();
+					},
+					getEditableList,
+					updateFileFolderEditable
+				);
+			}
 		}
 	}
 ];
@@ -946,7 +995,7 @@ const FILE_MENU_SET = [
 					delete link;
 			}
 			
-			downloadFile('js_gamma/module.js', 'abc');
+			downloadFile(target.find('.file').attr('data-src'), target.find('.file').attr('title'));
 			//window.location.href = 'js_gamma/module.js';
 			//window.location='js_gamma/module.js';
 			//download('js_gamma/module.js');
@@ -990,22 +1039,61 @@ const FILE_MENU_SET = [
 		icon: '<i class="fa fa-link"></i>',
 		name: '链接',
 		action: function(){
-			
+			LinkBox();
 		}
 	},
 	{
 		icon: '<i class="fa fa-share-alt"></i>',
 		name: '分享',
 		action: function(target, controller){
-			var abc = new SharedWithModal();
-			abc.loadForGroup(1,1);
+			var id = target.find('.file').attr('data-id');
+			var type = target.find('.file').attr('data-set');
+			if(type == 1){
+				//私人
+				SelectBox_VisibilityIndividual(id,1, 
+					function(){
+						controller.refresh();
+					},
+					getVisibilityList,
+					updateFileFolderVisibility
+				);
+			}else if(type == 2){
+				//群组
+				SelectBox_VisibilityGroup(id,1,
+					function(){
+						controller.refresh();
+					},
+					getVisibilityList,
+					updateFileFolderVisibility
+				);
+			}
 		}
 	},
 	{
 		icon: '<i class="fa fa-key"></i>',
 		name: '修改权限',
-		action: function(){
-			
+		action: function(target, controller){
+			var id = target.find('.file').attr('data-id');
+			var type = target.find('.file').attr('data-set');
+			if(type == 1){
+				//私人
+				SelectBox_VisibilityIndividual(id,1, 
+					function(){
+						controller.refresh();
+					},
+					getEditableList,
+					updateFileFolderEditable
+				);
+			}else if(type == 2){
+				//群组
+				SelectBox_VisibilityGroup(id,1,
+					function(){
+						controller.refresh();
+					},
+					getEditableList,
+					updateFileFolderEditable
+				);
+			}
 		}
 	}
 ];
@@ -1013,17 +1101,24 @@ const FILE_MENU_SET = [
 
 const	Panel_MENU_SET = [
 	{
-		icon: '<i class="fa fa-clipboard"></i>',
+		icon: '<i class="fa fa-upload"></i>',
 		name: '上传文件',
 		action: function(){
 			
 		}
 	},
 	{
-		icon: '<i class="fa fa-clipboard"></i>',
-		name: '上传文件夹',
+		icon: '<i class="fa fa-plus"></i>',
+		name: '新建文件夹',
 		action: function(){
 			
+		}
+	},
+	{
+		icon: '<i class="fa fa-refresh"></i>',
+		name: '刷新',
+		action: function(fid, controller){
+			controller.refresh();
 		}
 	},
 	{
@@ -1037,21 +1132,7 @@ const	Panel_MENU_SET = [
 		icon: '<i class="fa fa-link"></i>',
 		name: '链接',
 		action: function(){
-			
-		}
-	},
-	{
-		icon: '<i class="fa fa-share-alt"></i>',
-		name: '分享',
-		action: function(){
-			
-		}
-	},
-	{
-		icon: '<i class="fa fa-key"></i>',
-		name: '修改权限',
-		action: function(){
-			
+			LinkBox();
 		}
 	}
 ];
@@ -1069,12 +1150,14 @@ var Menu = function(x, y, list, folderMenuSet, target, controller){
 		return '';
 	else{
 		$.each(list, function(index, i){
-			var item = folderMenuSet[i];
-			var l = $('<li><a href="javascript: void(0)">' + item.icon + item.name + '</a></li>\n');
-			l.click(function(){
-				item.action(target, controller);
-			})
-			menu.append(l);
+			if(i < folderMenuSet.length){
+				var item = folderMenuSet[i];
+				var l = $('<li><a href="javascript: void(0)">' + item.icon + item.name + '</a></li>\n');
+				l.click(function(){
+					item.action(target, controller);
+				})
+				menu.append(l);
+			}
 		});	
 		return menu;
 	}
@@ -1123,7 +1206,7 @@ var FileMenu = function(ev, id, controller){
 };
 
 // 面板菜单
-var PanelMenu = function(ev, id){
+var PanelMenu = function(ev, id, controller){
 	$.ajax({
 		url : GET_AUTHORITY_FOLDER,
 		data: {
@@ -1134,7 +1217,7 @@ var PanelMenu = function(ev, id){
 		success : function (result){
 			// 移除其他菜单
 			$('.customize-menu').remove();
-			var menu = Menu(ev.pageX, ev.pageY,result,Panel_MENU_SET);
+			var menu = Menu(ev.pageX, ev.pageY,result,Panel_MENU_SET, controller.getCurrentDir(), controller);
 			$('body').append(menu);
 			menu.show(300);
 		},
@@ -1145,516 +1228,271 @@ var PanelMenu = function(ev, id){
 };
 
 
-
-var SharedWithModal = function(id){
-	var obj = this;
-	var modal = $(
-		'<div class="modal fade shared-with">\n' +
-		'	<div class="modal-dialog">\n' +
-		'		<div class="modal-content">\n' +
-		'			<div class="modal-header">\n' +
-		'				<button type="button" class="close" data-dismiss="modal">&times;</button>\n' +
-		'				<h5 class="modal-title">\n' +
-		'					请选择分享范围\n' +
-		'				</h5>\n' +
-		'			</div>\n' +
-		'			<div class="modal-body">\n' +
-		'				<div class="form-group">\n' +
-		'				</div>\n' +
-		'			</div>\n' +
-		'			<div class="modal-footer">\n' +
-		'				<a data-action="submit">提交</a>\n' +
-		'				<a data-dismiss="modal">关闭</a>\n' +
-		'			</div>\n' +
-		'		</div>\n' +
-		'	</div>\n' +
-		'</div>'
-	);
-
-
-	//获取简单Label
-	var getLabel = function(data){
-		var label = $(
-			'<label>\n' +
-			'	<input type="radio" name="r1" class="minimal" value=' + data.value + '>\n' +
-			'	<span>' + data.icon + ' ' + data.name + '</span>\n' +
-			'</label>'
-		);
-		
-		return label;
-	};
-
-	//获取collapse
-	var getCollapse = function(data, selectedTag, selectedUser){
-		
-		var collapse = $(
-			'<div class="panel-body collapse">\n' +
-			'</div>'
-		);
-
-		collapse.empty();
-		//标签模块
-		$.each(data, function(index, item){
-			var label = $(
-				'<label data-type="tag">\n' +
-				'	<input type="checkbox" name="c1" class="minimal"  data-id="' + item.name + '">\n' +
-				'	<span><i class="fa fa-tag"></i> ' + item.name + '</span>\n' +
-				'	<span class="pull-right"<a href="javascript: void(0);" data-action="checklist" style="margin-right:10px;color: #3c8dbc;">查看</a></span>\n' +
-				'</label>'
-			);
-
-			if(selectedTag.includes(item.name))
-				label.find('input').prop('checked', true);
+// 私人权限
+var SelectBox_VisibilityIndividual = function(fid, type, callback, getAuthority, updateAuthority){
+	Promise
+		.all([getFriendTags(), getAuthority(fid, type)])
+		.then(function(data){
+			var tags = data[0];
+			var selected = data[1];
+			var radios = [
+				{
+					type: 'radio',
+					value: 1,
+					name: '公开',
+					icon: '<i class="fa fa-gear"></i>'
+				},
+				{
+					type: 'radio',
+					value: 2,
+					name: '朋友圈',
+					icon: '<i class="fa fa-gear"></i>'
+				},
+				{
+					type: 'collapse',
+					value: 3,
+					name: '部分可见',
+					icon: '<i class="fa fa-gear"></i>'
+				},
+				{
+					type: 'radio',
+					value: 4,
+					name: '仅自己可见',
+					icon: '<i class="fa fa-gear"></i>'
+				}
+			];
 			
-			label.find('[data-action="checklist"]').on('click',function(ev){
-				ev.stopImmediatePropagation()
+			// 加载tag
+			var modifyTag = function(name){
+				Promise
+					.all([getFriends(), getFriendInTag(name)])
+					.then(function(data){
+						var all = data[0];
+						var inTag = data[1];
+						TwinRowSelectUser('修改标签', all, inTag, 
+						function(users, modal){
+							updateTag(name, users, modal);
+						})
+					})
+					.catch(function(reason){
+						console.log(reason);
+					});
+			};
+			var updateTag = function(name, users, modal){
 				$.ajax({
-					url : URL_GET_USERS_IN_FRIEND_TAG,
+					url : UPDATE_FRIEND_TAG,
 					data: {
-						name: item.name
+						name: name,
+						user: users
 					},
 					type : "GET",
 					dataType : 'json',
 					success : function (result){
-						if(result === '0'){
-							callAlert('失败！', '<i class="material-icons">clear</i>', function(){});
+						// result {value, sublist, tail}
+						if(result == 0){
+							reject('请求失败1');
 						}else{
-							var FTController = new FriendTagController(id);
-							FTController.ajaxLoad(
-									result,
-									function(data, modal){
-										$.ajax({
-											url : URL_ADD_USERS_TO_FRIEND_TAG,
-											data: {
-												name: item.name,
-												uids: JSON.stringify(data)
-											},
-											type : "GET",
-											dataType : 'json',
-											success : function (result){
-												if(result == 0){
-													callAlert('失败！', '<i class="material-icons">clear</i>', function(){});
-												}else{
-													
-													modal.modal('hide');
-												}
-											},
-											error: function(err){
-												console.log(err);
-											}
-										});
-									}
-								);
-							
-							
+							selectBox.reloadTailUser([]);
+							selectBox.appendNewTag({name: name, icon: '<i class="fa fa-tags"></i>', callback: modifyTag});
+							callAlert('修改成功！', '<i class="material-icons">done</i>', function(){modal.modal('hide');});
 						}
 					},
 					error: function(err){
-						console.log(err);
+						console.log('请求失败2');
 					}
 				});
+			};
+			radios[2].sublist = [];
+			$.each(tags, function(index, tag){
+				radios[2].sublist.push(
+					{
+						name: tag.name,
+						icon: '<i class="fa fa-tags"></i>',
+						callback: modifyTag
+					}
+				);
 			});
 			
-			collapse.append(label);
-		});
-
-		//加载被选中数据
-		var loadSelectedUser = function(data){
-			nameList.empty();
-			$.each(data, function(index, uid){
-				$.ajax({
-					url : URL_GET_INDIVIDUAL_INSTANCE + uid,
-					type : "GET",
-					dataType : 'json',
-					success : function (user){
-						if(data == 0){
-							console.log(data, '错误');
-						}else{
-							
-							var u = $('<span class="user-label" user-id="' + user.id + '" user-image="' + user.image + '" user-bg="' + user.bg_image + '">' + user.name + '</span>');
-							nameList.append(u);
-						}
-					},
-					error: function(err){
-						console.log(err);
-					}
-				});
-			});
-		};
-
-		//获取被选中用户数据
-		var getSelectedUser = function(){
-			var result = [];
-
-			$.each(selectLabel.find('.user-label'), function(index,item){
-				console.log(index);
-				result.push({
-					id: $(item).attr('user-id'),
-					name: $(item).text(),
-					image: $(item).attr('user-image'),
-					bg_image: $(item).attr('user-bg')
-				});
-			});
-
-			return result;
-		};
-
-		var getSelectedUID = function(){
-			var result = [];
-
-			$.each(selectLabel.find('.user-label'), function(index,item){
-				console.log(index);
-				result.push($(item).attr('user-id'));
-			});
-
-			return result;
-		};
-
-
-		//用户选定模块
-		var selectLabel = $(
-			'	<label>\n' +
-			'		<span><a href="#"><i class="fa fa-plus-circle"></i> 从好友中选取</a></span>\n' +
-			'		<div class="name-list"></div>\n' +
-			'	</label>'
-		);
-
-		var nameList = selectLabel.find('.name-list');
-		loadSelectedUser(selectedUser);
-		collapse.append(selectLabel);
-
-		//点击事件
-		selectLabel.click(function(){
-			var FTController = new FriendTagController(id);
-				FTController.ajaxLoad(
-					getSelectedUser(),
-					function(data,modal){
-						//console.log(1);
-						//console.log(data);
-						callConfirm('新建标签','您是否要创建一个新的标签？',
-							function(){
-								// 不创建标签
-								singleLineInput('创建新标签', '请输入您要创建的新标签名称', function(tagTitle){
-									console.log(data);
+			//加载tail
+			var selectUser = function(users){
+				getFriends()
+					.then(function(data){
+						TwinRowSelectUser('选择要分享的好友', data, users, submitSelectUser);
+					})
+					.catch(function(reason){
+						console.log(reason);
+					});
+			};
+			var submitSelectUser = function(user, modal){
+				if(user.length == 0){
+					selectBox.reloadTailUser(user);
+					modal.modal('hide');
+				}else{
+					callConfirm('新建标签', '您是否要创建一个新的标签？', 
+						function(){
+							singleLineInput('新建标签', '请输入标签名称', 
+								function(name, modal2){
+									//console.log(user);
+									//console.log(name);
 									$.ajax({
-										url : URL_CREATE_FRIEND_TAG,
+										url : CREATE_FRIEND_TAG,
 										data: {
-											name: tagTitle
+											name: name,
+											user: user
 										},
 										type : "GET",
 										dataType : 'json',
 										success : function (result){
+											// result {value, sublist, tail}
 											if(result == 0){
-												callAlert('添加标签失败！', '<i class="material-icons">clear</i>', function(){});
-											}else if(result == 1){
-												callAlert('已存在！', '<i class="material-icons">clear</i>', function(){});
-											}else if(result == 2){
-												var idList = [];
-												$.each(data, function(index, user){
-													idList.push(user);
-												});
-												$.ajax({
-													url : URL_ADD_USER_TO_FRIEND_TAG,
-													data: {
-														uids: JSON.stringify(idList),
-														name: tagTitle
-													},
-													type : "GET",
-													dataType : 'json',
-													success : function (result){
-														if(result == 0){
-															callAlert('添加标签失败！', '<i class="material-icons">clear</i>', function(){});
-														}else if(result == 1){
-															callAlert('添加成功！', '<i class="material-icons">done</i>', function(){
-																appendToCollapse(tagTitle,tagTitle);
-																clearSelectedUserTag();
-																modal.modal('hide');
-															});
-														}
-													},
-													error: function(err){
-														console.log(err);
-													}
-												});
+												reject('请求失败1');
+											}else{
+												selectBox.reloadTailUser([]);
+												selectBox.appendNewTag({name: name, icon: '<i class="fa fa-tags"></i>', callback: modifyTag});
+												modal2.modal('hide');
+												modal.modal('hide');
 											}
 										},
 										error: function(err){
-											console.log(err);
+											console.log('请求失败2');
 										}
 									});
-								});
-							},
-							function(){
-								console.log(data);
-								// 创建标签
-								loadSelectedUser(data);
-								modal.modal('hide');
-							}
-						);
-					}
-				);
-		});
-
-		return collapse;
-	};
-
-	var appendToCollapse = function(tid, name){
-		$.each(modal.find('.collapse'), function(index, collapse){
-			var label = $(
-				'<label data-type="tag">\n' +
-				'	<input type="checkbox" name="c1" class="minimal"  data-id="' + tid + '" checked>\n' +
-				'	<span><i class="fa fa-tag"></i> ' + name + '</span>\n' +
-				'	<span class="pull-right"<a href="javascript: void(0);" data-action="checklist" style="margin-right:10px;color: #3c8dbc;">查看</a></span>\n' +
-				'</label>'
-			);
-			
-			label.find('[data-action="checklist"]').on('click',function(ev){
-				ev.stopImmediatePropagation()
-				$.ajax({
-					url : URL_GET_USERS_IN_FRIEND_TAG,
-					data: {
-						name: name
-					},
-					type : "GET",
-					dataType : 'json',
-					success : function (result){
-						if(result === '0'){
-							callAlert('失败！', '<i class="material-icons">clear</i>', function(){});
-						}else{
-							var FTController = new FriendTagController(id);
-							FTController.ajaxLoad(
-									result,
-									function(data, modal){
-										$.ajax({
-											url : URL_ADD_USERS_TO_FRIEND_TAG,
-											data: {
-												name: name,
-												uids: JSON.stringify(data)
-											},
-											type : "GET",
-											dataType : 'json',
-											success : function (result){
-												if(result == 0){
-													callAlert('失败！', '<i class="material-icons">clear</i>', function(){});
-												}else{
-													
-													modal.modal('hide');
-												}
-											},
-											error: function(err){
-												console.log(err);
-											}
-										});
-									}
-								);
-							
-							
+								}
+							);
+						},
+						function(){
+							selectBox.reloadTailUser(user);
+							modal.modal('hide');
 						}
-					},
-					error: function(err){
-						console.log(err);
-					}
-				});
-			});
-			
-			
-			
-			$(collapse).prepend(label);
-			label.iCheck({
-				checkboxClass: 'icheckbox_minimal-blue'
-			});
-		});
-	};
-
-	var clearSelectedUserTag = function(){
-		modal.find('.name-list').empty();
-	}
-
-	//获取数据
-	var getData = function(){
-		var result = {
-			type: '',
-			selectedTag: [],
-			selectedUser: []
-		};
-
-		result.type = modal.find('[name="r1"]:checked').val();
-
-		if(result.type == 3 || result.type == 4){
-			var collapse = modal.find('.collapse[data-target="' + result.type + '"]');
-
-			$.each(collapse.find('[data-type="tag"] input:checked'), function(index, item){
-				result.selectedTag.push($(item).attr('data-id'));
-			});
-
-			$.each(collapse.find('.user-label'), function(index, item){
-				result.selectedUser.push($(item).attr('user-id'));
-			});
-		};
-
-		return result;
-	};
-
-	//群组菜单
-	this.loadForGroup = function(id, type, callback){
-		//群组菜单
-		var groupData = [
-			{
-				name: '公开',
-				icon: '<i class="fa fa-globe"></i>',
-				value: 1
-			},
-			{
-				name: '仅群成员可见',
-				icon: '<i class="fa fa-user-circle-o"></i></i>',
-				value: 2
-			},
-			{
-				name: '部分成员可见',
-				icon: '<i class="fa fa-plus-square"></i>',
-				value: 3
-			},
-			{
-				name: '部分成员不可见',
-				icon: '<i class="fa fa-minus-square"></i>',
-				value: 4
-			},
-			{
-				name: '仅群主可见',
-				icon: '<i class="fa fa-eye-slash"></i>',
-				value: 5
-			}
-		];
-
-		var container = modal.find('.modal-body .form-group');
-		container.empty();
-		$.each(groupData, function(index, item){
-			var label = getLabel(item);
-			container.append(label);
-
-			if(type == item.value)
-				label.find('input').prop('checked', true);
-		});
-
-		//submit
-		modal.find('[data-action="submit"]').unbind('click');
-		modal.find('[data-action="submit"]').click(function(){
-			callback(getData(), modal);
-		});
-
-		modal.modal('show');
-	};
-
-	//ajax为个人添加
-	this.ajaxLoadForIndividual = function(type, selectedTag, selectedUser, callback){
-		$.ajax({
-			url : URL_GET_FRIEND_TAG,
-			type : "GET",
-			dataType : 'json',
-			success : function (tag){
-				if(!Array.isArray(tag)){
-					callAlert('加载标签失败！', '<i class="material-icons">clear</i>', function(){});
-				}else{
-					loadForIndividual(type, selectedTag, selectedUser, tag, callback);
+					);
 				}
-			},
-			error: function(err){
-				console.log(err);
-			}
-		});
-	};
-
-	//为个人添加
-	var loadForIndividual = function(type, selectedTag, selectedUser, tagList, callback){
-		//个人数据
-		var individualData = [
-			{
-				name: '公开',
-				icon: '<i class="fa fa-globe"></i>',
-				value: 1
-			},
-			{
-				name: '朋友圈',
-				icon: '<i class="fa fa-user-circle-o"></i></i>',
-				value: 2
-			},
-			{
-				name: '部分可见',
-				icon: '<i class="fa fa-plus-square"></i>',
-				value: 3
-			},
-			{
-				name: '不可见',
-				icon: '<i class="fa fa-minus-square"></i>',
-				value: 4
-			},
-			{
-				name: '私有',
-				icon: '<i class="fa fa-eye-slash"></i>',
-				value: 5
-			}
-		];
-
-		var container = modal.find('.modal-body .form-group');
-		container.empty();
-		$.each(individualData, function(index, item){
-			var label = getLabel(item).addClass('toggle-btn');
-			container.append(label);
-
-			var collapse;
-			if(item.value == 3 || item.value == 4){
-				if( item.value == type){
-					collapse = getCollapse(tagList, selectedTag, selectedUser);
-					collapse.addClass('in');
-				}else
-					collapse = getCollapse(tagList, [], []);
-
-				label.attr('data-target', item.value);
-
-				collapse.attr('data-target', item.value)
-					.addClass('toggle-content');
-			}
-			container.append(collapse);
-
-			if(type == item.value)
-				label.find('input').prop('checked', true);
-
-
-		});
-
-		//点击互斥时间
-		container.find('.toggle-btn').click(function(){
-			var value = $(this).attr('data-target');
-			$.each(container.find('.toggle-content'), function(index, item){
-				var collapse = $(item);
-				if(collapse.attr('data-target') == value){
-					collapse.collapse('show');
+			};
+			
+			radios[2].tail = {
+				text: '从好友名单中选取',
+				icon: '<i class="fa fa-plus-square-o" style="color: green;"></i>',
+				callback: selectUser
+			};
+			
+			var selectBox = new SelectBox('个人文件分享', radios, selected);
+			
+			selectBox.getModule().find('[data-action="submit"]').click(function(){
+				var data1 = {
+					value: selected.value,
+					tags: (selected.sublist == undefined ? [] : selected.sublist),
+					items: (selected.tail == undefined ? [] : toStringArray(selected.tail, 'id'))
+				};
+				var data2 = selectBox.getData();
+				var result = {};
+				
+				if(data2.value == data1.value){
+					result.value = data2.value;
+					result.tagAdd = getDifferenceSetBeta(data2.tags, data1.tags);
+					result.tagDelete = getDifferenceSetBeta(data1.tags, data2.tags);
+					result.itemAdd = getDifferenceSetBeta(data2.items, data1.items);
+					result.itemDelete = getDifferenceSetBeta(data1.items, data2.items);
 				}else{
-					collapse.collapse('hide');
+					result.value = data2.value;
+					result.tagAdd = data2.tags;
+					result.tagDelete = [];
+					result.itemAdd = data2.items;
+					result.itemDelete = [];
 				}
+				
+				updateAuthority(fid, result.value, result.tagAdd, result.tagDelete, result.itemAdd, result.itemDelete)
+					.then(function(data){
+						selectBox.getModule().modal('hide');
+						callback();
+					});
 			});
+		}).catch(function(reason){
+			console.log(reason);
 		});
+};
 
-
-
-		//submit
-		modal.find('[data-action="submit"]').unbind('click');
-		modal.find('[data-action="submit"]').click(function(){
-			callback(getData(), modal);
-		});
-
-		modal.modal('show');
-	};
-
-	//初始化
-	(function(){
-		modal.on('hidden.bs.modal', function(){
-			$(this).remove();
-		}).on('shown.bs.modal', function(){
-			$(this).find('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-				checkboxClass: 'icheckbox_minimal-blue',
-				radioClass: 'iradio_minimal-blue'
+// 群组权限
+var SelectBox_VisibilityGroup = function(fid, type, callback, getAuthority, updateAuthority){
+	Promise
+		.all([getFriendTags(), getAuthority(fid, type)])
+		.then(function(data){
+			var tags = data[0];
+			var selected = data[1];
+			var radios = [
+				{
+					type: 'radio',
+					value: 1,
+					name: '公开',
+					icon: '<i class="fa fa-gear"></i>'
+				},
+				{
+					type: 'radio',
+					value: 2,
+					name: '群成员可见',
+					icon: '<i class="fa fa-gear"></i>'
+				},
+				{
+					type: 'collapse',
+					value: 3,
+					name: '部分成员可见',
+					icon: '<i class="fa fa-gear"></i>'
+				},
+				{
+					type: 'radio',
+					value: 4,
+					name: '仅群主可见',
+					icon: '<i class="fa fa-gear"></i>'
+				}
+			];
+			
+			//加载tail
+			var selectUser = function(users){
+				getGroupMembers()
+					.then(function(data){
+						TwinRowSelectUser('选择要分享的好友', data, users, 
+						function(user, modal){
+							selectBox.reloadTailUser(user);
+							modal.modal('hide');
+						});
+					})
+					.catch(function(reason){
+						console.log(reason);
+					});
+			};
+			radios[2].tail = {
+				text: '从群成员中选取',
+				icon: '<i class="fa fa-plus-square-o" style="color: green;"></i>',
+				callback: selectUser
+			};
+			
+			var selectBox = new SelectBox('群文件分享', radios, selected);
+			
+			selectBox.getModule().find('[data-action="submit"]').click(function(){
+				var data1 = {
+					value: selected.value,
+					items: (selected.tail == undefined ? [] : toStringArray(selected.tail, 'id'))
+				};
+				var data2 = selectBox.getData();
+				var result = {};
+				
+				if(data2.value == data1.value){
+					result.value = data2.value;
+					result.itemAdd = getDifferenceSetBeta(data2.items, data1.items);
+					result.itemDelete = getDifferenceSetBeta(data1.items, data2.items);
+				}else{
+					result.value = data2.value;
+					result.itemAdd = data2.items;
+					result.itemDelete = [];
+				}
+				
+				updateAuthority(fid, result.value, [], [], result.itemAdd, result.itemDelete)
+					.then(function(data){
+						selectBox.getModule().modal('hide');
+						callback();
+					});
+				
 			});
+			
+		}).catch(function(reason){
+			console.log(reason);
 		});
-	})();
 };

@@ -77,6 +77,7 @@ var singleLineInput = function(title, placeholder, callback){
 		modal.modal('show');
 	})();
 };
+
 /* 3. 确认框 */
 var callConfirm = function(title, text, actionConfirm, actionCancel){
 	$.confirm({
@@ -93,6 +94,7 @@ var callConfirm = function(title, text, actionConfirm, actionCancel){
 		}
 	});
 };
+
 /* 4. Random Color */
 var googleColorRandomPicker = function(){
 	var color_list = ['rgb(55, 141, 59)', 'rgb(65, 65, 65)', 'rgb(29, 135, 228)', 'rgb(119, 143, 155)', 'rgb(91, 106, 191)', 'rgb(125, 86, 193)', 'rgb(248, 167, 36)', 
@@ -101,7 +103,8 @@ var googleColorRandomPicker = function(){
 	//console.log(color_list[random]);
 	return color_list[random];
 };
-/* 5.  求差集 list1 - list2 */
+
+/* 5.1  求差集 list1 - list2 */
 var getDifferenceSet = function(list1, list2, key){
 	var set = [];
 	$.each(list1, function(index1, item1){
@@ -119,3 +122,32 @@ var getDifferenceSet = function(list1, list2, key){
 	return set;
 };
 
+/* 5.2 */
+var getDifferenceSetBeta = function(list1, list2){
+	var set = [];
+	$.each(list1, function(index1, item1){
+		var flag = true;
+		$.each(list2, function(index2, item2){
+			if(item1 == item2){
+				flag = false;
+				return false;
+			}
+		});
+		if(flag){
+			set.push(item1);
+		}
+	});
+	return set;
+};
+
+
+
+/* 6. object array to string array */
+var toStringArray = function(list, key){
+	var result = [];
+	$.each(list, function(index, item){
+		result.push(item[key]);
+	});
+	
+	return result;
+};

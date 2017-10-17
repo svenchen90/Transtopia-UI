@@ -1,0 +1,45 @@
+/* 用户卡片 */
+.multi-card {
+	margin: 10px 0 10px;
+	box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
+	border: none;
+	border-radius: 3px;
+	cursor: pointer;
+}
+
+.multi-card:before, .multi-card:after{
+	content: "";
+	display: block;
+	padding-top: 25%; 	/* initial ratio of 1:1*/
+}
+
+.multi-card .card-body {
+	text-align: center;
+	color: rgba(255,255,255,0.8);
+}
+
+.multi-card:hover .card-body .content-hover {
+	min-height: 85px; 
+}
+
+.multi-card .card-body i{
+	font-size: 60px;
+}
+.multi-card .card-body [data-name="name"]{
+	padding: 0 5px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.multi-card .card-body .content-hover {
+	display: none;
+}
+
+.multi-card:hover .card-body .content-hover {
+	display : block;
+}
+.multi-card:hover .card-body .content-default {
+	display : none;
+}
+/* end of 用户卡片 */
