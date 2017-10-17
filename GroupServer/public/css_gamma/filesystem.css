@@ -99,10 +99,14 @@
 /* End of 中间主控栏目 */
 /* 右侧详情栏 */
 .main-block .right-block {
-	width: 300px;
 	-webkit-box-shadow: -3px 4px 4px 0 rgba(0,0,0,0.14);
 	box-shadow: -3px 4px 4px 0 rgba(0,0,0,0.14);
 }
+.main-block .right-block .content {
+	width: 300px;
+	overflow: hidden;
+}
+
 /* End of 右侧详情栏 */
 /* 文件夹 */
 .folder {

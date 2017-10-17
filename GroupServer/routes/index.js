@@ -2776,11 +2776,11 @@ router.get('/cloud_index', function(req, res, next) {
 });
 
 router.get('/folder_authority', function(req, res, next) {
-	res.json([0,1,2,3,4,5,6,7,8,9]);
+	res.json(2);
 });
 
 router.get('/file_authority', function(req, res, next) {
-	res.json([0,1,2,3,4,5,6,7,8]);
+	res.json(2);
 });
 
 router.get('/getallinfolder', function(req, res, next) {
@@ -2788,33 +2788,33 @@ router.get('/getallinfolder', function(req, res, next) {
 		{
 			id: '1',
 			type: '1',
-			authority: [0,1,2,3,6,7,8],
+			hasAuthority: 0,
 			name: '测试文件夹1'
 		},
 		{
 			id: '2',
 			type: '2',
-			authority: [0,1,2,3,4,5,6,7,8],
+			hasAuthority: 1,
 			name: '测试文件夹2'
 		},
 		{
 			id: '3',
-			authority: [0,1,2,3,4,5,6,7,8],
+			hasAuthority: 1,
 			name: '测试文件夹3'
 		},
 		{
 			id: '4',
-			authority: [0,1,2,3,4,5,6,7,8],
+			hasAuthority: 1,
 			name: '测试文件夹4'
 		},
 		{
 			id: '5',
-			authority: [0,1,2,3,4,5,6,7,8],
+			hasAuthority: 2,
 			name: '测试文件夹5'
 		},
 		{
 			id: '6',
-			authority: [0,1,2,3,4,5,6,7,8],
+			hasAuthority: 2,
 			name: '测试文件夹6'
 		}
 	];
@@ -2823,26 +2823,26 @@ router.get('/getallinfolder', function(req, res, next) {
 		{
 			id: '1',
 			type: '1',
-			authority: [0,1,2,3,5,6,7,8],
+			hasAuthority: 0,
 			name: '测试文件1',
 			src: 'http://127.0.0.1:3000/dist/img/New Text Document.txt'
 		},
 		{
 			id: '2',
 			type: '2',
-			authority: [0,1,2,3,4,5,6,7,8],
+			hasAuthority: 1,
 			name: '测试文件2',
 			src: 'http://127.0.0.1:3000/dist/img/extofgong_chen.pdf'
 		},
 		{
 			id: '3',
-			authority: [0,1,2,3,4,5,6,7,8],
+			hasAuthority: 1,
 			name: '测试文件3',
 			src: 'http://127.0.0.1:3000/dist/img/photo1.png'
 		},
 		{
 			id: '4',
-			authority: [0,1,2,3,4,5,6,7,8],
+			hasAuthority: 2,
 			name: '测试文件4',
 			src: 'http://127.0.0.1:3000/dist/img/controller.js'
 		}
