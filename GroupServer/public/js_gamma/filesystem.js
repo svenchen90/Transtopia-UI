@@ -240,9 +240,9 @@ var MiddleBlock_FS = function(dirNav){
 	
 	// E) 清空复制剪切板
 	var clearCopyCut = function(){
-		c_id = 'undefined';
-		c_type = 'undefined';
-		c_action = 'undefined';
+		c_id = undefined;
+		c_type = undefined;
+		c_action = undefined;
 	};
 	
 	// 初始化
@@ -473,7 +473,17 @@ var MiddleBlock_FS = function(dirNav){
 		})
 	};
 	
-	// 16) 获取组件
+	// 16) 可粘贴
+	this.ableToPaste = function(){
+		return c_id != undefined;
+	};
+	
+	// 18) 获取C_id
+	this.getC_ID = function(){
+		return c_id;
+	};
+	
+	// 18) 获取组件
 	this.getModule = function(){
 		return module;
 	};
@@ -767,7 +777,7 @@ var RightBlock_FS = function(){
 	};
 	
 	(function(){
-		//module.css('display', 'none');
+		module.css('display', 'none');
 	})()
 	
 	// 获取module
@@ -786,8 +796,14 @@ var Menu = function(x, y, hasAuthority, folderMenuSet, target, controller){
 		'</ul>\n'
 	);
 	
-	$.each(folderMenuSet, function(index, item){
+	$.each(folderMenuSet, function(index, item){	
 		if(hasAuthority >= item.authority){
+			if(item.name == '粘贴'){
+				if(!controller.ableToPaste())
+					return true;
+				else if( $.type(target) != "number"  && target.find('.file, .folder').attr('data-id') == controller.getC_ID()) 
+					return true;
+			}
 			var l = $('<li><a href="javascript: void(0)">' + item.icon + item.name + '</a></li>\n');
 			l.click(function(){
 				item.action(target, controller);
