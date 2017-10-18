@@ -875,7 +875,7 @@ const FOLDER_MENU_SET = [
 	{
 		icon: '<i class="fa fa-link"></i>',
 		name: '链接',
-		authority: 2,
+		authority: 1,
 		action: function(){
 			LinkBox();
 		}
@@ -1022,7 +1022,7 @@ const FILE_MENU_SET = [
 	{
 		icon: '<i class="fa fa-link"></i>',
 		name: '链接',
-		authority: 2,
+		authority: 1,
 		action: function(){
 			LinkBox();
 		}
@@ -1134,7 +1134,7 @@ const	Panel_MENU_SET = [
 	{
 		icon: '<i class="fa fa-link"></i>',
 		name: '链接',
-		authority: 2,
+		authority: 1,
 		action: function(){
 			LinkBox();
 		}
