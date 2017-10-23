@@ -141,7 +141,7 @@
 
 
 <td class="right-block" style="display: table-cell;">
-	<div class="content customized-scrollbar" style="padding: 15px; height: calc(100vh - 102px);">
+	<div class="content customized-scrollbar" style="height: calc(100vh - 102px); overflow-y: auto;">
 		<!-- 内容 -->
 		<div class="title" style=" color: rgba(0,0,0, .5); padding: 15px 0 30px 15px;">
 			<span style="display: inline-block; font-size: 22px; padding-right: 15px;  float: left;"><i class="fa fa-folder"></i></span>
@@ -156,13 +156,11 @@
 			</li>
 			<li><a href="#content2" data-toggle="tab" style="width: 150px; text-align: center;  border: none; color: rgba(0,0,0, .3);">{标签2}</a></li>
 		</ul>
-		<div id="myTabContent" class="tab-content" style="width: 315px; margin: 0 !important;">
+		<div class="tab-content" style="/*width: 315px;*/">
 			<div class="tab-pane fade in active" id="content1">
 				
-				<div class="fluid-container" style="width: 300px;">
-					<div style="width:300px; height: 200px; overflow: hidden; margin-bottom: 10px;">
-						<img style="width: 300px;" src="http://127.0.0.1:3000/dist/img/photo1.png">
-					</div>
+				<div class="" style="/*width: 300px;*/">
+						<img class="img-responsive" style="max-width: 324px;" src="http://127.0.0.1:3000/dist/img/photo1.png">
 					<!-- <div style="padding-top: 20px;padding-bottom: 20px;">
 						<span style="display: inline-block; font-size: 20px; color: rgba(0,0,0,.6); width: 30px; margin-left: 15px; margin-right: 15px; border-radius: 50%; border: 2px solid rgba(0,0,0,.3); text-align: center;"><i class="fa fa-lock"></i></span>
 						<span style="display: inline-block; font-size: 18px;">未分享</span>
@@ -187,7 +185,7 @@
 					<div>
 						<span class="note" data-empty="1">添加备注</span>
 						<span class="pull-right note-toggle" style="display: inline-block; cursor: pointer"><i class="fa fa-pencil"></i></span>
-						<textarea class="note-textarea" rows="3" placeholder="请添加备注，按回车键确认" style="width: 100%; display: none; resize: none;"></textarea>
+						<textarea class="note-textarea" rows="3" placeholder="请添加备注，按回车键确认" style="width: 100%; display: none; resize: none;" autofocus></textarea>
 					</div>
 				</div>
 				
@@ -199,8 +197,6 @@
 				<p>{内容2}</p>
 			</div>
 		</div>
-		
-		
 	</div>
 </td>
 <style>
@@ -209,16 +205,16 @@
 	border-bottom: 3px solid rgba(66, 133, 244, 1) !important;
 }
 
-#myTabContent .col-xs-4 {
+.tab-content .col-xs-4 {
 	color: rgba(0,0,0,.5);
 }
 
-#myTabContent .col-xs-8 {
+.tab-content .col-xs-8 {
 	word-break: break-all;
 	color: rgba(0,0,0,.7);
 }
 
-#myTabContent .note {
+.tab-content .note {
 	color: rgba(0,0,0,.5);
 }
 
