@@ -761,61 +761,59 @@ var DirNav = function(){
 var RightBlock_FS = function(){
 	var module = $(
 		'<td class="right-block">\n' +
-		'	<div class="content customized-scrollbar" style="padding: 15px; height: calc(100vh - 102px);">\n' +
-		'		<!-- 内容 -->\n' +
-		'		<div class="title" style=" color: rgba(0,0,0, .5); padding: 15px 0 30px 15px;">\n' +
-		'			<span style="display: inline-block; font-size: 22px; padding-right: 15px;  float: left;"><i class="fa fa-folder"></i></span>\n' +
-		'			<span style="display: inline-block; font-size: 22px; width:180px; white-space: nowrap; overflow: hidden;text-overflow: ellipsis; ">{文件名称}{文件名称}{文件名称}</span>\n' +
-		'			<span class="pull-right" style="cursor: pointer;font-size: 16px; "><i class="fa fa-times"></i></span>\n' +
-		'		</div>\n' +
-		'		<div class="clearfix"></div>\n' +
-		'		<ul id="myTab" class="nav nav-tabs" style="border-bottom: none; margin-bottom: 15px;">\n' +
-		'			<li class="active">\n' +
-		'				<a href="#content1" data-toggle="tab" style="width: 150px; text-align: center; border: none; color: rgba(0,0,0, .3);">{标签1}</a>\n' +
-		'			</li>\n' +
-		'			<li><a href="#content2" data-toggle="tab" style="width: 150px; text-align: center;  border: none; color: rgba(0,0,0, .3);">{标签2}</a></li>\n' +
-		'		</ul>\n' +
-		'		<div class="tab-content" style="width: 315px; margin: 0 !important;">\n' +
-		'			<div class="tab-pane fade in active" id="content1">\n' +
-		'				<div class="fluid-container" style="width: 300px;">\n' +
-		'					<!-- <div style="width:300px; height: 200px; overflow: hidden; margin-bottom: 10px;">\n' +
-		'						<img style="width: 300px;" src="http://127.0.0.1:3000/dist/img/photo1.png">\n' +
-		'					</div> -->\n' +
-		'					<!-- <div style="padding-top: 20px;padding-bottom: 20px;">\n' +
-		'						<span style="display: inline-block; font-size: 20px; color: rgba(0,0,0,.6); width: 30px; margin-left: 15px; margin-right: 15px; border-radius: 50%; border: 2px solid rgba(0,0,0,.3); text-align: center;"><i class="fa fa-lock"></i></span>\n' +
-		'						<span style="display: inline-block; font-size: 18px;">未分享</span>\n' +
-		'					</div> -->\n' +
-		'					<div class="row" style="padding-bottom: 10px;">\n' +
-		'						<div class="col-xs-4">种类</div>\n' +
-		'						<div class="col-xs-8">{种类}</div>\n' +
-		'					</div>\n' +
-		'					<div class="row" style="padding-bottom: 10px;">\n' +
-		'						<div class="col-xs-4">位置</div>\n' +
-		'						<div class="col-xs-8">{位置}</div>\n' +
-		'					</div>\n' +
-		'					<div class="row" style="padding-bottom: 10px;">\n' +
-		'						<div class="col-xs-4">创建者</div>\n' +
-		'						<div class="col-xs-8">{创建者}</div>\n' +
-		'					</div>\n' +
-		'					<div class="row" style="padding-bottom: 10px;">\n' +
-		'						<div class="col-xs-4">创建时间</div>\n' +
-		'						<div class="col-xs-8">{创建时间}</div>\n' +
-		'					</div>\n' +
-		'					<div>\n' +
-		'						<span class="note" data-empty="1">添加备注</span>\n' +
-		'						<span class="pull-right note-toggle" style="display: inline-block; cursor: pointer"><i class="fa fa-pencil"></i></span>\n' +
-		'						<textarea class="note-textarea" rows="3" placeholder="请添加备注，按回车键确认" style="width: 100%; display: none; resize: none;" autofocus></textarea>\n' +
-		'					</div>\n' +
+		'<div class="content customized-scrollbar" style="height: calc(100vh - 102px); overflow-y: auto;overflow-x: hidden;">\n' +
+		'	<!-- 内容 -->\n' +
+		'	<div class="title" style=" color: rgba(0,0,0, .5); padding: 15px 0 30px 15px;">\n' +
+		'		<span style="display: inline-block; font-size: 22px; padding-right: 15px;  float: left;"><i class="fa fa-folder"></i></span>\n' +
+		'		<span style="display: inline-block; font-size: 22px; width:180px; white-space: nowrap; overflow: hidden;text-overflow: ellipsis; ">{文件名称}{文件名称}{文件名称}</span>\n' +
+		'		<span class="pull-right" style="cursor: pointer;font-size: 16px; "><i class="fa fa-times"></i></span>\n' +
+		'	</div>\n' +
+		'	<div class="clearfix"></div>\n' +
+		'	<ul id="myTab" class="nav nav-tabs" style="border-bottom: none; margin-bottom: 15px;">\n' +
+		'		<li class="active">\n' +
+		'			<a href="#content1" data-toggle="tab" style="width: 150px; text-align: center; border: none; color: rgba(0,0,0, .3);">{标签1}</a>\n' +
+		'		</li>\n' +
+		'		<li><a href="#content2" data-toggle="tab" style="width: 150px; text-align: center;  border: none; color: rgba(0,0,0, .3);">{标签2}</a></li>\n' +
+		'	</ul>\n' +
+		'	<div class="tab-content" style="/*width: 315px;*/">\n' +
+		'		<div class="tab-pane fade in active" id="content1">\n' +
+		'			<div class="" style="width: 320px;">\n' +
+		'					<img class="img-responsive"  src="http://127.0.0.1:3000/dist/img/photo1.png">\n' +
+		'				<!-- <div style="padding-top: 20px;padding-bottom: 20px;">\n' +
+		'					<span style="display: inline-block; font-size: 20px; color: rgba(0,0,0,.6); width: 30px; margin-left: 15px; margin-right: 15px; border-radius: 50%; border: 2px solid rgba(0,0,0,.3); text-align: center;"><i class="fa fa-lock"></i></span>\n' +
+		'					<span style="display: inline-block; font-size: 18px;">未分享</span>\n' +
+		'				</div> -->\n' +
+		'				<div class="row" style="padding-bottom: 10px;">\n' +
+		'					<div class="col-xs-4">种类</div>\n' +
+		'					<div class="col-xs-8">{种类}</div>\n' +
+		'				</div>\n' +
+		'				<div class="row" style="padding-bottom: 10px;">\n' +
+		'					<div class="col-xs-4">位置</div>\n' +
+		'					<div class="col-xs-8">{位置}</div>\n' +
+		'				</div>\n' +
+		'				<div class="row" style="padding-bottom: 10px;">\n' +
+		'					<div class="col-xs-4">创建者</div>\n' +
+		'					<div class="col-xs-8">{创建者}</div>\n' +
+		'				</div>\n' +
+		'				<div class="row" style="padding-bottom: 10px;">\n' +
+		'					<div class="col-xs-4">创建时间</div>\n' +
+		'					<div class="col-xs-8">{创建时间}</div>\n' +
+		'				</div>\n' +
+		'				<div>\n' +
+		'					<span class="note" data-empty="1">添加备注</span>\n' +
+		'					<span class="pull-right note-toggle" style="display: inline-block; cursor: pointer"><i class="fa fa-pencil"></i></span>\n' +
+		'					<textarea class="note-textarea" rows="3" placeholder="请添加备注，按回车键确认" style="width: 100%; display: none; resize: none;" autofocus></textarea>\n' +
 		'				</div>\n' +
 		'			</div>\n' +
-		'			<div class="tab-pane fade" id="content2">\n' +
-		'				<p>{内容2}</p>\n' +
-		'				<p>{内容2}</p>\n' +
-		'				<p>{内容2}</p>\n' +
-		'				<p>{内容2}</p>\n' +
-		'			</div>\n' +
+		'		</div>\n' +
+		'		<div class="tab-pane fade" id="content2">\n' +
+		'			<p>{内容2}</p>\n' +
+		'			<p>{内容2}</p>\n' +
+		'			<p>{内容2}</p>\n' +
+		'			<p>{内容2}</p>\n' +
 		'		</div>\n' +
 		'	</div>\n' +
+		'</div>\n' +
 		'</td>'
 	);
 	
@@ -826,7 +824,36 @@ var RightBlock_FS = function(){
 	
 	(function(){
 		module.css('display', 'none');
-	})()
+		
+		/*
+		$('.note-toggle').click(function(){
+			var isEmpty = $('.note').attr('data-empty');
+			if(isEmpty == 1){
+				// do something
+			}else{
+				var text = $('.note').text();
+				$('.note-textarea').val(text);
+			}
+			$('.note, .note-toggle').hide();
+			$('.note-textarea').show();
+		});
+		
+		$(".note-textarea").on('keydown', function (e) {
+			if (e.keyCode == 13) {
+				var text = $(this).val();
+				if(text == ""){
+					$('.note').text('添加备注');
+					$('.note').attr('data-empty', 1);
+				}else{
+					$('.note').attr('data-empty', 0);
+					$('.note').text(text);
+				}
+				$('.note, .note-toggle').show();
+				$('.note-textarea').hide();
+			}
+		});
+		*/
+	})();
 	
 	// 获取module
 	this.getModule = function(){
@@ -1152,7 +1179,7 @@ const	Panel_MENU_SET = [
 		name: '上传文件',
 		authority: 1,
 		action: function(){
-			
+			updateFile();
 		}
 	},
 	{
@@ -1160,7 +1187,9 @@ const	Panel_MENU_SET = [
 		name: '新建文件夹',
 		authority: 1,
 		action: function(){
-			
+			singleLineInput('新建文件夹', '请输入文件夹名称', function(input, modal){
+				modal.modal('hide');
+			});
 		}
 	},
 	{
@@ -1466,7 +1495,7 @@ var LinkBox = function(){
 		'						<div class="slider round"></div>\n' +
 		'					</label>\n' +
 		'				</div>\n' +
-		'				<div class="details" style="display: none;">\n' +
+		'				<div class="details" style="/* display: none; */">\n' +
 		'					<div class="form-group">\n' +
 		'						<label><i class="fa fa-copy"></i> 链接</label>\n' +
 		'						<input type="text" name="link" class="form-control" value="' + 'http://127.0.0.1:3000/cloud_index' +'" disabled/>\n' +
@@ -1504,7 +1533,38 @@ var LinkBox = function(){
 			placeholder: "请选择您要分享的用户",
 			multiple: true,
 			language: 'zh-CN',
-			tags: true
+			minimumInputLength: 3,
+			ajax: {
+				url: '/test_select',
+				dataType: 'json',
+				type: "GET",
+				quietMillis: 50,
+				data: function (term) {
+					return term;
+				},
+				processResults: function (data) {
+					return {
+						results: $.map(data, function (item) {
+							return {
+									text: item.name,
+									id: item.id
+							}
+						})
+					};
+				}
+			}
+			//tags: true
+		});
+		
+		modal.find('[data-action="submit"]').click(function(ev){
+			console.log(modal.find('.shared-with').find("option"));
+			if(modal.find('.shared-with').find("option[value='" + 2 + "']").length == 0){
+				var newOption = new Option('刘强', 2, true, true);
+				modal.find('.shared-with').append(newOption).trigger('change');
+			}else{
+				modal.find('.shared-with').val([2]).trigger('change');
+			};
+			//console.log(modal.find('.shared-with').select2('data'));
 		});
 		
 		modal.find('[name="switch"]').change(function(){
@@ -1525,4 +1585,73 @@ var LinkBox = function(){
 		
 		modal.modal('show');
 	})();
+};
+
+var updateFile = function(id, callback){
+	var html = $(
+		'<div class="modal fade">\n' +
+		'	<div class="modal-dialog">\n' +
+		'		<div class="modal-content">\n' +
+		'			<div class="modal-body">\n' +
+		'				<div class="main-content">\n' +
+		'					<div class="modal-header">\n' +
+		'						<button type="button" class="close" data-dismiss="modal">×</button>\n' +
+		'						<h4 class="modal-title">上传文件</h4>\n' +
+		'					</div>\n' +
+		'					<div style="margin: 15px;">\n' +
+		'					<input name="filesupload" type="file" multiple class="file-loading" accept="image">\n' +
+		'					</div>\n' +
+		'				</div>\n' +
+		'			</div>\n' +
+		'		</div>\n' +
+		'	</div>\n' +
+		'</div>'
+	);
+	
+	//加载bootstrap-fileinput插件
+	html.find('input').fileinput({
+		language: "zh",
+		theme: "explorer",
+		uploadUrl: '/uploadfile_beta/123' /* + id */,
+		//allowedFileExtensions: ['jpg', 'png'],
+		//maxFileCount: 1,
+		//showCaption: true,
+		//showPreview: true
+		//showRemove: true
+		//showUpload: true
+		//showCancel: true ?
+		//showClose: false
+		layoutTemplates: {
+			actions: '<div class="file-actions">\n' +
+        '    <div class="file-footer-buttons">\n' +
+        '        {delete}' +
+        '    </div>\n' +
+        '    {drag}\n' +
+        '    <div class="file-upload-indicator" title="{indicatorTitle}">{indicator}</div>\n' +
+        '    <div class="clearfix"></div>\n' +
+        '</div>',
+			actionDelete: '<button type="button" class="kv-file-remove {removeClass}" title="{removeTitle}"{dataUrl}{dataKey}>{removeIcon}</button>\n',
+		}
+	});
+	
+	//上传完成后方法
+	html.find('input').on('fileuploaded', function(event, data, previewId, index) {
+		/* var form = data.form, files = data.files, extra = data.extra,
+				response = data.response, reader = data.reader;
+		console.log('File uploaded triggered'); */
+		if(data.response == 0){
+			callAlert('错误！', '<i class="material-icons">clear</i>', function(){});
+		}else{
+			callAlert('更新成功！', '<i class="material-icons">done</i>', function(){
+				//html.modal('hide');
+				//callback(data.response)
+			});
+		}
+	});
+	
+	html.on('hidden.bs.modal', function(){
+		$(this).remove();
+	});
+	
+	html.modal('show');
 };

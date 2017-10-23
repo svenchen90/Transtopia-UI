@@ -103,7 +103,7 @@
 	box-shadow: -3px 4px 4px 0 rgba(0,0,0,0.14);
 }
 .main-block .right-block .content {
-	
+	padding: 10px 10px 10px 15px;;
 }
 
 /* End of 右侧详情栏 */
@@ -238,3 +238,23 @@
 .customize-menu i {
 	margin-right: 10px;
 }
+/* End of 自定义菜单 */
+/* Right Block */
+.nav-tabs li.active a {
+	color: rgba(0,0,0, .5) !important;
+	border-bottom: 3px solid rgba(66, 133, 244, 1) !important;
+}
+
+.tab-content .col-xs-4 {
+	color: rgba(0,0,0,.5);
+}
+
+.tab-content .col-xs-8 {
+	word-break: break-all;
+	color: rgba(0,0,0,.7);
+}
+
+.tab-content .note {
+	color: rgba(0,0,0,.5);
+}
+/* End of Right Block */

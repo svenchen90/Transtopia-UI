@@ -2452,9 +2452,11 @@ router.post('/uploadfile_beta/123', function(req, res, next) {
 			var newpath = transCloudPath +  '/' + item.originalFilename;
 			path = item.path;
 			console.log(oldpath, newpath);
+			/*
 			fs.rename(oldpath, newpath, function (err) {
 				if (err) throw err;
-			}); 
+			});
+			*/
 		});
 		/* var oldpath = files.filetoupload.path;
 		var newpath = 'C:/Users/Your Name/' + files.filetoupload.name;
@@ -3032,6 +3034,30 @@ router.get('/update_file_folder_visibility', function(req, res, next) {
 });
 
 router.get('/get_group_member_list', function(req, res, next) {
+	console.log(req.query);
+	res.json(
+		[
+			{
+				id: 1,
+				name: '张震宇'
+			},
+			{
+				id: 2,
+				name: '刘强'
+			},
+			{
+				id: 3,
+				name: '李玉'
+			},
+			{
+				id: 4,
+				name: '陈红'
+			}
+		]
+	);
+});
+
+router.get('/test_select', function(req, res, next) {
 	console.log(req.query);
 	res.json(
 		[
