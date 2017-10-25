@@ -22,6 +22,435 @@
 		<div id="btngroup-rightbot">
 		</div>
 		
+		<div class="modal fade" id="test">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<div class="main-content">
+							<div class="modal-header" style="padding: 0 0 15px 0;">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								<h4 class="modal-title">分享设置</h4>
+							</div>
+							
+							<div class="box">
+								<div class="box-header" id="cde" style="padding: 15px 5px 15px 5px;">
+									<div style="padding-bottom: 5px;">
+										<input type="radio" name="abc">
+										<span> 普通成员以上</span>
+										<span class="pull-right">
+											<a href="javascript: void(0);" data-authority><i class="fa fa-eye"></i> 可读</a>
+											<select style="display: none;">
+												<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+												<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+											</select>
+										</span>
+									</div>
+									<div>
+										<input type="radio" name="abc">
+										<span> 管理员以上</span>
+										<span class="pull-right">
+											<a href="javascript: void(0);" data-authority><i class="fa fa-eye"></i> 可读</a>
+											<select style="display: none;">
+												<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+												<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+											</select>
+										</span>
+									</div>
+								</div>
+							
+								<div class="box-header">
+									<span class="box-title" style="font-size: 18px;"><i class="fa fa-users"></i> 成员名单</span>
+									<span class="box-title pull-right" >
+										<a href="javascript: void(0);" style="padding-right: 5px;" data-adduser><i class="fa fa-plus"></i></a>
+										<a href="javascript: void(0);"><i class="fa fa-trash"></i></a>
+									</span>
+
+								</div>
+								
+								<div class="box-body">
+									<table id="example1" class="table table-bordered table-striped">
+										<thead>
+											<tr>
+												<th style="width: 30px;"><input type="checkbox"></th>
+												<th>用户</th>
+												<th style="width: 150px;">权限</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>
+												<img src="http://127.0.0.1:3000/dist/img/avatar.png" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);"> 
+												<span style="padding-left: 10px;">张震宇</span>
+												</td>
+												<td>
+													<a href="javascript: void(0);" data-authority><i class="fa fa-eye"></i> 可读</a>
+													<select style="display: none;">
+														<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+														<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>
+													<img src="http://127.0.0.1:3000/dist/img/avatar2.png" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);"> 
+													<span style="padding-left: 10px;">刘强</span>
+												</td>
+												<td>
+													<a href="javascript: void(0);" data-authority><i class="fa fa-pencil"></i> 可读写</a>
+													<select style="display: none;">
+														<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+														<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>
+													<img src="http://127.0.0.1:3000/dist/img/avatar3.png" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);"> 
+													<span style="padding-left: 10px;">陈宏</span>
+												</td>
+												<td>
+													<a href="javascript: void(0);" data-authority><i class="fa fa-pencil"></i> 可读写</a>
+													<select style="display: none;">
+														<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+														<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>
+												<img src="http://127.0.0.1:3000/dist/img/avatar.png" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);"> 
+												<span style="padding-left: 10px;">张震宇</span>
+												</td>
+												<td>
+													<a href="javascript: void(0);" data-authority><i class="fa fa-eye"></i> 可读</a>
+													<select style="display: none;">
+														<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+														<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>
+													<img src="http://127.0.0.1:3000/dist/img/avatar2.png" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);"> 
+													<span style="padding-left: 10px;">刘强</span>
+												</td>
+												<td>
+													<a href="javascript: void(0);" data-authority><i class="fa fa-pencil"></i> 可读写</a>
+													<select style="display: none;">
+														<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+														<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>
+													<img src="http://127.0.0.1:3000/dist/img/avatar3.png" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);"> 
+													<span style="padding-left: 10px;">陈宏</span>
+												</td>
+												<td>
+													<a href="javascript: void(0);" data-authority><i class="fa fa-pencil"></i> 可读写</a>
+													<select style="display: none;">
+														<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+														<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>
+												<img src="http://127.0.0.1:3000/dist/img/avatar.png" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);"> 
+												<span style="padding-left: 10px;">张震宇</span>
+												</td>
+												<td>
+													<a href="javascript: void(0);" data-authority><i class="fa fa-eye"></i> 可读</a>
+													<select style="display: none;">
+														<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+														<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>
+													<img src="http://127.0.0.1:3000/dist/img/avatar2.png" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);"> 
+													<span style="padding-left: 10px;">刘强</span>
+												</td>
+												<td>
+													<a href="javascript: void(0);" data-authority><i class="fa fa-pencil"></i> 可读写</a>
+													<select style="display: none;">
+														<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+														<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>
+													<img src="http://127.0.0.1:3000/dist/img/avatar3.png" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);"> 
+													<span style="padding-left: 10px;">陈宏</span>
+												</td>
+												<td>
+													<a href="javascript: void(0);" data-authority><i class="fa fa-pencil"></i> 可读写</a>
+													<select style="display: none;">
+														<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+														<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>
+												<img src="http://127.0.0.1:3000/dist/img/avatar.png" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);"> 
+												<span style="padding-left: 10px;">张震宇</span>
+												</td>
+												<td>
+													<a href="javascript: void(0);" data-authority><i class="fa fa-eye"></i> 可读</a>
+													<select style="display: none;">
+														<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+														<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>
+													<img src="http://127.0.0.1:3000/dist/img/avatar2.png" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);"> 
+													<span style="padding-left: 10px;">刘强</span>
+												</td>
+												<td>
+													<a href="javascript: void(0);" data-authority><i class="fa fa-pencil"></i> 可读写</a>
+													<select style="display: none;">
+														<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+														<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>
+													<img src="http://127.0.0.1:3000/dist/img/avatar3.png" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);"> 
+													<span style="padding-left: 10px;">陈宏</span>
+												</td>
+												<td>
+													<a href="javascript: void(0);" data-authority><i class="fa fa-pencil"></i> 可读写</a>
+													<select style="display: none;">
+														<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+														<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>
+												<img src="http://127.0.0.1:3000/dist/img/avatar.png" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);"> 
+												<span style="padding-left: 10px;">张震宇</span>
+												</td>
+												<td>
+													<a href="javascript: void(0);" data-authority><i class="fa fa-eye"></i> 可读</a>
+													<select style="display: none;">
+														<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+														<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>
+													<img src="http://127.0.0.1:3000/dist/img/avatar2.png" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);"> 
+													<span style="padding-left: 10px;">刘强</span>
+												</td>
+												<td>
+													<a href="javascript: void(0);" data-authority><i class="fa fa-pencil"></i> 可读写</a>
+													<select style="display: none;">
+														<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+														<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>
+													<img src="http://127.0.0.1:3000/dist/img/avatar3.png" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);"> 
+													<span style="padding-left: 10px;">陈宏</span>
+												</td>
+												<td>
+													<a href="javascript: void(0);" data-authority><i class="fa fa-pencil"></i> 可读写</a>
+													<select style="display: none;">
+														<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+														<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>
+												<img src="http://127.0.0.1:3000/dist/img/avatar.png" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);"> 
+												<span style="padding-left: 10px;">张震宇</span>
+												</td>
+												<td>
+													<a href="javascript: void(0);" data-authority><i class="fa fa-eye"></i> 可读</a>
+													<select style="display: none;">
+														<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+														<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>
+													<img src="http://127.0.0.1:3000/dist/img/avatar2.png" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);"> 
+													<span style="padding-left: 10px;">刘强</span>
+												</td>
+												<td>
+													<a href="javascript: void(0);" data-authority><i class="fa fa-pencil"></i> 可读写</a>
+													<select style="display: none;">
+														<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+														<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>
+													<img src="http://127.0.0.1:3000/dist/img/avatar3.png" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);"> 
+													<span style="padding-left: 10px;">陈宏</span>
+												</td>
+												<td>
+													<a href="javascript: void(0);" data-authority><i class="fa fa-pencil"></i> 可读写</a>
+													<select style="display: none;">
+														<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+														<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>
+												<img src="http://127.0.0.1:3000/dist/img/avatar.png" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);"> 
+												<span style="padding-left: 10px;">张震宇</span>
+												</td>
+												<td>
+													<a href="javascript: void(0);" data-authority><i class="fa fa-eye"></i> 可读</a>
+													<select style="display: none;">
+														<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+														<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>
+													<img src="http://127.0.0.1:3000/dist/img/avatar2.png" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);"> 
+													<span style="padding-left: 10px;">刘强</span>
+												</td>
+												<td>
+													<a href="javascript: void(0);" data-authority><i class="fa fa-pencil"></i> 可读写</a>
+													<select style="display: none;">
+														<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+														<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>
+													<img src="http://127.0.0.1:3000/dist/img/avatar3.png" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);"> 
+													<span style="padding-left: 10px;">陈宏</span>
+												</td>
+												<td>
+													<a href="javascript: void(0);" data-authority><i class="fa fa-pencil"></i> 可读写</a>
+													<select style="display: none;">
+														<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+														<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>
+												<img src="http://127.0.0.1:3000/dist/img/avatar.png" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);"> 
+												<span style="padding-left: 10px;">张震宇</span>
+												</td>
+												<td>
+													<a href="javascript: void(0);" data-authority><i class="fa fa-eye"></i> 可读</a>
+													<select style="display: none;">
+														<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+														<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>
+													<img src="http://127.0.0.1:3000/dist/img/avatar2.png" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);"> 
+													<span style="padding-left: 10px;">刘强</span>
+												</td>
+												<td>
+													<a href="javascript: void(0);" data-authority><i class="fa fa-pencil"></i> 可读写</a>
+													<select style="display: none;">
+														<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+														<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td><input type="checkbox"></td>
+												<td>
+													<img src="http://127.0.0.1:3000/dist/img/avatar3.png" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);"> 
+													<span style="padding-left: 10px;">陈宏</span>
+												</td>
+												<td>
+													<a href="javascript: void(0);" data-authority><i class="fa fa-pencil"></i> 可读写</a>
+													<select style="display: none;">
+														<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
+														<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
+													</select>
+												</td>
+											</tr>
+										</tbody>
+										<!-- <tfoot>
+										<tr>
+											<th>Rendering engine</th>
+											<th>Browser</th>
+											<th>Platform(s)</th>
+											<th>Engine version</th>
+											<th>CSS grade</th>
+										</tr>
+										</tfoot> -->
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<a href="javascript: void(0);" data-action="submit">确定</a>
+						<a href="javascript: void(0);" data-dismiss="modal">关闭</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<style>
+		#example1_wrapper .pagination {
+			float: right;
+		}
+		#example1_wrapper .dataTables_info{
+
+		}
+		#example1_wrapper .row{
+			margin-top: 15px;
+		}
+		#example1_filter label {
+			float:right;
+		}
+		</style>
+		
 	</body>
 	
 	<!-- 插件与样式 -->
@@ -39,6 +468,10 @@
 	<!-- <link rel="stylesheet" href="plugins/AdminLTE-2.3.11/css/AdminLTE.min.css" />
 	<link rel="stylesheet" href="plugins/AdminLTE-2.3.11/css/skins/_all-skins.min.css" />
 	<script src="plugins/AdminLTE-2.3.11/js/app.min.js"></script> -->
+	
+	<!-- DataTables -->
+	<script src="plugins/datatables/jquery.dataTables.min.js"></script>
+	<script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
 	
 	<!-- Slimscroll -->
 	<script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
@@ -128,6 +561,44 @@
 	
 	
 	<script>
+	
+	$("#example1").DataTable(
+		{
+			"language": {
+					"sProcessing":   "处理中...",
+					"sLengthMenu":   "显示 _MENU_ 项结果",
+					"sZeroRecords":  "没有匹配结果",
+					"sInfo":         "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+					"sInfoEmpty":    "显示第 0 至 0 项结果，共 0 项",
+					"sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+					"sInfoPostFix":  "",
+					"sSearch":       "搜索:",
+					"sUrl":          "",
+					"sEmptyTable":     "表中数据为空",
+					"sLoadingRecords": "载入中...",
+					"sInfoThousands":  ",",
+					"oPaginate": {
+							"sFirst":    "首页",
+							"sPrevious": "上页",
+							"sNext":     "下页",
+							"sLast":     "末页"
+					},
+					"oAria": {
+							"sSortAscending":  ": 以升序排列此列",
+							"sSortDescending": ": 以降序排列此列"
+					}
+			}
+		}
+	);
+	
+	//$('#test').modal('show');
+	
+	$('[data-authority]').click(function(){
+		$(this).hide();
+		$(this).next('select').show();
+	});
+	
+	
 	
 	
 	/*

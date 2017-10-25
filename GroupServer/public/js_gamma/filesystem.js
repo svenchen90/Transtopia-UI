@@ -765,15 +765,15 @@ var RightBlock_FS = function(){
 		'	<!-- 内容 -->\n' +
 		'	<div class="title" style=" color: rgba(0,0,0, .5); padding: 15px 0 30px 15px;">\n' +
 		'		<span style="display: inline-block; font-size: 22px; padding-right: 15px;  float: left;"><i class="fa fa-folder"></i></span>\n' +
-		'		<span style="display: inline-block; font-size: 22px; width:180px; white-space: nowrap; overflow: hidden;text-overflow: ellipsis; ">{文件名称}{文件名称}{文件名称}</span>\n' +
+		'		<span style="display: inline-block; font-size: 22px; width:180px; white-space: nowrap; overflow: hidden;text-overflow: ellipsis; ">文件1</span>\n' +
 		'		<span class="pull-right" style="cursor: pointer;font-size: 16px; "><i class="fa fa-times"></i></span>\n' +
 		'	</div>\n' +
 		'	<div class="clearfix"></div>\n' +
 		'	<ul id="myTab" class="nav nav-tabs" style="border-bottom: none; margin-bottom: 15px;">\n' +
 		'		<li class="active">\n' +
-		'			<a href="#content1" data-toggle="tab" style="width: 150px; text-align: center; border: none; color: rgba(0,0,0, .3);">{标签1}</a>\n' +
+		'			<a href="#content1" data-toggle="tab" style="width: 150px; text-align: center; border: none; color: rgba(0,0,0, .3);">文件详情</a>\n' +
 		'		</li>\n' +
-		'		<li><a href="#content2" data-toggle="tab" style="width: 150px; text-align: center;  border: none; color: rgba(0,0,0, .3);">{标签2}</a></li>\n' +
+		'		<li><a href="#content2" data-toggle="tab" style="width: 150px; text-align: center;  border: none; color: rgba(0,0,0, .3);">文件日志</a></li>\n' +
 		'	</ul>\n' +
 		'	<div class="tab-content" style="/*width: 315px;*/">\n' +
 		'		<div class="tab-pane fade in active" id="content1">\n' +
@@ -960,6 +960,7 @@ const FOLDER_MENU_SET = [
 		name: '分享',
 		authority: 2,
 		action: function(target, controller){
+			/*
 			var id = target.find('.folder').attr('data-id');
 			var type = target.find('.folder').attr('data-set');
 			if(type == 1){
@@ -981,9 +982,18 @@ const FOLDER_MENU_SET = [
 					updateFileFolderVisibility
 				);
 			}
+			*/
 		}
 	},
 	{
+		icon: '<i class="fa fa-globe"></i>',
+		name: '公开',
+		authority: 2,
+		action: function(target, controller){
+
+		}
+	},
+	/*{
 		icon: '<i class="fa fa-key"></i>',
 		name: '修改权限',
 		authority: 2,
@@ -1010,7 +1020,7 @@ const FOLDER_MENU_SET = [
 				);
 			}
 		}
-	}
+	}*/
 ];
 var FolderMenu = function(ev, id, controller){
 	getFolderAuthority(id)
@@ -1107,29 +1117,56 @@ const FILE_MENU_SET = [
 		name: '分享',
 		authority: 2,
 		action: function(target, controller){
-			var id = target.find('.file').attr('data-id');
-			var type = target.find('.file').attr('data-set');
-			if(type == 1){
-				//私人
-				SelectBox_Individual(id,1, 
-					function(){
-						controller.refresh();
-					},
-					getVisibilityList,
-					updateFileFolderVisibility
-				);
-			}else if(type == 2){
-				//群组
-				SelectBox_Group(id,1,
-					function(){
-						controller.refresh();
-					},
-					getVisibilityList,
-					updateFileFolderVisibility
-				);
-			}
+			$('#test').modal('show');
+			
+			if(target.find('.file').attr('data-set') == 1)
+				$('#cde').hide();
+			else
+				$('#cde').show();
+			
+			$('[data-adduser]').unbind('click');
+			$('[data-adduser]').click(function(){
+				var id = target.find('.file').attr('data-id');
+				var type = target.find('.file').attr('data-set');
+				if(type == 1){
+					//私人
+					SelectBox_Individual(id,1, 
+						function(){
+							controller.refresh();
+						},
+						getVisibilityList,
+						updateFileFolderVisibility
+					);
+				}else if(type == 2){
+					//群组
+					var selectUser = function(users){
+						getGroupMembers()
+							.then(function(data){
+								TwinRowSelectUser('选择要分享的群成员名单', data, users, 
+								function(user, modal){
+									//selectBox.reloadTailUser(user);
+									modal.modal('hide');
+								});
+							})
+							.catch(function(reason){
+								console.log(reason);
+							});
+					};
+					selectUser();
+				}
+			});
+
 		}
 	},
+	{
+		icon: '<i class="fa fa-globe"></i>',
+		name: '公开',
+		authority: 2,
+		action: function(target, controller){
+
+		}
+	},
+	/*
 	{
 		icon: '<i class="fa fa-key"></i>',
 		name: '修改权限',
@@ -1158,6 +1195,7 @@ const FILE_MENU_SET = [
 			}
 		}
 	}
+	*/
 ];
 var FileMenu = function(ev, id, controller){
 	getFileAuthority(id)
@@ -1230,6 +1268,10 @@ var PanelMenu = function(ev, id, controller){
 };
 /* !文件右键菜单 */
 
+
+
+
+
 // 私人权限
 var SelectBox_Individual = function(fid, type, callback, getAuthority, updateAuthority){
 	Promise
@@ -1238,12 +1280,12 @@ var SelectBox_Individual = function(fid, type, callback, getAuthority, updateAut
 			var tags = data[0];
 			var selected = data[1];
 			var radios = [
-				{
+				/* {
 					type: 'radio',
 					value: 1,
 					name: '公开',
 					icon: '<i class="fa fa-gear"></i>'
-				},
+				}, */
 				{
 					type: 'radio',
 					value: 2,
@@ -1252,16 +1294,16 @@ var SelectBox_Individual = function(fid, type, callback, getAuthority, updateAut
 				},
 				{
 					type: 'collapse',
-					value: 3,
+					value: 2,
 					name: '部分可见',
 					icon: '<i class="fa fa-gear"></i>'
-				},
+				}/* ,
 				{
 					type: 'radio',
 					value: 4,
 					name: '仅自己可见',
 					icon: '<i class="fa fa-gear"></i>'
-				}
+				} */
 			];
 			
 			// 加载tag
@@ -1293,9 +1335,9 @@ var SelectBox_Individual = function(fid, type, callback, getAuthority, updateAut
 						console.log(reason)
 					});
 			};
-			radios[2].sublist = [];
+			radios[1].sublist = [];
 			$.each(tags, function(index, tag){
-				radios[2].sublist.push(
+				radios[1].sublist.push(
 					{
 						name: tag.name,
 						icon: '<i class="fa fa-tags"></i>',
@@ -1344,7 +1386,7 @@ var SelectBox_Individual = function(fid, type, callback, getAuthority, updateAut
 				}
 			};
 			
-			radios[2].tail = {
+			radios[1].tail = {
 				text: '从好友名单中选取',
 				icon: '<i class="fa fa-plus-square-o" style="color: green;"></i>',
 				callback: selectUser

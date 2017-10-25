@@ -2920,11 +2920,11 @@ router.get('/get_friend_tag_list', function(req, res, next) {
 		[
 			{
 				id: 1,
-				name: '全部管理员'
+				name: '标签1'
 			},
 			{
 				id: 2,
-				name: '全部普通成员'
+				name: '标签2'
 			}
 		]
 	);
