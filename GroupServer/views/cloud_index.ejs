@@ -33,38 +33,12 @@
 							</div>
 							
 							<div class="box">
-								<div class="box-header" id="cde" style="padding: 15px 5px 15px 5px;">
-									<div style="padding-bottom: 5px;">
-										<input type="radio" name="abc">
-										<span> 普通成员以上</span>
-										<span class="pull-right">
-											<a href="javascript: void(0);" data-authority><i class="fa fa-eye"></i> 可读</a>
-											<select style="display: none;">
-												<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
-												<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
-											</select>
-										</span>
-									</div>
-									<div>
-										<input type="radio" name="abc">
-										<span> 管理员以上</span>
-										<span class="pull-right">
-											<a href="javascript: void(0);" data-authority><i class="fa fa-eye"></i> 可读</a>
-											<select style="display: none;">
-												<option value="volvo"><i class="fa fa-eye"></i> 可读</option>
-												<option value="saab" selected><i class="fa fa-pencil"></i> 可读写</option>
-											</select>
-										</span>
-									</div>
-								</div>
-							
 								<div class="box-header">
 									<span class="box-title" style="font-size: 18px;"><i class="fa fa-users"></i> 成员名单</span>
 									<span class="box-title pull-right" >
 										<a href="javascript: void(0);" style="padding-right: 5px;" data-adduser><i class="fa fa-plus"></i></a>
 										<a href="javascript: void(0);"><i class="fa fa-trash"></i></a>
 									</span>
-
 								</div>
 								
 								<div class="box-body">
@@ -120,18 +94,10 @@
 												</td>
 											</tr>
 										</tbody>
-										<!-- <tfoot>
-										<tr>
-											<th>Rendering engine</th>
-											<th>Browser</th>
-											<th>Platform(s)</th>
-											<th>Engine version</th>
-											<th>CSS grade</th>
-										</tr>
-										</tfoot> -->
 									</table>
 								</div>
 							</div>
+							
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -270,39 +236,41 @@
 	
 	
 	<script>
+	const DATATABLE_ZH = {
+		"sProcessing":   "处理中...",
+		"sLengthMenu":   "显示 _MENU_ 项结果",
+		"sZeroRecords":  "没有匹配结果",
+		"sInfo":         "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+		"sInfoEmpty":    "显示第 0 至 0 项结果，共 0 项",
+		"sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+		"sInfoPostFix":  "",
+		"sSearch":       "搜索:",
+		"sUrl":          "",
+		"sEmptyTable":     "表中数据为空",
+		"sLoadingRecords": "载入中...",
+		"sInfoThousands":  ",",
+		"oPaginate": {
+				"sFirst":    "首页",
+				"sPrevious": "上页",
+				"sNext":     "下页",
+				"sLast":     "末页"
+		},
+		"oAria": {
+				"sSortAscending":  ": 以升序排列此列",
+				"sSortDescending": ": 以降序排列此列"
+		}
+	};
 	
 	var table = $("#example1").DataTable(
 		{
-			"language": {
-					"sProcessing":   "处理中...",
-					"sLengthMenu":   "显示 _MENU_ 项结果",
-					"sZeroRecords":  "没有匹配结果",
-					"sInfo":         "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
-					"sInfoEmpty":    "显示第 0 至 0 项结果，共 0 项",
-					"sInfoFiltered": "(由 _MAX_ 项结果过滤)",
-					"sInfoPostFix":  "",
-					"sSearch":       "搜索:",
-					"sUrl":          "",
-					"sEmptyTable":     "表中数据为空",
-					"sLoadingRecords": "载入中...",
-					"sInfoThousands":  ",",
-					"oPaginate": {
-							"sFirst":    "首页",
-							"sPrevious": "上页",
-							"sNext":     "下页",
-							"sLast":     "末页"
-					},
-					"oAria": {
-							"sSortAscending":  ": 以升序排列此列",
-							"sSortDescending": ": 以降序排列此列"
-					}
-			}
+			"language": DATATABLE_ZH
 		}
 	);
 	
 	$('#example1 tbody').on( 'click', 'input', function (ev) {
 		$(this).closest('tr').toggleClass('selected');
 	});
+	
 	
 	$('#example1 tbody').on( 'focusout', 'select', function (ev) {
 		$(this).hide();
@@ -311,7 +279,9 @@
 	
 	$('#example1 tbody').on( 'click', '[data-authority]', function (ev) {
 		$(this).hide();
-		$(this).next('select').show();
+		$(this).next('select')
+			.show()
+			.focus();
 	});
 	
 	$('#example1 thead').on( 'click', '[name="selectall"]', function (ev) {
@@ -319,6 +289,7 @@
 	});
 	
 	
+	myDataTable.Rows.InsertAt(myDataRow, 0);
 	
 	table.row.add([
 			'<input type="checkbox">',
@@ -333,7 +304,17 @@
 			'</select>'
 		]).draw( false );
 	
-	$('#example1 tbody input').attr('disabled', 1);
+	
+	table
+    .order( [ 2, 'asc' ])
+    .draw();
+	/*
+	var order = table.order();
+ 
+	alert( 'Column '+order[0][0]+' is the ordering column' );
+	*/
+	
+	//$('#example1 tbody input').attr('disabled', 1);
 	
 	
 	
