@@ -1,16 +1,11 @@
 /* 
-规范： 
-
- */
-/* 
 Beta版本: 模块
 1. 顶端一级导航栏 - FirstNavTop
 2. 顶端二级导航栏 - SecondNavTop
 3. 主控栏 - MainBlock
 4. 左侧折叠栏 - LeftCollapse
  */
-
-// 1. 顶端一级导航栏 
+/* 1. 顶端一级导航栏 */
 var FirstNavTop = function(){
 	var module = $(
 		'<nav class="navbar noselect" style="margin-bottom:0; border-radius:0;border-bottom: none;">\n' +
@@ -40,18 +35,18 @@ var FirstNavTop = function(){
 		'</nav>'
 	);
 
-	// 设置商标
+	// 1)设置商标
 	this.setBrand = function(title, href){
 		module.find('[data-type="brand"]').attr('href', href).text(title);
 	};
 	
-	//设置page标签
+	// 2)设置page标签
 	this.appendPage = function(title){
 		module.find('.navbar-header')
 			.append('<span data-type="page" class="navbar-brand" href="javascript:void(0)" style="cursor: default;">' + title + '</span>');
 	};
 	
-	// 设置collapse btn
+	// 3)设置collapse btn
 	this.appendCollapseBtn = function(callback){
 		var btn = $(
 			'<a class="navbar-brand" href="javascript:void(0)" data-type="btn-collapse">\n' +
@@ -67,10 +62,22 @@ var FirstNavTop = function(){
 		module.find('.navbar-header').append(btn);
 	};
 	
-	//添加Nav
+	// 4)添加Nav
 	this.appendNav = function(nav){
 		module.find('#navbar-collapse-1').append(nav);
 	};
+	
+	// 5)设置Search
+	this.setSearch = function(){
+		
+	};
+	
+	
+	// 6)获取module
+	this.getModule = function(){
+		return module;
+	};
+	
 	
 	// 设置靠左list
 	/* this.setLeftBtnList = function(leftList){
@@ -86,20 +93,9 @@ var FirstNavTop = function(){
 			}
 		});
 	}; */
-	
-	// 设置Search
-	this.setSearch = function(){
-		
-	};
-	
-	
-	// 获取module
-	this.getModule = function(){
-		return module;
-	};
 };
 
-// 2. 顶端二级导航栏
+/* 2. 顶端二级导航栏 */
 var SecondNavTop = function(){
 	var module = $(
 		'<nav class="navbar noselect" style="margin-bottom:0; border-radius:0;border-top: none;">\n' +
@@ -117,18 +113,18 @@ var SecondNavTop = function(){
 		'</nav>'
 	);
 	
-	// 设置导航
+	// 1)设置导航
 	this.appendNav = function(nav){
 		module.find('#navbar-collapse-2').append(nav);
 	};
 	
-	// 获取module
+	// 2)获取module
 	this.getModule = function(){
 		return module;
 	};
 };
 
-// 3. 主控栏
+/* 3. 主控栏 */
 var MainBlock = function(){
 	var module = $(
 		'<table class="main-block noselect">\n' +
@@ -140,23 +136,66 @@ var MainBlock = function(){
 		'</table>'
 	);
 	
-	// 添加模块
+	// 1)添加模块
 	this.add = function(block){
 		module.find('tbody tr').append(block);
 	};
 	
-	// 清空模块
+	// 2)清空模块
 	this.clear = function(){
 		module.find('tbody tr').empty();
 	};
 	
-	// 获取module
+	// 3)获取module
 	this.getModule = function(){
 		return module;
 	};
 };
 
-// 4. 左侧折叠栏
+/* 4. 左侧折叠栏 */
+const LEFT_COLLAPSE = [
+	{
+		icon: '<i class="fa fa-list-ol"></i>',
+		name: '动态',
+		href: '#'
+	},
+	{
+		icon: '<i class="fa fa-fire"></i>',
+		name: '社群',
+		href: '#'
+	},
+	{
+		icon: '<i class="fa fa-users"></i>',
+		name: '人脉',
+		href: '#'
+	},
+	{
+		icon: '<i class="fa fa-user-circle"></i>',
+		name: '个人',
+		href: '#'
+	},
+	{
+		icon: '<i class="fa fa-commenting-o"></i>',
+		name: '消息',
+		href: '#'
+	},
+	'divider',
+	{
+		icon: '<i class="fa fa-gear"></i>',
+		name: '设置',
+		href: '#'
+	},
+	{
+		icon: '<i class="fa fa-exclamation-triangle"></i>',
+		name: '反馈',
+		href: '#'
+	},
+	{
+		icon: '<i class="fa fa-question-circle"></i>',
+		name: '帮助',
+		href: '#'
+	}
+];
 var LeftCollapse = function(){
 	var module = $(
 		'<div class="left-collapse customized-scrollbar">\n' +
@@ -175,12 +214,12 @@ var LeftCollapse = function(){
 		'</div>'
 	);
 	
-	// 设置标题
+	// 1)设置标题
 	this.setBrand = function(title, href){
 		module.find('.brand .title a').attr('href', href).text(title);
 	};
 	
-	// 设置nav list
+	// 2)设置nav list
 	this.setNav = function(navList){
 		var container = module.find('.nav-list').empty();
 		
@@ -197,7 +236,7 @@ var LeftCollapse = function(){
 		});
 	};
 	
-	// 获取module
+	// 3)获取module
 	this.getModule = function(){
 		return module;
 	};
@@ -211,17 +250,8 @@ var LeftCollapse = function(){
 	})();
 };
 
-
-
-// 获取btn link
-var getLinkBtn = function(name, action){
-	var link = $('<li><a href="javascript: void(0)">' + name + '</a></li>\n');
-	link.click(function(ev){
-		action(ev);
-	});
-	return link;
-};
-//获取 menu link
+/* 辅助方法 */
+/* A.获取 menu link */
 var getLinkMenu = function(name, sublink){
 	var menu = $(
 		'<li class="dropdown">\n' +
@@ -233,7 +263,6 @@ var getLinkMenu = function(name, sublink){
 	);
 	var dropMenu = menu.find('.dropdown-menu');
 	$.each(sublink, function(index, subitem){
-		
 		if(subitem == 'divider'){
 			dropMenu.append('<li class="divider"></li>\n');
 		}else{
@@ -244,3 +273,13 @@ var getLinkMenu = function(name, sublink){
 	});
 	return menu;
 };
+
+/* B.获取btn link */
+var getLinkBtn = function(name, action){
+	var link = $('<li><a href="javascript: void(0)">' + name + '</a></li>\n');
+	link.click(function(ev){
+		action(ev);
+	});
+	return link;
+};
+

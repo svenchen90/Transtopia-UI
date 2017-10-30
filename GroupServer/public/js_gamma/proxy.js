@@ -420,8 +420,6 @@ var renameFolder_Proxy = function(fid, newName){
 /* !文件操作 */
 
 
-
-
 /* 其他 */
 // A) 获取个人好友标签列表
 const GET_FRIEND_TAG_LIST = URLPrefix +  '/get_friend_tag_list';

@@ -140,8 +140,6 @@ var getDifferenceSetBeta = function(list1, list2){
 	return set;
 };
 
-
-
 /* 6. object array to string array */
 var toStringArray = function(list, key){
 	var result = [];

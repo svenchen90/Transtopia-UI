@@ -245,3 +245,156 @@ var SelectBox = function(title, radios, selected){
 		});
 	})();
 };
+
+// 通讯录导入
+var SelectBoxIndividual = function(){
+	getFriendTags()
+		.then(function(data){
+			var tags = data;
+			var radios = [
+				{
+					type: 'radio',
+					value: 1,
+					name: '全部好友',
+					icon: '<i class="fa fa-gear"></i>'
+				},
+				{
+					type: 'collapse',
+					value: 2,
+					name: '部分可见',
+					icon: '<i class="fa fa-gear"></i>'
+				}
+			];
+			// A) 加载标签修改页面
+			var modifyTag = function(name){
+				Promise
+					.all([getFriends(), getFriendInTag(name)])
+					.then(function(data){
+						var all = data[0];
+						var inTag = data[1];
+						TwinRowSelectUser('修改标签', all, inTag, 
+						function(users, modal){
+							updateTag(name, users, modal);
+						})
+					})
+					.catch(function(reason){
+						console.log(reason);
+					});
+			};
+			// B) 更新标签
+			var updateTag = function(name, user, modal){
+				updateFriendTag(name, user)
+					.then(function(data){
+						callAlert('修改成功！', '<i class="material-icons">done</i>', 
+							function(){
+								modal.modal('hide');
+							}
+						);
+					})
+					.catch(function(reason){
+						console.log(reason)
+					});
+			};
+			// C) 加载tail点击事件
+			var selectUser = function(users){
+				getFriends()
+					.then(function(data){
+						TwinRowSelectUser('选择要分享的好友', data, users, submitSelectUser);
+					})
+					.catch(function(reason){
+						console.log(reason);
+					});
+			};
+			// D) 提交选择表单
+			var submitSelectUser = function(user, modal){
+				if(user.length == 0){
+					selectBox.reloadTailUser(user);
+					modal.modal('hide');
+				}else{
+					callConfirm('新建标签', '您是否要创建一个新的标签？', 
+						function(){
+							singleLineInput('新建标签', '请输入标签名称', 
+								function(name, modal2){
+									createFriendTag(name, user)
+										.then(function(data){
+											selectBox.reloadTailUser([]);
+											selectBox.appendNewTag({name: name, icon: '<i class="fa fa-tags"></i>', callback: modifyTag});
+											modal2.modal('hide');
+											modal.modal('hide');
+										})
+										.catch(function(reason){
+											console.log(reason);
+										});
+								}
+							);
+						},
+						function(){
+							selectBox.reloadTailUser(user);
+							modal.modal('hide');
+						}
+					);
+				}
+			};
+			
+			// 加载标签
+			radios[1].sublist = [];
+			$.each(tags, function(index, tag){
+				radios[1].sublist.push(
+					{
+						name: tag.name,
+						icon: '<i class="fa fa-tags"></i>',
+						callback: modifyTag
+					}
+				);
+			});
+			
+			radios[1].tail = {
+				text: '从好友名单中选取',
+				icon: '<i class="fa fa-plus-square-o" style="color: green;"></i>',
+				callback: selectUser
+			};
+			
+			var selectBox = new SelectBox('个人文件分享', radios, {value: 1});
+			
+			selectBox.getModule().find('[data-action="submit"]').click(function(){
+				console.log(selectBox.getData());
+				/*
+				var data1 = {
+					value: selected.value,
+					tags: (selected.sublist == undefined ? [] : selected.sublist),
+					items: (selected.tail == undefined ? [] : toStringArray(selected.tail, 'id'))
+				};
+				var data2 = selectBox.getData();
+				var result = {};
+				
+				if(data2.value == data1.value){
+					result.value = data2.value;
+					result.tagAdd = getDifferenceSetBeta(data2.tags, data1.tags);
+					result.tagDelete = getDifferenceSetBeta(data1.tags, data2.tags);
+					result.itemAdd = getDifferenceSetBeta(data2.items, data1.items);
+					result.itemDelete = getDifferenceSetBeta(data1.items, data2.items);
+				}else{
+					result.value = data2.value;
+					result.tagAdd = data2.tags;
+					result.tagDelete = [];
+					result.itemAdd = data2.items;
+					result.itemDelete = [];
+				}
+				
+				updateAuthority(fid, result.value, result.tagAdd, result.tagDelete, result.itemAdd, result.itemDelete)
+					.then(function(data){
+						callAlert('修改成功！', '<i class="material-icons">done</i>', 
+							function(){
+								selectBox.getModule().modal('hide');
+								callback();
+							}
+						);
+					});
+				*/
+			});
+		})
+		.catch(function(reason){
+			console.log(reason);
+		});
+};
+SelectBoxIndividual();

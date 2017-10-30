@@ -1,21 +1,25 @@
-/* 左侧导航栏 */
-const navLeft_FS = [
+/* 常量 */
+const FILE_LOAD_LIMIT = 20;
+
+/* 1. 左侧导航栏 */
+// A. 左侧导航栏-个人
+const NAV_LEFT_FS_INDIVIDUAL = [
 	{
 		icon: '<i class="fa fa-cloud"></i>',
 		name: '我的云盘',
 		action: function(middleBlock, dirNav){
-			dirNav.clear();
+			/* dirNav.clear();
 			dirNav.setBase({id: '1', name: '我的云盘'}, middleBlock.openFolder);
-			middleBlock.openFolder(0);
+			middleBlock.openFolder(0); */
 		}
 	},
 	{
 		icon: '<i class="fa fa-share-alt"></i>',
 		name: '分享给我',
 		action: function(middleBlock, dirNav){
-			dirNav.clear();
+			/* dirNav.clear();
 			dirNav.setBase({id: '1', name: '分享给我'}, middleBlock.openFolder);
-			middleBlock.openFolder(0);
+			middleBlock.openFolder(0); */
 		}
 	},
 	{
@@ -41,7 +45,35 @@ const navLeft_FS = [
 		}
 	}
 ];
-var LeftBlock_FS = function(middleBlock, dirNav){
+// B. 左侧导航栏-群组
+const NAV_LEFT_FS_GROUP = [
+	{
+		icon: '<i class="fa fa-cloud"></i>',
+		name: '群组云盘',
+		action: function(middleBlock, dirNav){
+			/* dirNav.clear();
+			dirNav.setBase({id: '1', name: '我的云盘'}, middleBlock.openFolder);
+			middleBlock.openFolder(0); */
+		}
+	},
+	{
+		icon: '<i class="fa fa-trash"></i>',
+		name: '回收站',
+		action: function(middleBlock, dirNav){
+			
+		}
+	},
+	'divider',
+	{
+		icon: '<i class="fa fa-cloud-upload"></i>',
+		name: '升级空间',
+		action: function(middleBlock, dirNav){
+			
+		}
+	}
+];
+var LeftBlock_FS = function(controller){
+	/* 主体模块 */
 	var module = $(
 		'<td class="left-block">\n' +
 		'	<div class="content customized-scrollbar">\n' +
@@ -52,11 +84,7 @@ var LeftBlock_FS = function(middleBlock, dirNav){
 		'</td>'
 	);
 	
-	// 清空列表
-	this.clear = function(){
-		module.find('.nav-list:first').empty();
-	};
-	// 设置列表
+	// 1.1. 设置列表
 	this.setNav = function(list){
 		this.clear();
 		
@@ -71,19 +99,24 @@ var LeftBlock_FS = function(middleBlock, dirNav){
 					container.find('.item').removeClass('active');
 					nav.addClass('active');
 					
-					item.action(middleBlock,dirNav);
+					item.action(controller);
 				});
 				container.append(nav);
 			}
 		});
 	};
 	
-	// 获取组件
+	// 1.2. 清空列表
+	this.clear = function(){
+		module.find('.nav-list:first').empty();
+	};
+	
+	// 1.3. 获取组件
 	this.getModule = function(){
 		return module;
 	};
 	
-	/* Toggle Btn */
+	/* 伸缩按钮 */
 	var toggleBtn = $(
 		'<td style="background-color: rgba(0,0,0,.05);">\n' +
 		'	<div class="content">\n' +
@@ -93,6 +126,12 @@ var LeftBlock_FS = function(middleBlock, dirNav){
 		'	</div>\n' +
 		'</td>'
 	);
+	
+	// 2.1. 获取缩放按钮
+	this.getToggleBtn = function(){
+		return toggleBtn;
+	};
+	
 	//初始化
 	(function(){
 		toggleBtn.find('[data-toggle="left-block"]').click(function(){
@@ -100,15 +139,12 @@ var LeftBlock_FS = function(middleBlock, dirNav){
 			$(this).find('i').toggleClass('fa-angle-double-left fa-angle-double-right');
 		});
 	})();
-	
-	// 获取缩放按钮
-	this.getToggleBtn = function(){
-		return toggleBtn;
-	};
 };
 /* ！左侧导航栏 */
 
-/* 中部展示框 */
+
+/* 2. 中部展示框 */
+// A. 排序栏
 const SORTBYMENU = [
 	{
 		name: '名称',
@@ -124,7 +160,7 @@ const SORTBYMENU = [
 		value: 2
 	}
 ];
-var MiddleBlock_FS = function(dirNav){
+var MiddleBlock_FS = function(controller){
 	var module = $(
 		'<td class="middle-block">\n' +
 		'	<div class="content customized-scrollbar">\n' +
@@ -145,7 +181,7 @@ var MiddleBlock_FS = function(dirNav){
 	var folderBlock = new FileFolderBlock(new Folder(), this);
 	var fileBlock =	new FileFolderBlock(new File(), this);
 	
-	// A) 初始化排序模块
+	// 1.1. 初始化排序模块
 	var initSortBy = function(menu){
 		var component = $(
 			'<span class="pull-right">\n' +
@@ -193,7 +229,7 @@ var MiddleBlock_FS = function(dirNav){
 		folderBlock.getModule().find('.title').append(component);
 	};
 	
-	// B) 初始化右键菜单模块
+	// 1.2. 初始化右键菜单模块
 	var initMenu = function(){
 		module.contextmenu(function(ev){
 			ev.preventDefault();
@@ -222,7 +258,7 @@ var MiddleBlock_FS = function(dirNav){
 		
 	};
 	
-	// C) 初始化左键点击
+	// 1.3 初始化左键点击
 	var initActive = function(){
 		module.click(function(ev){
 			module.find('.active').removeClass('active');
@@ -230,7 +266,7 @@ var MiddleBlock_FS = function(dirNav){
 		});
 	};
 	
-	// D) 文件和文件夹点击样式 id, type , 'copy', c_id
+	// 1.4. 文件和文件夹点击样式 id, type , 'copy', c_id
 	var decoration = function(id, type ,className, c_id){
 		var allSet = "active copy cut";
 		if(c_id)
@@ -238,7 +274,7 @@ var MiddleBlock_FS = function(dirNav){
 		module.find('[data-id="' + id + '"].' + (type == 1 ? 'file' : 'folder')).addClass(className);
 	};
 	
-	// E) 清空复制剪切板
+	// 1.5. 清空复制剪切板
 	var clearCopyCut = function(){
 		c_id = undefined;
 		c_type = undefined;
@@ -489,7 +525,6 @@ var MiddleBlock_FS = function(dirNav){
 	};
 };
 /* ！中部展示框 */
-
 
 /* 文件（夹）模块 */
 var FileFolderBlock = function(modal, controller){
@@ -757,7 +792,7 @@ var DirNav = function(){
 };
 /* ！组件 */
 
-/* 右侧信息栏 */
+/* 3. 右侧信息栏 */
 var RightBlock_FS = function(){
 	var module = $(
 		'<td class="right-block">\n' +
@@ -863,7 +898,6 @@ var RightBlock_FS = function(){
 /* ！右侧信息栏 */
 
 /* 文件右键菜单 */
-/* 组件样式 */
 var Menu = function(x, y, hasAuthority, folderMenuSet, target, controller){
 	var menu = $(
 		'<ul class="dropdown-menu customize-menu" style="position: absolute; top: ' + y + 'px; left: ' + x + 'px;">\n' +
@@ -1271,7 +1305,6 @@ var PanelMenu = function(ev, id, controller){
 
 
 
-
 // 私人权限
 var SelectBox_Individual = function(fid, type, callback, getAuthority, updateAuthority){
 	Promise
@@ -1335,6 +1368,7 @@ var SelectBox_Individual = function(fid, type, callback, getAuthority, updateAut
 						console.log(reason)
 					});
 			};
+			
 			radios[1].sublist = [];
 			$.each(tags, function(index, tag){
 				radios[1].sublist.push(
