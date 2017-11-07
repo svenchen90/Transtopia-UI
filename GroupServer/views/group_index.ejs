@@ -30,9 +30,101 @@
 		<div id="btngroup-rightbot"></div>
 		
 		<!-- 主要展示框 -->
-		<div id="main-block">
-			
+		<div id="main-block"></div>
+		
+		
+		
+		<div class="modal fade" id="testTest">
+			<div class="modal-dialog" style="width: 50vw;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<h4 class="modal-title" id="myModalLabel">
+							云盘 - 公开文件夹
+						</h4>
+					</div>
+					<div class="modal-body">
+						<!-- 公开文件夹主体 -->
+						<div class="file-pannel">
+							<div class="dir" style="display: inline-block; line-height: 34px;">
+
+							
+							</div>
+							<div class="form-group pull-right" style="width: 200px;">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="搜索..." data-action="search" />
+									<div class="input-group-addon" style="cursor: pointer;">
+										<i class="fa fa-search"></i>
+									</div>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+							<div class="file-block row" style="height: 50vh;">
+									
+							</div>
+						</div>
+						<!-- ！公开文件夹主体 -->
+					</div>
+					<div class="modal-footer">
+						<!-- <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+						</button>
+						<button type="button" class="btn btn-primary">
+							提交更改
+						</button> -->
+					</div>
+				</div>
+			</div>
 		</div>
+		
+		<style>
+		.dir {
+			display: inline-block;
+			line-height: 34px;
+		}
+		.dir-item {
+			padding: 5px;
+			cursor: pointer;
+		}
+		.dir-item a {
+			color: rgba(0,0,0,1);
+		}
+		.dir-item:hover {
+			background-color: rgba(0,0,0,.1);
+		}
+		
+		
+		.file-card {
+			margin: 10px 0 10px;
+			box-shadow: 0px 1px 4px 0 rgba(0,0,0,0.14);
+			border: none;
+			border-radius: 2px;
+			cursor: pointer;
+		}
+		
+		.file-card .card-body:before, .file-card .card-body:after{
+			content: "";
+			display: block;
+			padding-top: 25%; 	/* initial ratio of 1:1*/
+		}
+		
+		.file-card .card-body {
+			text-align: center;
+			color: rgba(255,255,255,0.8);
+		}
+		
+		.file-card .card-body i{
+			font-size: 60px;
+		}
+		
+		.file-card .card-body [data-type="name"] {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		</style>
+		
 		
 		
 		
@@ -123,8 +215,8 @@
 	<script src="js/singlerow.js"></script>
 	
 	<!-- 云盘群文件 -->
-	<link href="css/transcloud.css" rel="stylesheet" />
-	<script src="js/javascript_transcloud.js"></script>
+	<!-- <link href="css/transcloud.css" rel="stylesheet" />
+	<script src="js/javascript_transcloud.js"></script> -->
 	
 	<!-- 控件 -->
 	<link href="css/controller.css" rel="stylesheet" />
@@ -455,9 +547,10 @@
 			})();
 		};
 	
-		
+		/*
 		var temp = new SharedWithModal();
 		temp.loadForIndividual('1', 3, [123,234], [{id: 123, name: '张震宇'}, {id: 123, name: '张震宇'},{id: 123, name: '张震宇'}],[{id: 123, name: '测试1'},{id: 234, name: '测试2'}]);
+		*/
 		//temp.loadForGroup('1', 2);
 	
 		var getHoverUserCard = function(data){
@@ -479,9 +572,7 @@
 			);
 			return card;
 		};
-		
-		
-		
+			
 		var FriendTagController = function(){
 			var obj = this;
 			TwinRow.call(this, '好友名单');
@@ -613,9 +704,6 @@
 		}
 	</style>
 	
-	
-	
-	
 	<script>
 	//页面初始化
 	
@@ -707,7 +795,6 @@
 	});
 	</script>
 	
-
 	<script>
 		var loadWysiwyg = function (editor, toolbar) {
 			$(function(){
@@ -818,7 +905,144 @@ var getEditor = function (data) {
 };
 	
 	</script>
+
+	<script>
+	$('#testTest').modal('show');
 	
-</html>
+	var FilePanel = function(){
+		var module = $(
+			'<div class="file-pannel">\n' +
+			'	<!-- 目录内容 -->\n' +
+			'	<div class="form-group pull-right" style="width: 200px;">\n' +
+			'		<div class="input-group">\n' +
+			'			<input type="text" class="form-control" placeholder="搜索..." data-action="search" />\n' +
+			'			<div class="input-group-addon" style="cursor: pointer;">\n' +
+			'				<i class="fa fa-search"></i>\n' +
+			'			</div>\n' +
+			'		</div>\n' +
+			'	</div>\n' +
+			'	<div class="clearfix"></div>\n' +
+			'	<!-- 文件内容 -->\n' +
+			'</div>'
+		);
+		var obj = this;
+		
+		
+		(function(){
+			// 加载目录模块
+			module.find('.dir').remove();
+			module.find('.file-pannel').prepend();
+		
+		})();
+		
+	};
+	
+	// 目录
+	var Directory = function(){
+		var dir = $(
+			'<div class="dir">\n' +
+			'	<!-- 目录内容 -->\n' +
+			'</div>'
+		);
+		
+		// 加载base目录
+		this.loadBase = function(){
+			dir.find('.dir-base').remove();
+			dir.find('.dir').prepend('<span class="dir-item dir-base"><span>公开文件夹</span></span>\n');
+		};
+		
+		//加载其它
+		this.load = function(list){
+			dir.find('.dir-item:not(.dir-base)').remove();
+			var target = dir.find('.dir');
+			var length = list.length;
+			
+			$.each(list, function(index, item){
+				if(index < length-1){
+					target.append('<span class="dir-item" data-id="' + item.id +'"><span>' + item.name + '</span> <i class="fa fa-caret-right"></i></span>\n');
+				}else if(index == length-1){
+					target.append('<span class="dir-item" data-id="' + item.id +'"><span>' + item.name + '</span> <i class="fa fa-caret-down"></i></span>\n');
+				}else{
+					console.log('error');
+				}
+				
+			});
+		};
+		
+		this.getModule = function(){
+			return dir;
+		};
+	};
+	
+	// 文件(夹)容器
+	var FileBlock = function(fileCard, folderCard){
+		var block = $(
+			'<div class="file-block row" style="height: 50vh;">\n' +
+			'		<!-- 插入文件内容 -->\n' +
+			'</div>'
+		);
+		
+		// 加载
+		this.load = function(folders, files){
+			this.clear();
+			// 加载文件夹
+			$.each(folders, function(index, item){
+				block.find('.file-block').append(folderCard(item));
+			});
+			
+			// 加载文件
+			$.each(files, function(index, item){
+				block.find('.file-block').append(fileCard(item));
+			});
+		};
+		
+		// 清空
+		this.clear = function(){
+			block.find('.file-block').empty();
+		};
+		
+		// 获取模块
+		this.getModule = function(){
+			return block;
+		};
+	};
+	
+	// 文件样式
+	var FileCard = function(data){
+		return $(
+			'<div class="col-lg-2 col-md-3 col-sm-4" allowsearch leftclickable>\n' +
+			'	<div class="file-card" style="background-color: rgb(229, 57, 53);">\n' +
+			'		<div class="card-body">\n' +
+			'			<div class="content-default">\n' +
+			'				<i class="fa fa-file"></i>\n' +
+			'				<div data-type="name" data-id="' + data.id + '" data-src="' + data.src + '">' + data.name + '</div>\n' +
+			'			</div>\n' +
+			'		</div>\n' +
+			'	</div>\n' +
+			'</div>'
+		);
+	};
+	
+	//文件夹样式
+	var FolderCard = function(data){
+		return $(
+			'<div class="col-lg-2 col-md-3 col-sm-4" allowsearch leftclickable>\n' +
+			'	<div class="file-card" style="background-color: rgb(29, 135, 228);">\n' +
+			'		<div class="card-body">\n' +
+			'			<div class="content-default">\n' +
+			'				<i class="fa fa-file"></i>\n' +
+			'				<div data-type="name" data-id="' + data.id + '" data-src="' + data.src + '">' + data.name + '</div>\n' +
+			'			</div>\n' +
+			'		</div>\n' +
+			'	</div>\n' +
+			'</div>'
+		);
+	};
+	
+	
+	</script>
+	
+	
+	</html>
 
 
