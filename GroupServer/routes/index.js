@@ -3081,6 +3081,133 @@ router.get('/test_select', function(req, res, next) {
 	);
 });
 
+router.get('/delete_From_share_list', function(req, res, next) {
+	console.log(req.query);
+	res.json(1);
+})
+
+router.get('/find_user_by_id', function(req, res, next) {
+	console.log(req.query);
+	res.json(
+		{
+			id: 1,
+			name: '测试用户',
+			img: 'http://127.0.0.1:3000/dist/img/avatar.png',
+			hasAuthority: 1
+		}
+	);
+});
+
+router.get('/update_shared_with_authority', function(req, res, next) {
+	console.log(req.query);
+	res.json(1);
+});
+
+router.get('/add_user_to_shared_with', function(req, res, next) {
+	console.log(req.query);
+	res.json(1);
+});
+
+router.get('/get_shared_with_group', function(req, res, next) {
+	console.log(req.query);
+	res.json({
+		default: 0,
+		users: [
+			{
+				id: 1,
+				name: '张震宇'
+			}
+		]
+	});
+});
+
+router.get('/get_public_files_folders', function(req, res, next) {
+	console.log(req.query);
+	var dataListOfFolder = [
+		{
+			id: '1',
+			name: '测试文件夹1'
+		},
+		{
+			id: '2',
+			name: '测试文件夹2'
+		},
+		{
+			id: '3',
+			name: '测试文件夹3'
+		},
+		{
+			id: '4',
+			name: '测试文件夹4'
+		},
+		{
+			id: '5',
+			name: '测试文件夹5'
+		},
+		{
+			id: '6',
+			name: '测试文件夹6'
+		}
+	];
+
+	var dataListOfFile = [
+		{
+			id: '1',
+			name: '测试文件1',
+			src: 'http://127.0.0.1:3000/dist/img/New Text Document.txt'
+		},
+		{
+			id: '2',
+			name: '测试文件2',
+			src: 'http://127.0.0.1:3000/dist/img/extofgong_chen.pdf'
+		},
+		{
+			id: '3',
+			name: '测试文件3',
+			src: 'http://127.0.0.1:3000/dist/img/photo1.png'
+		},
+		{
+			id: '4',
+			name: '测试文件4',
+			src: 'http://127.0.0.1:3000/dist/img/controller.js'
+		}
+	];
+	
+	var dataListOfDir = [
+		{
+			id: '1',
+			name: '目录1'
+		},
+		{
+			id: '2',
+			name: '目录2'
+		},
+		{
+			id: '3',
+			name: '目录3'
+		}
+	];
+	
+	// Math.random()*5
+	// console.log();
+	
+	var getRandomFromArray = function(array){
+		var number = Math.floor(Math.random()*array.length);
+		var result = [];
+		for(var i=0;i<number; i++){
+			result.push(array[i]);
+		}
+		return result
+	};
+	
+	res.json({
+		dir: getRandomFromArray(dataListOfDir),
+		files: getRandomFromArray(dataListOfFile),
+		folders: getRandomFromArray(dataListOfFolder)
+	});
+});
+
+
 
 
 module.exports = router;
