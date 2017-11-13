@@ -706,7 +706,39 @@ var File = function(){
 	
 	// 获取文件Icon
 	var getIcon = function(name){
-		return '<i class="fa fa-file-excel-o"></i>';
+		var extension = name.split('.').pop();
+		var icon;
+		
+		switch(extension){
+			case 'xlsx':
+				icon = '<i class="fa fa-file-excel-o"></i>';
+				break;
+			case 'png':
+				icon = '<i class="fa fa-file-image-o"></i>';
+				break;
+			case 'jpg':
+				icon = '<i class="fa fa-file-image-o"></i>';
+				break;
+			case 'pdf':
+				icon = '<i class="fa fa-file-pdf-o"></i>';
+				break;
+			case 'ppt':
+				icon = '<i class="fa fa-file-ppt-o"></i>';
+				break;
+			case 'txt':
+				icon = '<i class="fa fa-file-text-o"></i>';
+				break;
+			case 'zip':
+				icon = '<i class="fa fa-file-archive-o"></i>';
+				break;
+			case 'docx':
+				icon = '<i class="fa fa-file-word-o"></i>';
+				break;
+			default:
+        icon = '<i class="fa fa-file-o"></i>';
+		}
+		
+		return icon;
 	};
 	
 	// 验证数据
@@ -717,11 +749,16 @@ var File = function(){
 	// 生成器
 	this.generator = function(data, index, controller){
 		if(validate(data)){
+			var viewable = false;
+			var extension = data.name.split('.').pop();
+			if(extension == 'txt' || extension == 'pdf' || extension == 'png' || extension == 'jpg')
+				viewable = true;
+			
 			var file = $(
 				'<div class="col-lg-2 col-md-4 col-sm-6" data-type="file">\n' +
 				'	<div class="file noselect" title="' + data.name + '" data-index="' + index + '" data-id="' + data.id + '" data-set="' + data.type + '" data-src="' + data.src + '">\n' +
 				'		<div class="top">\n' +
-				'			<iframe id="frame" src="' + data.src + '" width="100%" scrolling="no" frameborder="0">\n' +
+				'			<iframe id="frame" ' + (viewable ? 'src="' + data.src + '"' : '"' ) + ' width="100%" scrolling="no" frameborder="0">\n' +
 				'			</iframe>\n' +
 				'		</div>\n' +
 				'		<div class="bot">\n' +

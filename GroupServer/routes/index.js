@@ -2826,27 +2826,33 @@ router.get('/getallinfolder', function(req, res, next) {
 			id: '1',
 			type: '1',
 			hasAuthority: 0,
-			name: '测试文件1',
+			name: 'New Text Document.txt',
 			src: 'http://127.0.0.1:3000/dist/img/New Text Document.txt'
 		},
 		{
 			id: '2',
 			type: '2',
 			hasAuthority: 1,
-			name: '测试文件2',
+			name: 'extofgong_chen.pdf',
 			src: 'http://127.0.0.1:3000/dist/img/extofgong_chen.pdf'
 		},
 		{
 			id: '3',
 			hasAuthority: 1,
-			name: '测试文件3',
+			name: 'photo1.png',
 			src: 'http://127.0.0.1:3000/dist/img/photo1.png'
 		},
 		{
 			id: '4',
 			hasAuthority: 2,
-			name: '测试文件4',
+			name: 'controller.js',
 			src: 'http://127.0.0.1:3000/dist/img/controller.js'
+		},
+		{
+			id: '5',
+			hasAuthority: 2,
+			name: '定价模型_beta.docx',
+			src: 'http://127.0.0.1:3000/TransCloud/交托帮/定价模型_beta.docx'
 		}
 	];
 	

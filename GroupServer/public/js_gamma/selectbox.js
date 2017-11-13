@@ -727,8 +727,3 @@ var isInArray = function(item, list){
 	return flag;
 };
 
-
-
-
-
-SharedWithBoxIndividual(1);

@@ -162,12 +162,44 @@ var FileBlock = function(fileCard, folderCard){
 
 // 文件样式
 var FileCard = function(data){
+	var extension = data.src.split('.').pop();
+		var icon;
+		
+		switch(extension){
+			case 'xlsx':
+				icon = '<i class="fa fa-file-excel-o"></i>';
+				break;
+			case 'png':
+				icon = '<i class="fa fa-file-image-o"></i>';
+				break;
+			case 'jpg':
+				icon = '<i class="fa fa-file-image-o"></i>';
+				break;
+			case 'pdf':
+				icon = '<i class="fa fa-file-pdf-o"></i>';
+				break;
+			case 'ppt':
+				icon = '<i class="fa fa-file-ppt-o"></i>';
+				break;
+			case 'txt':
+				icon = '<i class="fa fa-file-text-o"></i>';
+				break;
+			case 'zip':
+				icon = '<i class="fa fa-file-archive-o"></i>';
+				break;
+			case 'docx':
+				icon = '<i class="fa fa-file-word-o"></i>';
+				break;
+			default:
+        icon = '<i class="fa fa-file-o"></i>';
+		}
+	
 	return $(
 		'<div class="col-lg-2 col-md-3 col-sm-4" allowsearch data-type="file">\n' +
 		'	<div class="file-card" style="background-color: rgb(229, 57, 53);">\n' +
 		'		<div class="card-body">\n' +
 		'			<div class="content-default">\n' +
-		'				<i class="fa fa-file"></i>\n' +
+		'				' + icon + '\n' +
 		'				<div data-type="name" data-id="' + data.id + '" data-src="' + data.src + '">' + data.name + '</div>\n' +
 		'			</div>\n' +
 		'		</div>\n' +
