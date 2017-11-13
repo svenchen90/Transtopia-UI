@@ -1,0 +1,44 @@
+.dir {
+	display: inline-block;
+	line-height: 34px;
+}
+.dir-item {
+	padding: 5px;
+	cursor: pointer;
+}
+.dir-item a {
+	color: rgba(0,0,0,1);
+}
+.dir-item:hover {
+	background-color: rgba(0,0,0,.1);
+}
+
+
+.file-card {
+	margin: 10px 0 10px;
+	box-shadow: 0px 1px 4px 0 rgba(0,0,0,0.14);
+	border: none;
+	border-radius: 2px;
+	cursor: pointer;
+}
+
+.file-card .card-body:before, .file-card .card-body:after{
+	content: "";
+	display: block;
+	padding-top: 25%; 	/* initial ratio of 1:1*/
+}
+
+.file-card .card-body {
+	text-align: center;
+	color: rgba(255,255,255,0.8);
+}
+
+.file-card .card-body i{
+	font-size: 60px;
+}
+
+.file-card .card-body [data-type="name"] {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

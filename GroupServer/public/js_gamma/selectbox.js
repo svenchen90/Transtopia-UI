@@ -439,6 +439,7 @@ var SharedWithBoxIndividual = function(fid){
 		'					</div>\n' +
 		'					<div class="form-group">\n' +
 		'						<label><i class="fa fa-gear"></i> 自定义设置</label>\n' +
+		'						<span style="padding-left: 5px;color: rgba(0,0,0,0.3); cursor: help;" title="关闭自定义开关后，分享范围会恢复为默认设置。即，普通成员可读，管理员和群创建者可读写。"><i class="fa fa-info-circle"></i></span>\n' +
 		'						<label class="switch pull-right">\n' +
 		'							<input name="switch" type="checkbox">\n' +
 		'							<div class="slider round"></div>\n' +
