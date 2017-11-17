@@ -11,9 +11,11 @@
 	<body class="customized-scrollbar">
 		<!-- 置顶一级导航栏 -->
 		<div class="nav-top">
-			<div id="firstNavTop"></div>
+			<div id="firstNavTop">
+			</div>
 			<div id="secondNavTop"></div>
 		</div>
+		
 		
 		<!-- 主要展示框 -->
 		<div id="mainBlock"></div>
@@ -323,6 +325,110 @@
 			$('.note-textarea').hide();
 		}
 	});
+	</script>
+	
+	<style>
+		.search-dropdown-input {
+			width: calc(100vw - 1200px) !important;
+			min-width : 200px;
+			max-width : 600px;
+		}
+	
+		.search-submit {
+			position: relative;
+			left: -30px;
+			color: rgba(0,0,0,.4);
+		}
+		
+		.search-dropdown-menu {
+			margin: 0 !important;
+			padding: 0 !important;
+			width: calc(100vw - 1200px) !important;
+			min-width : 200px !important;
+			max-width : 600px !important;
+			border-top-right-radius: 0 !important;
+			border-top-left-radius: 0 !important;
+			border-top: none !important;
+		}
+		
+		.search-dropdown-menu li a {
+			padding-top: 10px !important;
+			padding-bottom: 10px !important;
+		}
+		.search-dropdown-menu li i {
+			padding: 3px;
+			margin-right: 10px;
+			border-radius: 2px;
+			color: white;
+		}
+	</style>
+	<script>
+		var InputWithDropdown = function(){
+			var $module = $(
+				'<form class="navbar-form navbar-left">\n' +
+				'	<div id="first-nav-search" class="form-group dropdown">\n' +
+				'		<input type="text" class="form-control search-dropdown-input" placeholder="搜索" data-toggle="dropdown">\n' +
+				'		<a class="search-submit" href="javascript: void(0);"><i class="fa fa-search"></i></a>\n' +
+				'		<div class="dropdown-menu search-dropdown-menu" style="">\n' +
+				'			<li><a href="javascript: void(0);" data-input="type:pdf"><i class="fa fa-file-pdf-o" style="background-color: rgb(219, 50, 54);"></i> PDF 文档</a></li>\n' +
+				'			<li><a href="javascript: void(0);" data-input="type:word"><i class="fa fa-file-word-o" style="background-color: rgb(72, 133, 237);"></i> Word 文档</a></li>\n' +
+				'			<li><a href="javascript: void(0);" data-input="type:excel"><i class="fa fa-file-excel-o" style="background-color: rgb(60, 186, 84);"></i> Excel 文档</a></li>\n' +
+				'			<li><a href="javascript: void(0);" data-input="type:ppt"><i class="fa fa-file-powerpoint-o" style="background-color: rgb(248, 167, 36);"></i> PowerPoint 文档</a></li>\n' +
+				'			<li><a href="javascript: void(0);" data-input="type:image"><i class="fa fa-file-image-o" style="background-color: rgb(219, 50, 54);"></i> 图片</a></li>\n' +
+				'			<li><a href="javascript: void(0);" data-input="type:video"><i class="fa fa-file-movie-o" style="background-color: rgb(219, 50, 54);"></i> 视频</a></li>\n' +
+				'			<!-- <li class="divider"></li>\n' +
+				'			<li><a href="#"> 其他功能</a></li>-->\n' +
+				'		</div>\n' +
+				'	</div>\n' +
+				'</form>'
+			);
+			
+			// 初始化
+			(function(){
+				// 输出框输入文字事件
+				$module.find('.search-dropdown-input').on('keyup', function(ev){
+					//回车
+					if(ev.keyCode == 13){
+						// 搜索
+						search();
+					}
+					
+					// 下拉菜单随输入文字toggle
+					var flag = $(this).closest('.dropdown').hasClass('open');
+					if(this.value == '' && !flag){
+						$(this).closest('.dropdown').find('.search-dropdown-menu').dropdown('toggle');
+					}else if(this.value != '' && flag){
+						$(this).closest('.dropdown').find('.search-dropdown-menu').dropdown('toggle');
+					}
+				});
+				
+				// 点击下拉菜单
+				$module.find('.search-dropdown-menu').on('click', 'li a', function(ev){
+					$module.find('.search-dropdown-input').val($(this).attr('data-input'));
+					// 搜索
+					search();
+				});
+				
+				// 点击搜索按钮
+				$module.find('.search-submit').on('click', function(ev){
+					search();
+				});
+			})();
+			
+			// 搜索函数
+			var search = function(){
+				var value = $('.search-dropdown-input').val();
+				if(value == ''){
+				
+				}else{
+					console.log(value);
+				}
+			};
+			
+			this.getModule = function(){
+				return $module;
+			};
+		};
 	</script>
 </html>
 

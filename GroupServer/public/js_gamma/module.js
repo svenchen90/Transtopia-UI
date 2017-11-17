@@ -31,7 +31,7 @@ var FirstNavTop = function(){
 		'				<!-- 右侧按钮列表 -->\n' +
 		'			</ul>\n' +
 		'		</div>\n' +
-		'	</div\n' +
+		'	</div>\n' +
 		'</nav>'
 	);
 

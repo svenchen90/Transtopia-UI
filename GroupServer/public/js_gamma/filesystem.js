@@ -635,11 +635,17 @@ var Folder = function(){
 	
 	// 生成器
 	this.generator = function(data, index, controller){
+		var icon = '<i class="material-icons">folder</i>';
+		if(data.isShare == 1 || data.isPublic == 1){
+			icon = '<i class="material-icons">folder_shared</i>';
+		}
+		
+
 		if(validate(data)){
 			var folder = $(
 				'<div class="col-lg-2 col-md-4 col-sm-6" data-type="folder">\n' +
 				'	<div class="folder noselect" title="' + data.name + '" data-index="' + index + '" data-id="' + data.id + '" data-set="' + data.type + '">\n' +
-				'		<span class="icon"><i class="fa fa-folder"></i></span>\n' +
+				'		<span class="icon">' + icon + '</span>\n' +
 				'		<span class="name">' + data.name + '</span>\n' +
 				'	</div>\n' +
 				'</div>'
@@ -957,8 +963,20 @@ var Menu = function(x, y, hasAuthority, folderMenuSet, target, controller){
 			menu.append(l);
 		}
 	});
+	
 	return menu;
 };
+/* ### */
+var menuOverflowFix = function(menu, ev){
+	if( (ev.pageY + menu.height()) >  $(window).height() ){
+		menu.css({top: ev.pageY-menu.height() + 'px'});
+	}
+	
+	if( (ev.pageX + menu.width()) >  $(window).width() ){
+		menu.css({left: ev.pageX-menu.width() + 'px'});
+	}
+};
+/* ### */
 
 // 1）文件夹菜单
 const FOLDER_MENU_SET = [
@@ -1099,6 +1117,7 @@ var FolderMenu = function(ev, id, controller){
 			var target = $(ev.target).closest('[data-type="folder"]');
 			var menu = Menu(ev.pageX, ev.pageY, data, FOLDER_MENU_SET, target, controller);
 			$('body').append(menu);
+			menuOverflowFix(menu, ev);
 			menu.show(ANIMATION_TIME);
 		})
 		.catch(function(reason){
@@ -1274,6 +1293,7 @@ var FileMenu = function(ev, id, controller){
 			var target = $(ev.target).closest('[data-type="file"]');
 			var menu = Menu(ev.pageX, ev.pageY, data, FILE_MENU_SET, target, controller);
 			$('body').append(menu);
+			menuOverflowFix(menu, ev);
 			menu.show(ANIMATION_TIME);
 		})
 		.catch(function(reason){
@@ -1331,6 +1351,7 @@ var PanelMenu = function(ev, id, controller){
 		.then(function(data){
 			var menu = Menu(ev.pageX, ev.pageY, data, Panel_MENU_SET, id, controller);
 			$('body').append(menu);
+			menuOverflowFix(menu, ev);	
 			menu.show(ANIMATION_TIME);
 		})
 		.catch(function(reason){

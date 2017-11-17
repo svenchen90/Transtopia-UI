@@ -2791,6 +2791,7 @@ router.get('/getallinfolder', function(req, res, next) {
 			id: '1',
 			type: '1',
 			hasAuthority: 0,
+			isShare : 1,
 			name: '测试文件夹1'
 		},
 		{
