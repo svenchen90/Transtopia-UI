@@ -573,3 +573,28 @@ var updateFriendTag = function(name, user){
 	});
 };
 /* !其他 */
+
+const GET_MY_FOLDER = URLPrefix +  '/getmyfolder';
+var getMyFolder = function(id){
+	return new Promise(function(resolve, reject){
+		$.ajax({
+			url : GET_MY_FOLDER,
+			data: {
+				id: id
+			},
+			type : "GET",
+			dataType : 'json',
+			success : function (result){
+				// result {value, sublist, tail}
+				if(result == 0){
+					reject('请求失败1');
+				}else{
+					resolve(result);
+				}
+			},
+			error: function(err){
+				reject('请求失败2');
+			}
+		});
+	});
+};

@@ -24,6 +24,151 @@
 		<div id="btngroup-rightbot">
 		</div>
 		
+		<div id="progressbar-leftbot">
+			<div class="progress">
+				<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+				 
+				</div>
+			</div>
+			<a class="maximize" href="javascript: void(0);" style=""><i class="fa fa-window-restore"></i></a>
+		</div>
+		
+		<style>
+			#progressbar-leftbot {
+				display: none;
+				position: absolute;
+				bottom: 50px;
+				left: 50px;
+				padding: 15px;
+				border-radius: 3px;
+				background: rgba(0,0,0,0.28);
+			}
+			
+			#progressbar-leftbot .progress {
+				margin: 0 !important;
+				display: inline-block;
+				width: 200px;
+			}
+			
+			#progressbar-leftbot .maximize {
+				margin-left: 10px;
+				color: rgba(255,255,255,.8);
+				font-size: 16px;
+			}
+			
+		</style>
+		
+		<!-- <div id="selected-box">
+			<div class="select-header">
+				目录名
+				<span class="select-back"><i class="fa fa-arrow-left"></i></span>
+			</div>
+			
+			<div class="select-body customized-scrollbar">
+				<div class="select-item">
+					<i class="fa fa-folder" style="margin-right: 5px;"></i>
+					<span>fasfdas</span>
+					<i class="fa fa-arrow-right pull-right" style="cursor: pointer;"></i>
+				</div>
+				<div class="select-item">
+					<i class="fa fa-folder" style="margin-right: 5px;"></i>
+					<span>fasfdas</span>
+					<i class="fa fa-arrow-right pull-right" style="cursor: pointer;"></i>
+				</div>
+				<div class="select-item">
+					<i class="fa fa-folder" style="margin-right: 5px;"></i>
+					<span>fasfdas</span>
+					<i class="fa fa-arrow-right pull-right" style="cursor: pointer;"></i>
+				</div>
+				<div class="select-item">
+					<i class="fa fa-folder" style="margin-right: 5px;"></i>
+					<span>fasfdas</span>
+					<i class="fa fa-arrow-right pull-right" style="cursor: pointer;"></i>
+				</div>
+				<div class="select-item">
+					<i class="fa fa-folder" style="margin-right: 5px;"></i>
+					<span>fasfdas</span>
+					<i class="fa fa-arrow-right pull-right" style="cursor: pointer;"></i>
+				</div>
+				<div class="select-item">
+					<i class="fa fa-folder" style="margin-right: 5px;"></i>
+					<span>fasfdas</span>
+					<i class="fa fa-arrow-right pull-right" style="cursor: pointer;"></i>
+				</div>
+			</div>
+			
+			<div class="select-footer">
+				<a class="btn btn-default pull-right">关闭</a>
+				<a class="btn btn-primary pull-right" style="background-color: #4285f4; margin-right: 5px;">保存</a>
+				<div class="clearfix"></div>
+			</div>
+		</div> -->
+		
+		<style>
+			#selected-box {
+				/* display: none; */
+				position: absolute;
+				width: 220px;
+				background-color: rgba(255,255,255,1);
+				border: 1px solid rgba(0,0,0,.2);
+				box-shadow: 0 0 20px 0 rgba(0,0,0,.2);
+			}
+			
+			
+			#selected-box .select-header {
+				padding: 10px;
+				background-color: rgba(0,0,0,0.05);
+				border-bottom: 0.02em solid rgba(0,0,0,.68);
+			}
+			
+			#selected-box .select-header .select-back{
+				float: right;
+				cursor: pointer;
+			}
+			
+			
+			#selected-box .select-body{
+				height: 200px;
+				overflow-y: auto;
+				overflow-x: hide;
+			}
+			
+			#selected-box .select-body .select-item{
+				color: rgba(0,0,0,.5);
+				padding: 10px;
+			}
+			
+			#selected-box .select-body .select-item:hover{
+				background-color: rgba(0,0,0,.03);
+			}
+			
+			#selected-box .select-body .select-item.active {
+				color: rgba(255,255,255,1);
+				background-color: #4285f4;
+			}
+			
+			#selected-box .select-footer {
+				
+				padding: 10px;
+				border-top: 0.02em solid rgba(0,0,0,.68);
+			}
+			
+			
+		</style>
+		
+		
+		<!-- jQuery	 -->
+		<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+		
+		<!-- jQuery-UI -->
+<!-- 		<script src="plugins/jQueryUI/jquery-ui.min.js"></script> -->
+		<script>
+			
+			
+			
+		</script>
+		
+		
 		<div class="modal fade" id="test">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -132,7 +277,7 @@
 	
 	<!-- 插件与样式 -->
 	<!-- jQuery	 -->
-	<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+	<!-- <script src="plugins/jQuery/jquery-2.2.3.min.js"></script> -->
 	
 	<!-- jQuery-UI -->
 	<script src="plugins/jQueryUI/jquery-ui.min.js"></script>

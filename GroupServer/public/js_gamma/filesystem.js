@@ -145,6 +145,7 @@ var LeftBlock_FS = function(controller){
 
 /* 2. 中部展示框 */
 // A. 排序栏
+// ####
 const SORTBYMENU = [
 	{
 		name: '名称',
@@ -154,12 +155,9 @@ const SORTBYMENU = [
 	{
 		name: '创建时间',
 		value: 1
-	},
-	{
-		name: '修改时间',
-		value: 2
 	}
 ];
+// ####
 var MiddleBlock_FS = function(controller){
 	var module = $(
 		'<td class="middle-block">\n' +
@@ -181,6 +179,7 @@ var MiddleBlock_FS = function(controller){
 	var folderBlock = new FileFolderBlock(new Folder(), this);
 	var fileBlock =	new FileFolderBlock(new File(), this);
 	
+	// ####
 	// 1.1. 初始化排序模块
 	var initSortBy = function(menu){
 		var component = $(
@@ -215,6 +214,16 @@ var MiddleBlock_FS = function(controller){
 				l.click(function(){
 					sortBy = item.value;
 					sort.text(item.name);
+					
+					if(sortBy == 0){
+						folderBlock.sortByName(ascending);
+						fileBlock.sortByName(ascending);
+					}else if(sortBy == 1){
+						folderBlock.sortByTime(ascending);
+						fileBlock.sortByTime(ascending);
+					}else{
+						console.log('to do');
+					}
 				});
 				
 				container.append(l);
@@ -223,11 +232,22 @@ var MiddleBlock_FS = function(controller){
 		
 		ascend.click(function(){
 			$(this).find('i').toggleClass('fa-arrow-down fa-arrow-up');
-			ascending = (ascending+1)%2;
+			ascending = -1 * ascending;
+			
+			if(sortBy == 0){
+				folderBlock.sortByName(ascending);
+				fileBlock.sortByName(ascending);
+			}else if(sortBy == 1){
+				folderBlock.sortByTime(ascending);
+				fileBlock.sortByTime(ascending);
+			}else{
+				console.log('to do');
+			}
 		});
 		
 		folderBlock.getModule().find('.title').append(component);
 	};
+	// ####
 	
 	// 1.2. 初始化右键菜单模块
 	var initMenu = function(){
@@ -616,6 +636,44 @@ var FileFolderBlock = function(modal, controller){
 		module.find('.file-folder-content').empty();
 	};
 	
+	// ####
+	// 按时间排序
+	this.sortByTime = function(acs){
+		var attName = 'initDate';
+		var dataList = data;
+		this.clear();
+		
+		dataList.sort(
+			function(a,b){
+				var flag = new Date(a[attName]).getTime() > new Date(b[attName]).getTime() ? 1 : -1;
+				
+				return acs * flag;
+			}
+		);
+		
+		this.addList(dataList);
+	};
+	
+	// 按名字排序（含中文）
+	this.sortByName = function(acs){
+		var attName = 'name';
+		var dataList = data;
+		this.clear();
+		
+		dataList.sort(
+			function(a,b){
+				return acs * a[attName].localeCompare(b[attName], 'zh-CN');
+			}
+		);
+		
+		this.addList(dataList);
+	};
+	// ####
+	
+	
+	
+	
+	
 	//获取模块
 	this.getModule = function(){
 		return module;
@@ -636,10 +694,9 @@ var Folder = function(){
 	// 生成器
 	this.generator = function(data, index, controller){
 		var icon = '<i class="material-icons">folder</i>';
-		if(data.isShare == 1 || data.isPublic == 1){
+		if(data.isShare == 1){
 			icon = '<i class="material-icons">folder_shared</i>';
 		}
-		
 
 		if(validate(data)){
 			var folder = $(
@@ -650,6 +707,12 @@ var Folder = function(){
 				'	</div>\n' +
 				'</div>'
 			);
+			
+			if(data.isPublic == 1){
+				folder.find('.icon').css('color', '#4285f4');
+			}
+			
+			
 			
 			if(data.hasAuthority > 0){
 				folder.draggable({
@@ -665,6 +728,8 @@ var Folder = function(){
 						ui.draggable : drag对象
 						event.target : drop对象
 					*/
+					
+					console.log(event.ctrlKey);
 					var idDrag = $(ui.draggable).closest('[data-type="file"], [data-type="folder"]').find('.file, .folder').attr('data-id');
 					var idDrop = $(event.target).find('.file, .folder').attr('data-id');
 					if(data.hasAuthority > 0){
@@ -958,7 +1023,7 @@ var Menu = function(x, y, hasAuthority, folderMenuSet, target, controller){
 			}
 			var l = $('<li><a href="javascript: void(0)">' + item.icon + item.name + '</a></li>\n');
 			l.click(function(){
-				item.action(target, controller);
+				item.action(target, controller, x, y);
 			});
 			menu.append(l);
 		}
@@ -1254,6 +1319,16 @@ const FILE_MENU_SET = [
 		authority: 2,
 		action: function(target, controller){
 
+		}
+	},
+	{
+		icon: '<i class="fa fa-cloud-upload"></i>',
+		name: '保存到我的云盘',
+		authority: 1,
+		action: function(target, controller, x, y){
+			var id = target.find('.file').attr('data-id');
+			selectFolderBox(x, y, id);
+			menuOverflowFix($('#selected-box'), {pageX: x, pageY: y});
 		}
 	},
 	/*
@@ -1723,13 +1798,14 @@ var LinkBox = function(){
 
 var updateFile = function(id, callback){
 	var html = $(
-		'<div class="modal fade">\n' +
+		'<div class="modal fade" data-modal="upload">\n' +
 		'	<div class="modal-dialog">\n' +
 		'		<div class="modal-content">\n' +
 		'			<div class="modal-body">\n' +
 		'				<div class="main-content">\n' +
 		'					<div class="modal-header">\n' +
-		'						<button type="button" class="close" data-dismiss="modal">×</button>\n' +
+		'						<button type="button" class="close" data-dismiss="modal"><i class="fa fa-close"></i></button>\n' +
+		'						<button type="button" class="close minimize" style="margin-right: 5px;"><i class="fa fa-minus-square-o"></i></button>\n' +
 		'						<h4 class="modal-title">上传文件</h4>\n' +
 		'					</div>\n' +
 		'					<div style="margin: 15px;">\n' +
@@ -1747,6 +1823,7 @@ var updateFile = function(id, callback){
 		language: "zh",
 		theme: "explorer",
 		uploadUrl: '/uploadfile_beta/123' /* + id */,
+		allowedFileTypes: ['image', 'html', 'text', 'video', 'audio', 'flash'],
 		//allowedFileExtensions: ['jpg', 'png'],
 		//maxFileCount: 1,
 		//showCaption: true,
@@ -1769,7 +1846,7 @@ var updateFile = function(id, callback){
 	});
 	
 	//上传完成后方法
-	html.find('input').on('fileuploaded', function(event, data, previewId, index) {
+	html.find('input').on('filebatchuploadcomplete', function(event, data, previewId, index) {
 		/* var form = data.form, files = data.files, extra = data.extra,
 				response = data.response, reader = data.reader;
 		console.log('File uploaded triggered'); */
@@ -1781,11 +1858,139 @@ var updateFile = function(id, callback){
 				//callback(data.response)
 			});
 		}
+		
+		// clearInterval(timer);
 	});
+	
+	var sycProgress = function(){
+		var percentige =  Math.floor(html.find('.kv-upload-progress .progress-bar').width() / html.find('.kv-upload-progress .progress').width()  * 100);
+		
+		$('#progressbar-leftbot .progress-bar').css({width: percentige + '%'}).text(percentige + '%');
+		
+	};
+	
+	var timer = setInterval(sycProgress, 2000);
+	
+	
+	html.on('click', '.minimize', function(){
+		var $modal = $(this).closest('.modal');
+		//$modal.modal('hide');
+		$modal.css('visibility', 'hidden');
+		$('.modal-backdrop').css('visibility', 'hidden');
+		
+		$('#progressbar-leftbot').show(400);
+	});
+	
+	$('#progressbar-leftbot .maximize').unbind('click').click(function(){
+		$(this).closest('#progressbar-leftbot').hide(400);
+		html.css('visibility', 'visible');
+		$('.modal-backdrop').css('visibility', 'visible');
+	});
+	
 	
 	html.on('hidden.bs.modal', function(){
 		$(this).remove();
+		$('#progressbar-leftbot .progress-bar').css({width:  '0%'}).text('0%');
 	});
 	
 	html.modal('show');
 };
+
+
+var selectFolderBox = function(x,y, fid){
+	var $module = $(
+		'<div id="selected-box">\n' +
+		'	<div class="select-header">\n' +
+		'		<span data-type="dir">目录名</span>\n' +
+		'		<i class="fa fa-arrow-left select-back"></i>\n' +
+		'	</div>\n' +
+		'	<div class="select-body customized-scrollbar">\n' +
+		'	</div>\n' +
+		'	<div class="select-footer">\n' +
+		'		<a class="btn btn-default pull-right" data-action="close">关闭</a>\n' +
+		'		<a class="btn btn-primary pull-right" style="background-color: #4285f4; margin-right: 5px;" data-action="submit">保存</a>\n' +
+		'		<div class="clearfix"></div>\n' +
+		'	</div>\n' +
+		'</div>'
+	);
+	
+	var currentid, parentid, selectid;
+	
+	var setHeader = function(name){
+		$module.find('.select-header [data-type="dir"]').text(name);
+		if(currentid == 0){
+			$module.find('.select-header .select-back').hide();
+		}else{
+			$module.find('.select-header .select-back').show();
+		}
+	};
+	
+	var setBody = function(list){
+		$body = $module.find('.select-body');
+		$body.empty();
+		$.each(list, function(index, item){
+			$body.append(
+				'<div class="select-item">\n' +
+				'	<i class="fa fa-folder" style="margin-right: 5px;"></i>\n' +
+				'	<span data-type="name">' + item.name + '</span>\n' +
+				'	<i class="fa fa-arrow-right pull-right select-forward" style="cursor: pointer;" data-id="' + item.id + '"></i>\n' +
+				'</div>'
+			);
+		});
+	};
+	
+	var setAll = function(id){
+		getMyFolder(id)
+			.then(function(result){
+				currentid = id;
+				selectid = currentid;
+				parentid = result.pid;
+				setHeader(result.name);
+				setBody(result.list);
+			}).catch(function(reason){
+				console.log(reason);
+			});
+	};
+	
+	// 进入目录
+	$module.on('click', '.select-forward', function(){
+		var id = $(this).attr('data-id');
+		setAll(id);
+	});
+	
+	// 返回键
+	$module.on('click', '.select-back', function(){
+		setAll(parentid);
+	});
+	
+	// 选取
+	$module.on('click', '.select-item', function(){
+		if($(this).hasClass('active')){
+			$module.find('.select-item').removeClass('active');
+			selectid = currentid;
+		}else{
+			$module.find('.select-item').removeClass('active');
+			selectid = $(this).find('[data-id]').attr('data-id');
+			$(this).addClass('active');
+		}
+
+	});
+	
+	// 关闭
+	$module.on('click', '[data-action="close"]', function(){
+		$module.remove();
+	});
+	
+	// 提交
+	$module.on('click', '[data-action="submit"]', function(){
+		callAlert('保存成功', '<i class="material-icons">done</i>', function(){
+			//console.log(fid, selectid);
+			$module.remove();
+		});
+	});
+	
+	setAll(0);
+	$('body').append($module.css({top: y, left: x}));
+};
+
+
