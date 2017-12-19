@@ -179,6 +179,8 @@ var MiddleBlock_FS = function(controller){
 	var folderBlock = new FileFolderBlock(new Folder(), this);
 	var fileBlock =	new FileFolderBlock(new File(), this);
 	
+	var viewType = 1; // 1: block; 2: list
+	
 	// ####
 	// 1.1. 初始化排序模块
 	var initSortBy = function(menu){
@@ -216,11 +218,11 @@ var MiddleBlock_FS = function(controller){
 					sort.text(item.name);
 					
 					if(sortBy == 0){
-						folderBlock.sortByName(ascending);
-						fileBlock.sortByName(ascending);
+						folderBlock.sortByName(ascending, viewType);
+						fileBlock.sortByName(ascending, viewType);
 					}else if(sortBy == 1){
-						folderBlock.sortByTime(ascending);
-						fileBlock.sortByTime(ascending);
+						folderBlock.sortByTime(ascending, viewType);
+						fileBlock.sortByTime(ascending, viewType);
 					}else{
 						console.log('to do');
 					}
@@ -235,11 +237,11 @@ var MiddleBlock_FS = function(controller){
 			ascending = -1 * ascending;
 			
 			if(sortBy == 0){
-				folderBlock.sortByName(ascending);
-				fileBlock.sortByName(ascending);
+				folderBlock.sortByName(ascending,viewType);
+				fileBlock.sortByName(ascending,viewType);
 			}else if(sortBy == 1){
-				folderBlock.sortByTime(ascending);
-				fileBlock.sortByTime(ascending);
+				folderBlock.sortByTime(ascending,viewType);
+				fileBlock.sortByTime(ascending,viewType);
 			}else{
 				console.log('to do');
 			}
@@ -320,10 +322,10 @@ var MiddleBlock_FS = function(controller){
 			.then(function(result){
 				// 加载文件夹
 				folderBlock.clear();
-				folderBlock.addList(result.folder);
+				folderBlock.addList(result.folder, viewType);
 				//加载文件
 				fileBlock.clear();
-				fileBlock.addList(result.file);
+				fileBlock.addList(result.file, viewType);
 				// 加载路径
 				dirNav.setDir(result.dir, obj.openFolder);
 				// 加载当前文件夹
@@ -534,12 +536,19 @@ var MiddleBlock_FS = function(controller){
 		return c_id != undefined;
 	};
 	
-	// 18) 获取C_id
+	// 17) 获取C_id
 	this.getC_ID = function(){
 		return c_id;
 	};
 	
-	// 18) 获取组件
+	// 20) 切换列表
+	this.switchView = function(){
+		viewType = (viewType + 1) %2
+		this.openFolder(currentDir);
+	};
+	
+	
+	// 19) 获取组件
 	this.getModule = function(){
 		return module;
 	};
@@ -577,15 +586,15 @@ var FileFolderBlock = function(modal, controller){
 	};
 	
 	// 添加单个
-	this.add = function(d){
-		var f = modal.generator(d, data.length, controller);
+	this.add = function(d, viewType){
+		var f = modal.generator(d, data.length, controller, viewType);
 		var fObj = $.extend({}, d, {target: f});
 		data.push(fObj);
 		module.find('.file-folder-content').append(f);		
 	};
 	
 	// 添加列表
-	this.addList = function(list){
+	this.addList = function(list, viewType){
 		// 减少jquery查询次数
 		if(!Array.isArray(list)){
 			console.log('error', list);
@@ -593,7 +602,7 @@ var FileFolderBlock = function(modal, controller){
 			console.log(list);
 		}else{
 			$.each(list, function(index, file){
-				obj.add(file);
+				obj.add(file, viewType);
 			});
 		}
 	};
@@ -638,7 +647,7 @@ var FileFolderBlock = function(modal, controller){
 	
 	// ####
 	// 按时间排序
-	this.sortByTime = function(acs){
+	this.sortByTime = function(acs, viewType){
 		var attName = 'initDate';
 		var dataList = data;
 		this.clear();
@@ -651,11 +660,11 @@ var FileFolderBlock = function(modal, controller){
 			}
 		);
 		
-		this.addList(dataList);
+		this.addList(dataList, viewType);
 	};
 	
 	// 按名字排序（含中文）
-	this.sortByName = function(acs){
+	this.sortByName = function(acs, viewType){
 		var attName = 'name';
 		var dataList = data;
 		this.clear();
@@ -666,7 +675,7 @@ var FileFolderBlock = function(modal, controller){
 			}
 		);
 		
-		this.addList(dataList);
+		this.addList(dataList, viewType);
 	};
 	// ####
 	
@@ -692,21 +701,39 @@ var Folder = function(){
 	};
 	
 	// 生成器
-	this.generator = function(data, index, controller){
+	this.generator = function(data, index, controller, viewType){
 		var icon = '<i class="material-icons">folder</i>';
 		if(data.isShare == 1){
 			icon = '<i class="material-icons">folder_shared</i>';
 		}
 
 		if(validate(data)){
-			var folder = $(
-				'<div class="col-lg-2 col-md-4 col-sm-6" data-type="folder">\n' +
-				'	<div class="folder noselect" title="' + data.name + '" data-index="' + index + '" data-id="' + data.id + '" data-set="' + data.type + '">\n' +
-				'		<span class="icon">' + icon + '</span>\n' +
-				'		<span class="name">' + data.name + '</span>\n' +
-				'	</div>\n' +
-				'</div>'
-			);
+			var folder;
+			if(viewType == 1){
+				folder = $(
+					'<div class="col-lg-2 col-md-4 col-sm-6" data-type="folder">\n' +
+					'	<div class="folder noselect" title="' + data.name + '" data-index="' + index + '" data-id="' + data.id + '" data-set="' + data.type + '">\n' +
+					'		<span class="icon">' + icon + '</span>\n' +
+					'		<span class="name">' + data.name + '</span>\n' +
+					'	</div>\n' +
+					'</div>'
+				);
+			}else{
+				folder = $(
+					'<div class="" data-type="folder">\n' +
+					'	<div class="folder folder-list noselect" title="' + data.name + '" data-index="' + index + '" data-id="' + data.id + '" data-set="' + data.type + '">\n' +
+					'		<span class="icon">' + icon + '</span>\n' +
+					'		<span class="name">' + data.name + '</span>\n' +
+					'		<span class="datetime">' + data.datetime + '</span>\n' +
+					'		<span class="share">' + (data.isShare == 1 ? '分享' : '未分享') + '</span>\n' +
+					'		<span class="public">' + (data.isPublic == 1 ? '公开' : '未公开') + '</span>\n' +
+					'		<span class="size">' + data.size + ' KB</span>\n' +
+					'	</div>\n' +
+					'</div>'
+				);
+			}
+			
+			
 			
 			if(data.isPublic == 1){
 				folder.find('.icon').css('color', '#4285f4');
@@ -818,27 +845,46 @@ var File = function(){
 	};
 	
 	// 生成器
-	this.generator = function(data, index, controller){
+	this.generator = function(data, index, controller, viewType){
 		if(validate(data)){
 			var viewable = false;
 			var extension = data.name.split('.').pop();
 			if(extension == 'txt' || extension == 'pdf' || extension == 'png' || extension == 'jpg')
 				viewable = true;
 			
-			var file = $(
-				'<div class="col-lg-2 col-md-4 col-sm-6" data-type="file">\n' +
-				'	<div class="file noselect" title="' + data.name + '" data-index="' + index + '" data-id="' + data.id + '" data-set="' + data.type + '" data-src="' + data.src + '">\n' +
-				'		<div class="top">\n' +
-				'			<iframe id="frame" ' + (viewable ? 'src="' + data.src + '"' : '"' ) + ' width="100%" scrolling="no" frameborder="0">\n' +
-				'			</iframe>\n' +
-				'		</div>\n' +
-				'		<div class="bot">\n' +
-				'			<span class="icon">' + getIcon(data.name) + '</span>\n' +
-				'			<span class="name">' + data.name + '</span>\n' +
-				'		</div>\n' +
-				'	</div>\n' +
-				'</div>'
-			);
+			
+			var file;
+			if(viewType == 1){
+				file = $(
+					'<div class="col-lg-2 col-md-4 col-sm-6" data-type="file">\n' +
+					'	<div class="file noselect" title="' + data.name + '" data-index="' + index + '" data-id="' + data.id + '" data-set="' + data.type + '" data-src="' + data.src + '">\n' +
+					'		<div class="top">\n' +
+					'			<iframe id="frame" ' + (viewable ? 'src="' + data.src + '"' : '"' ) + ' width="100%" scrolling="no" frameborder="0">\n' +
+					'			</iframe>\n' +
+					'		</div>\n' +
+					'		<div class="bot">\n' +
+					'			<span class="icon">' + getIcon(data.name) + '</span>\n' +
+					'			<span class="name">' + data.name + '</span>\n' +
+					'		</div>\n' +
+					'	</div>\n' +
+					'</div>'
+				);
+			}else{	
+				var file = $(
+					'<div class="" data-type="file">\n' +
+					'	<div class="file file-list noselect" title="' + data.name + '" data-index="' + index + '" data-id="' + data.id + '" data-set="' + data.type + '" data-src="' + data.src + '">\n' +
+					'		<div class="bot">\n' +
+					'			<span class="icon">' + getIcon(data.name) + '</span>\n' +
+					'			<span class="name">' + data.name + '</span>\n' +
+					'		<span class="datetime">' + data.datetime + '</span>\n' +
+					'		<span class="share">' + (data.isShare == 1 ? '分享' : '未分享') + '</span>\n' +
+					'		<span class="public">' + (data.isPublic == 1 ? '公开' : '未公开') + '</span>\n' +
+					'		<span class="size">' + data.size + '</span>\n' +
+					'		</div>\n' +
+					'	</div>\n' +
+					'</div>'
+				);
+			}
 			
 			if(data.hasAuthority > 0){
 				file.find('.bot').draggable({

@@ -404,6 +404,8 @@
 	SNT.appendNav(dataNav3);
 	$('#secondNavTop').append(SNT.getModule());
 	
+
+	
 	var LC = new LeftCollapse();
 	LC.setBrand(dataBrand.name, dataBrand.href);
 	LC.setNav(LEFT_COLLAPSE);
@@ -441,6 +443,13 @@
 	$('#mainBlock').append(MB.getModule());
 	
 
+	//切换样式
+	SNT.getModule().find('[data-ation="view-toggle"]').click(function(){
+		MB_FS.switchView();
+		$(this).find('.fa').toggleClass('fa-th').toggleClass('fa-list');
+	});
+	
+	
 	
 	//LinkBox();
 	//updateFile();

@@ -138,60 +138,6 @@
 	//页面初始化
 	
 	$( document ).ready(function() {
-		
-		//iCheck for checkbox and radio inputs
-    
-		
-
-		
-		/*
-		//slimScroll
-		$(".post-wall").slimScroll({
-        height: '500px'
-    });
-		/*
-		//搜索
-		/*
-		var formatState = function(data) {
-			var $data = $(
-				'<div class="user-block">\
-					<img class="img-circle img-bordered-sm" src="' + data.img + '" alt="User Image">\
-					<span class="username">\
-						<div>' + data.text + '</div>\
-					</span>\
-					<span class="description">结果： ' + data.count + '个</span>\
-				</div>'
-			);
-			return $data;
-		};
-		$('#input-search').select2({
-			language: 'zh-CN',
-			allowClear: true,
-			minimumInputLength: 1,
-			ajax:  {
-				url: '/searchmoment',
-				delay: 250,
-				processResults: function (data) {
-					return {
-						results: data
-					};
-				}
-			},
-			templateResult	: formatState,
-		});
-		
-		$('#input-search').on('select2:select', function (evt) {
-			var data = $(this).select2('data')[0];
-			console.log(data);
-			window.location.href = "http://129.89.35.212/Transtopia_beta/groups.jsp";
-		});
-		
-		$('#input-search').on('select2:open', function (evt) {
-			$(this).val('').trigger('change');
-		});
-		*/
-		
-	
 		var groupid = 123;
 		
 		//1. 加载置顶一级导航栏

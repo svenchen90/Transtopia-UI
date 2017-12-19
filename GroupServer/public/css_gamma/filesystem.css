@@ -107,6 +107,13 @@
 }
 
 /* End of 右侧详情栏 */
+
+
+.file-folder-content {
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
 /* 文件夹 */
 .folder {
 	height: 50px;
@@ -173,6 +180,44 @@
 .folder.cut {
 	opacity:0.3;
 }
+
+/* 列表模式 */
+.folder-list {
+	margin-top: 0;
+	margin-bottom: 0;
+	border-radius: 0 !important;
+}
+
+.folder-list .datetime, .folder-list .public, .folder-list .share, .folder-list .size {
+	display:inline-block;
+	font-weight: 600;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis; 
+	text-align: right;
+}
+
+
+.folder-list .name {
+	width: 40% !important;
+}
+
+.folder-list .datetime {
+	width: 20% !important;
+}
+
+.folder-list .share {
+	width: 10% !important;
+}
+
+.folder-list .public {
+	width: 10% !important;
+}
+
+.folder-list .size {
+	width: 10% !important;
+}
+
 /* End of 文件夹 */
 /* 文件 */
 .file {
@@ -238,6 +283,44 @@
 
 .file.cut .bot {
 	opacity:0.3;
+}
+
+
+/* 列表模式 */
+.file-list {
+	margin-top: 0;
+	margin-bottom: 0;
+	border-radius: 0 !important;
+}
+
+.file-list .datetime, .file-list .public, .file-list .share, .file-list .size {
+	display:inline-block;
+	font-weight: 600;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis; 
+	text-align: right;
+}
+
+
+.file-list .name {
+	width: 40% !important;
+}
+
+.file-list .datetime {
+	width: 20% !important;
+}
+
+.file-list .share {
+	width: 10% !important;
+}
+
+.file-list .public {
+	width: 10% !important;
+}
+
+.file-list .size {
+	width: 10% !important;
 }
 
 /* End of 文件 */

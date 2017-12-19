@@ -2791,7 +2791,7 @@ router.get('/getallinfolder', function(req, res, next) {
 		{
 			id: '1',
 			type: '1',
-			hasAuthority: 0,
+			hasAuthority: 1,
 			isShare : 1,
 			isPublic : 1,
 			initDate: new Date(temp),
@@ -3270,6 +3270,12 @@ router.get('/getmyfolder', function(req, res, next) {
 		list: dataListOfFolder
 	});
 });
+
+//模板
+router.get('/template', function(req, res, next) {
+	res.render('template');
+});
+
 
 
 

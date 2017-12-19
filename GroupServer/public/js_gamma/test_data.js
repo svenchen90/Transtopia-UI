@@ -80,6 +80,7 @@ var dataNav2 = $(
 var dataNav3 = $(
 	'<ul class="nav navbar-nav navbar-right" data-type="left-list">\n' +
 	'	<li data-ation="toggle"><a href="javascript: void(0)"><i class="fa fa-info-circle" style="font-size: 20px;"></i></a></li>\n' +
+	'	<li data-ation="view-toggle"><a href="javascript: void(0)"><i class="fa fa-th" style="font-size: 20px;"></i></a></li>\n' +
 	'	<li class="dropdown">\n' +
 	'		<a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gear" style="font-size: 20px;"></i></a>\n' +
 	'		<ul class="dropdown-menu">\n' +
