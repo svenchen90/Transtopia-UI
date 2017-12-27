@@ -3272,10 +3272,13 @@ router.get('/getmyfolder', function(req, res, next) {
 });
 
 //模板
-router.get('/template', function(req, res, next) {
-	res.render('template');
+router.get('/template_design', function(req, res, next) {
+	res.render('template_design');
 });
 
+router.get('/template_form', function(req, res, next) {
+	res.render('template_form');
+});
 
 
 
