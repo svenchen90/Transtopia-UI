@@ -222,6 +222,129 @@ var groupBlackListController = function(id){
 		}
 	)();
 };
+
+var objectAuthorityListController = function(id){
+	// 加载黑名单URL
+	// ###
+	const loadURL = '/group/operation/get-blacklist/';
+	const removeURL = '/group/operation/remove-user-blacklist/'
+	
+	var modal = new SingleRow('权限管理');
+	
+	// 卡片样式
+	var UserCard = function(data){
+		/* data: {id, name, image} */
+		var card = $(
+			'<div class="col-lg-2 col-md-3 col-sm-4" allowsearch allowremove>\n' +
+			'	<div class="blacklist-card nopaddingbefore" style="background-color: ' + googleColorRandomPicker() + ' ;">\n'+
+			'		<div class="card-body">\n'+
+			'			<div class="menu pull-right">\n'+
+			'			<div class="dropdown" style="padding-top: 10px;">\n'+
+			'				<a href="#" data-toggle="dropdown" style="color: rgba(255,255,255,1); margin-right: 15px;" aria-expanded="true"><i class="fa fa-gear"></i></a>\n'+
+			'				<ul class="dropdown-menu">\n'+
+			'				<li><a href="javascript:void(0);">允许发布动态</a></li>\n'+
+			'				<li><a href="javascript:void(0);">移除使用者列表</a></li>\n'+
+			'				</ul>\n'+
+			'			</div>\n'+
+			'			</div>\n'+
+			'			<div class="clearfix"></div>\n'+
+			'			<img data-target="image"/>\n' +
+			'			<div data-target="name"></div>\n'+
+			'			<div data-target="btns">\n'+
+			'			</div>\n'+
+			'		</div>\n' +
+			'	</div>\n' +
+			'</div>'
+		);
+		
+		// 加载数据
+		card.attr('data-id', data.id);
+		card.find('[data-target="name"]').text(data.name);
+		card.find('[data-target="image"]').attr('src', data.image);
+		
+		// 捆绑事件
+		card.find('[data-action="remove"]').on('click', function(){
+			$.ajax({
+				url : URLPrefix + removeURL + id + '/' + data.id,
+				data: {},
+				cache : true, 
+				async : true,
+				type : "GET",
+				dataType : 'json',
+				success : function (result){
+					if(result == 0){
+						callAlert('移除失败!', '<i class="material-icons">clear</i>', function(){});
+					}else{
+						console.log(result)
+						callAlert('移除成功!', '<i class="material-icons">done</i>', function(){
+							reload();
+						});
+					}
+				},
+				error: function(err){
+					callAlert('移除失败!', '<i class="material-icons">clear</i>', function(){});
+				}
+			});
+		});
+		
+		return card;
+	};
+	
+	//获取卡片列表
+	var getCardList = function(list){
+		var result = [];
+		
+		$.each(list, function(index, item){
+			result.push(UserCard(item));
+		});
+		
+		return result;
+	};
+	
+	// 重载数据
+	var reload = function(){
+		$.ajax({
+			url : URLPrefix + loadURL + id,
+			data: {},
+			cache : true, 
+			async : true,
+			type : "GET",
+			dataType : 'json',
+			success : function (result){
+				if(result == 0){
+					callAlert('加载失败!', '<i class="material-icons">clear</i>', function(){});
+				}else{
+					// 获取列表
+					var cardList = getCardList(result);
+			
+					// 加载数据
+					modal.reload(cardList);
+				}
+			},
+			error: function(err){
+				callAlert('加载失败!', '<i class="material-icons">clear</i>', function(){});
+			}
+		});
+	};
+	
+	
+	/* 初始化 */
+	(
+		function(){
+			//加载数据
+			reload();
+			
+			//加载搜索功能
+			modal.getSingleRow().find('[data-action="search"]').on('change', function(evt){
+				var query = $(this).val();
+				modal.search(query);			
+			});
+		}
+	)();
+};
+
+
+
 /* ！黑名单组件 */
 
 /* ## */

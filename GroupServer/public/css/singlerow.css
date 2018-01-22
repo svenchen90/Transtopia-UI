@@ -11,6 +11,18 @@
 	display: block;
 	padding-top: 25%; 	/* initial ratio of 1:1*/
 }
+.nopaddingbefore:before {
+	padding-top: 0 !important;
+}
+
+.version-card:before {
+	padding-top: 0 !important;
+}
+.version-card:after{
+	content: "";
+	display: block;
+	padding-top: 15%; 	/* initial ratio of 1:1*/
+}
 
 .blacklist-card .card-body {
 	text-align: center;

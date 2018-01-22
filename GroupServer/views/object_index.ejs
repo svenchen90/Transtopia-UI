@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Transtopia - 群组</title>
+		<!-- Tell the browser to be responsive to screen width -->
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	</head>
+    
+	<body class="skin-green-light">
+		<!-- 置顶导航栏 -->
+		<header class="main-header">
+			
+			<!-- 置顶一级导航栏 -->
+			<div id="nav-top-first"></div>
+			
+			<!-- 置顶二级导航栏 -->
+			<div id="nav-top-second"></div>
+
+		</header>
+		
+		<!-- 左侧可隐藏导航栏 -->
+		<div id="nav-left-collapse"></div>
+		
+		<!-- 左侧信息框 -->
+		<div class="block-left"></div>
+		
+		<!-- 右下角按钮组 -->
+		<div id="btngroup-rightbot"></div>
+		
+		<!-- 主要展示框 -->
+		<div id="main-block"></div>
+		
+	</body>
+	
+	<!-- 插件与样式 -->
+	<!-- jQuery	 -->
+	<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+	
+	<!-- jQuery-UI -->
+	<script src="plugins/jQueryUI/jquery-ui.min.js"></script>
+	
+	<!-- Bootstrap 3.3.6 -->
+	<link rel="stylesheet" href="plugins/bootstrap-3.3.6/css/bootstrap.min.css" />
+	<script src="plugins/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+	
+	<!-- AdminLTE App -->
+	<link rel="stylesheet" href="plugins/AdminLTE-2.3.11/css/AdminLTE.min.css" />
+	<link rel="stylesheet" href="plugins/AdminLTE-2.3.11/css/skins/_all-skins.min.css" />
+	<script src="plugins/AdminLTE-2.3.11/js/app.min.js"></script>
+	
+	<!-- Slimscroll -->
+	<script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+	
+	<!-- bootstrap-fileinput -->
+	<link href="plugins/bootstrap-fileinput/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+	<link href="plugins/bootstrap-fileinput/themes/explorer/theme.css" media="all" rel="stylesheet" type="text/css" />
+	<script src="plugins/bootstrap-fileinput/js/plugins/sortable.js" type="text/javascript"></script>
+	<script src="plugins/bootstrap-fileinput/js/fileinput.js" type="text/javascript"></script>
+	<script src="plugins/bootstrap-fileinput/themes/explorer/theme.js" type="text/javascript"></script>
+	<script src="plugins/bootstrap-fileinput/js/locales/zh.js" type="text/javascript"></script>
+	
+	<!-- icheck -->
+	<link rel="stylesheet" href="plugins/iCheck/all.css">
+	<script src="plugins/iCheck/icheck.min.js"></script>
+	
+	<!-- Select 2 -->
+	<link href="plugins/select2/select2.min.css" rel="stylesheet" />
+	<link href="plugins/select2/select2-bootstrap.css" rel="stylesheet" />
+	<script src="plugins/select2/select2.full.min.js"></script>
+	<script src="plugins/select2/i18n/zh-CN.js"></script>
+	
+	<!-- JQuery Confirm -->
+	<link rel="stylesheet" href="plugins/jquery-confirm/jquery-confirm.min.css">
+	<script src="plugins/jquery-confirm/jquery-confirm.min.js"></script>
+	
+	<!-- Google Font -->
+	<link href="plugins/material-icons/icon.css" rel="stylesheet">
+	
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" />
+	
+	<!-- bootstrap-wysiwyg -->
+	<link href="plugins/bootstrap-wysiwyg/external/google-code-prettify/prettify.css" rel="stylesheet">
+	<!-- <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+	<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet"> -->
+	<link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+	<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script> -->
+	<script src="plugins/bootstrap-wysiwyg/external/jquery.hotkeys.js"></script>
+	<!-- <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script> -->
+	<script src="plugins/bootstrap-wysiwyg/external/google-code-prettify/prettify.js"></script>
+	<!-- <link href="index.css" rel="stylesheet"> -->
+	<script src="plugins/bootstrap-wysiwyg/bootstrap-wysiwyg.js"></script>
+	
+	
+	<!-- 自定义插件与样式 -->
+	<!-- 全局css -->
+	<link href="css/global.css" rel="stylesheet" />
+	
+	<!-- 功能插件 -->
+	<script src="js/gears.js"></script>
+	
+	<!-- 双行框 -->
+	<link href="css/twinrow.css" rel="stylesheet" />
+	<script src="js/twinrow.js"></script>
+	
+	<!-- 单行框 -->
+	<link href="css/singlerow.css" rel="stylesheet" />
+	<script src="js/singlerow.js"></script>
+	
+	<!-- 控件 -->
+	<link href="css/controller.css" rel="stylesheet" />
+	<script src="js_object/controller.js"></script>
+	
+	<!-- 测试 -->
+	<script src="js/test.js"></script>
+	
+	
+	<!-- <link href="css_template/global.css" rel="stylesheet"> -->
+	<link href="css_template/template.css" rel="stylesheet">
+	
+	<script type="text/javascript" src="js_template/module.js"></script>
+
+	
+	<!-- 模态框（Modal） -->
+		<div class="modal fade" id="templateEditor">
+			<div class="modal-dialog"  style="width:60vw;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;
+						</button>
+						<h4 class="modal-title">
+							模板编辑
+						</h4>
+					</div>
+					<div class="modal-body">
+						<nav class="navbar navbar-default">
+							<div class="container-fluid"> 
+							<div class="navbar-header">
+								<button type="button" class="navbar-toggle" data-toggle="collapse"
+										data-target="#example-navbar-collapse">
+									<span class="sr-only">切换导航</span>
+									<span class="icon-bar"></span>
+									<span class="icon-bar"></span>
+									<span class="icon-bar"></span>
+								</button>
+								<span class="navbar-brand"><i class="fa fa-chain"></i></span>
+							</div>
+							<div class="collapse navbar-collapse" id="example-navbar-collapse">
+								<ul class="nav navbar-nav">
+									<li><a href="#" data-action="createRadio"><i class="fa fa-check-circle-o"></i> 单项</a></li>
+									<li><a href="#" data-action="createCheckbox"><i class="fa fa-check-square-o"></i> 多项</a></li>
+									<li><a href="#" data-action="createTextarea"><i class="fa fa-pencil"></i> 填空</a></li>
+									<li><a href="#" data-action="createDropdown"><i class="fa fa-list"></i> 下拉框</a></li>
+									<li><a href="#" data-action="createFile"><i class="fa fa-file-text-o"></i> 上传文件</a></li>
+									<li class="dropdown">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+											其它 <b class="caret"></b>
+										</a>
+										<ul class="dropdown-menu">
+											<li><a href="#">其它</a></li>
+											<li class="divider"></li>
+											<li><a href="#">其它</a></li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+							</div>
+						</nav>
+						
+						<div id="templateList" class="customized-scrollbar" style="height: 60vh; overflow-y: auto;">
+							
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-action="submit">
+							提交
+						</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+						</button>
+						
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal -->
+		</div>
+		
+		
+		<script>
+		$( "#templateList" ).sortable({
+			handle: ".question",
+      placeholder: "template-placeholder",
+			update: function( event, ui ) {
+				renumbering();
+			}
+    });
+		
+    $( "#templateList" ).disableSelection();
+		
+		
+		// 事件监听
+		// 1. 添加单选
+		$('[data-action="createRadio"]').on('click', function(){
+			clearActive();
+			var $item = generateRadio('', ['选项一','选项二'], true);
+			$('#templateList').append($item);
+			$("#templateList").scrollTop($("#templateList")[0].scrollHeight);	
+			renumbering();
+		});
+		
+		// 2. 添加多选
+		$('[data-action="createCheckbox"]').on('click', function(){
+			clearActive();
+			var $item = generateCheck('', ['选项一','选项二'], true);
+			$('#templateList').append($item);
+			$("#templateList").scrollTop($("#templateList")[0].scrollHeight);	
+			renumbering();
+		});
+			
+		// 3. 填空
+		$('[data-action="createTextarea"]').on('click', function(){
+			clearActive();
+			var $item = generateInput('', true);
+			$('#templateList').append($item);
+			$("#templateList").scrollTop($("#templateList")[0].scrollHeight);	
+			renumbering();
+		});
+		
+		// 4. 下拉框
+		$('[data-action="createDropdown"]').on('click', function(){
+			clearActive();
+			var $item = generateDropdown('', ['选项一','选项二'], true);
+			$('#templateList').append($item);
+			$("#templateList").scrollTop($("#templateList")[0].scrollHeight);	
+			renumbering();
+		});
+		
+		// 5. 上传文件
+		$('[data-action="createFile"]').on('click', function(){
+			clearActive();
+			var $item = generateFile('', true);
+			$('#templateList').append($item);
+			$("#templateList").scrollTop($("#templateList")[0].scrollHeight);	
+			renumbering();
+		});
+		
+		// 6. 提交
+		$('[data-action="submit"]').on('click', function(){
+			var json = getTemplateJson();
+			console.log(json);
+		});
+		
+		/*
+		// 通过json加载以后问题
+		
+		var testJson = [
+			{type: "radio", title: "请输入问题", radios: ['选项一', '选项二']},
+			{type: "check", title: "请输入问题", radios:  ['选项一', '选项二']},
+			{type: "input", title: "请输入问题"},
+			{type: "check", title: "请输入问题", radios:  ['选项一', '选项二']},
+			{type: "file", title: "请输入问题"}
+		];
+
+		loadJson(testJson);
+		*/
+		</script>
+	
+	<!-- 模态框（Modal） -->
+		<div class="modal fade" id="templateForm">
+			<div class="modal-dialog"  style="width:60vw;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							&times;
+						</button>
+						<h4 class="modal-title">
+							查看版本
+						</h4>
+					</div>
+					<div class="modal-body">
+						<div id="formList" class="customized-scrollbar" style="height: 60vh; overflow-y: auto;">
+							<!-- form-item -->
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+						</button>
+						
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal -->
+		</div>
+		
+		<style>
+		#formList {
+			margin: 0 50px 0 50px;
+			padding: 0;
+		}
+		
+		.form-item {
+			margin: 10px;
+		}
+		
+		.form-item .question {
+			padding: 10px;
+			font-size: 15px;
+			color: #444444;
+			font-weight: bold;
+			line-height: 20px;
+		}
+		
+		.form-item .answer{
+			padding-left: 20px;
+		}
+		</style>
+		
+		<script>
+		
+		// 1. 创建单选框
+		var getRadioForm = function(id, index, question, answers){
+			var $module = $(
+				'<div class="form-group form-item" data-id="' + id + '" data-type="radio">\n' +
+				'	<div class="question">\n' +
+				'		<span name="question-number">' + index + '. </span>\n' +
+				'		<span name="question-title">' + question + '</span>\n' +
+				'	</div>\n' +
+				'	<div class="answer">\n' +
+				'	</div>\n' +
+				'</div>'
+			);
+			
+			$.each(answers, function(idx, item){
+				$module.find('.answer').append(
+					'<div>\n' +
+					'	<input type="radio" name="' + id + '" value="' + idx + '" class="minimal">\n' +
+					'	<span>' + item + '</span>\n' +
+					'</div>'
+				);
+			});
+			
+			return $module;
+		};
+		
+		// 2. 创建多选框
+		var getCheckboxForm = function(id, index, question, answers){
+			var $module = $(
+				'<div class="form-group form-item" data-id="' + id + '" data-type="checkbox">\n' +
+				'	<div class="question">\n' +
+				'		<span name="question-number">' + index + '. </span>\n' +
+				'		<span name="question-title">' + question + '</span>\n' +
+				'	</div>\n' +
+				'	<div class="answer">\n' +
+				'	</div>\n' +
+				'</div>'
+			);
+			
+			$.each(answers, function(idx, item){
+				$module.find('.answer').append(
+					'<div>\n' +
+					'	<input type="checkbox" name="' + id + '" value="' + idx + '" class="minimal">\n' +
+					'	<span>' + item + '</span>\n' +
+					'</div>'
+				);
+			});
+			
+			return $module;
+		};
+		
+		// 3. 创建输入框
+		var getInputForm = function(id, index, question){
+			var $module = $(
+				'<div class="form-group form-item" data-id="' + id + '" data-type="input">\n' +
+				'	<div class="question">\n' +
+				'		<span name="question-number">' + index + '. </span>\n' +
+				'		<span name="question-title">' + question + '</span>\n' +
+				'	</div>\n' +
+				'	<div class="answer">\n' +
+				'		<textarea class="form-control" name="' + id + '" rows="3" placeholder="请输入 ..." style="resize: none;"></textarea>\n' +
+				'	</div>\n' +
+				'</div>'
+			);
+			
+			return $module;
+		};
+		
+		// 4. 创建单选下拉框
+		var getDropdownForm = function(id, index, question, answers){
+			var $module = $(
+				'<div class="form-group form-item" data-id="' + id + '" data-type="dropdown">\n' +
+				'	<div class="question">\n' +
+				'		<span name="question-number">' + index + '. </span>\n' +
+				'		<span name="question-title">' + question + '</span>\n' +
+				'	</div>\n' +
+				'	<div class="answer">\n' +
+				'		<select class="form-control">\n' +
+				'			<option value="" disabled selected hidden>请选择...</option>\n' +
+				'		</select>\n' +
+				'	</div>\n' +
+				'</div>'
+			);
+			
+			
+			$.each(answers, function(idx, item){
+				$module.find('.answer select').append('<option name="' + id + '" value="' + idx + '">选项一</option>');
+			});
+			
+			return $module;
+		};
+		
+		// 5. 创建文件上传框
+		var getFileForm = function(id, index, question) {
+			var $module = $(
+				'<div class="form-item" data-id="' + id + '" data-type="file">\n' +
+				'	<div class="question">\n' +
+				'		<span name="question-number">' + index + '. </span>\n' +
+				'		<span name="question-title">' + question + '</span>\n' +
+				'	</div>\n' +
+				'	<div class="answer">\n' +
+				'		<input name="filesupload" type="file" multiple class="file-loading">\n' +
+				'	</div>\n' +
+				'</div>'
+			);
+			
+			return $module;
+		};
+							
+		$('#formList').append(getRadioForm('abc', '1', '单选框问题', ['选项1', '选项2', '选项3']));
+		$('#formList').append(getCheckboxForm('efg', '2', '多选框问题', ['选项1', '选项2', '选项3']));
+		$('#formList').append(getInputForm('hij', '3', '输入框问题'));
+		$('#formList').append(getDropdownForm('klm', '4', '多选框问题', ['选项1', '选项2', '选项3']));
+		$('#formList').append(getFileForm('nop', '5', '输入框问题'));
+		
+		$('[name="filesupload"]').fileinput({
+			language: "zh",
+			theme: "explorer",
+			uploadUrl: '/uploadfile_beta/123' /* + id */,
+			allowedFileTypes: ['image', 'html', 'text', 'video', 'audio', 'flash'],
+			//allowedFileExtensions: ['jpg', 'png'],
+			//maxFileCount: 1,
+			//showCaption: true,
+			//showPreview: true
+			//showRemove: true
+			//showUpload: true
+			//showCancel: true ?
+			showClose: false,
+			maxFileCount: 1,
+			layoutTemplates: {
+				actions: '<div class="file-actions">\n' +
+					'    <div class="file-footer-buttons">\n' +
+					'        {delete}' +
+					'    </div>\n' +
+					'    {drag}\n' +
+					'    <div class="file-upload-indicator" title="{indicatorTitle}">{indicator}</div>\n' +
+					'    <div class="clearfix"></div>\n' +
+					'</div>',
+				actionDelete: '<button type="button" class="kv-file-remove {removeClass}" title="{removeTitle}"{dataUrl}{dataKey}>{removeIcon}</button>\n',
+			}
+		});
+		
+		/*
+		var initICheck = function($module) {
+			$module.find('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+				checkboxClass: 'icheckbox_minimal-blue',
+				radioClass: 'iradio_minimal-blue'
+			});
+		};
+		*/
+		
+		$('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+			checkboxClass: 'icheckbox_minimal-blue',
+			radioClass: 'iradio_minimal-blue'
+		});
+		
+		
+		</script>
+	
+	
+	
+	
+	
+	
+	
+	<style>
+		.shared-with .modal-dialog {
+			width: 500px;
+		}
+		
+		.shared-with .modal-body {
+			padding: 0;
+		}
+		
+		.shared-with .modal-body label {
+			display: block !important;
+			margin-bottom: 0 !important;
+			line-height: 50px !important;
+			padding-left: 30px;
+			font-weight: 500 !important;
+			cursor: pointer;
+		}
+		
+		.shared-with .modal-body label:hover {
+			background-color: rgba(0,0,0,0.1);
+		}
+		
+		.shared-with .modal-body label[disabled]:hover {
+			background-color: rgba(255,0,0,0.3);
+		}
+		
+		.shared-with .modal-body label span{
+			padding-left: 20px;
+			font-size: 16px;
+			color: #757575;
+		}
+		
+		.shared-with .modal-body .user-label {
+			padding-left: 10px;
+		}
+		
+		.shared-with .modal-body .collapse {
+			background-color: rgba(0,0,0,0.05);
+		}
+
+		.shared-with .modal-body .name-list {
+			line-height: 17px;
+			padding: 0 15px 15px;
+			word-break: break-all;
+		}
+	</style>
+	<script>
+		var SharedWithModal = function(){
+			var modal = $(
+				'<div class="modal fade shared-with">\n' + 
+				'	<div class="modal-dialog">\n' + 
+				'		<div class="modal-content">\n' + 
+				'			<div class="modal-header">\n' + 
+				'				<button type="button" class="close" data-dismiss="modal">&times;</button>\n' + 
+				'				<h5 class="modal-title">\n' + 
+				'					请选择分享范围\n' + 
+				'				</h5>\n' + 
+				'			</div>\n' + 
+				'			<div class="modal-body">\n' + 
+				'				<div class="form-group">\n' + 
+				'				</div>\n' + 
+				'			</div>\n' + 
+				'			<div class="modal-footer">\n' + 
+				'				<a data-action="submit">提交</a>\n' + 
+				'				<a data-dismiss="modal">关闭</a>\n' + 
+				'			</div>\n' + 
+				'		</div>\n' + 
+				'	</div>\n' + 
+				'</div>'
+			);
+			
+			//获取简单Label
+			var getLabel = function(data){
+				var label = $(
+					'<label>\n' + 
+					'	<input type="radio" name="r1" class="minimal" value=' + data.value + '>\n' + 
+					'	<span>' + data.icon + ' ' + data.name + '</span>\n' + 
+					'</label>'
+				);
+				
+				return label;
+			};
+			
+			//获取collapse
+			var getCollapse = function(data, selectedTag, selectedUser){
+				var collapse = $(
+					'<div class="panel-body collapse">\n' + 
+					'</div>'
+				);
+				
+				collapse.empty();
+				//标签模块
+				$.each(data, function(index, item){
+					var label = $(
+						'<label data-type="tag">\n' + 
+						'	<input type="checkbox" name="c1" class="minimal"  data-id="' + item.id + '">\n' + 
+						'	<span><i class="fa fa-tag"></i> ' + item.name + '</span>\n' + 
+						'</label>' 
+					);
+
+					if(selectedTag.includes(item.id))
+						label.find('input').prop('checked', true);
+					
+					collapse.append(label);
+				});
+				
+				//加载被选中数据
+				var loadSelectedUser = function(data){
+					nameList.empty();
+					$.each(data, function(index, item){
+						var user = $('<span class="user-label" user-id="' + item.id + '" user-image="' + item.image + '" user-bg="' + item.bg_image + '">' + item.name + '</span>');
+						nameList.append(user);
+					});
+				};
+				
+				//获取被选中用户数据
+				var getSelectedUser = function(){
+					var result = [];
+					
+					$.each(selectLabel.find('.user-label'), function(index,item){
+						console.log(index);
+						result.push({
+							id: $(item).attr('user-id'),
+							name: $(item).text(),
+							image: $(item).attr('user-image'),
+							bg_image: $(item).attr('user-bg')
+						});
+					});
+					
+					return result;
+				};
+				
+				
+				//用户选定模块
+				var selectLabel = $(
+					'	<label>\n' + 
+					'		<span><a href="#"><i class="fa fa-plus-circle"></i> 从好友中选取</a></span>\n' + 
+					'		<div class="name-list"></div>\n' + 
+					'	</label>'
+				);
+				
+				var nameList = selectLabel.find('.name-list');
+				loadSelectedUser(selectedUser);
+				collapse.append(selectLabel);
+				
+				//点击事件
+				selectLabel.click(function(){
+					var FTController = new FriendTagController();
+						FTController.ajaxLoad(
+							getSelectedUser(),
+							function(data,modal){
+								loadSelectedUser(data);
+								modal.modal('hide');
+							}
+						);
+				});
+				
+				return collapse;
+			};
+			
+			
+			
+			//获取数据
+			var getData = function(){
+				var result = {
+					type: '',
+					selectedTag: [],
+					selectedUser: []
+				};
+				
+				result.type = modal.find('[name="r1"]:checked').val();
+				
+				if(result.type == 3 || result.type == 4){
+					var collapse = modal.find('.collapse[data-target="' + result.type + '"]');
+					
+					$.each(collapse.find('[data-type="tag"] input:checked'), function(index, item){
+						result.selectedTag.push($(item).attr('data-id'));
+					});
+					
+					$.each(collapse.find('.user-label'), function(index, item){
+						result.selectedUser.push($(item).attr('user-id'));
+					});
+				};
+				
+				return result;
+			};
+			
+			//群组菜单
+			this.loadForGroup = function(id, type){
+				//群组菜单
+				var groupData = [
+					{
+						name: '公开',
+						icon: '<i class="fa fa-globe"></i>',
+						value: 1
+					},
+					{
+						name: '仅群组可见',
+						icon: '<i class="fa fa-eye-slash"></i>',
+						value: 2
+					}
+				];
+			
+				var container = modal.find('.modal-body .form-group');
+				container.empty();
+				$.each(groupData, function(index, item){
+					var label = getLabel(item);
+					container.append(label);
+					
+					if(type == item.value)
+						label.find('input').prop('checked', true);
+				});
+				
+				//submit
+				modal.find('[data-action="submit"]').unbind('click');
+				modal.find('[data-action="submit"]').click(function(){
+					console.log(getData());
+				});
+				
+				modal.modal('show');
+			};
+			
+
+			//为个人添加
+			this.loadForIndividual = function(id, type, selectdTag, selectdUser, tagList){
+				//个人数据
+				var individualData = [
+					{
+						name: '公开',
+						icon: '<i class="fa fa-globe"></i>',
+						value: 1
+					},
+					{
+						name: '朋友圈',
+						icon: '<i class="fa fa-user-circle-o"></i></i>',
+						value: 2
+					},
+					{
+						name: '部分可见',
+						icon: '<i class="fa fa-plus-square"></i>',
+						value: 3
+					},
+					{
+						name: '不可见',
+						icon: '<i class="fa fa-minus-square"></i>',
+						value: 4
+					},
+					{
+						name: '私有',
+						icon: '<i class="fa fa-eye-slash"></i>',
+						value: 5
+					}
+				];
+				
+				var container = modal.find('.modal-body .form-group');
+				container.empty();
+				$.each(individualData, function(index, item){
+					var label = getLabel(item).addClass('toggle-btn');
+					container.append(label);
+					
+					var collapse;
+					if(item.value == 3 || item.value == 4){
+						if( item.value == type){
+							collapse = getCollapse(tagList, selectdTag, selectdUser);
+							collapse.addClass('in');
+						}else
+							collapse = getCollapse(tagList, [], []);
+					
+						label.attr('data-target', item.value);
+						
+						collapse.attr('data-target', item.value)
+							.addClass('toggle-content');
+					}
+					container.append(collapse);
+					
+					if(type == item.value)
+						label.find('input').prop('checked', true);
+						
+					
+				});
+				
+				//点击互斥时间
+				container.find('.toggle-btn').click(function(){
+					var value = $(this).attr('data-target');
+					$.each(container.find('.toggle-content'), function(index, item){
+						var collapse = $(item);
+						if(collapse.attr('data-target') == value){
+							collapse.collapse('show');
+						}else{
+							collapse.collapse('hide');
+						}
+					});
+				});
+				
+				
+				
+				//submit
+				modal.find('[data-action="submit"]').unbind('click');
+				modal.find('[data-action="submit"]').click(function(){
+					console.log(getData());
+				});
+				
+				modal.modal('show');
+			};
+			
+			
+			
+			//初始化
+			(function(){
+				
+				modal.on('hidden.bs.modal', function(){
+					$(this).remove();
+				}).on('shown.bs.modal', function(){
+					$(this).find('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+						checkboxClass: 'icheckbox_minimal-blue',
+						radioClass: 'iradio_minimal-blue'
+					});
+				});
+				
+			})();
+		};
+	
+		/*
+		var temp = new SharedWithModal();
+		temp.loadForIndividual('1', 3, [123,234], [{id: 123, name: '张震宇'}, {id: 123, name: '张震宇'},{id: 123, name: '张震宇'}],[{id: 123, name: '测试1'},{id: 234, name: '测试2'}]);
+		*/
+		//temp.loadForGroup('1', 2);
+	
+		var getHoverUserCard = function(data){
+			var card = $(
+				'<div class="col-lg-2 col-md-4 col-sm-6" data-id="' + data.id + '">\n' +
+				'	<div class="card-user" style="background-color: ' + googleColorRandomPicker() + ';">\n' +
+				'		<div class="card-user-header" style="background: url(\'' + data.bg_image + '\') no-repeat center center; height: 90px;">\n' +
+				'			<div class="clearfix"></div>\n' +
+				'			<div style="text-align: center; margin-top: 40px;">\n' +
+				'				<img src="' + data.image + '" class="img-circle" style="width: 40px;height: 40px;">\n' +
+				'			</div>\n' +
+				'		</div>\n' +
+				'		<div class="card-user-body" style="height: 80px;">\n' +
+				'			<div class="name" style="inline-height: 80px;" data-name="name">' + data.name + '</div>\n' +
+				'		</div>\n' +
+				'		<div class="card-hover"></div>\n' +
+				'	</div>\n' +
+				'</div>'
+			);
+			return card;
+		};
+			
+		var FriendTagController = function(){
+			var obj = this;
+			TwinRow.call(this, '好友名单');
+			
+			var modal = this.getTwinRow();
+			
+			//获取卡片
+			var getCard = function(data, place){
+				var card = getHoverUserCard(data);
+				card.attr('allowremove', '');
+				card.attr('allowsearch', '');
+				if(place == 1){
+					card.find('.card-hover').html('<i class="material-icons">add_circle_outline</i>');
+				}else if(place == 2){
+					card.find('.card-hover').html('<i class="material-icons">clear</i>');
+				}else{
+					console.log('error');
+				}
+				
+				var top = modal.find('.row-top');
+				var bot = modal.find('.row-bot');
+				card.click(function(){
+					if(card.closest('.row-top').length == 1){
+						card.find('.card-hover').html('<i class="material-icons">clear</i>');
+						obj.prependBot(card);
+					}else if(card.closest('.row-bot').length == 1){
+						card.find('.card-hover').html('<i class="material-icons">add_circle_outline</i>');
+						obj.prependTop(card);
+					}else{
+						console.log('error');
+					}
+				});
+				
+				return card;
+			};
+			
+			var getCardList = function(list, place){
+				var result = [];
+				$.each(list, function(index, item){
+					result.push(getCard(item, place));
+				});
+				
+				return result;
+			};
+			
+			var getDifferent = function(list1, list2){
+				var result = [];
+				
+				$.each(list1, function(idx1, item1){
+					var signal = true;
+					$.each(list2, function(idx2, item2){
+						if(item1.id == item2.id){
+							signal = false;
+							return false;
+						}
+					});
+					if(signal)
+						result.push(item1);
+				});
+				
+				return result;
+			};
+			
+			//添加submit事件
+			var bindSubmit = function(callback){
+				modal.find('[data-action=submit]').unbind('click');
+				modal.find('[data-action=submit]').click(function(){
+					callback(obj.getData(), modal);
+				})
+			};
+			
+			//加载数据
+			var load = function(dataTop, dataBot, callback){
+				var listTop = getCardList(getDifferent(dataTop, dataBot), 1);
+				var listBot = getCardList(dataBot, 2);
+				
+				bindSubmit(callback);
+				obj.reload(listTop, listBot);
+			};
+			
+			//ajax加载
+			this.ajaxLoad = function(dataBot, callback){
+				$.ajax({
+					url : URL_GET_FRIEND,
+					type : "GET",
+					dataType : 'json',
+					success : function (list){
+						if(!Array.isArray(list)){
+							callAlert('加载失败!', '<i class="material-icons">clear</i>', function(){});
+						}else{
+							load(list, dataBot, callback);
+						}
+					},
+					error: function(err){
+						callAlert('添加失败!', '<i class="material-icons">clear</i>', function(){});
+					}
+				});
+			};
+		};
+		
+		
+		//var temp = new FriendTagController();
+		//temp.load([{id: 1, name: '张震宇', image: '../dist/img/user3-128x128.jpg', bg_image: '../dist/img/photo2.png'},{id: 2, name: '刘强', image: '../dist/img/user3-128x128.jpg', bg_image: '../dist/img/photo2.png'}],[{id: 1, name: '张震宇', image: '../dist/img/user3-128x128.jpg', bg_image: '../dist/img/photo2.png'}]);
+	</script>
+	<style>
+		.card-user {
+			cursor: pointer;
+		}
+	
+		.card-hover {
+			display: none;
+			height: 170px;
+			text-align:center;
+		}
+		
+		.card-hover i{
+			position: relative;
+			top: 50px;
+			font-size: 70px;
+			color: rgba(255,255,255,0.8);
+		}
+	
+		.card-user:hover .card-hover{
+			display: block;
+		}
+		
+		.card-user:hover .card-user-header, .card-user:hover .card-user-body {
+			display: none;
+		}
+	</style>
+	
+	<script>
+	//页面初始化
+	
+	$( document ).ready(function() {
+		var objectid = 123;
+		
+		// 主控区域
+		var temp = new MainBlockController($('#main-block'));
+		
+		//1. 加载置顶一级导航栏
+		//查询User信息
+		var FNTController = new FirstNavTopController($('#nav-top-first'));
+		FNTController.ajaxLoad('物品');
+		
+		//2. 加载置顶二级导航栏
+		var SNTController = new SecondNavTopController($('#nav-top-second'), temp);
+		SNTController.ajaxLoadForObject(objectid);
+		
+		//3. 加载左侧折叠导航(未完成)
+		var CNLController = new CollapseNavLeftController($('#nav-left-collapse'));
+		CNLController.defaultLoad();
+		
+		//4. 加载物品组信息栏
+		var LMController = new LeftModuleController($('.block-left'));
+		LMController.ajaxLoadForObject(objectid);
+		
+		
+		//5. 加载右下角按钮组件
+		var RBBController = new RightBotBtnController($('#btngroup-rightbot'));
+		RBBController.ajaxLoadForObject(objectid);
+		
+		//6. 加载动态
+		
+		temp.ajaxLoadGroupPost(555);
+		
+		//$(transCloudModal).transCloud({title: '文件管理', dirFull: '/TransCloud/交托帮', dirRoot: '/TransCloud', dataRequest: '/getFileFolder', createCard: createFileCardHTML})
+		$('#testtest').modal('show');
+	});
+	</script>
+	
+	<script>
+		var loadWysiwyg = function (editor, toolbar) {
+			$(function(){
+				function initToolbarBootstrapBindings() {
+					var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier', 
+								'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
+								'Times New Roman', 'Verdana'],
+								fontTarget = $(toolbar).find('[title=Font]').siblings('.dropdown-menu');
+					$.each(fonts, function (idx, fontName) {
+							fontTarget.append($('<li><a data-edit="fontName ' + fontName +'" style="font-family:\''+ fontName +'\'">'+fontName + '</a></li>'));
+					});
+					$('a[title]').tooltip({container:'body'});
+					$('.dropdown-menu input').click(function() {return false;})
+						.change(function () {$(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');})
+						.keydown('esc', function () {this.value='';$(this).change();});
+
+					$('[data-role=magic-overlay]').each(function () { 
+						var overlay = $(this), target = $(overlay.data('target')); 
+						overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
+					});
+					if ("onwebkitspeechchange"  in document.createElement("input")) {
+						var editorOffset = editor.offset();
+						$('#voiceBtn').css('position','absolute').offset({top: editorOffset.top, left: editorOffset.left+editor.innerWidth()-35});
+					} else {
+						$('#voiceBtn').hide();
+					}
+			};
+			function showErrorAlert (reason, detail) {
+				var msg='';
+				if (reason==='unsupported-file-type') { msg = "Unsupported format " +detail; }
+				else {
+					console.log("error uploading file", reason, detail);
+				}
+				$('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>'+ 
+				 '<strong>File upload error</strong> '+msg+' </div>').prependTo('#alerts');
+			};
+				initToolbarBootstrapBindings();  
+			editor.wysiwyg({ fileUploadError: showErrorAlert} );
+				window.prettyPrint && prettyPrint();
+			});
+		};
+var getEditor = function (data) {
+	var html = $(
+		'<div>\n' +
+		'	<div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">\n' +
+		'		<div class="btn-group">\n' +
+		'		<a class="btn dropdown-toggle" data-toggle="dropdown" title="字体"><i class="icon-font"></i><b class="caret"></b></a>\n' +
+		'			<ul class="dropdown-menu">\n' +
+		'			</ul>\n' +
+		'		</div>\n' +
+		'		<div class="btn-group">\n' +
+		'		<a class="btn dropdown-toggle" data-toggle="dropdown" title="字体大小"><i class="icon-text-height"></i>&nbsp;<b class="caret"></b></a>\n' +
+		'			<ul class="dropdown-menu">\n' +
+		'			<li><a data-edit="fontSize 5"><font size="5">大</font></a></li>\n' +
+		'			<li><a data-edit="fontSize 3"><font size="3">中</font></a></li>\n' +
+		'			<li><a data-edit="fontSize 1"><font size="1">小</font></a></li>\n' +
+		'			</ul>\n' +
+		'		</div>\n' +
+		'		<div class="btn-group">\n' +
+		'		<a class="btn" data-edit="bold" title="加粗 (Ctrl/Cmd+B)"><i class="icon-bold"></i></a>\n' +
+		'		<a class="btn" data-edit="italic" title="斜体 (Ctrl/Cmd+I)"><i class="icon-italic"></i></a>\n' +
+		'		<a class="btn" data-edit="strikethrough" title="（加） 删除线"><i class="icon-strikethrough"></i></a>\n' +
+		'		<a class="btn" data-edit="underline" title="下划线 (Ctrl/Cmd+U)"><i class="icon-underline"></i></a>\n' +
+		'		</div>\n' +
+		'		<div class="btn-group">\n' +
+		'		<a class="btn" data-edit="insertunorderedlist" title="项目列表"><i class="icon-list-ul"></i></a>\n' +
+		'		<a class="btn" data-edit="insertorderedlist" title="数字列表"><i class="icon-list-ol"></i></a>\n' +
+		'		<a class="btn" data-edit="outdent" title="清除缩进 (Shift+Tab)"><i class="icon-indent-left"></i></a>\n' +
+		'		<a class="btn" data-edit="indent" title="缩进 (Tab)"><i class="icon-indent-right"></i></a>\n' +
+		'		</div>\n' +
+		'		<div class="btn-group">\n' +
+		'		<a class="btn" data-edit="justifyleft" title="居左 (Ctrl/Cmd+L)"><i class="icon-align-left"></i></a>\n' +
+		'		<a class="btn" data-edit="justifycenter" title="居中 (Ctrl/Cmd+E)"><i class="icon-align-center"></i></a>\n' +
+		'		<a class="btn" data-edit="justifyright" title="居右 (Ctrl/Cmd+R)"><i class="icon-align-right"></i></a>\n' +
+		'		<a class="btn" data-edit="justifyfull" title="正常 (Ctrl/Cmd+J)"><i class="icon-align-justify"></i></a>\n' +
+		'		</div>\n' +
+		'		<div class="btn-group">\n' +
+		'			<a class="btn dropdown-toggle" data-toggle="dropdown" title="超链接"><i class="icon-link"></i></a>\n' +
+		'			<div class="dropdown-menu input-append">\n' +
+		'				<input class="span2" placeholder="URL" type="text" data-edit="createLink"/>\n' +
+		'				<button class="btn" type="button">添加</button>\n' +
+		'		</div>\n' +
+		'		<a class="btn" data-edit="unlink" title="去除链接"><i class="icon-cut"></i></a>\n' +
+		'		</div>\n' +
+		'		<!-- <div class="btn-group">\n' +
+		'		<a class="btn" title="浏览或拖拽添加图片" id="pictureBtn"><i class="icon-picture"></i></a>\n' +
+		'		<input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" />\n' +
+		'		</div> --> \n' +
+		'		<div class="btn-group">\n' +
+		'		<a class="btn" data-edit="undo" title="撤消 (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>\n' +
+		'		<a class="btn" data-edit="redo" title="重复 (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a>\n' +
+		'		</div>\n' +
+		'	</div>\n' +
+		'	<div id="editor" class="editor">' + (data ? data : '') + '\n' +
+		'	</div>\n' +
+		'</div>'
+	);
+	
+  loadWysiwyg($(html).find('#editor'), $(html).find('.btn-toolbar'));
+	 
+	$(html).find('#editor').slimScroll({
+		height: '250px'
+	});
+	$(html).find('#editor').css({
+		border: '1px solid rgba(0,0,0,.3)'
+	});
+	 return html;
+};
+	
+	</script>
+
+	<script>
+	const ANIMATION_TIME = 400;
+	
+	var FilePanel = function(type, id){
+		// type 1. 私人; 2. 群组;  
+		// id: userID 或者 GroupID
+		var module = $(
+			'<div class="file-panel" style="min-height: 50vh;">\n' +
+			'	<!-- 目录内容 -->\n' +
+			'	<div class="form-group pull-right" style="width: 200px;">\n' +
+			'		<div class="input-group">\n' +
+			'			<input type="text" class="form-control" placeholder="搜索..." data-action="search" />\n' +
+			'			<div class="input-group-addon" style="cursor: pointer;">\n' +
+			'				<i class="fa fa-search"></i>\n' +
+			'			</div>\n' +
+			'		</div>\n' +
+			'	</div>\n' +
+			'	<div class="clearfix"></div>\n' +
+			'	<!-- 文件内容 -->\n' +
+			'</div>'
+		);
+		var obj = this;
+		var directory = new Directory();
+		var fileBlock = new FileBlock(FileCard, FolderCard);
+		
+		// 加载
+		this.load = function(dirID){
+			getPublicFilesFolders(type, id, dirID)
+				.then(function(result){
+					// 加载DIR
+					directory.load(result.dir);
+					// 加载文件
+					fileBlock.load(result.files, result.folders);
+					// 搜索框重置
+					module.find('[data-action="search"]').val("");
+				}).catch(function(reason){
+					console.log(reason);
+				});
+		};
+		
+		
+		// 获取模块组
+		this.getModule = function(){
+			return module;
+		};
+		
+		(function(){
+			// 加载目录模块
+			module.find('.dir').remove();
+			module.prepend(directory.getModule());
+			// 加载文件（夹）模块
+			module.find('.file-block').remove();
+			module.append(fileBlock.getModule());
+			obj.load(0);
+			
+			// 1)点击文件夹
+			module.on('click', '[data-type="folder"]', function(ev){
+				var id = $(this).find('[data-type="name"]').attr('data-id');
+				obj.load(id);
+			});
+			
+			// 2)点击文件
+			module.on('click', '[data-type="file"]', function(ev){
+				var src = $(this).find('[data-type="name"]').attr('data-src');
+				window.open(src, '_blank');
+			});
+			
+			// 3)点击目录
+			module.on('click', '.dir-item', function(ev){
+				var id = $(this).attr('data-id');
+				obj.load(id);
+			});
+			
+			// 4)搜索
+			module.on('change', '[data-action="search"]', function(ev){
+				var query = this.value;
+				
+				$.each(module.find('[data-type="file"], [data-type="folder"]'), function(index,item){
+					var name = $(item).find('[data-type="name"]').text();
+					
+					if(!name.match(query)){
+						$(item).hide(ANIMATION_TIME);
+					}else{
+						$(item).show(ANIMATION_TIME);
+					}
+				});
+			});
+			
+		})();
+	};
+	
+	
+	
+	// 目录
+	var Directory = function(){
+		var dir = $(
+			'<div class="dir">\n' +
+			'	<!-- 目录内容 -->\n' +
+			'</div>'
+		);
+
+		//加载
+		this.load = function(list){
+			dir.find('.dir-item:not(.dir-base)').remove();
+			var target = dir;
+			var length = list.length;
+			
+			$.each(list, function(index, item){
+				if(index < length-1){
+					target.append('<span class="dir-item" data-id="' + item.id +'"><span>' + item.name + '</span> <i class="fa fa-caret-right"></i></span>\n');
+				}else if(index == length-1){
+					target.append('<span class="dir-item" data-id="' + item.id +'"><span>' + item.name + '</span> <i class="fa fa-caret-down"></i></span>\n');
+				}else{
+					console.log('error');
+				}
+				
+			});
+		};
+		
+		this.getModule = function(){
+			return dir;
+		};
+		
+		(function(){
+			// 加载base目录
+			dir.find('.dir-base').remove();
+			dir.prepend('<span class="dir-item dir-base" data-id="0"><span>公开文件夹</span></span>\n');
+		})();
+		
+		
+	};
+	
+	// 文件(夹)容器
+	var FileBlock = function(fileCard, folderCard){
+		var block = $(
+			'<div class="file-block row" style="height: 50vh;">\n' +
+			'		<!-- 插入文件内容 -->\n' +
+			'</div>'
+		);
+		
+		// 加载
+		this.load = function(files, folders){
+			this.clear();
+			// 加载文件夹
+			$.each(folders, function(index, item){
+				block.append(folderCard(item));
+			});
+			
+			// 加载文件
+			$.each(files, function(index, item){
+				block.append(fileCard(item));
+			});
+		};
+		
+		// 清空
+		this.clear = function(){
+			block.empty();
+		};
+		
+		// 获取模块
+		this.getModule = function(){
+			return block;
+		};
+	};
+	
+	// 文件样式
+	var FileCard = function(data){
+		return $(
+			'<div class="col-lg-2 col-md-3 col-sm-4" allowsearch data-type="file">\n' +
+			'	<div class="file-card" style="background-color: rgb(229, 57, 53);">\n' +
+			'		<div class="card-body">\n' +
+			'			<div class="content-default">\n' +
+			'				<i class="fa fa-file"></i>\n' +
+			'				<div data-type="name" data-id="' + data.id + '" data-src="' + data.src + '">' + data.name + '</div>\n' +
+			'			</div>\n' +
+			'		</div>\n' +
+			'	</div>\n' +
+			'</div>'
+		);
+	};
+	
+	//文件夹样式
+	var FolderCard = function(data){
+		return $(
+			'<div class="col-lg-2 col-md-3 col-sm-4" allowsearch data-type="folder">\n' +
+			'	<div class="file-card" style="background-color: rgb(29, 135, 228);">\n' +
+			'		<div class="card-body">\n' +
+			'			<div class="content-default">\n' +
+			'				<i class="fa fa-folder"></i>\n' +
+			'				<div data-type="name" data-id="' + data.id + '" data-src="' + data.src + '">' + data.name + '</div>\n' +
+			'			</div>\n' +
+			'		</div>\n' +
+			'	</div>\n' +
+			'</div>'
+		);
+	};
+	
+	
+	/* Promise */
+	const GET_PUBLIC_FILES_FOLDERS = URLPrefix +  '/get_public_files_folders';
+	var getPublicFilesFolders = function(type, id, dirID){
+		return new Promise(function(resolve, reject){
+			$.ajax({
+				url : GET_PUBLIC_FILES_FOLDERS,
+				data: {
+					type: type, // 1. 私人; 2. 群组
+					id: id,	// userID 或者 GroupID
+					dirID: dirID
+				},
+				type : "GET",
+				dataType : 'json',
+				success : function (result){
+					// result {value, sublist, tail}
+					if(result == 0){
+						reject('请求失败1');
+					}else{
+						resolve(result);
+					}
+				},
+				error: function(err){
+					reject('请求失败2');
+				}
+			});
+		});
+	};
+	
+	
+	$('#testTest').modal('show');
+	var filePanel = new FilePanel();
+
+	
+	$('#testTest').find('.modal-body').append(filePanel.getModule());
+	</script>
+	
+	
+	</html>
+
+
