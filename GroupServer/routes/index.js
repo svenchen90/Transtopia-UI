@@ -3397,6 +3397,26 @@ router.get('/get_version', function(req, res, next){
 	});
 });
 
-
+router.get('/get_version_list', function(req, res, next){
+	res.json([
+		{
+			id: 'abc',
+			name: '版本一',
+			released: 1
+		},{
+			id: 'abc',
+			name: '版本二',
+			released: 2
+		},{
+			id: 'abc',
+			name: '版本三',
+			released: 1
+		},{
+			id: 'abc',
+			name: '版本四',
+			released: 2
+		}
+	]);
+});
 
 module.exports = router;

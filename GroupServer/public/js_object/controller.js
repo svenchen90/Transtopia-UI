@@ -182,15 +182,17 @@ var SecondNavTopController = function(target, mainblock){
 	
 	// 为物品页面加载
 	this.ajaxLoadForObject = function(objectID){
-		//创建者: 10动态，20版本，30定价&折扣，40使用者，50使用申请，60关注着，70用TA的App，80用户评价
-		//使用者: 动态，版本，定价&折扣，使用者，关注着，用TA的App，用户评价
-		//关注者: 动态，版本，定价&折扣，使用者，关注着，用TA的App，用户评价
-		//陌生人: 动态，定价&折扣，用户评价
+		//1. 创建者: 10动态，20版本，30定价&折扣，40使用者，50使用申请，60关注着，70用TA的App，80用户评价
+		//2. 使用者: 动态，版本，定价&折扣，使用者，关注着，用TA的App，用户评价
+		//3. 关注者: 动态，版本，定价&折扣，使用者，关注着，用TA的App，用户评价
+		//4. 陌生人: 动态，定价&折扣，用户评价
+		//5. 黑名单:
 		var authoriyMap = {
 			1: [10,20,30,40,50,60,70,80],
 			2: [10,20,30,40,60,70,80],
 			3: [10,20,30,40,60,70,80],
-			4: [10,30,80]
+			4: [10,30,80],
+			5: []
 		};
 		
 		getRoleForObject(objectID)
@@ -213,7 +215,7 @@ var SecondNavTopController = function(target, mainblock){
 			data.push({
 				name: '动态',
 				action: function(){
-					mainblock.ajaxLoadObjectPost(555);
+					mainblock.ajaxLoadObjectPost(id);
 				}
 			});
 		}
@@ -223,7 +225,13 @@ var SecondNavTopController = function(target, mainblock){
 			data.push({
 				name: '版本',
 				action: function(){
-					mainblock.loadVersion([{name: '版本 1'},{name: '版本 2'},{name: '版本 3'}]);
+					getVersionList(id)
+						.then(function(result){
+							mainblock.loadVersion(result);
+						})
+						.catch(function(exception){
+							console.log(exception);
+						});
 				}
 			});
 		}
@@ -1860,9 +1868,6 @@ var MainBlockController = function(target){
 			'			<div class="dropdown" style="margin-top: 10px;margin-bottom: 30px;">\n'+
 			'				<a href="#" data-toggle="dropdown" style="color: rgba(255,255,255,1); margin-right: 15px;" aria-expanded="true"><i class="fa fa-gear"></i></a>\n'+
 			'				<ul class="dropdown-menu">\n'+
-			'				<li><a href="javascript:void(0);" data-action="edit">编辑</a></li>\n'+
-			'				<li><a href="javascript:void(0);" data-action="view">查看</a></li>\n'+
-			'				<li><a href="javascript:void(0);" data-action="disable">发布版本</a></li>\n'+
 			'				</ul>\n'+
 			'			</div>\n'+
 			'			</div>\n'+
@@ -1878,7 +1883,23 @@ var MainBlockController = function(target){
 		// 加载数据
 		card.attr('data-id', data.id);
 		card.find('[data-target="name"]').text(data.name);
+		
+		if(data.released == 1){
+			card.find('.dropdown-menu').append(
+				'<li><a href="javascript:void(0);" data-action="edit">编辑</a></li>\n' +
+				'<li><a href="javascript:void(0);" data-action="view">查看</a></li>\n' +
+				'<li><a href="javascript:void(0);" data-action="details">版本详情</a></li>\n' +
+				'<li><a href="javascript:void(0);" data-action="disable">发布版本</a></li>\n'
+			);
+		}else if(data.released == 2){
+			card.find('.dropdown-menu').append(
+				'<li><a href="javascript:void(0);" data-action="view">查看</a></li>\n' +
+				'<li><a href="javascript:void(0);" data-action="details">版本详情</a></li>\n'
+			);
+		}else{
 			
+		}
+		
 		card.find('[data-action="edit"]').on('click',function(){
 			getVersion(data.id)
 				.then(function(result){
@@ -1927,12 +1948,11 @@ var MainBlockController = function(target){
 		mainBlcok.find('.main-content').append(initCard);
 		
 		initCard.on('click', function(){
-			$('#templateEditor').modal('show');
+			initObjectEditor();
 		});
 		
 		$.each(list, function(index, ver){
 			mainBlcok.find('.main-content').append(VersionCard(ver));
-
 		});
 	};
 	

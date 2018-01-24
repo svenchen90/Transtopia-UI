@@ -1,3 +1,4 @@
+// 通用
 var promiseProxy = function(url, data, type){
 	return new Promise(function(resolve, reject){
 		$.ajax({
@@ -41,4 +42,10 @@ var getPostForObject = function(objectID){
 const GET_VERSION = URLPrefix +  '/get_version';
 var getVersion = function(versionID){
 	return promiseProxy(GET_VERSION, {id: versionID});
+};
+
+/* 5. 获取版本列表 */
+const GET_VERSION_LIST = URLPrefix +  '/get_version_list';
+var getVersionList = function(objectID){
+	return promiseProxy(GET_VERSION_LIST, {id: objectID});
 };
