@@ -107,19 +107,13 @@ var FirstNavTopController = function(target){
 	};
 	
 	this.ajaxLoad = function(title){
-		$.ajax({
-			url : URLPrefix + '/get-current-user',
-			cache : true, 
-			async : true,
-			type : "GET",
-			dataType : 'json',
-			success : function (user){
-				obj.load(title, user);
-			},
-			error: function(err){
-				console.log(err);
-			}
-		});
+		getCurrentUser()
+			.then(function(result){
+				obj.load(title, result);
+			})
+			.catch(function(exception){
+				console.log(exception);
+			});
 	};
 };
 
@@ -183,40 +177,34 @@ var SecondNavTopController = function(target, mainblock){
 			target.empty();
 			target.append(module);
 		}
-		
-		
 	};
 	
 	
 	// 为物品页面加载
 	this.ajaxLoadForObject = function(objectID){
-		$.ajax({
-			url : URLPrefix + '/object/get-authority-for-current-user/' + objectID,
-			cache : true, 
-			async : true,
-			type : "GET",
-			dataType : 'json',
-			success : function(listOfAuthoriy){
-				if(!Array.isArray(listOfAuthoriy) || listOfAuthoriy === '0'){
-					console.log(listOfAuthoriy, 'listOfAuthoriy is not array');
-				}else{
-					var data = obj.getObjectData(listOfAuthoriy, objectID);
-					obj.load(data);
-				}	
-			},
-			error: function(err){
-				console.log(err);
-			}
-		});
+		//创建者: 10动态，20版本，30定价&折扣，40使用者，50使用申请，60关注着，70用TA的App，80用户评价
+		//使用者: 动态，版本，定价&折扣，使用者，关注着，用TA的App，用户评价
+		//关注者: 动态，版本，定价&折扣，使用者，关注着，用TA的App，用户评价
+		//陌生人: 动态，定价&折扣，用户评价
+		var authoriyMap = {
+			1: [10,20,30,40,50,60,70,80],
+			2: [10,20,30,40,60,70,80],
+			3: [10,20,30,40,60,70,80],
+			4: [10,30,80]
+		};
+		
+		getRoleForObject(objectID)
+			.then(function(result){
+				var listOfAuthoriy = authoriyMap[result];
+				var data = obj.getObjectData(listOfAuthoriy, objectID);
+				obj.load(data);
+			})
+			.catch(function(exception){
+				console.log(exception);
+			});
 	};
 	
 	// 物品过滤器
-	/* 
-		创建者: 10动态，20版本，30定价&折扣，40使用者，50使用申请，60关注着，70用TA的App，80用户评价
-		使用者: 动态，版本，定价&折扣，使用者，关注着，用TA的App，用户评价
-		关注者: 动态，版本，定价&折扣，使用者，关注着，用TA的App，用户评价
-		陌生人: 动态，定价&折扣，用户评价
-	*/
 	this.getObjectData = function(authority, id){
 		var data = [];
 		
@@ -225,7 +213,7 @@ var SecondNavTopController = function(target, mainblock){
 			data.push({
 				name: '动态',
 				action: function(){
-					mainblock.ajaxLoadGroupPost(555);
+					mainblock.ajaxLoadObjectPost(555);
 				}
 			});
 		}
@@ -1745,26 +1733,14 @@ var MainBlockController = function(target){
 	};
 	
 
-	this.ajaxLoadGroupPost = function(groupid){
-		//????uid
-		$.ajax({
-			url : URLPrefix + '/group/operation/get-group-posts/' + groupid + '/' + 10,
-			cache : true, 
-			async : true,
-			type : "GET",
-			dataType : 'json',
-			success : function (post){
-				if(post === '0'){
-					console.log(post, '错误');
-				}else{
-					obj.loadPost(post);
-				}
-			},
-			error: function(err){
-				console.log(err);
-			}
-		});
-		
+	this.ajaxLoadObjectPost = function(objectID){
+		getPostForObject(objectID)
+			.then(function(result){
+				obj.loadPost(result);
+			})
+			.catch(function(exception){
+				console.log(exception);
+			});
 	};
 	
 	
@@ -1875,8 +1851,7 @@ var MainBlockController = function(target){
 	};
 	
 	
-	var UserCard = function(data){
-		/* data: {id, name, image} */
+	var VersionCard = function(data){
 		var card = $(
 			'<div class="col-lg-2 col-md-3 col-sm-4" allowsearch allowremove>\n' +
 			'	<div class="blacklist-card version-card" style="background-color: ' + googleColorRandomPicker() + ' ;">\n'+
@@ -1903,23 +1878,25 @@ var MainBlockController = function(target){
 		// 加载数据
 		card.attr('data-id', data.id);
 		card.find('[data-target="name"]').text(data.name);
-		card.find('[data-target="image"]').attr('src', data.image);
 			
 		card.find('[data-action="edit"]').on('click',function(){
-			var testJson = [
-				{type: "radio", title: "请输入问题", radios: ['选项一', '选项二']},
-				{type: "check", title: "请输入问题", radios:  ['选项一', '选项二']},
-				{type: "input", title: "请输入问题"},
-				{type: "check", title: "请输入问题", radios:  ['选项一', '选项二']},
-				{type: "file", title: "请输入问题"}
-			];
-
-			loadJson(testJson);
-			$('#templateEditor').modal('show');
+			getVersion(data.id)
+				.then(function(result){
+					initObjectEditor(result.data);
+				})
+				.catch(function(exception){
+					console.log(exception);
+				});
 		});
 		
 		card.find('[data-action="view"]').on('click',function(){
-			$('#templateForm').modal('show');
+			getVersion(data.id)
+				.then(function(result){
+					initObjectForm(result.data);
+				})
+				.catch(function(exception){
+					console.log(exception);
+				});
 		});
 		
 		card.find('[data-action="disable"]').on('click',function(){
@@ -1954,11 +1931,9 @@ var MainBlockController = function(target){
 		});
 		
 		$.each(list, function(index, ver){
-			mainBlcok.find('.main-content').append(UserCard(ver));
+			mainBlcok.find('.main-content').append(VersionCard(ver));
 
 		});
-		
-		
 	};
 	
 	

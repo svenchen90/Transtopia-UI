@@ -1,0 +1,74 @@
+#templateList {
+	margin: 0 50px 0 50px;
+	padding: 0;
+}
+.template-item {
+	margin: 0 5px 5px 5px;
+	padding: 5px;
+}
+
+.template-item:hover {
+	border: 0.1em solid #337ab7;
+}
+
+
+.template-item .question{
+	padding: 10px 10px 0 10px;
+	font-size: 15px;
+	color: #444444;
+	font-weight: bold;
+	line-height: 20px;
+	cursor:move;
+}
+
+.template-item .answer{
+	padding: 0 10px 0 30px;
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.template-item .btn-list{
+	padding-top: 10px;
+	display: none;
+}
+
+.template-item:hover .btn-list {
+	display: block;
+}
+
+
+.template-item .editor{
+	display: none;
+	margin: 15px;
+	padding: 5px 30px 5px 30px;
+	background-color: #eff9fe;
+	
+}
+
+.template-item.active .btn-list, .template-item.active .editor {
+	display: block;
+}
+
+.template-placeholder {
+	height: 1.5em;
+	background: rgba(0,0,0,.05);
+}
+#formList {
+	margin: 0 50px 0 50px;
+	padding: 0;
+}
+
+.form-item {
+	margin: 10px;
+}
+
+.form-item .question {
+	padding: 10px;
+	font-size: 15px;
+	color: #444444;
+	font-weight: bold;
+	line-height: 20px;
+}
+
+.form-item .answer{
+	padding-left: 20px;
+}
