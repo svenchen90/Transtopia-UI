@@ -225,13 +225,7 @@ var SecondNavTopController = function(target, mainblock){
 			data.push({
 				name: '版本',
 				action: function(){
-					getVersionList(id)
-						.then(function(result){
-							mainblock.loadVersion(result);
-						})
-						.catch(function(exception){
-							console.log(exception);
-						});
+					mainblock.ajaxLoadVersion(id);
 				}
 			});
 		}
@@ -1702,7 +1696,7 @@ var MainBlockController = function(target){
 		'		</h1>\n' +
 		'		<ol class="breadcrumb">\n' +
 		'			<li><a href="#"><i class="fa fa-dashboard"></i> 物品</a></li>\n' +
-		'			<li class="active current-page">动态</li>\n' +
+		'			<li class="active current-page"></li>\n' +
 		'		</ol>\n' +
 		'	</section>\n' +
 		'	<div class="main-content">\n' +
@@ -1888,8 +1882,7 @@ var MainBlockController = function(target){
 			card.find('.dropdown-menu').append(
 				'<li><a href="javascript:void(0);" data-action="edit">编辑</a></li>\n' +
 				'<li><a href="javascript:void(0);" data-action="view">查看</a></li>\n' +
-				'<li><a href="javascript:void(0);" data-action="details">版本详情</a></li>\n' +
-				'<li><a href="javascript:void(0);" data-action="disable">发布版本</a></li>\n'
+				'<li><a href="javascript:void(0);" data-action="release">发布版本</a></li>\n'
 			);
 		}else if(data.released == 2){
 			card.find('.dropdown-menu').append(
@@ -1903,7 +1896,7 @@ var MainBlockController = function(target){
 		card.find('[data-action="edit"]').on('click',function(){
 			getVersion(data.id)
 				.then(function(result){
-					initObjectEditor(result.data);
+					initObjectEditor(result.data, data.id, data.oid, obj.ajaxLoadVersion);
 				})
 				.catch(function(exception){
 					console.log(exception);
@@ -1920,9 +1913,18 @@ var MainBlockController = function(target){
 				});
 		});
 		
-		card.find('[data-action="disable"]').on('click',function(){
+		card.find('[data-action="release"]').on('click',function(){
 			callConfirm('确认发布', '您确认要发布该物品吗？', 
-				function(){}, 
+				function(){
+					releaseVersion(data.id)
+						.then(function(result){
+							if(result == 1)
+								obj.ajaxLoadVersion(data.oid);
+						})
+						.catch(function(exception){
+							
+						});
+				}, 
 				function(){}
 			);
 		});
@@ -1930,7 +1932,9 @@ var MainBlockController = function(target){
 		return card;
 	};
 	
-	this.loadVersion = function(list){
+	this.loadVersion = function(list, obejctID){
+		
+		mainBlcok.find('.breadcrumb .current-page').text('版本');
 		mainBlcok.find('.main-content').empty();
 		
 		var initCard = $(
@@ -1948,13 +1952,36 @@ var MainBlockController = function(target){
 		mainBlcok.find('.main-content').append(initCard);
 		
 		initCard.on('click', function(){
-			initObjectEditor();
+			singleLineInput('新建版本', '请输入新的版本名称', function(message){
+				createVersion(obejctID, message)
+					.then(function(result){
+						initObjectEditor([], result, obejctID, obj.ajaxLoadVersion);
+					})
+					.catch(function(exception){
+						console.log(exception);
+					});
+				
+			});
+			
+			
+			
 		});
 		
 		$.each(list, function(index, ver){
 			mainBlcok.find('.main-content').append(VersionCard(ver));
 		});
 	};
+	
+	this.ajaxLoadVersion = function(objectID){
+		getVersionList(objectID)
+			.then(function(result){
+				obj.loadVersion(result, objectID);
+			})
+			.catch(function(exception){
+				console.log(exception);
+			});
+	};
+
 	
 	
 	//初始化

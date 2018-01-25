@@ -3401,22 +3401,36 @@ router.get('/get_version_list', function(req, res, next){
 	res.json([
 		{
 			id: 'abc',
+			oid: '1',
 			name: '版本一',
 			released: 1
 		},{
 			id: 'abc',
+			oid: '2',
 			name: '版本二',
 			released: 2
 		},{
 			id: 'abc',
+			oid: '3',
 			name: '版本三',
 			released: 1
 		},{
 			id: 'abc',
+			oid: '3',
 			name: '版本四',
 			released: 2
 		}
 	]);
 });
+
+router.get('/release_version', function(req, res, next){
+	res.json(1);
+});
+
+router.get('/update_version', function(req, res, next){
+	res.json(1);
+});
+
+
 
 module.exports = router;

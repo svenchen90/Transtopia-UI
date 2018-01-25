@@ -49,3 +49,31 @@ const GET_VERSION_LIST = URLPrefix +  '/get_version_list';
 var getVersionList = function(objectID){
 	return promiseProxy(GET_VERSION_LIST, {id: objectID});
 };
+
+/* 6. 发布版本 */
+const RELEASE_VERSION = URLPrefix +  '/release_version';
+var releaseVersion = function(versionID){
+	return promiseProxy(RELEASE_VERSION, {id: versionID});
+};
+
+/* 7. 更新版本 */
+const UPDATE_VERSION = URLPrefix +  '/update_version';
+var updateVersion = function(versionID, json){
+	return promiseProxy(UPDATE_VERSION, 
+		{
+			id: versionID,
+			data: json
+		}
+	);
+}
+
+/* 8. 创建版本 */
+const CREATE_VERSION = URLPrefix + '/create_version';
+var createVersion = function(objectID, name){
+	return promiseProxy(UPDATE_VERSION, 
+		{
+			id: objectID,
+			name: name
+		}
+	);
+};

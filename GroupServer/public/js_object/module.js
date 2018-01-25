@@ -1,5 +1,5 @@
 /* Alpha 创建物品编辑模板 */
-var initObjectEditor = function(json){
+var initObjectEditor = function(json, versionID, objectID, callback){
 	var $modal = $(
 		'<div class="modal fade" id="templateEditor">\n' +
 		'	<div class="modal-dialog"  style="width:60vw;">\n' +
@@ -107,7 +107,16 @@ var initObjectEditor = function(json){
 		// 6. 提交
 		$modal.find('[data-action="submit"]').on('click', function(){
 			var json = getTemplateJson();
-			console.log(json);
+			updateVersion(versionID, json)
+				.then(function(result){
+					if(result == 1){
+						callback(objectID);
+						$modal.modal('hide');
+					}
+				})
+				.catch(function(exception){
+					console.log(exception);
+				})
 		});
 		
 				
