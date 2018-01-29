@@ -17,7 +17,7 @@ var initObjectEditor = function(json, versionID, objectID, callback){
 		'					<div class="container-fluid">\n' +
 		'					<div class="navbar-header">\n' +
 		'						<button type="button" class="navbar-toggle" data-toggle="collapse"\n' +
-		'								data-target="#example-navbar-collapse">\n' +
+		'								data-target="#tool-bar">\n' +
 		'							<span class="sr-only">切换导航</span>\n' +
 		'							<span class="icon-bar"></span>\n' +
 		'							<span class="icon-bar"></span>\n' +
@@ -25,7 +25,7 @@ var initObjectEditor = function(json, versionID, objectID, callback){
 		'						</button>\n' +
 		'						<span class="navbar-brand"><i class="fa fa-chain"></i></span>\n' +
 		'					</div>\n' +
-		'					<div class="collapse navbar-collapse" id="example-navbar-collapse">\n' +
+		'					<div class="collapse navbar-collapse" id="tool-bar">\n' +
 		'						<ul class="nav navbar-nav" data-container="toolbar">\n' +
 		'							<li><a href="#" data-action="createRadio"><i class="fa fa-check-circle-o"></i> 单项</a></li>\n' +
 		'							<li><a href="#" data-action="createCheckbox"><i class="fa fa-check-square-o"></i> 多项</a></li>\n' +
@@ -46,6 +46,18 @@ var initObjectEditor = function(json, versionID, objectID, callback){
 		'					</div>\n' +
 		'					</div>\n' +
 		'				</nav>\n' +
+		
+		'				<ul id="tab-bar" class="nav nav-tabs">\n' +
+		'					<li class="active">\n' +
+		'						<a href="#home" data-toggle="tab">菜鸟教程</a>\n' +
+		'					</li>\n' +
+		'					<li>\n' +
+		'						<a href="#ios" data-toggle="tab">iOS</a>\n' +
+		'					</li>\n' +
+		'					<a href="#" data-action="addTab" style="float: left;padding: 8px 15px; font-size: 19px;"><i class="fa fa-plus-square"></i></a>\n' +
+		'				</ul>\n' +
+		
+		
 		'				<div id="templateList" class="customized-scrollbar" style="height: 60vh; overflow-y: auto;">\n' +
 		'				</div>\n' +
 		'			</div>\n' +
@@ -60,6 +72,44 @@ var initObjectEditor = function(json, versionID, objectID, callback){
 		'	</div>\n' +
 		'</div>\n'
 	);	
+	
+	$modal.on('click', '#tab-bar li.active a', function(){
+		var tabName = $(this).text();
+		var $input = $('<input value="' + tabName + '"/>');
+		$(this).replaceWith($input);
+		$input.focus();
+		
+		$input
+			.focusout(function(){
+				$(this).replaceWith('<a href="#home" data-toggle="tab">' + this.value + '</a>\n');
+			})
+			.keypress(function(event){
+				if(event.keyCode == '13'){
+					$(this).replaceWith('<a href="#home" data-toggle="tab">' + this.value + '</a>\n');
+				}
+			});
+	});
+	
+	
+	
+	
+	$modal.on('click', '#tab-bar [data-action="addTab"]', function(){
+		var $newTab = $('<li><input value="新建分页"/></li>');
+		$(this).before($newTab);
+		
+		
+		$newTab.find('input')
+			.focusout(function(){
+				$(this).replaceWith('<a href="#home" data-toggle="tab">' + this.value + '</a>\n');
+			})
+			.keypress(function(event){
+				if(event.keyCode == '13'){
+					$(this).replaceWith('<a href="#home" data-toggle="tab">' + this.value + '</a>\n');
+				}
+			});
+	});
+	
+	
 	
 	var validation = function(){
 		return true;
