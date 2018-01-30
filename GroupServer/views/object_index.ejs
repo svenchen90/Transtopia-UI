@@ -130,13 +130,20 @@
 	<script>
 	var testJson3 = [
 		{
-			name: '123',
+			name: '标签1',
 			list: [
 				{type: "radio", title: "请输入问题", radios: ['选项一', '选项二']},
 				{type: "check", title: "请输入问题", radios:  ['选项一', '选项二']},
 				{type: "input", title: "请输入问题"},
-				{type: "check", title: "请输入问题", radios:  ['选项一', '选项二']},
+				{type: "dropdown", title: "请输入问题", radios:  ['选项一', '选项二']},
 				{type: "file", title: "请输入问题"}
+			]
+		},
+		{
+			name: '标签2',
+			list: [
+				{type: "radio", title: "请输入问题", radios: ['选项一', '选项二']},
+				{type: "number", title: "请输入问题", setting: {min: 5, max: 10, def: 1}}
 			]
 		}
 	];
@@ -152,36 +159,52 @@
 		{type: "file", title: "请输入问题"}
 	];
 	initObjectEditor(testJson1);
-	
+		*/
 	var testJson2 = [
 		{
-			type: 'radio',
-			id: 'abc',
-			question: '单选框问题',
-			list: ['选项1', '选项2', '选项3']
-		},{
-			type: 'checkbox',
-			id: 'efg',
-			question: '多选框问题',
-			list: ['选项1', '选项2', '选项3']
-		},{
-			type: 'textarea',
-			id: 'hij',
-			question: '输入框问题'
-		},{
-			type: 'dropdown',
-			id: 'klm',
-			question: '多选框问题',
-			list: ['选项1', '选项2', '选项3']
-		},{
-			type: 'file',
-			id: 'nop',
-			question: '输入框问题'
+			name: '标签1',
+			list: [
+				{
+					type: 'radio',
+					id: 'abc',
+					question: '单选框问题',
+					list: ['选项1', '选项2', '选项3']
+				},{
+					type: 'check',
+					id: 'efg',
+					question: '多选框问题',
+					list: ['选项1', '选项2', '选项3']
+				},{
+					type: 'input',
+					id: 'hij',
+					question: '输入框问题'
+				},{
+					type: 'dropdown',
+					id: 'klm',
+					question: '多选框问题',
+					list: ['选项1', '选项2', '选项3']
+				},{
+					type: 'file',
+					id: 'nop',
+					question: '输入框问题'
+				}
+			]
+		},
+		{
+			name: '标签2',
+			list: [
+				{
+					type: 'radio',
+					id: 'abc',
+					question: '单选框问题',
+					list: ['选项1', '选项2', '选项3']
+				}
+			]
 		}
 	];
 	
-	initObjectForm(testJson2);
-	*/
+	// initObjectForm(testJson2);
+
 	</script>
 
 	

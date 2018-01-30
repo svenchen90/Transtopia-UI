@@ -32,6 +32,7 @@ var initObjectEditor = function(json, versionID, objectID, callback){
 		'							<li><a href="#" data-action="createTextarea"><i class="fa fa-pencil"></i> 填空</a></li>\n' +
 		'							<li><a href="#" data-action="createDropdown"><i class="fa fa-list"></i> 下拉框</a></li>\n' +
 		'							<li><a href="#" data-action="createFile"><i class="fa fa-file-text-o"></i> 上传文件</a></li>\n' +
+		'							<li><a href="#" data-action="createNumericInput"><i class="fa fa-arrows-v"></i> 数字输入</a></li>\n' +
 		'							<li class="dropdown">\n' +
 		'								<a href="#" class="dropdown-toggle" data-toggle="dropdown">\n' +
 		'									其它 <b class="caret"></b>\n' +
@@ -80,11 +81,13 @@ var initObjectEditor = function(json, versionID, objectID, callback){
 	// B. 完成修改名称
 	$modal.find('#tab-bar')
 		.on('focusout', 'input', function(){
-			$(this).replaceWith('<a href="' + $(this).attr('data-href') + '" data-toggle="tab">' + $(this).val() + '</a>\n');
+			$(this).closest('li')
+				.empty()
+				.append('<a href="' + $(this).attr('data-href') + '" data-toggle="tab">' + $(this).val() + '</a>\n');
 		})
 		.on('keydown', 'input', function(event){
 				if(event.keyCode == '13'){
-					$(this).replaceWith('<a href="' + $(this).attr('data-href') + '" data-toggle="tab">' + $(this).val() + '</a>\n');
+					$(this).focusout();
 				}
 		});
 	
@@ -141,7 +144,8 @@ var initObjectEditor = function(json, versionID, objectID, callback){
 			'createCheckbox' : generateCheck,
 			'createTextarea' : generateInput,
 			'createDropdown' : generateDropdown,
-			'createFile' : generateFile
+			'createFile' : generateFile,
+			'createNumericInput' :  generateInputNumber
 		};
 		
 		$modal.find('[data-container="toolbar"] [data-action]').each(function(index, item){
@@ -163,6 +167,8 @@ var initObjectEditor = function(json, versionID, objectID, callback){
 		// 6. 提交
 		$modal.find('[data-action="submit"]').on('click', function(){
 			var json = getTemplateJson();
+			console.log(json);
+			
 			updateVersion(versionID, json)
 				.then(function(result){
 					if(result == 1){
@@ -187,7 +193,6 @@ var initObjectEditor = function(json, versionID, objectID, callback){
 					// ####
 					var tabName = tab.name;
 					var list = tab.list;
-					var index = $(this).closest('#tab-bar').find('li').length;
 
 					var $newTab = $('<li><a href="#tab_' + index + '" data-toggle="tab">' + tabName + '</a></li>');
 					$modal.find('#tab-bar [data-action="addTab"]').before($newTab);
@@ -206,6 +211,7 @@ var initObjectEditor = function(json, versionID, objectID, callback){
 					
 					if(index == 0){
 						$newContent.addClass('in active');
+						$newTab.addClass('active');
 					}
 					
 					$newContent
@@ -257,7 +263,7 @@ var initObjectEditor = function(json, versionID, objectID, callback){
 
 // A. 选项生成
 // 1. 添加单选
-var generateRadio = function(isActive, title, radios){
+var generateRadio = function(isActive, data){
 	var $item = $(
 		'<div class="template-item" data-type="radio">\n' +
 		'	<div class="question">\n' +
@@ -300,7 +306,14 @@ var generateRadio = function(isActive, title, radios){
 	var thisFunction = arguments.callee;
 	
 	// 1. 加载
-	var load = function(title, radios){
+	var load = function(data){
+		var title, radios;
+		if(data){
+			title = data.title;
+			radios = data.radios;			
+		}
+		
+		
 		// 加载标题
 		if(title){
 			$item.find('[name="question-title"]').text(title);
@@ -412,7 +425,7 @@ var generateRadio = function(isActive, title, radios){
 	
 	// 初始化
 	(function(){
-		load(title, radios);
+		load(data);
 		//激活按钮组件
 		activateToolBtn($item, load, getData, activateEditor, getEditorData, thisFunction);
 
@@ -426,7 +439,7 @@ var generateRadio = function(isActive, title, radios){
 };
 
 // 2. 添加多选
-var generateCheck = function(isActive, title, radios){
+var generateCheck = function(isActive, data){
 	var $item = $(
 		'<div class="template-item" data-type="check">\n' +
 		'	<div class="question">\n' +
@@ -468,7 +481,13 @@ var generateCheck = function(isActive, title, radios){
 	
 	
 	// 1. 加载样式
-	var load = function(title, radios){
+	var load = function(data){
+		var title, radios;
+		if(data){
+			title = data.title;
+			radios = data.radios;
+		}
+
 		// 加载标题
 		if(title){
 			$item.find('[name="question-title"]').text(title);
@@ -579,7 +598,7 @@ var generateCheck = function(isActive, title, radios){
 	var thisFunction = arguments.callee;
 	(function(){
 		// 加载
-		load(title, radios);
+		load(data);
 		
 		// 是否展开editor
 		if(isActive)
@@ -594,7 +613,7 @@ var generateCheck = function(isActive, title, radios){
 };
 
 // 3. 添加填空
-var generateInput = function(isActive, title){
+var generateInput = function(isActive, data){
 	var $item = $(
 		'<div class="template-item" data-type="input">\n' +
 		'	<div class="question">\n' +
@@ -602,7 +621,8 @@ var generateInput = function(isActive, title){
 		'		<span name="question-title"></span>\n' +
 		'	</div>\n' +
 		'	<div class="answer">\n' +
-		'  <textarea rows=1 style="width: 100%; background-color: white;resize: none;" disabled></textarea>\n' +
+		'  <textarea class="col-md-6" rows=1 style="background-color: white;resize: none; margin: 10px 0 10px" disabled></textarea>\n' +
+		'  <div class="clearfix"></div>\n' +
 		'	</div>\n' +
 		'	<div class="btn-list" style="text-align: right;">\n' +
 		'		<div class="btn btn-primary btn-sm" data-action="activateEditor"><i class="fa fa-tag"></i> 编辑</div>\n' +
@@ -626,7 +646,12 @@ var generateInput = function(isActive, title){
 	
 	
 	// 1. 加载样式
-	var load = function(title){
+	var load = function(data){
+		var title;
+		if(data){
+			title = data.title;
+		}
+		
 		// 加载标题
 		if(title){
 			$item.find('[name="question-title"]').text(title);
@@ -664,7 +689,7 @@ var generateInput = function(isActive, title){
 	var thisFunction = arguments.callee;
 	(function(){
 		// 加载
-		load(title);
+		load(data);
 
 		// 是否展开editor
 		if(isActive)
@@ -677,7 +702,7 @@ var generateInput = function(isActive, title){
 };
 
 // 4. 下拉框
-var generateDropdown = function(isActive, title, radios){
+var generateDropdown = function(isActive, data){
 	var $item = $(
 		'<div class="template-item" data-type="dropdown">\n' +
 		'	<div class="question">\n' +
@@ -718,7 +743,14 @@ var generateDropdown = function(isActive, title, radios){
 	);
 	
 	// 1. 加载样式
-	var load = function(title, radios){
+	var load = function(data){
+		var title, radios;
+		if(data){
+			var title = data.title;
+			var radios = data.radios;
+		}
+		
+		
 		// 加载标题
 		if(title){
 			$item.find('[name="question-title"]').text(title);
@@ -733,9 +765,9 @@ var generateDropdown = function(isActive, title, radios){
 			'</select>'
 		);
 		
-		if(radios == undefined || radios == '' || radios.length == 0)
+		/* if(radios == undefined || radios == '' || radios.length == 0)
 			radios = ['选项一','选项二'];
-		
+		 */
 		$.each(radios, function(idx,i){
 			$select.append('<option value="' + i + '">' + i +'</option>');
 		});
@@ -786,6 +818,8 @@ var generateDropdown = function(isActive, title, radios){
 			list.push($(item).val());
 		});
 		result.radios = list;
+		
+		console.log(result);
 		return result;
 	};
 	
@@ -830,7 +864,7 @@ var generateDropdown = function(isActive, title, radios){
 	var thisFunction = arguments.callee;
 	(function(){
 		// 加载
-		load(title, radios);
+		load(data);
 
 		// 是否展开editor
 		if(isActive)
@@ -843,7 +877,7 @@ var generateDropdown = function(isActive, title, radios){
 };
 
 // 5. 文件上传
-var generateFile = function(isActive, title){
+var generateFile = function(isActive, data){
 	var $item = $(
 		'<div class="template-item" data-type="file">\n' +
 		'	<div class="question">\n' +
@@ -878,7 +912,12 @@ var generateFile = function(isActive, title){
 	
 	
 	// 1. 加载样式
-	var load = function(title){
+	var load = function(data){
+		var title;
+		if(data){
+			title = data.title;
+		}
+		
 		// 加载标题
 		if(title){
 			$item.find('[name="question-title"]').text(title);
@@ -916,7 +955,7 @@ var generateFile = function(isActive, title){
 	var thisFunction = arguments.callee;
 	(function(){
 		// 加载
-		load(title);
+		load(data);
 
 		// 是否展开editor
 		if(isActive)
@@ -925,6 +964,122 @@ var generateFile = function(isActive, title){
 		activateToolBtn($item, load, getData, activateEditor, getEditorData, thisFunction);
 	})();
 	
+	return $item;
+};
+
+// 6. 数字输入框
+var generateInputNumber = function(isActive, data){
+	var $item = $(
+		'<div class="template-item" data-type="number">\n' +
+		'	<div class="question">\n' +
+		'		<span name="question-number"></span>\n' +
+		'		<span name="question-title"></span>\n' +
+		'	</div>\n' +
+		'	<div class="answer">\n' +
+		'   <input type="number" name="inputNumber" value="0" style="width: 100px; margin: 10px 0 10px;">\n' +
+		'	</div>\n' +
+		'	<div class="btn-list" style="text-align: right;">\n' +
+		'		<div class="btn btn-primary btn-sm" data-action="activateEditor"><i class="fa fa-tag"></i> 编辑</div>\n' +
+		'		<div class="btn btn-default btn-sm" data-action="copy"><i class="fa fa-copy"></i> 复制</div>\n' +
+		'		<div class="btn btn-default btn-sm" data-action="delete"><i class="fa fa-trash"></i> 删除</div>\n' +
+		'		<div class="btn btn-default btn-sm" data-action="moveUp"><i class="fa fa-angle-up"></i> 上移</div>\n' +
+		'		<div class="btn btn-default btn-sm" data-action="moveDown"><i class="fa fa-angle-down"></i> 下移</div>\n' +
+		'		<div class="btn btn-default btn-sm" data-action="moveTop"><i class="fa fa-angle-double-up"></i> 最前</div>\n' +
+		'		<div class="btn btn-default btn-sm" data-action="moveBot"><i class="fa fa-angle-double-down"></i> 最后</div>\n' +
+		'	</div>\n' +
+		'	<div class="editor">\n' +
+		'		<div class="row">\n' +
+		'			<div class="input-group col-md-6">\n' +
+		'				<label>请输入问题</label>\n' +
+		'				<textarea name="title" placeholder="请输入问题标题..." rows=4 style="width: 100%;"></textarea>\n' +
+		'			</div>\n' +
+		'		</div>\n' +
+		'		<label>其它选项设置： </label>\n' +
+		'		<div class="row" style="margin-top: 0;">\n' +
+		'			<div class="col-md-3">\n' +
+		'				<label>最小值：</label> <input type="number" name="min" value="0" style="width: 100px; margin:5px;">\n' +
+		'			</div>\n' +
+		'			<div class="col-md-3">\n' +
+		'				<label>最大值：</label> <input type="number" name="max" value="10" style="width: 100px; margin:5px;">\n' +
+		'			</div>\n' +
+		'			<div class="col-md-3">\n' +
+		'				<label>默认值：</label> <input type="number" name="def" value="0" style="width: 100px; margin:5px;">\n' +
+		'			</div>\n' +
+		'		</div>\n' +
+		'	</div>\n' +
+		'</div>'
+	);
+	
+	
+	// 1. 加载样式
+	var load = function(data){
+		var title, setting;
+		if(data){
+			title = data.title;
+			setting = data.setting;
+		}
+		
+		// 加载标题
+		if(title){
+			$item.find('[name="question-title"]').text(title);
+		}else{
+			$item.find('[name="question-title"]').text('请输入问题');
+		}
+		
+		if(setting){
+			$item.find('.editor [name="min"]').val(setting.min);
+			$item.find('.editor [name="max"]').val(setting.max);
+			$item.find('.editor [name="def"]').val(setting.def);
+			$item.find('[name="inputNumber"]').attr({max: setting.max, min: setting.min, value: setting.def});
+		}
+	};
+	
+	// 2. 获取问题数据
+	var getData = function(){
+		var title = $item.find('[name="question-title"]').text();
+		return {
+			title: title,
+			min:  $item.find('[name="inputNumber"]').attr('min'),
+			max:  $item.find('[name="inputNumber"]').attr('max'),
+			def:  0
+		};
+	};
+	
+	// Editor
+	// 3. 激活编辑
+	var activateEditor = function(){
+		$item.addClass('active');
+		var title = $item.find('[name="question-title"]').text();
+		$item.find('.editor [name="title"]').val(title);
+		
+		$item.find('[data-action="activateEditor"]').replaceWith('<div class="btn btn-success btn-sm" data-action="confrimEdit"><i class="fa fa-check"></i> 完成</div>');
+	}
+	
+	// 4. 获取数据
+	var getEditorData = function(){
+		var result = {
+			title : $item.find('.editor [name="title"]').val(),
+			setting: {
+				min:  $item.find('.editor [name="min"]').val(),
+				max:  $item.find('.editor [name="max"]').val(),
+				def:  $item.find('.editor [name="min"]').val()
+			}
+		};
+		return result;
+	};
+	
+	var thisFunction = arguments.callee;
+	(function(){
+		// 加载
+		load(data);
+
+		// 是否展开editor
+		if(isActive)
+			activateEditor();
+		
+		// 激活功能按钮
+		activateToolBtn($item, load, getData, activateEditor, getEditorData, thisFunction);
+	})();
 	return $item;
 };
 
@@ -993,8 +1148,8 @@ var activateToolBtn = function($target, load, getData, activateEditor, getEditor
 	
 	// 2. 完成编辑
 	$target.on('click', '[data-action="confrimEdit"]', function(){
-		var data = getEditorData()
-		load(data.title, data.radios);
+		var data = getEditorData();
+		load(data);
 		
 		$(this).replaceWith('<div class="btn btn-primary btn-sm" data-action="activateEditor"><i class="fa fa-tag"></i> 编辑</div>');
 		$target.removeClass('active');
@@ -1028,7 +1183,7 @@ var activateToolBtn = function($target, load, getData, activateEditor, getEditor
 	// 8. 复制
 	$target.on('click', '[data-action="copy"]', function(){
 		var data = getData();
-		$target.after(constructFunction(false, data.title, data.radios));
+		$target.after(constructFunction(false, data));
 		renumbering($('#templateList'));
 	});
 };
@@ -1090,6 +1245,11 @@ var getJson = function($item) {
 			result.type = 'file';
 			result.title = $item.find('.question [name="question-title"]').text();
 			return result;
+		case 'number':
+			var result = {};
+			result.type = 'number';
+			result.title = $item.find('.question [name="question-title"]').text();
+			return result;
 		default:
 			break;
 	}
@@ -1124,18 +1284,20 @@ var getTemplateJson = function() {
 };
 
 // 5. 通过json生成样式
-var generateByJson = function(json) {
-	switch(json.type){
+var generateByJson = function(data) {
+	switch(data.type){
 		case 'radio':
-			return generateRadio(false, json.title, json.radios);
+			return generateRadio(false, data);
 		case 'check':
-			return generateCheck(false, json.title, json.radios);
+			return generateCheck(false, data);
 		case 'input':
-			return generateInput(false, json.title);
+			return generateInput(false, data);
 		case 'dropdown':
-			return generateDropdown(false, json.title, json.radios);
+			return generateDropdown(false, data);
 		case 'file':
-			return generateFile(false, json.title);
+			return generateFile(false, data);
+		case 'number':
+			return generateInputNumber(false, data);
 		default:
 			break;
 	}
@@ -1157,7 +1319,10 @@ var initObjectForm = function(json){
 		'				</h4>\n' +
 		'			</div>\n' +
 		'			<div class="modal-body">\n' +
-		'				<div id="formList" class="customized-scrollbar" style="height: 60vh; overflow-y: auto;">\n' +
+		'				<ul id="tab-bar" class="nav nav-tabs" style="margin: 0 50px 0 50px;">\n' +
+		'					<!-- 标签列表 -->\n' +
+		'				</ul>\n' +
+		'				<div id="formList" class="customized-scrollbar tab-content" style="height: 60vh; overflow-y: auto;">\n' +
 		'				</div>\n' +
 		'			</div>\n' +
 		'			<div class="modal-footer">\n' +
@@ -1178,44 +1343,64 @@ var initObjectForm = function(json){
 	};
 	
 	(function(){
-		$.each(json, function(index, item){
-			var type = item.type;
-			var funct = actionMap[type];
-			var $item = funct(index+1, item.title, item.radios);
-			$modal.find('#formList').append($item);
+		$.each(json, function(index, tab){
+			var tabName = tab.name;
+			var list = tab.list;
+
+			var $newTab = $('<li><a href="#tab_' + index + '" data-toggle="tab">' + tabName + '</a></li>');
+			$modal.find('#tab-bar').append($newTab);
 			
-			if(type == 'file'){
-				$item.find('[name="filesupload"]').fileinput({
-					language: "zh",
-					theme: "explorer",
-					uploadUrl: '/uploadfile_beta/123' /* + id */,
-					allowedFileTypes: ['image', 'html', 'text', 'video', 'audio', 'flash'],
-					//allowedFileExtensions: ['jpg', 'png'],
-					//maxFileCount: 1,
-					//showCaption: true,
-					//showPreview: true
-					//showRemove: true
-					//showUpload: true
-					//showCancel: true ?
-					showClose: false,
-					maxFileCount: 1,
-					layoutTemplates: {
-						actions: '<div class="file-actions">\n' +
-							'    <div class="file-footer-buttons">\n' +
-							'        {delete}' +
-							'    </div>\n' +
-							'    {drag}\n' +
-							'    <div class="file-upload-indicator" title="{indicatorTitle}">{indicator}</div>\n' +
-							'    <div class="clearfix"></div>\n' +
-							'</div>',
-						actionDelete: '<button type="button" class="kv-file-remove {removeClass}" title="{removeTitle}"{dataUrl}{dataKey}>{removeIcon}</button>\n',
-					}
-				});
+			var $newContent = $(
+				'<div class="tab-pane fade" id="tab_' + index + '">\n' +
+				'</div>\n'
+			);
+			
+			$modal.find('#formList').append($newContent);
+			
+			if(index == 0){
+				$newTab.addClass('active');
+				$newContent.addClass('active in');
 			}
 			
-
+			
+			$.each(tab.list, function(index, item){
+				var type = item.type;
+				var funct = actionMap[type];
+				var $item = funct(index+1, item.question, item.list);
+				
+				$newContent.append($item);
+				
+				if(type == 'file'){
+					$item.find('[name="filesupload"]').fileinput({
+						language: "zh",
+						theme: "explorer",
+						uploadUrl: '/uploadfile_beta/123' /* + id */,
+						allowedFileTypes: ['image', 'html', 'text', 'video', 'audio', 'flash'],
+						//allowedFileExtensions: ['jpg', 'png'],
+						//maxFileCount: 1,
+						//showCaption: true,
+						//showPreview: true
+						//showRemove: true
+						//showUpload: true
+						//showCancel: true ?
+						showClose: false,
+						maxFileCount: 1,
+						layoutTemplates: {
+							actions: '<div class="file-actions">\n' +
+								'    <div class="file-footer-buttons">\n' +
+								'        {delete}' +
+								'    </div>\n' +
+								'    {drag}\n' +
+								'    <div class="file-upload-indicator" title="{indicatorTitle}">{indicator}</div>\n' +
+								'    <div class="clearfix"></div>\n' +
+								'</div>',
+							actionDelete: '<button type="button" class="kv-file-remove {removeClass}" title="{removeTitle}"{dataUrl}{dataKey}>{removeIcon}</button>\n',
+						}
+					});
+				}
+			});
 		});
-
+		
 		$modal.on('hidden.bs.modal', function(){
 			$(this).remove();
 		});
@@ -1228,6 +1413,13 @@ var initObjectForm = function(json){
 		});
 		
 		$modal.modal('show');
+		
+		
+		$modal.on('click', '#formList .form-item', function(event){
+			event.preventDefault();
+		});
+		
+		
 	})();
 
 };
