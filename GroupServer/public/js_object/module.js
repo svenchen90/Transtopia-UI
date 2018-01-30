@@ -47,18 +47,12 @@ var initObjectEditor = function(json, versionID, objectID, callback){
 		'					</div>\n' +
 		'				</nav>\n' +
 		
-		'				<ul id="tab-bar" class="nav nav-tabs">\n' +
-		'					<li class="active">\n' +
-		'						<a href="#home" data-toggle="tab">菜鸟教程</a>\n' +
-		'					</li>\n' +
-		'					<li>\n' +
-		'						<a href="#ios" data-toggle="tab">iOS</a>\n' +
-		'					</li>\n' +
+		'				<ul id="tab-bar" class="nav nav-tabs" style="margin: 0 50px 0 50px;">\n' +
+		'					<!-- 标签列表 -->\n' +
 		'					<a href="#" data-action="addTab" style="float: left;padding: 8px 15px; font-size: 19px;"><i class="fa fa-plus-square"></i></a>\n' +
 		'				</ul>\n' +
-		
-		
-		'				<div id="templateList" class="customized-scrollbar" style="height: 60vh; overflow-y: auto;">\n' +
+		'				<div id="templateList" class="customized-scrollbar tab-content" style="height: 60vh; overflow-y: auto;">\n' +
+		'					<!-- 标签分页 -->\n' +
 		'				</div>\n' +
 		'			</div>\n' +
 		'			<div class="modal-footer">\n' +
@@ -73,42 +67,55 @@ var initObjectEditor = function(json, versionID, objectID, callback){
 		'</div>\n'
 	);	
 	
-	$modal.on('click', '#tab-bar li.active a', function(){
+	// 添加tab栏
+	// A. 激活修改名称
+	$modal.find('#tab-bar').on('click', 'li.active a', function(){
 		var tabName = $(this).text();
-		var $input = $('<input value="' + tabName + '"/>');
+		var href = $(this).attr('href');
+		var $input = $('<input class="tab-rename" value="' + tabName + '" data-href="' + href + '"/>');
 		$(this).replaceWith($input);
 		$input.focus();
-		
-		$input
-			.focusout(function(){
-				$(this).replaceWith('<a href="#home" data-toggle="tab">' + this.value + '</a>\n');
-			})
-			.keypress(function(event){
-				if(event.keyCode == '13'){
-					$(this).replaceWith('<a href="#home" data-toggle="tab">' + this.value + '</a>\n');
-				}
-			});
 	});
 	
+	// B. 完成修改名称
+	$modal.find('#tab-bar')
+		.on('focusout', 'input', function(){
+			$(this).replaceWith('<a href="' + $(this).attr('data-href') + '" data-toggle="tab">' + $(this).val() + '</a>\n');
+		})
+		.on('keydown', 'input', function(event){
+				if(event.keyCode == '13'){
+					$(this).replaceWith('<a href="' + $(this).attr('data-href') + '" data-toggle="tab">' + $(this).val() + '</a>\n');
+				}
+		});
 	
-	
-	
-	$modal.on('click', '#tab-bar [data-action="addTab"]', function(){
-		var $newTab = $('<li><input value="新建分页"/></li>');
+	// C. 添加新的tab
+	$modal.find('#tab-bar').on('click', '[data-action="addTab"]', function(){
+		var index = $(this).closest('#tab-bar').find('li').length;
+		
+		var $newTab = $('<li><a href="#tab_' + index + '" data-toggle="tab">新建标签</a></li>');
 		$(this).before($newTab);
 		
+		var $newContent = $(
+			'<div class="tab-pane fade" id="tab_' + index + '">\n' +
+			'</div>\n'
+		);
+		$modal.find('#templateList').append($newContent);
 		
-		$newTab.find('input')
-			.focusout(function(){
-				$(this).replaceWith('<a href="#home" data-toggle="tab">' + this.value + '</a>\n');
-			})
-			.keypress(function(event){
-				if(event.keyCode == '13'){
-					$(this).replaceWith('<a href="#home" data-toggle="tab">' + this.value + '</a>\n');
+		$newContent
+			.sortable({
+				handle: ".question",
+				placeholder: "template-placeholder",
+				update: function( event, ui ) {
+					renumbering($newContent);
 				}
-			});
+			})
+			.disableSelection();
+		
+		$newTab.find('a').tab('show');
+		$newTab.find('a').click();
+		
 	});
-	
+	// 添加tab栏
 	
 	
 	var validation = function(){
@@ -118,15 +125,15 @@ var initObjectEditor = function(json, versionID, objectID, callback){
 	//初始化
 	(function(){
 		//1. 加载sortable、禁止select
-		$modal.find('#templateList')
+		/* $modal.find('#templateList .tab-pane')
 			.sortable({
 				handle: ".question",
 				placeholder: "template-placeholder",
 				update: function( event, ui ) {
-					renumbering();
+					renumbering($('#templateList .tab-pane.active'));
 				}
 			})
-			.disableSelection();
+			.disableSelection(); */
 
 		//2. 监听工具栏按钮
 		var actionMap = {
@@ -146,11 +153,10 @@ var initObjectEditor = function(json, versionID, objectID, callback){
 				
 				var $contentOfList = $modal.find('#templateList');
 				var $item = actionFunc(true);
-				$contentOfList
-					.append($item)
-					.scrollTop($contentOfList[0].scrollHeight);	
+				$modal.find('#templateList .tab-pane.active').append($item)
+				$modal.find('#templateList').scrollTop($modal.find('#templateList')[0].scrollHeight);	
 				
-				renumbering();
+				renumbering($('#templateList .tab-pane.active'));
 			});
 		});
 		
@@ -175,16 +181,76 @@ var initObjectEditor = function(json, versionID, objectID, callback){
 		});
 	
 		// 通过json加载
-		if(json != undefined){
+		if(Array.isArray(json) && json.length > 0){
 			if(validation(json)){
-				$.each(json, function(index, item){
-					$modal.find('#templateList').append(generateByJson(item));
+				$.each(json, function(index, tab){
+					// ####
+					var tabName = tab.name;
+					var list = tab.list;
+					var index = $(this).closest('#tab-bar').find('li').length;
+
+					var $newTab = $('<li><a href="#tab_' + index + '" data-toggle="tab">' + tabName + '</a></li>');
+					$modal.find('#tab-bar [data-action="addTab"]').before($newTab);
+					
+					var $newContent = $(
+						'<div class="tab-pane fade" id="tab_' + index + '">\n' +
+						'</div>\n'
+					);
+					
+					$.each(list, function(index, item){
+						$newContent.append(generateByJson(item));
+					});
+					
+					$modal.find('#templateList').append($newContent);
+					renumbering($newContent);
+					
+					if(index == 0){
+						$newContent.addClass('in active');
+					}
+					
+					$newContent
+						.sortable({
+							handle: ".question",
+							placeholder: "template-placeholder",
+							update: function( event, ui ) {
+								renumbering($newContent);
+							}
+						})
+						.disableSelection();
+					
+					
+					
+					
+					// $modal.find('#templateList').append(generateByJson(item));
 				});
-				renumbering();
+				
 			}else{
 				console.log('error');
 			}
+		}else{
+			//默认加载
+			var $newTab = $('<li><a href="#tab_0" data-toggle="tab">默认</a></li>');
+			$modal.find('#tab-bar [data-action="addTab"]').before($newTab);
+			
+			var $newContent = $(
+				'<div class="tab-pane fade in active" id="tab_0">\n' +
+				'</div>\n'
+			);
+			
+			$modal.find('#templateList').append($newContent);
+			
+			$newContent
+						.sortable({
+							handle: ".question",
+							placeholder: "template-placeholder",
+							update: function( event, ui ) {
+								renumbering($newContent);
+							}
+						})
+						.disableSelection();
 		}
+		
+		
 		$modal.modal('show');
 	})();
 };
@@ -882,40 +948,40 @@ var completeEdit = function($item){
 // 3. 上移
 var moveUp = function($item){
 	$item.prev().before($item);
-	renumbering();
+	renumbering($('#templateList'));
 };
 
 // 4. 下移
 var moveDown = function($item){
 	$item.next().after($item);
-	renumbering();
+	renumbering($('#templateList'));
 };
 
 // 5. 置顶
 var moveTop = function($item){
 	var list = $item.closest('#templateList');
 	list.prepend($item);
-	renumbering();
+	renumbering($('#templateList'));
 };
 
 // 6. 最尾
 var moveBot = function($item){
 	var list = $item.closest('#templateList');
 	list.append($item);
-	renumbering();
+	renumbering($('#templateList'));
 }
 
 // 7. 删除
 var remove = function($item){
 	$item.remove();
-	renumbering();
+	renumbering($('#templateList'));
 };
 
 // 8. 复制
 /* var copy = function($item){
 	var $clone = $item.clone(true);
 	$item.after($clone);
-	renumbering();
+	renumbering($('#templateList'));
 }; */
 
 // 9. 激活功能按钮
@@ -963,16 +1029,16 @@ var activateToolBtn = function($target, load, getData, activateEditor, getEditor
 	$target.on('click', '[data-action="copy"]', function(){
 		var data = getData();
 		$target.after(constructFunction(false, data.title, data.radios));
-		renumbering();
+		renumbering($('#templateList'));
 	});
 };
 
 
 // C. 其他
 // 1. 重新编号
-var renumbering = function(){
+var renumbering = function($container){
 	var count = 1;
-	$('#templateList .template-item').each(function(index, item){
+	$container.find('.template-item').each(function(index, item){
 		$(item).find('[name="question-number"]').text(count++ + '. ');
 	});
 };
@@ -1032,9 +1098,28 @@ var getJson = function($item) {
 // 4. 获取模板json数据
 var getTemplateJson = function() {
 	var json = [];
-	$('#templateList .template-item').each(function(index, item){
-		json.push(getJson($(item)));
+	$('#templateEditor #tab-bar li').each(function(index, tab){
+		var name, href;
+		var tabJson = {};
+		if($(tab).find('a').length > 0){
+			name = $(tab).find('a').text();
+			href = $(tab).find('a').attr('href');
+		}else if($(tab).find('input').length > 0){
+			name = $(tab).find('input').val();
+			href = $(tab).find('input').attr('data-href');
+		}
+		tabJson.name = name;
+		tabJson.list = [];
+		$('#templateList ' + href + ' .template-item').each(function(index, item){
+			tabJson.list.push(getJson($(item)));
+		});
+		
+		json.push(tabJson);
 	});
+	
+	/* $('#templateList .template-item').each(function(index, item){
+		json.push(getJson($(item)));
+	}); */
 	return json;
 };
 

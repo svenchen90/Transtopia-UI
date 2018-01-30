@@ -121,9 +121,27 @@
 	<script type="text/javascript" src="js_object/module.js"></script>
 	<script type="text/javascript" src="js_object/proxy.js"></script>
 
+	<style>
+	.tab-rename {
+		margin-top: 10px;
+	}
+	</style>
 	
 	<script>
-	initObjectEditor();
+	var testJson3 = [
+		{
+			name: '123',
+			list: [
+				{type: "radio", title: "请输入问题", radios: ['选项一', '选项二']},
+				{type: "check", title: "请输入问题", radios:  ['选项一', '选项二']},
+				{type: "input", title: "请输入问题"},
+				{type: "check", title: "请输入问题", radios:  ['选项一', '选项二']},
+				{type: "file", title: "请输入问题"}
+			]
+		}
+	];
+	
+	initObjectEditor(testJson3, 'vid', 'oid', function(){});
 	// 通过json加载以后问题		
 	/*
 	var testJson1 = [
