@@ -28,11 +28,11 @@
 
 .template-item .btn-list{
 	padding-top: 10px;
-	display: none;
+	visibility: hidden;
 }
 
 .template-item:hover .btn-list {
-	display: block;
+	visibility: visible;
 }
 
 
@@ -44,7 +44,11 @@
 	
 }
 
-.template-item.active .btn-list, .template-item.active .editor {
+.template-item.active .btn-list {
+	visibility: visible;
+}
+
+.template-item.active .editor {
 	display: block;
 }
 
@@ -71,4 +75,11 @@
 
 .form-item .answer{
 	padding-left: 20px;
+}
+
+
+
+/* 其它 */
+.tooltip > .tooltip-inner {
+	background-color: #3c8dbc; 
 }
