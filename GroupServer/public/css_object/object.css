@@ -18,8 +18,13 @@
 	color: #444444;
 	font-weight: bold;
 	line-height: 20px;
+}
+
+.template-item .question [name=question-title]{
 	cursor:move;
 }
+
+
 
 .template-item .answer{
 	padding: 0 10px 0 30px;
@@ -37,7 +42,7 @@
 
 
 .template-item .editor{
-	display: none;
+	/* display: none; */
 	margin: 15px;
 	padding: 5px 30px 5px 30px;
 	background-color: #eff9fe;

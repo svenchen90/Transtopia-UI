@@ -10,7 +10,6 @@
 			{
 				name: String,
 				value: Number,
-				tooltip: String,
 				isDefualt: 0/1
 			}
 		]
@@ -312,7 +311,7 @@ var initObjectEditor = function(json, versionID, objectID, callback){
 					
 					$newContent
 						.sortable({
-							handle: ".question",
+							handle: '.question [name="question-title"]',
 							placeholder: "template-placeholder",
 							update: function( event, ui ) {
 								renumbering($newContent);
@@ -343,7 +342,7 @@ var initObjectEditor = function(json, versionID, objectID, callback){
 			
 			$newContent
 						.sortable({
-							handle: ".question",
+							handle: '.question [name="question-title"]',
 							placeholder: "template-placeholder",
 							update: function( event, ui ) {
 								renumbering($newContent);
@@ -365,8 +364,8 @@ var generateRadio = function(isActive, data){
 		'<div class="template-item" data-type="radio">\n' +
 		'	<div class="question">\n' +
 		'		<span name="question-number"></span>\n' +
-		'		<span name="question-title" data-toggle="tooltip" data-placement="right" title="Tooltip on top"></span>\n' +
-		'		<span name="reqired" style="color: red;" title="必选">*</span>\n' +
+		'		<span name="question-title"></span>\n' +
+		'		<span name="info" style="cursor: pointer;" data-toggle="tooltip" data-placement="right" data-html=true title="<p>ddd</p><p>ddd</p>"><i class="fa fa-info-circle"></i></span>\n' +
 		'	</div>\n' +
 		'	<div class="answer">\n' +
 		'	</div>\n' +
@@ -381,9 +380,12 @@ var generateRadio = function(isActive, data){
 		'	</div>\n' +
 		'	<div class="editor">\n' +
 		'		<div class="row">\n' +
-		'			<div class="input-group col-md-6">\n' +
+		'			<div class="col-sm-6">\n' +
 		'				<label>请输入问题</label>\n' +
 		'				<textarea name="title" placeholder="请输入问题标题..." rows=4 style="width: 100%;"></textarea>\n' +
+		'			</div>\n' +
+		'			<div class="col-sm-6">\n' +
+		'				<input type="checkbox" name="required"> 必选\n' +
 		'			</div>\n' +
 		'		</div>\n' +
 		'		<table class="table table-hover">\n' +
