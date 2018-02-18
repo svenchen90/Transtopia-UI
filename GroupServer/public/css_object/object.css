@@ -1,18 +1,18 @@
-#templateList {
+#tab-content {
 	margin: 0 50px 0 50px;
 	padding: 0;
 }
-.template-item {
+.question-item {
 	margin: 0 5px 5px 5px;
 	padding: 5px;
 }
 
-.template-item:hover {
+.question-item:hover {
 	border: 0.1em solid #337ab7;
 }
 
 
-.template-item .question{
+.question-item .title{
 	padding: 10px 10px 0 10px;
 	font-size: 15px;
 	color: #444444;
@@ -20,44 +20,42 @@
 	line-height: 20px;
 }
 
-.template-item .question [name=question-title]{
+.question-item .title [name=question]{
 	cursor:move;
 }
 
-
-
-.template-item .answer{
+.question-item .answer{
 	padding: 0 10px 0 30px;
 	border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
-.template-item .btn-list{
+.question-item .btn-list{
 	padding-top: 10px;
 	visibility: hidden;
 }
 
-.template-item:hover .btn-list {
+.question-item:hover .btn-list {
 	visibility: visible;
 }
 
 
-.template-item .editor{
-	/* display: none; */
+.question-item .editor{
+	display: none;
 	margin: 15px;
 	padding: 5px 30px 5px 30px;
 	background-color: #eff9fe;
 	
 }
 
-.template-item.active .btn-list {
+.question-item.active .btn-list {
 	visibility: visible;
 }
 
-.template-item.active .editor {
+.question-item.active .editor {
 	display: block;
 }
 
-.template-placeholder {
+.question-placeholder {
 	height: 1.5em;
 	background: rgba(0,0,0,.05);
 }

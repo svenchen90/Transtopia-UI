@@ -1,13 +1,19 @@
+var ID = function () {
+	return '_' + Math.random().toString(36).substr(2, 9);
+};
+
 /* 
 	Json Data Format
 	1. Single-select
-	{
+	{	
+		lid: String, //Local ID
 		type: 'single-select',
 		required: 0/1,
 		question: String,
 		tooltip: String,
 		options: [
 			{
+				lid: String, //Local ID
 				name: String,
 				value: Number,
 				isDefualt: 0/1
@@ -17,6 +23,7 @@
 
 	2. Multi-select
 	{
+		lid: String, //Local ID
 		type: 'multi-select',
 		required: 0/1,
 		question: String,
@@ -25,9 +32,9 @@
 		max: Number(-1 means not required)
 		options: [
 			{
+				lid: String, //Local ID
 				name: String,
 				value: Number,
-				tooltip: String,
 				isDefault: 0/1
 			}
 		],
@@ -35,6 +42,7 @@
 
 	3. text
 	{
+		lid: String, //Local ID
 		type: 'text',
 		required: 0/1,
 		question: String,
@@ -49,15 +57,16 @@
 
 	4. Single dropdown (similar to single select)
 	{
+		lid: String, //Local ID
 		type: 'single-dropdown',
 		required: 0/1,
 		question: String,
 		tooltip: String,
 		options: [
 			{
+				lid: String, //Local ID
 				name: String,
 				value: Number,
-				tooltip: String,
 				isDefualt: 0/1
 			}
 		]
@@ -65,6 +74,7 @@
 
 	5. Multi-Dropdown (similar to single dropdown)
 	{
+		lid: String, //Local ID
 		type: 'mult-dropdown',
 		required: 0/1,
 		question: String,
@@ -73,9 +83,9 @@
 		max: Number(-1 means not required)
 		options: [
 			{
+				lid: String, //Local ID
 				name: String,
 				value: Number,
-				tooltip: String,
 				isDefualt: 0/1
 			}
 		]
@@ -83,6 +93,7 @@
 
 	6. file
 	{
+		lid: String, //Local ID
 		type: 'file',
 		required: 0/1,
 		question: String,
@@ -142,7 +153,6 @@ var initObjectEditor = function(json, versionID, objectID, callback){
 		'					</div>\n' +
 		'					</div>\n' +
 		'				</nav>\n' +
-		
 		'				<ul id="tab-bar" class="nav nav-tabs" style="margin: 0 50px 0 50px;">\n' +
 		'					<!-- 标签列表 -->\n' +
 		'					<a href="#" data-action="addTab" style="float: left;padding: 8px 15px; font-size: 19px;"><i class="fa fa-plus-square"></i></a>\n' +
@@ -365,7 +375,7 @@ var generateRadio = function(isActive, data){
 		'	<div class="question">\n' +
 		'		<span name="question-number"></span>\n' +
 		'		<span name="question-title"></span>\n' +
-		'		<span name="info" style="cursor: pointer;" data-toggle="tooltip" data-placement="right" data-html=true title="<p>ddd</p><p>ddd</p>"><i class="fa fa-info-circle"></i></span>\n' +
+		'		<span name="tooltip" style="cursor: pointer;" data-toggle="tooltip" data-placement="right" data-html=true title=""><i class="fa fa-info-circle"></i></span>\n' +
 		'	</div>\n' +
 		'	<div class="answer">\n' +
 		'	</div>\n' +
@@ -393,6 +403,8 @@ var generateRadio = function(isActive, data){
 		'			<thead>\n' +
 		'				<tr>\n' +
 		'					<th>选项文字</th>\n' +
+		'					<th>默认</th>\n' +
+		'					<th>数值</th>\n' +
 		'					<th>操作</th>\n' +
 		'				</tr>\n' +
 		'			</thead>\n' +
@@ -407,18 +419,28 @@ var generateRadio = function(isActive, data){
 	
 	// 1. 加载
 	var load = function(data){
+		console.log(Math.random().toString(36));
 		var title, radios;
 		if(data){
 			title = data.title;
 			radios = data.radios;			
 		}
 		
+		console.log(title);
 		
 		// 加载标题
 		if(title){
 			$item.find('[name="question-title"]').text(title);
 		}else{
 			$item.find('[name="question-title"]').text('请输入问题');
+		}
+		
+		// 加载提示
+		var msg_html =  (data.required == 1 ? '<div>必填</div>' : '') + (data.tooltip != '' ? '<div>' + data.tooltip + '</div>' : '');
+		if(msg_html != ''){
+			$item.find('[name="tooltip"]').attr('title', msg_html);
+		}else{
+			$item.find('[name="tooltip"]').css('display', 'none');
 		}
 		
 		// 加载选项
@@ -485,10 +507,12 @@ var generateRadio = function(isActive, data){
 	};
 	
 	// 按钮列表样式
-	var getEditorRadio = function(value){
+	var getEditorRadio = function(item){
 		return $(
 			'<tr name="editorRadio">\n' +
-			'	<td><input type="text" placeholder="请输入选项..." value="' + (value ? value : '') + '"></td>\n' +
+			'	<td><input type="text" placeholder="请输入选项..." value="' + (item.name ? item.name : '') + '"></td>\n' +
+			'	<td><input type="checkbox"></td>\n' +
+			'	<td><input type="number" style="width: 50px;"></td>\n' +
 			'	<td>\n' +
 			'		<a class="btn btn-primary btn-xs" data-action="editor-create"><i class="fa fa-plus"></i></a>\n' +
 			'		<a class="btn btn-primary btn-xs" data-action="editor-delete"><i class="fa fa-trash"></i></a>\n' +
@@ -540,6 +564,7 @@ var generateRadio = function(isActive, data){
 
 // 2. 添加多选
 var generateCheck = function(isActive, data){
+	var test = 0;
 	var $item = $(
 		'<div class="template-item" data-type="check">\n' +
 		'	<div class="question">\n' +
@@ -675,10 +700,14 @@ var generateCheck = function(isActive, data){
 	// 创建新的radio
 	// 1. 新建
 	$item.on('click', '[data-action="editor-create"]', function(){
+		console.log(test);
+		test ++;
 		$item.find('.editor tbody').append(getEditorRadio());
 	});
 	// 2. 删除
 	$item.on('click', '[data-action="editor-delete"]', function(){
+		console.log(test);
+		test ++;
 		$(this).closest('[name="editorRadio"]').remove();
 		if($item.find('[name="editorRadio"]').length == 0)
 			$item.find('.editor tbody').append(getEditorRadio());
@@ -1631,3 +1660,14 @@ var getFileForm = function(index, question) {
 	
 	return $module;
 };
+/* 
+var months = ['Jan', 'March', 'April', 'June'];
+console.log(months);
+months.splice(1, 0, 'Feb');
+// inserts at 1st index position
+console.log(months);
+// expected output: Array ['Jan', 'Feb', 'March', 'April', 'June']
+
+months.splice(4, 1);
+// replaces 1 element at 4th index
+console.log(months); */

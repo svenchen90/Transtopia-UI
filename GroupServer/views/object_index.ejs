@@ -121,6 +121,8 @@
 	<script type="text/javascript" src="js_object/module.js"></script>
 	<script type="text/javascript" src="js_object/proxy.js"></script>
 
+	<script type="text/javascript" src="js_object/module_beta.js"></script>
+	
 	<style>
 	.tab-rename {
 		margin-top: 10px;
@@ -132,7 +134,19 @@
 		{
 			name: '标签1',
 			list: [
-				{type: "radio", title: "请输入问题", radios: ['选项一', '选项二']},
+				{
+					type: 'radio',
+					required : 1,
+					title: '请输入问题',
+					tooltip: '',
+					radios: [
+						{
+							name: '选项一',
+							value: 1,
+							isDefault: 0/1
+						}
+					]
+				},
 				{type: "check", title: "请输入问题", radios:  ['选项一', '选项二']},
 				{type: "input", title: "请输入问题"},
 				{type: "dropdown", title: "请输入问题", radios:  ['选项一', '选项二']},
@@ -148,7 +162,7 @@
 		}
 	];
 	
-	initObjectEditor(testJson3, 'vid', 'oid', function(){});
+	//initObjectEditor(testJson3, 'vid', 'oid', function(){});
 	// 通过json加载以后问题		
 	/*
 	var testJson1 = [
@@ -204,6 +218,7 @@
 	];
 	
 	// initObjectForm(testJson2);
+
 
 	</script>
 
