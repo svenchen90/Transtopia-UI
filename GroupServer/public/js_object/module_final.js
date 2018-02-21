@@ -100,54 +100,221 @@ var tab1 = {
 
 
 var questionToJson = function($question){
+	var questionType = $question.attr('data-type');
+	var result = {};
 	
+	switch(questionType){
+		case 'singleSelect':
+			result.type = 'singleSelect';
+			result.lid = $question.attr('data-id');
+			result.title = $question.find('.editor textarea[name="title"]').val();
+			result.required = $question.find('.editor [name="required"]').is(':checked') ? 1 : 0;
+			result.tooltip = $question.find('[type="checkbox"][name="tooltip"]').is(':checked') ?  $question.find('[type="text"][name="tooltip"]').val() : '';
+			
+			result.options = [];
+			$.each($question.find('.optionList tbody tr'), function(index, item){
+				result.options.push($optionToJson($(item)));
+			});
+			
+			result.constraints = getConstraintData($question);
+			
+			break;
+		default:
+			console.log('error');
+			break;
+	}
+	
+	return result;
 };
 
+// without Constraint
 var jsonToQuestion = function(data){
-	/* {
-		index,
-		questions:
-	} */
-	var questionData = data.questions[data.index];
 	var $question;
 	
-	// 1. Get $question without constraints;
-	switch(questionData.type){
+	switch(data.type){
 		case 'singleSelect':
-			$question = get$SingleSelect(questionData);
+			$question = get$SingleSelect(data);
 			break;
 		default:
 			console.log('error');
 	}
 	
-	// 2. Load Constraints;
+	// 加载问题工具栏事件
+	$question.on('click', '.btn-list [data-action]', function(){
+		var actionType = $(this).attr('data-action');
+		
+		// 排序
+		switch(actionType){
+			case 'activateEditor':
+				$question.find('[data-action="activateEditor"]').replaceWith('<div class="btn btn-success btn-sm" data-action="confirmEdit"><i class="fa fa-check"></i> 完成</div>');
+				$question.addClass('active');
+				break;
+			case 'confirmEdit':
+				$question.find('[data-action="confirmEdit"]').replaceWith('<div class="btn btn-primary btn-sm" data-action="activateEditor"><i class="fa fa-tag"></i> 编辑</div>');
+				update$question($question);
+				$question.removeClass('active');
+				break;
+			case 'delete':
+				$question.remove();
+				break;
+			case 'moveUp':
+				$question.prev().before($question);
+				break;
+			case 'moveDown':
+				$question.next().after($question);
+				break;
+			case 'moveTop':
+				$question.closest('.tab-pane').prepend($question);
+				break;
+			case 'moveBot':
+				$question.closest('.tab-pane').append($question);
+				break;
+			
+			default:
+				console.log('error');
+		}
+	});
+	
+	// 必选
+	$question.on('click', 'input[name="required"]', function(){
+		console.log(1);
+	});
+	
+	// tooltip
+	$question.on('click', 'input[name="tooltip"]', function(){
+		console.log(2);
+	});
+	
+	// constraint
+	$question.on('click', 'input[name="constraint"]', function(){
+		console.log(3);
+	});
+	
+	
+	
+	return $question;
+};
+// Load constraint
+var initializeConstraint = function($question, data, list){
 	var validateConstraint = function(){
-		// var constraints = questionData.constraints;
 		return true;
 	};
+	
 	if(validateConstraint()){
-		if(questionData.constraints == undefined || questionData.constraints.length == 0){
+		if(data.constraints == undefined || data.constraints.length == 0){
 			$question.find('[data-action="addConstraint"]')
 				.css('visibility', 'hidden');
 			$question.find('.constraintList')
 				.css('visibility', 'hidden');
 		}else{
 			$question.find('[type=checkbox][name="constraint"]').prop('checked', true);	
-			$.each(questionData.constraints, function(i, c){
-				var item = findItemByLID(data.questions, c.lid);
+			$.each(data.constraints, function(i, c){
+				var item = findItemByLID(list, c.lid);
 				
 				var c_data = sufficeConstraintData(item.i, c, item.q);
 				
-				$question.find('.constraintList').append(get$Constraint(c_data));
+				$question.find('.constraintList').append(get$constraint(c_data));
 			});
 		}
 	}else{
 		console.log('error');
 	}
+};
+
+var sufficeConstraintData = function(index, ins_data, question_data){
+	var data = {
+		index: index,
+		title: question_data.title,
+		lid: ins_data.lid,
+		type: ins_data.type,
+		options: []
+	};
 	
+	$.each(ins_data.options, function(i, o){
+		var item = findItemByLID(question_data.options, o.lid);
+		data.options.push({
+			index: item.i,
+			lid: item.q.lid,
+			name: item.q.name
+		});
+	});
 	
+	return data;
+};
+
+var get$constraint = function(data){
+	/* data: {
+		index,
+		title,
+		lid,
+		options:[{
+			index:
+			lid: 
+			name:
+		}]
+		type: 0->不选中触发， 1->选中触发
+	}; */
+	var $constraint = $(
+		'<tr name="constraint">\n' +
+		'	<td><span name="question" data-id=""></span></td>\n' +
+		'	<td name="options"></td>\n' +
+		'	<td name="type"></td>\n' +
+		'	<td>\n' +
+		'		<a class="btn btn-primary btn-xs" data-action="constraint-delete"><i class="fa fa-trash"></i></a>\n' +
+		'		<a class="btn btn-primary btn-xs" data-action="constraint-edit"><i class="fa fa-pencil"></i></a>\n' +
+		'	</td>\n' +
+		'</tr>'
+	);
 	
-	return $question;
+	var validate = function(){
+		if(data != undefined)
+			return true;
+		else
+			return false;
+	}
+	
+	var load = function(data){
+		$constraint.find('[name="question"]')
+			.text('# ' + (data.index+1) + '. ' + data.title)
+			.attr('data-id', data.lid);
+		
+		$.each(data.options, function(index, item){
+			//
+			$constraint.find('[name="options"]').append(
+				'<span data-id="' + item.lid + '" data-toggle="tooltip" data-placement="right" data-html=true title="' + item.name + '" style="cursor: pointer; color: #3c8dbc;" >\n' +
+				'	[选项' + (item.index+1) + ']\n' +
+				'</span>'
+			);
+		});
+		
+		$constraint.find('[name="type"]')
+			.attr('data-value', data.type)
+			.text( data.type ? '选中显示' : '不选中显示' );
+	};
+	
+	if(validate())
+		load(data);
+	else
+		console.log('error')
+	
+	return $constraint
+};
+
+var getConstraintData = function($question){
+	var result = [];
+	$question.find('tr[name="constraint"]').each(function(index, item){
+		var json = {};
+		json.lid = $(item).find('td [name="question"]').attr('data-id');
+		json.type = $(item).find('td[name="type"]').attr('data-value');
+		json.options = [];
+		$(item).find('td[name="options"] span').each(function(index2, item2){
+			json.options.push({lid: $(item2).attr('data-id')});
+		});
+		
+		result.push(json);
+	});
+	
+	return result;
 };
 
 var get$SingleSelect = function(data){
@@ -158,11 +325,11 @@ var get$SingleSelect = function(data){
 	
 	if(isValidate()){
 		$question = $(
-			'<div class="question-item active" data-type="singleSelect">\n' +
+			'<div class="question-item" data-type="singleSelect">\n' +
 			'	<div class="title">\n' +
 			'		<span name="index"></span>\n' +
 			'		<span name="question"></span>\n' +
-			'		<span name="tooltip" style="cursor: pointer;" data-toggle="tooltip" data-placement="right" data-html=true title=""><i class="fa fa-info-circle"></i></span>\n' +
+			'		<span name="tooltip" style="cursor: pointer;" title=""><i class="fa fa-info-circle"></i></span>\n' +
 			'	</div>\n' +
 			'	<div class="answer">\n' +
 			'	</div>\n' +
@@ -233,11 +400,16 @@ var get$SingleSelect = function(data){
 		$question.find('.title [name=question]').text(data.title);
 		
 		// load tooltip
-		var msg =  (data.required == 1 ? '<div>必填</div>' : '') + (data.tooltip != '' ? '<div>' + data.tooltip + '</div>' : '');
-		if(msg != ''){
+		var msgs = [];
+		if(data.required == 1)
+			msgs.push('必填');
+		if(data.tooltip != '')
+			msgs.push(data.tooltip);
+		
+		if(msgs.length != 0){
 			$question.find('.title [name="tooltip"]')
 				.css('visibility', 'visible')
-				.attr('title', msg);
+				.attr('title', msgs);
 		}else{
 			$question.find('.title [name="tooltip"]')
 				.css('visibility', 'hidden');
@@ -271,7 +443,7 @@ var get$SingleSelect = function(data){
 		// load options
 		$question.find('.optionList tbody').empty();		
 		$.each(data.options, function(index, item){
-			$question.find('.optionList tbody').append(get$Option(item));
+			$question.find('.optionList tbody').append(get$option(item));
 		});
 		
 	}else{
@@ -281,7 +453,51 @@ var get$SingleSelect = function(data){
 	return $question;
 };
 
-var get$Option = function(data){
+var update$question = function($question){
+	var questionType = $question.attr('data-type');
+	
+	switch(questionType){
+		case 'singleSelect':
+			var data = questionToJson($question);
+			
+			console.log(data);
+			// load question;
+			$question.find('.title [name=question]').text(data.title);
+			
+			// load tooltip
+			var msgs = [];
+			if(data.required == 1)
+				msgs.push('必填');
+			if(data.tooltip != '')
+				msgs.push(data.tooltip);
+			
+			if(msgs.length != 0){
+				$question.find('.title [name="tooltip"]')
+					.css('visibility', 'visible')
+					.attr({'title': msgs})
+			}else{
+				$question.find('.title [name="tooltip"]')
+					.css('visibility', 'hidden');
+			}
+			
+			// load options
+			$question.find('.answer').empty();		
+			$.each(data.options, function(index, item){
+				var $item = $(
+					'<div class="option" data-id="' + item.lid + '">\n' +
+					'	<i class="fa ' + (item.isDefault == 0 ? 'fa-circle-o' : 'fa-check-circle-o')  + '"></i> <span name="radioName">' + item.name + '</span>\n' +
+					'</div>'
+				);
+				$question.find('.answer').append($item);
+			});
+			break;
+		default:
+			break;
+	}
+	
+};
+
+var get$option = function(data){
 	var $option = $(
 		'<tr name="editorOption" id="">\n' +
 		'	<td><input type="text" placeholder="请输入选项..." name="name"></td>\n' +
@@ -320,60 +536,15 @@ var get$Option = function(data){
 	return $option;
 };
 
-var get$Constraint = function(data){
-	/* data: {
-		index,
-		title,
-		lid,
-		options:[{
-			index:
-			lid: 
-			name:
-		}]
-		type: 0->不选中触发， 1->选中触发
-	}; */
-	var $constraint = $(
-		'<tr name="constraint">\n' +
-		'	<td><span name="question" data-id=""></span></td>\n' +
-		'	<td name="options"></td>\n' +
-		'	<td name="type"></td>\n' +
-		'	<td>\n' +
-		'		<a class="btn btn-primary btn-xs" data-action="constraint-delete"><i class="fa fa-trash"></i></a>\n' +
-		'		<a class="btn btn-primary btn-xs" data-action="constraint-edit"><i class="fa fa-pencil"></i></a>\n' +
-		'	</td>\n' +
-		'</tr>'
-	);
+var $optionToJson = function($option){
+	var json = {};
 	
-	var validate = function(){
-		if(data != undefined)
-			return true;
-		else
-			return false;
-	}
+	json.lid = $option.attr('data-id');
+	json.name = $option.find('[name="name"]').val();
+	json.isDefault = $option.find('[name="isDefault"]').is(':checked') ? 1 : 0;
+	json.value = $option.find('[name="value"]').val();
 	
-	var load = function(data){
-		$constraint.find('[name="question"]')
-			.text('# ' + (data.index+1) + '. ' + data.title)
-			.attr('data-id', data.lid);
-		
-		$.each(data.options, function(index, item){
-			//
-			$constraint.find('[name="options"]').append(
-				'<span data-id="' + item.lid + '" data-toggle="tooltip" data-placement="right" data-html=true title="' + item.name + '" style="cursor: pointer; color: #3c8dbc;" >\n' +
-				'	[选项' + (item.index+1) + ']\n' +
-				'</span>'
-			);
-		});
-		
-		$constraint.find('[name="type"]').text( data.type ? '选中显示' : '不选中显示' );
-	};
-	
-	if(validate())
-		load(data);
-	else
-		console.log('error')
-	
-	return $constraint
+	return json;
 };
 
 var findItemByLID = function(list, lid){
@@ -392,30 +563,6 @@ var find$ItemByLID = function($container, lid){
 	console.log(2)
 };
 
-var sufficeConstraintData = function(index, ins_data, question_data){
-	var data = {
-		index: index,
-		title: question_data.title,
-		lid: ins_data.lid,
-		type: ins_data.type,
-		options: []
-	};
-	
-	$.each(ins_data.options, function(i, o){
-		var item = findItemByLID(question_data.options, o.lid);
-		data.options.push({
-			index: item.i,
-			lid: item.q.lid,
-			name: item.q.name
-		});
-	});
-	
-	return data;
-};
-
-var initializeConstraint = function($question, ){
-	
-};
 
 /* jsonToQuestion(
 	{
@@ -500,20 +647,12 @@ var $modal = $(
 );
 $modal.modal('show');
 
-$modal.find('#123').append(
-	jsonToQuestion(
-		{
-			index: 2,
-			questions: tab1.questions
-		}
-	)
-);
+var $q = jsonToQuestion(tab1.questions[2]);
+initializeConstraint($q, tab1.questions[2], tab1.questions);
 
-$modal.find('#123').append(
-	jsonToQuestion(
-		{
-			index: 1,
-			questions: tab1.questions
-		}
-	)
-);
+$modal.find('#123').append($q);
+
+var $q = jsonToQuestion(tab1.questions[1]);
+initializeConstraint($q, tab1.questions[1], tab1.questions);
+
+$modal.find('#123').append($q);
