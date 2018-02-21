@@ -244,12 +244,28 @@ var questionToJson = function($question){
 			result.constraints = getConstraintData($question);
 			break;
 		case 'multiSelect':
+			result.type = 'multiSelect';
+			result.lid = $question.attr('data-id');
+			result.title = $question.find('.editor textarea[name="title"]').val();
+			result.required = $question.find('.editor [name="required"]').is(':checked') ? 1 : 0;
+			result.tooltip = $question.find('[type="checkbox"][name="tooltip"]').is(':checked') ?  $question.find('[type="text"][name="tooltip"]').val() : '';
+			
+			result.options = [];
+			$.each($question.find('.optionList tbody tr'), function(index, item){
+				result.options.push($optionToJson($(item)));
+			});
+			
+			result.min = $question.find('[name="range"] [name="min"]').val();
+			result.max = $question.find('[name="range"] [name="max"]').val();
+			
+			result.constraints = getConstraintData($question);
 			break;
 		default:
 			console.log('error');
 			break;
 	}
 	
+	console.log(result);
 	return result;
 };
 
@@ -727,6 +743,7 @@ var get$MultiSelect = function(data){
 			$question.find('.optionList tbody').append(get$option(item));
 		});
 		
+		// load range
 		$question.find('[name="range"] [name="min"]').val(data.min);
 		$question.find('[name="range"] [name="max"]').val(data.max);
 		
@@ -743,10 +760,8 @@ var update$question = function($question){
 	switch(questionType){
 		case 'singleSelect':
 			var data = questionToJson($question);
-			
 			// load question;
 			$question.find('.title [name=question]').text(data.title);
-			
 			// load tooltip
 			var msgs = [];
 			if(data.required == 1)
@@ -756,7 +771,7 @@ var update$question = function($question){
 			
 			if(msgs.length != 0){
 				$question.find('.title [name="tooltip"]')
-					.css('display', 'block')
+					.css('display', 'inline')
 					.attr({'title': msgs})
 			}else{
 				$question.find('.title [name="tooltip"]')
@@ -773,6 +788,38 @@ var update$question = function($question){
 				);
 				$question.find('.answer').append($item);
 			});
+			break;
+		case 'multiSelect':
+			var data = questionToJson($question);
+			// load question;
+			$question.find('.title [name=question]').text(data.title);
+			// load tooltip
+			var msgs = [];
+			if(data.required == 1)
+				msgs.push('必填');
+			if(data.tooltip != '')
+				msgs.push(data.tooltip);
+			
+			if(msgs.length != 0){
+				$question.find('.title [name="tooltip"]')
+					.css('display', 'inline')
+					.attr({'title': msgs})
+			}else{
+				$question.find('.title [name="tooltip"]')
+					.css('display', 'none');
+			}
+			
+			// load options
+			$question.find('.answer').empty();		
+			$.each(data.options, function(index, item){
+				var $item = $(
+					'<div class="option" data-id="' + item.lid + '">\n' +
+					'	<i class="fa ' + (item.isDefault == 0 ? 'fa-square-o' : 'fa-check-square-o')  + '"></i> <span name="radioName">' + item.name + '</span>\n' +
+					'</div>'
+				);
+				$question.find('.answer').append($item);
+			});
+			
 			break;
 		default:
 			break;
