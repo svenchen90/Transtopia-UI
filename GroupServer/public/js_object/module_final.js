@@ -23,15 +23,6 @@
 	constraints: [Constraint]
 }
  */
-
-var localIDGenerator = function () {
-	return '_' + Math.random().toString(36).substr(2, 9);
-};
-
-var objIsEmpty = function(obj){
-	return Object.keys(obj).length === 0 && obj.constructor === Object;
-};
-
 var tab1 = {
 	lid: '_oohbd6kqt',
 	name: '标签1',
@@ -224,48 +215,224 @@ var tab2 = {
 	] 
 };
 
+var tab3 = {
+	lid: '_oohbd6kqt',
+	name: '标签1',
+	questions: [
+		{
+			lid: '_nzjs9whbt',
+			type: 'singleDropdown',
+			required: 0,
+			title: '请输入问题',
+			tooltip: '',
+			min: 0,
+			max: 7,
+			options: [
+				{
+					lid: "_4wl6caiet",
+					name: '选项1',
+					value: 0,
+					isDefault: 0
+				},
+				{
+					lid: "_5ndw0aln9",
+					name: '选项2',
+					value: 0,
+					isDefault: 0
+				}
+			]
+		},
+		{
+			lid: '_ezj0vd2hh',
+			type: 'singleDropdown',
+			required: 0,
+			title: '11111111',
+			tooltip: '',
+			options: [
+				{
+					lid: "_66vb3qv0q",
+					name: '111111',
+					value: 0,
+					isDefault: 0
+				},
+				{
+					lid: "_aeso5n1kq",
+					name: '222222',
+					value: 0,
+					isDefault: 0
+				}
+			]
+		},
+		{
+			lid: '_ch4hd4jpm',
+			type: 'singleDropdown',
+			required: 1,
+			title: 'AAAAA',
+			tooltip: '123123123',
+			options: [
+				{
+					lid: "_is6frrvyt",
+					name: 'AAAAA',
+					value: 0,
+					isDefault: 1
+				},
+				{
+					lid: "_s01fk5bat",
+					name: 'BBBBB',
+					value: 0,
+					isDefault: 0
+				}
+			],
+			constraints: [
+				{
+					lid: '_nzjs9whbt',
+					type: 1,
+					options: [
+						{
+							lid: '_4wl6caiet'
+						},
+						{
+							lid: '_5ndw0aln9'
+						},
+					],
+				},{
+					lid: '_ezj0vd2hh',
+					type: 0,
+					options: [
+						{
+							lid: '_66vb3qv0q'
+						},
+						{
+							lid: '_aeso5n1kq'
+						},
+					],
+				},
+			]
+		}
+	] 
+};
+
+var tab4 = {
+	lid: '_oohbd6kqt',
+	name: '标签1',
+	questions: [
+		{
+			lid: '_nzjs9whbt',
+			type: 'multiDropdown',
+			required: 0,
+			title: '请输入问题',
+			tooltip: '',
+			min: 0,
+			max: 7,
+			options: [
+				{
+					lid: "_4wl6caiet",
+					name: '选项1',
+					value: 0,
+					isDefault: 0
+				},
+				{
+					lid: "_5ndw0aln9",
+					name: '选项2',
+					value: 0,
+					isDefault: 0
+				}
+			]
+		},
+		{
+			lid: '_ezj0vd2hh',
+			type: 'multiDropdown',
+			required: 0,
+			title: '11111111',
+			tooltip: '',
+			options: [
+				{
+					lid: "_66vb3qv0q",
+					name: '111111',
+					value: 0,
+					isDefault: 0
+				},
+				{
+					lid: "_aeso5n1kq",
+					name: '222222',
+					value: 0,
+					isDefault: 0
+				}
+			]
+		},
+		{
+			lid: '_ch4hd4jpm',
+			type: 'multiDropdown',
+			required: 1,
+			title: 'AAAAA',
+			tooltip: '123123123',
+			options: [
+				{
+					lid: "_is6frrvyt",
+					name: 'AAAAA',
+					value: 0,
+					isDefault: 1
+				},
+				{
+					lid: "_s01fk5bat",
+					name: 'BBBBB',
+					value: 0,
+					isDefault: 0
+				}
+			],
+			constraints: [
+				{
+					lid: '_nzjs9whbt',
+					type: 1,
+					options: [
+						{
+							lid: '_4wl6caiet'
+						},
+						{
+							lid: '_5ndw0aln9'
+						},
+					],
+				},{
+					lid: '_ezj0vd2hh',
+					type: 0,
+					options: [
+						{
+							lid: '_66vb3qv0q'
+						},
+						{
+							lid: '_aeso5n1kq'
+						},
+					],
+				},
+			]
+		}
+	] 
+};
+
 var questionToJson = function($question){
-	var questionType = $question.attr('data-type');
 	var result = {};
 	
-	switch(questionType){
-		case 'singleSelect':
-			result.type = 'singleSelect';
-			result.lid = $question.attr('data-id');
-			result.title = $question.find('.editor textarea[name="title"]').val();
-			result.required = $question.find('.editor [name="required"]').is(':checked') ? 1 : 0;
-			result.tooltip = $question.find('[type="checkbox"][name="tooltip"]').is(':checked') ?  $question.find('[type="text"][name="tooltip"]').val() : '';
-			
-			result.options = [];
-			$.each($question.find('.optionList tbody tr'), function(index, item){
-				result.options.push($optionToJson($(item)));
-			});
-			
-			result.constraints = getConstraintData($question);
-			break;
-		case 'multiSelect':
-			result.type = 'multiSelect';
-			result.lid = $question.attr('data-id');
-			result.title = $question.find('.editor textarea[name="title"]').val();
-			result.required = $question.find('.editor [name="required"]').is(':checked') ? 1 : 0;
-			result.tooltip = $question.find('[type="checkbox"][name="tooltip"]').is(':checked') ?  $question.find('[type="text"][name="tooltip"]').val() : '';
-			
-			result.options = [];
-			$.each($question.find('.optionList tbody tr'), function(index, item){
-				result.options.push($optionToJson($(item)));
-			});
-			
+	var questionType = $question.attr('data-type');
+	if(['singleSelect', 'multiSelect', 'singleDropdown', 'multiDropdown'].includes(questionType)){
+		result.type = questionType;
+		result.lid = $question.attr('data-id');
+		result.title = $question.find('.editor textarea[name="title"]').val();
+		result.required = $question.find('.editor [name="required"]').is(':checked') ? 1 : 0;
+		result.tooltip = $question.find('[type="checkbox"][name="tooltip"]').is(':checked') ?  $question.find('[type="text"][name="tooltip"]').val() : '';
+		result.options = [];
+		$.each($question.find('.optionList tbody tr'), function(index, item){
+			result.options.push($optionToJson($(item)));
+		});
+		result.constraints = getConstraintData($question);
+		
+		if(['multiSelect','multiDropdown'].includes(questionType)){
 			result.min = $question.find('[name="range"] [name="min"]').val();
 			result.max = $question.find('[name="range"] [name="max"]').val();
-			
-			result.constraints = getConstraintData($question);
-			break;
-		default:
-			console.log('error');
-			break;
+		}
+	}else{
+		
 	}
-	
-	console.log(result);
+
 	return result;
 };
 
@@ -274,30 +441,14 @@ var jsonToQuestion = function(data){
 	
 	switch(data.type){
 		case 'singleSelect':
-			$question = get$SingleSelect(data);
-			break;
 		case 'multiSelect':
-			$question = get$MultiSelect(data);
+		case 'singleDropdown':
+		case 'multiDropdown':
+			$question = get$Choice(data);
 			break;
 		default:
 			console.log('error');
 	}
-	
-	// insufficient Constraint
-	if(data.constraints == undefined || data.constraints.length == 0){
-		$question.find('[data-action="addConstraint"]')
-			.css('display', 'none');
-		$question.find('.constraintList')
-			.css('display', 'none');
-	}else{
-		$question.find('[type=checkbox][name="constraint"]').prop('checked', true);	
-		$.each(data.constraints, function(i, c){
-			$question.find('.constraintList').append(get$constraint(c));
-		});
-	}
-	 
-	
-	//$question = get$constraint()
 	
 	// Event
 	// 加载问题工具栏事件
@@ -308,23 +459,9 @@ var jsonToQuestion = function(data){
 		switch(actionType){
 			case 'activateEditor':
 				$question.closest('.tab-pane').find('.question-item.active [data-action=confirmEdit]').trigger('click');
-			
 				$question.find('[data-action="activateEditor"]').replaceWith('<div class="btn btn-success btn-sm" data-action="confirmEdit"><i class="fa fa-check"></i> 完成</div>');
-				
 				// update constraints (sufficent)
-				var ins_constraints = getConstraintData($question);
-				$question.find('.constraintList tbody').empty();
-				$.each(ins_constraints, function(i, c){
-					// var $q = $question.closest('.tab-pane').find('.question-item[data-id=' + c.lid + ']');
-					var $q = $question.prevAll('[data-id=' + c.lid + ']');
-					var q_data = questionToJson($q);
-					var q_index = $question.closest('.tab-pane').find('.question-item').index($q);	
-					
-					var suf_constraint = sufficeConstraintData(q_index, c, q_data);
-					if(!objIsEmpty(suf_constraint))
-						$question.find('.constraintList tbody').append(get$constraint(suf_constraint));
-				});
-				
+				update$Constraint($question);
 				$question.addClass('active');
 				break;
 			case 'confirmEdit':
@@ -470,7 +607,7 @@ var jsonToQuestion = function(data){
 	}
 }; */
 
-var get$SingleSelect = function(data){
+var get$Choice = function(data){
 	var isValidate = function(){
 		return true;
 	};
@@ -478,143 +615,7 @@ var get$SingleSelect = function(data){
 	
 	if(isValidate()){
 		$question = $(
-			'<div class="question-item" data-type="singleSelect">\n' +
-			'	<div class="title">\n' +
-			'		<span name="index"></span>\n' +
-			'		<span name="question"></span>\n' +
-			'		<span name="tooltip" style="cursor: pointer;" title=""><i class="fa fa-info-circle"></i></span>\n' +
-			'	</div>\n' +
-			'	<div class="answer">\n' +
-			'	</div>\n' +
-			'	<div class="btn-list" style="text-align: right;">\n' +
-			'		<div class="btn btn-primary btn-sm" data-action="activateEditor"><i class="fa fa-tag"></i> 编辑</div>\n' +
-			'		<div class="btn btn-default btn-sm" data-action="copy"><i class="fa fa-copy"></i> 复制</div>\n' +
-			'		<div class="btn btn-default btn-sm" data-action="delete"><i class="fa fa-trash"></i> 删除</div>\n' +
-			'		<div class="btn btn-default btn-sm" data-action="moveUp"><i class="fa fa-angle-up"></i> 上移</div>\n' +
-			'		<div class="btn btn-default btn-sm" data-action="moveDown"><i class="fa fa-angle-down"></i> 下移</div>\n' +
-			'		<div class="btn btn-default btn-sm" data-action="moveTop"><i class="fa fa-angle-double-up"></i> 最前</div>\n' +
-			'		<div class="btn btn-default btn-sm" data-action="moveBot"><i class="fa fa-angle-double-down"></i> 最后</div>\n' +
-			'	</div>\n' +
-			'	<div class="editor">\n' +
-			'		<div class="row">\n' +
-			'			<div class="col-sm-6">\n' +
-			'				<label>请输入问题</label>\n' +
-			'				<textarea name="title" placeholder="请输入问题标题..." rows=4 style="width: 100%;"></textarea>\n' +
-			'			</div>\n' +
-			'			<div class="col-sm-6">\n' +
-			'				<div>\n' +
-			'					<input type="checkbox" name="required">\n' +
-			'					<label>必选</label>\n' +
-			'				</div>\n' +
-			'				<div>\n' +
-			'					<input type="checkbox" name="tooltip">\n' +
-			'					<label>提示</label>\n' +
-			'					<input type="text" name="tooltip" placeholder="请输入提示">\n' +
-			'				</div>\n' +
-			'				<div>\n' +
-			'					<input type="checkbox" name="constraint">\n' +
-			'					<label>关联逻辑</label>\n' +
-			'					<a href="#" data-action="addConstraint"><i class="fa fa-plus"></i></a>\n' +
-			'				</div>\n' +
-			'				<table class="table table-hover constraintList">\n' +
-			'					<thead>\n' +
-			'						<tr>\n' +
-			'							<th>关联题目</th>\n' +
-			'							<th>关联选项</th>\n' +
-			'							<th>关联类型</th>\n' +
-			'							<th>操作</th>\n' +
-			'						</tr>\n' +
-			'					</thead>\n' +
-			'					<tbody>\n' +
-			'					</tbody>\n' +
-			'				</table>\n' +
-			'			</div>\n' +
-			'		</div>\n' +
-			'		<table class="table table-hover optionList">\n' +
-			'			<!-- <caption>选项设置</caption> -->\n' +
-			'			<thead>\n' +
-			'				<tr>\n' +
-			'					<th>选项文字</th>\n' +
-			'					<th>默认</th>\n' +
-			'					<th>数值</th>\n' +
-			'					<th>操作</th>\n' +
-			'				</tr>\n' +
-			'			</thead>\n' +
-			'			<tbody>\n' +
-			'			</tbody>\n' +
-			'		</table>\n' +
-			'	</div>\n' +
-			'</div>'
-		);
-		
-		// 1. Question Body
-		$question.attr('data-id', data.lid);
-		// load question;
-		$question.find('.title [name=question]').text(data.title);
-		
-		// load tooltip
-		var msgs = [];
-		if(data.required == 1)
-			msgs.push('必填');
-		if(data.tooltip != '')
-			msgs.push(data.tooltip);
-		
-		if(msgs.length != 0){
-			$question.find('.title [name="tooltip"]')
-				.css('display', 'inline')
-				.attr('title', msgs);
-		}else{
-			$question.find('.title [name="tooltip"]')
-				.css('display', 'none');
-		}
-		
-		// load options
-		$question.find('.answer').empty();		
-		$.each(data.options, function(index, item){
-			var $item = $(
-				'<div class="option" data-id="' + item.lid + '">\n' +
-				'	<i class="fa ' + (item.isDefault == 0 ? 'fa-circle-o' : 'fa-check-circle-o')  + '"></i> <span name="radioName">' + item.name + '</span>\n' +
-				'</div>'
-			);
-			$question.find('.answer').append($item);
-		});
-		// 2. Question Editor
-		// load question
-		$question.find('.editor textarea[name="title"]').text(data.title);
-		// load required
-		$question.find('.editor [name="required"]').prop('checked', data.required);
-		// load tooltip
-		if(data.tooltip == ''){
-			$question.find('[type="checkbox"][name="tooltip"]').prop('checked', 0);
-			$question.find('[type="text"][name="tooltip"]').css('display', 'none');
-		}else{
-			$question.find('[type="checkbox"][name="tooltip"]').prop('checked', 1);
-			$question.find('[type="text"][name="tooltip"]')
-				.css('display', 'inline')
-				.val(data.tooltip);
-		}
-		// load options
-		$question.find('.optionList tbody').empty();		
-		$.each(data.options, function(index, item){
-			$question.find('.optionList tbody').append(get$option(item));
-		});
-		
-	}else{
-		console.log('error');
-	}
-	
-	return $question;
-};
-
-var get$MultiSelect = function(data){
-	var isValidate = function(){
-		return true;
-	};
-	var $question;
-	
-	if(isValidate()){
-		$question = $(
-			'<div class="question-item" data-type="multiSelect">\n' +
+			'<div class="question-item" data-type>\n' +
 			'	<div class="title">\n' +
 			'		<span name="index"></span>\n' +
 			'		<span name="question"></span>\n' +
@@ -693,6 +694,8 @@ var get$MultiSelect = function(data){
 		
 		// 1. Question Body
 		$question.attr('data-id', data.lid);
+		$question.attr('data-type', data.type);
+		
 		// load question;
 		$question.find('.title [name=question]').text(data.title);
 		
@@ -702,6 +705,10 @@ var get$MultiSelect = function(data){
 			msgs.push('必填');
 		if(data.tooltip != '')
 			msgs.push(data.tooltip);
+		if(data.min != undefined)
+			msgs.push('至少选择' + data.min + '项');
+		if(data.max)
+			msgs.push('至多选择' + data.max + '项');
 		
 		if(msgs.length != 0){
 			$question.find('.title [name="tooltip"]')
@@ -713,15 +720,54 @@ var get$MultiSelect = function(data){
 		}
 		
 		// load options
-		$question.find('.answer').empty();		
-		$.each(data.options, function(index, item){
-			var $item = $(
-				'<div class="option" data-id="' + item.lid + '">\n' +
-				'	<i class="fa ' + (item.isDefault == 0 ? 'fa-square-o' : 'fa-check-square-o')  + '"></i> <span name="radioName">' + item.name + '</span>\n' +
-				'</div>'
-			);
-			$question.find('.answer').append($item);
-		});
+		$question.find('.answer').empty();	
+		switch(data.type){
+			case 'singleSelect':
+				$.each(data.options, function(index, item){
+					var $item = $(
+						'<div class="option" data-id="' + item.lid + '">\n' +
+						'	<i class="fa ' + (item.isDefault == 0 ? 'fa-circle-o' : 'fa-check-circle-o')  + '"></i> <span name="radioName">' + item.name + '</span>\n' +
+						'</div>'
+					);
+					$question.find('.answer').append($item);
+				});
+				break;
+			case 'multiSelect':	
+				$.each(data.options, function(index, item){
+					var $item = $(
+						'<div class="option" data-id="' + item.lid + '">\n' +
+						'	<i class="fa ' + (item.isDefault == 0 ? 'fa-square-o' : 'fa-check-square-o')  + '"></i> <span name="radioName">' + item.name + '</span>\n' +
+						'</div>'
+					);
+					$question.find('.answer').append($item);
+				});
+				break;
+			case 'singleDropdown':
+				$select = $('<select style="width: 200px; margin: 5px 0 10px 0;" multiple disabled></select>');
+				
+				$.each(data.options, function(index, item){
+					var $item = $('<option class="option" data-id="' + item.lid + '" value="' + item.value + '" ' + (item.isDefault ? 'selected' : '') + '>' + item.name +'</option>');
+					
+					$select.append($item);
+				});
+				
+				$question.find('.answer').append($select);
+				break;
+			case 'multiDropdown':
+				$select = $('<select style="width: 200px; margin: 5px 0 10px 0;" multiple disabled></select>');
+				
+				$.each(data.options, function(index, item){
+					var $item = $('<option class="option" data-id="' + item.lid + '" value="' + item.value + '" ' + (item.isDefault ? 'selected' : '') + '>' + item.name +'</option>');
+					
+					$select.append($item);
+				});
+				
+				$question.find('.answer').append($select);
+				break;
+			default:
+				break;
+		};
+		
 		// 2. Question Editor
 		// load question
 		$question.find('.editor textarea[name="title"]').text(data.title);
@@ -744,87 +790,52 @@ var get$MultiSelect = function(data){
 		});
 		
 		// load range
-		$question.find('[name="range"] [name="min"]').val(data.min);
-		$question.find('[name="range"] [name="max"]').val(data.max);
-		
+		if(['multiSelect', 'multiDropdown'].includes(data.type)){
+			$question.find('[name="range"] [name="min"]').val(data.min);
+			$question.find('[name="range"] [name="max"]').val(data.max);
+		}else{
+			$question.find('[name="range"]').css('display', 'none');
+		}	
 	}else{
 		console.log('error');
+	}
+	
+	// insufficient Constraint
+	if(data.constraints == undefined || data.constraints.length == 0){
+		$question.find('[data-action="addConstraint"]')
+			.css('display', 'none');
+		$question.find('.constraintList')
+			.css('display', 'none');
+	}else{
+		$question.find('[type=checkbox][name="constraint"]').prop('checked', true);	
+		$.each(data.constraints, function(i, c){
+			$question.find('.constraintList').append(get$constraint(c));
+		});
 	}
 	
 	return $question;
 };
 
 var update$question = function($question){
-	var questionType = $question.attr('data-type');
-	
-	switch(questionType){
-		case 'singleSelect':
-			var data = questionToJson($question);
-			// load question;
-			$question.find('.title [name=question]').text(data.title);
-			// load tooltip
-			var msgs = [];
-			if(data.required == 1)
-				msgs.push('必填');
-			if(data.tooltip != '')
-				msgs.push(data.tooltip);
-			
-			if(msgs.length != 0){
-				$question.find('.title [name="tooltip"]')
-					.css('display', 'inline')
-					.attr({'title': msgs})
-			}else{
-				$question.find('.title [name="tooltip"]')
-					.css('display', 'none');
-			}
-			
-			// load options
-			$question.find('.answer').empty();		
-			$.each(data.options, function(index, item){
-				var $item = $(
-					'<div class="option" data-id="' + item.lid + '">\n' +
-					'	<i class="fa ' + (item.isDefault == 0 ? 'fa-circle-o' : 'fa-check-circle-o')  + '"></i> <span name="radioName">' + item.name + '</span>\n' +
-					'</div>'
-				);
-				$question.find('.answer').append($item);
-			});
-			break;
-		case 'multiSelect':
-			var data = questionToJson($question);
-			// load question;
-			$question.find('.title [name=question]').text(data.title);
-			// load tooltip
-			var msgs = [];
-			if(data.required == 1)
-				msgs.push('必填');
-			if(data.tooltip != '')
-				msgs.push(data.tooltip);
-			
-			if(msgs.length != 0){
-				$question.find('.title [name="tooltip"]')
-					.css('display', 'inline')
-					.attr({'title': msgs})
-			}else{
-				$question.find('.title [name="tooltip"]')
-					.css('display', 'none');
-			}
-			
-			// load options
-			$question.find('.answer').empty();		
-			$.each(data.options, function(index, item){
-				var $item = $(
-					'<div class="option" data-id="' + item.lid + '">\n' +
-					'	<i class="fa ' + (item.isDefault == 0 ? 'fa-square-o' : 'fa-check-square-o')  + '"></i> <span name="radioName">' + item.name + '</span>\n' +
-					'</div>'
-				);
-				$question.find('.answer').append($item);
-			});
-			
-			break;
-		default:
-			break;
-	}
-	
+	var data = questionToJson($question);
+	$question.replaceWith(jsonToQuestion(data));
+};
+
+var update$Constraint = function($question){
+	var ins_constraints = getConstraintData($question);
+	$question.find('.constraintList tbody').empty();
+	$.each(ins_constraints, function(i, c){
+		// var $q = $question.closest('.tab-pane').find('.question-item[data-id=' + c.lid + ']');
+		var $q = $question.prevAll('[data-id=' + c.lid + ']');
+		var q_data = questionToJson($q);
+		var q_index = $question.closest('.tab-pane').find('.question-item').index($q);	
+		
+		if(!objIsEmpty(q_data)){
+			var suf_constraint = sufficeConstraintData(q_index, c, q_data);
+			if(!objIsEmpty(suf_constraint))
+				$question.find('.constraintList tbody').append(get$constraint(suf_constraint));
+		}
+	});
 };
 
 var rerankQuestion = function($container){
@@ -834,14 +845,8 @@ var rerankQuestion = function($container){
 };
 
 var sufficeConstraintData = function(index, ins_data, question_data){
-	
-	var validate = function(){
-		return !objIsEmpty(question_data)
-	};
-	
-	var data = {};
-	if(validate()){
-		data = {
+	try{
+		var data = {
 			index: index,
 			title: question_data.title,
 			lid: ins_data.lid,
@@ -851,15 +856,19 @@ var sufficeConstraintData = function(index, ins_data, question_data){
 		
 		$.each(ins_data.options, function(i, o){
 			var item = findItemByLID(question_data.options, o.lid);
-			data.options.push({
-				index: item.i,
-				lid: item.q.lid,
-				name: item.q.name
-			});
+			if(!objIsEmpty(item)){
+				data.options.push({
+					index: item.i,
+					lid: item.q.lid,
+					name: item.q.name
+				});
+			}
 		});
+		return data;
+	}catch(e){
+		console.log(e);
+		return {}
 	}
-	
-	return data;
 };
 
 var get$constraint = function(data){
@@ -1004,6 +1013,14 @@ var find$ItemByLID = function($container, lid){
 	console.log(2)
 };
 
+var localIDGenerator = function () {
+	return '_' + Math.random().toString(36).substr(2, 9);
+};
+
+var objIsEmpty = function(obj){
+	return Object.keys(obj).length === 0 && obj.constructor === Object;
+};
+
 
 /* jsonToQuestion(
 	{
@@ -1088,17 +1105,19 @@ var $modal = $(
 );
 $modal.modal('show');
 
-var $q = jsonToQuestion(tab2.questions[0]);
+var temp = tab4;
+
+var $q = jsonToQuestion(temp.questions[0]);
 //initializeConstraint($q, tab1.questions[0], tab1.questions);
 
 $modal.find('#123').append($q);
 
-var $q = jsonToQuestion(tab2.questions[1]);
+var $q = jsonToQuestion(temp.questions[1]);
 //initializeConstraint($q, tab1.questions[1], tab1.questions);
 
 $modal.find('#123').append($q);
 
-var $q = jsonToQuestion(tab2.questions[2]);
+var $q = jsonToQuestion(temp.questions[2]);
 //initializeConstraint($q, tab1.questions[2], tab1.questions);
 
 $modal.find('#123').append($q);
