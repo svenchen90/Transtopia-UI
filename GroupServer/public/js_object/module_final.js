@@ -549,7 +549,7 @@ var jsonToQuestion = function(data){
 	
 	$question.on('click', '[data-action="constraint-edit"], [data-action="addConstraint"]', function(){
 		// ? ?
-		console.log(1);
+		modifyConstraint($question);
 	});
 	
 	// options
@@ -562,8 +562,10 @@ var jsonToQuestion = function(data){
 			case 'editor-delete':
 				if($question.find('tr[name="editorOption"]').length > 1){
 					$o.remove();
-				}else{
+				}else if($question.find('tr[name="editorOption"]').length == 1){
 					// ?alert?
+				}else{
+					console.log('error');
 				}
 				break;
 			case 'editor-moveup':
@@ -580,32 +582,6 @@ var jsonToQuestion = function(data){
 	
 	return $question;
 };
-// Load constraint
-/* var initializeConstraint = function($question, data, list){
-	var validateConstraint = function(){
-		return true;
-	};
-	
-	if(validateConstraint()){
-		if(data.constraints == undefined || data.constraints.length == 0){
-			$question.find('[data-action="addConstraint"]')
-				.css('display', 'none');
-			$question.find('.constraintList')
-				.css('display', 'none');
-		}else{
-			$question.find('[type=checkbox][name="constraint"]').prop('checked', true);	
-			$.each(data.constraints, function(i, c){
-				var item = findItemByLID(list, c.lid);
-				
-				var c_data = sufficeConstraintData(item.i, c, item.q);
-				
-				$question.find('.constraintList').append(get$constraint(c_data));
-			});
-		}
-	}else{
-		console.log('error');
-	}
-}; */
 
 var get$Choice = function(data){
 	var isValidate = function(){
@@ -617,7 +593,7 @@ var get$Choice = function(data){
 		$question = $(
 			'<div class="question-item" data-type>\n' +
 			'	<div class="title">\n' +
-			'		<span name="index"></span>\n' +
+			'		<span name="index"></span>. \n' +
 			'		<span name="question"></span>\n' +
 			'		<span name="tooltip" style="cursor: pointer;" title=""><i class="fa fa-info-circle"></i></span>\n' +
 			'	</div>\n' +
@@ -825,7 +801,6 @@ var update$Constraint = function($question){
 	var ins_constraints = getConstraintData($question);
 	$question.find('.constraintList tbody').empty();
 	$.each(ins_constraints, function(i, c){
-		// var $q = $question.closest('.tab-pane').find('.question-item[data-id=' + c.lid + ']');
 		var $q = $question.prevAll('[data-id=' + c.lid + ']');
 		var q_data = questionToJson($q);
 		var q_index = $question.closest('.tab-pane').find('.question-item').index($q);	
@@ -838,10 +813,14 @@ var update$Constraint = function($question){
 	});
 };
 
-var rerankQuestion = function($container){
-	$container.find('.question-item').each(function(index, item){
-		$(item).find('.title [name="index"]').text(index + 1 +'. ' );
+var update$ConstraintWithJson = function($question, json){
+	$question.find('.constraintList tbody').empty();
+
+	$.each(json, function(i, c){
+		$question.find('.constraintList').append(get$constraint(c));
 	});
+	
+	update$Constraint($question);
 };
 
 var sufficeConstraintData = function(index, ins_data, question_data){
@@ -947,6 +926,69 @@ var getConstraintData = function($question){
 	return result;
 };
 
+var modifyConstraint = function($question){
+	var constr = getConstraintData($question);
+	var prev_q = getPrevQuestionData($question, ['singleSelect', 'multiSelect', 'singleDropdown', 'multiDropdown']);
+	
+	var selected_q = [];
+	var unselected_q = [];
+	$.each(constr, function(i1, c){
+		$.each(prev_q, function(i2, q){
+			if(c.lid == q.lid){
+				q.q_type = q.type;
+				q.type = c.type;
+				$.each(q.options, function(i3, o){
+					if(c.options.find(function(ele){ return ele.lid == o.lid})){
+						o.isSelect = 1;
+					}else
+						o.isSelect = 0;
+				});
+				selected_q.push(q);
+				prev_q.splice(i2, 1, {});
+			}
+		});
+	});
+	
+	$.each(prev_q, function(i, q){
+		if(!objIsEmpty(q)){
+			q.q_type = q.type;
+			unselected_q.push(q);
+		}
+			
+	});
+	
+	/* console.log(selected_q);
+	console.log(unselected_q); */
+	
+	var callback = function(json){
+		update$ConstraintWithJson($question, json);
+	};
+	
+	TwinTables(CONSTRAINT_CONTEXT, selected_q, unselected_q, getConstraintTr, constraintTrToJson, callback);
+};
+
+var getPrevQuestionData = function($question, typeList){
+	var $prevs;
+	if(typeList == undefined){
+		$prevs = $question.prevAll();
+	}else{
+		var l = [];
+		$.each(typeList, function(index, item){
+			l.push('.question-item[data-type="' + item + '"]')
+		});
+		var query = l.toString();
+		$prevs = $question.prevAll(query);
+	}
+	
+	var result = [];
+	$prevs.each(function(index, item){
+		var json = questionToJson($(item));
+		json.index = $(item).find('.title [name="index"]').text();
+		result.push(json);
+	});
+	return result;
+};
+
 var get$option = function(data){
 	var $option = $(
 		'<tr name="editorOption" id="">\n' +
@@ -997,6 +1039,12 @@ var $optionToJson = function($option){
 	return json;
 };
 
+var rerankQuestion = function($container){
+	$container.find('.question-item').each(function(index, item){
+		$(item).find('.title [name="index"]').text(index + 1);
+	});
+};
+
 var findItemByLID = function(list, lid){
 	var result = {};
 	$.each(list, function(index, item){
@@ -1021,6 +1069,204 @@ var objIsEmpty = function(obj){
 	return Object.keys(obj).length === 0 && obj.constructor === Object;
 };
 
+var getConstraintTr = function(data){
+	var map = {
+		'singleSelect': '单选题',
+		'multiSelect': '多选题',
+		'singleDropdown': '单选下拉',
+		'multiDropdown': '多选下拉'
+	};
+
+	var $tr = $('<tr data-type="tr"></tr>');
+	$tr.append('<td>' + data.index + '. </td>');
+	$tr.append('<td data-type="question" data-id="' + data.lid + '"> [' + map[data.q_type] + '] ' + data.title + '</td>');
+	$ops = $('<td data-type="options"></td>');
+	$.each(data.options, function(index, o){
+		$ops.append(
+			'<div>\n' +
+			'	<input type="checkbox" name="option" data-id ="' + o.lid + '"' + (o.isSelect ? ' checked' : '') + '>\n' +
+			'	<label>' + index + '. ' + o.name + '</label>\n' +
+			'</div>'
+		);
+	});
+	$tr.append($ops);
+	
+	$select = $(
+		'<td>\n' +
+		'	<select data-type="type">\n' +
+		'	  <option value="0">选中不显示</option>\n' +
+		' 	 <option value="1">选中显示</option>\n' +
+		'	</select>\n' +
+		'</td>'
+	);
+	
+	$select.find('option').each(function(index, item){
+		if($(item).val() == data.type)
+			$(item).prop('selected', 1);
+	});
+	
+	$tr.append($select);
+	
+	return $tr;
+};
+
+var constraintTrToJson = function($tr){
+	var json = {};
+	json.lid = $tr.find('[data-type="question"]').attr('data-id');
+	json.type = $tr.find('[data-type="type"]').val();
+	json.options = [];
+	$tr.find('[name="option"]:checked').each(function(index, item){
+		json.options.push({lid: $(item).attr('data-id')});
+	});
+	if(json.options.length == 0){
+		alert('至少选择一项');
+		return {};
+	}
+	return json;
+};
+
+const CONSTRAINT_CONTEXT = {
+	title: '关联项编辑',
+	thead: [
+		'#',
+		'题目',
+		'选项',
+		'关联类别'
+	],
+	top: '已关联项',
+	bot: '未关联项'
+};
+
+var TwinTables = function(context, data_top, data_bot, constr, toJson, callback){
+	var $modal = $(
+		'<div class="modal fade">\n' +
+		'	<div class="modal-dialog">\n' +
+		'		<div class="modal-content">\n' +
+		'			<div class="modal-header">\n' +
+		'				<h5 class="modal-title"></h5>\n' +
+		'			</div>\n' +
+		'			<div class="modal-body">\n' +
+		'				<table class="table">\n' +
+		'					<thead>\n' +
+		'						<!-- 标题 -->\n' +
+		'					</thead>\n' +
+		'					<tbody data-container="top">\n' +
+		'						<tr class="active">\n' +
+		'							<th style="text-align: center;" data-type="category"></th>\n' +
+		'						</tr>\n' +
+		'					</tbody >\n' +
+		'					<tbody data-container="bot">\n' +
+		'						<tr class="active">\n' +
+		'							<th style="text-align: center;" data-type="category"></th>\n' +
+		'						</tr>\n' +			
+		'					</tbody>\n' +
+		'				</table>\n' +
+		'			</div>\n' +
+		'			<div class="modal-footer">\n' +
+		'				<button type="button" class="btn btn-primary" data-action="submit">确认</button>\n' +
+		'				<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>\n' +
+		'			</div>\n' +
+		'		</div>\n' +
+		'	</div>\n' +
+		'</div>'
+	);
+	
+	var loadContext = function(){
+		$modal.find('.modal-title').text(context.title);
+		
+		$tr = $('<tr></tr>');
+		$.each(context.thead, function(idx, item){
+			$tr.append('<th>' + item + '</th>');
+		});
+		$tr.append('<th>操作</th>')
+		$modal.find('thead').append($tr);
+		
+		$modal.find('tbody[data-container="top"] [data-type="category"]').text(context.top);
+		$modal.find('tbody[data-container="bot"] [data-type="category"]').text(context.bot);
+		$modal.find('tbody[data-container="top"] [data-type="category"]').attr('colspan', context.thead.length+1);
+		$modal.find('tbody[data-container="bot"] [data-type="category"]').attr('colspan', context.thead.length+1);
+		
+	}
+	
+	var loadTop = function(){
+		$.each(data_top, function(i, d){
+			var $item = constr(d);
+			$item.append('<td><a href="#" data-action="remove"><i class="fa fa-ban"></i></a></td>');
+			$modal.find('tbody[data-container="top"]').append($item);
+		});
+	};
+	
+	var loadBot = function(){
+		$.each(data_bot, function(i, d){
+			var $item = constr(d);
+			$item.append('<td><a href="#" data-action="add"><i class="fa fa-plus"></i></a></td>');
+			$modal.find('tbody[data-container="bot"]').append($item);
+		});
+	};
+	
+	var initialize = function(){
+		loadContext();
+		loadTop();
+		loadBot();
+		checkEmpty();
+		
+		
+		$modal.on('click', '[data-action]', function(){
+			var type = $(this).attr('data-action');
+			var $tr = $(this).closest('tr');
+			
+			if(type == 'remove'){
+				$modal.find('tbody[data-container="bot"]').append($tr);
+				$(this).replaceWith('<td><a href="#" data-action="add"><i class="fa fa-plus"></i></a></td>');
+				checkEmpty();
+			}else if(type == 'add'){
+				$modal.find('tbody[data-container="top"]').append($tr);
+				$(this).replaceWith('<td><a href="#" data-action="remove"><i class="fa fa-ban"></i></a></td>');
+				checkEmpty();
+			}else if(type == "submit"){
+				var result = [];
+				$modal.find('[data-container="top"] [data-type="tr"]').each(function(index, item){
+					result.push(toJson($(item)));
+				});
+				
+				callback(result);
+				
+				$modal.modal('hide');
+			}else{
+				console.lol('error');
+			}
+		});
+		
+		$modal.on('hidden.bs.modal', function(){
+			$(this).remove();
+		});
+		
+		$modal.modal('show');
+	};
+	
+	var checkEmpty = function(){
+		var colspan = $modal.find('tbody[data-container="top"] [data-type="category"]').attr('colspan');
+		
+		if($modal.find('tbody[data-container="top"] tr').length == 1){
+			$modal.find('tbody[data-container="top"]').append('<tr><td colspan="' + colspan + '" style="text-align: center;" data-type="empty-holder">暂无选项</td></tr>');
+		}else{
+			$modal.find('tbody[data-container="top"] [data-type="empty-holder"]').remove();
+		}
+		
+		if($modal.find('tbody[data-container="bot"] tr').length == 1){
+			console.log(1);
+			$modal.find('tbody[data-container="bot"]').append('<tr><td colspan="' + colspan + '" style="text-align: center;" data-type="empty-holder">暂无选项</td></tr>');
+		}else{
+			$modal.find('tbody[data-container="bot"] [data-type="empty-holder"]').remove();
+			
+		}
+	}
+	
+	initialize();
+	
+};
+
+
 
 /* jsonToQuestion(
 	{
@@ -1029,83 +1275,217 @@ var objIsEmpty = function(obj){
 	}
 ); */
 
+var FormDesigner = function(data){
+	var $modal = $(
+		'<div class="modal fade">\n' +
+		'	<div class="modal-dialog"  style="width:60vw;">\n' +
+		'		<div class="modal-content">\n' +
+		'			<div class="modal-header">\n' +
+		'				<button type="button" class="close" data-dismiss="modal">\n' +
+		'					&times;\n' +
+		'				</button>\n' +
+		'				<h4 class="modal-title">\n' +
+		'					<span data-type="formName" data-id></span>\n' +
+		'				</h4>\n' +
+		'			</div>\n' +
+		'			<div class="modal-body">\n' +
+		'				<div class="form-designer">\n' +
+		'					<!-- 工具栏 -->\n' +
+		'					<nav class="navbar navbar-default">\n' +
+		'						<div class="container-fluid">\n' +
+		'						<div class="navbar-header">\n' +
+		'							<button type="button" class="navbar-toggle" data-toggle="collapse"\n' +
+		'									data-target="#tool-bar">\n' +
+		'								<span class="sr-only">切换导航</span>\n' +
+		'								<span class="icon-bar"></span>\n' +
+		'								<span class="icon-bar"></span>\n' +
+		'								<span class="icon-bar"></span>\n' +
+		'							</button>\n' +
+		'							<span class="navbar-brand"><i class="fa fa-chain"></i></span>\n' +
+		'						</div>\n' +
+		'						<div class="collapse navbar-collapse" id="tool-bar">\n' +
+		'							<ul class="nav navbar-nav" data-container="toolbar">\n' +
+		'								<li><a href="#" data-action="createSingleSelect"><i class="fa fa-check-circle-o"></i> 单项</a></li>\n' +
+		'								<li><a href="#" data-action="createMultiSelect"><i class="fa fa-check-square-o"></i> 多项</a></li>\n' +
+		'								<li><a href="#" data-action="createSingleDropdown"><i class="fa fa-align-justify"></i> 单项下拉框</a></li>\n' +
+		'								<li><a href="#" data-action="createMultDropdown"><i class="fa fa-list"></i> 多项下拉框</a></li>\n' +
+		'								<li class="dropdown">\n' +
+		'									<a href="#" class="dropdown-toggle" data-toggle="dropdown">\n' +
+		'										<i class="fa fa-pencil"></i> 填空 <b class="caret"></b>\n' +
+		'									</a>\n' +
+		'									<ul class="dropdown-menu">\n' +
+		'										<li><a href="#" data-action="createInput"><i class="fa fa-pencil"></i> 填空</a></li>\n' +
+		'										<li class="divider"></li>\n' +
+		'										<li><a href="#">其它</a></li>\n' +
+		'									</ul>\n' +
+		'								</li>\n' +
+		'								<li><a href="#" data-action="createFile"><i class="fa fa-file-text-o"></i> 上传文件</a></li>\n' +
+		'							</ul>\n' +
+		'						</div>\n' +
+		'						</div>\n' +
+		'					</nav>\n' +
+		'					<ul id="tab-bar" class="nav nav-tabs" style="margin: 0 50px 0 50px;">\n' +
+		'						<!-- 标签列表 -->\n' +
+		'						<a href="#" data-action="addTab" style="float: left;padding: 8px 15px; font-size: 19px;"><i class="fa fa-plus-square"></i></a>\n' +
+		'					</ul>\n' +
+		'					<div id="tab-content" class="customized-scrollbar tab-content" style="height: 60vh; overflow-y: auto;">\n' +
+		'						<!-- 标签分页 -->\n' +
+		'					</div>\n' +
+		'				</div>\n' +
+		'			</div>\n' +
+		'			<div class="modal-footer">\n' +
+		'				<button type="button" class="btn btn-primary" data-action="submit">\n' +
+		'					提交\n' +
+		'				</button>\n' +
+		'				<button type="button" class="btn btn-default" data-dismiss="modal">关闭\n' +
+		'				</button>\n' +
+		'			</div>\n' +
+		'		</div>\n' +
+		'	</div>\n' +
+		'</div>'
+	);
+	
+	var load = function(data){
+		if(data == undefined || objIsEmpty(data)){
+			load({
+				lid: localIDGenerator(),
+				name: '新的物品',
+				tabs: []
+			});
+		}else{
+			$modal.find('[data-type="formName"]')
+				.attr('data-id', data.lid)
+				.text(data.name);
+				
+			$.each(data.tabs, function(index, t){
+				addTab(t);
+			});
+		}
+	};
+	
+	var addTab = function(data){
+		if(data == undefined || objIsEmpty(data)){
+			addTab({
+				lid: localIDGenerator(),
+				name: '新的分页',
+				questions:[]
+			});
+		}else{
+			var $tab = $('<li><a href="#' + data.lid + '" data-toggle="tab"><span data-type="name">' + data.name + '</span><span data-action="deleteTab">&times</span></a></li>');
+			var $pane = $('<div class="tab-pane fade" id="' + data.lid + '"></div>');
+			$.each(data.questions, function(index, item){
+				console.log(item);
+			});
+			
+			$modal.find('#tab-bar [data-action="addTab"]').before($tab);
+			$modal.find('#tab-content').append($pane);
+		}
+	};
+	
+	var deleteTabByID = function(id){
+		$modal.find('#tab-bar [href="#' + id + '"]').closest('li').remove();
+		$modal.find('#tab-content #' + id).remove();
+	};
+	
+	var removeAllTabs = function(){
+		$modal.find('#tab-bar li').remove();
+		$modal.find('#tab-content').empty();
+	};
+	
+	
+	
+	
+	var initialize = function(){
+		load(data);
+		
+		
+		// 激活重命名form
+		$modal.on('dblclick', 'span[data-type="formName"]', function(){
+			var id = $(this).attr('data-id');
+			var name = $(this).text();
+			var $input = $('<input data-type="formName" value="' + name + '" data-id="' + id + '" placeholder="请输表单名称">');
+			$(this).replaceWith($input);
+			$input.focus();
+			clear();
+		});
+		
+		// 完成form重命名
+		$modal.on('focusout keydown', 'input[data-type="formName"]', function(){
+			if(event.type == 'blur' || (event.type == 'keydown' && event.keyCode == '13')){
+				var id = $(this).attr('data-id');
+				var name = $(this).val();
+				if(name != ''){
+					var $a = $('<span data-type="formName" data-id="' + id + '">' + name + '</span>')
+					$(this).replaceWith($a);
+				}	
+			}
+		});
+		
+		// 添加删除 tab
+		$modal.on('click', '#tab-bar [data-action]', function(){
+			var actionType = $(this).attr('data-action')
+			if(actionType == 'addTab'){
+				addTab();
+			}else if(actionType == 'deleteTab'){
+				var id = $(this).closest('a').attr('href').substring(1);
+				if(confirm('确认删除')){
+					deleteTabByID(id);
+				}
+			}else{
+				
+			}
+		});
+		
+		// 激活重命名tab
+		$modal.on('dblclick', '#tab-bar li.active', function(){
+			if($(this).find('a').length == 1){
+				var id = $(this).find('a').attr('href').substring(1);
+				var name = $(this).find('[data-type="name"]').text();
+				var $input = $('<input value="' + name + '" data-id="' + id + '" placeholder="请输入分页名称" style="position: relative;display: block;margin: 10px 15px;">');
+				$(this).html($input);
+				$input.focus();
+			}
+		});
+		
+		// 完成tab重命名
+		$modal.on('focusout keydown', '#tab-bar li input', function(){
+			if(event.type == 'blur' || (event.type == 'keydown' && event.keyCode == '13')){
+				var id = $(this).attr('data-id');
+				var name = $(this).val();
+				if(name != ''){
+					var $a = $('<a href="#' + id + '" data-toggle="tab"><span data-type="name">' + name + '</span><span data-action="deleteTab">&times</span></a>')
+					$(this).replaceWith($a);
+				}	
+			}
+		});
+		
+		// 新建问题栏事件
+		$modal.on('click', '#tool-bar [data-action]', function(){
+			console.log($(this).attr('data-action'));
+		});
+		
+		$modal.on('hidden.bs.modal', function(){
+			$(this).remove();
+		});
+		
+		$modal.modal('show');
+	};
+	initialize();
+};
+
+
+FormDesigner({
+	lid: localIDGenerator(),
+	name: '新的物品',
+	tabs: [{}]
+});
+
 //console.log(tab1.questions);
 //console.log(findItemByLID(tab1.questions[1].options, "_66vb3qv0q"));
-var $modal = $(
-	'<div class="modal fade">\n' +
-	'	<div class="modal-dialog"  style="width:60vw;">\n' +
-	'		<div class="modal-content">\n' +
-	'			<div class="modal-header">\n' +
-	'				<button type="button" class="close" data-dismiss="modal">\n' +
-	'					&times;\n' +
-	'				</button>\n' +
-	'				<h4 class="modal-title">\n' +
-	'					模板编辑\n' +
-	'				</h4>\n' +
-	'				<span name="formName"></span>\n' +
-	'			</div>\n' +
-	'			<div class="modal-body">\n' +
-	'				<div class="form-designer">\n' +
-	'					<!-- 工具栏 -->\n' +
-	'					<nav class="navbar navbar-default">\n' +
-	'						<div class="container-fluid">\n' +
-	'						<div class="navbar-header">\n' +
-	'							<button type="button" class="navbar-toggle" data-toggle="collapse"\n' +
-	'									data-target="#tool-bar">\n' +
-	'								<span class="sr-only">切换导航</span>\n' +
-	'								<span class="icon-bar"></span>\n' +
-	'								<span class="icon-bar"></span>\n' +
-	'								<span class="icon-bar"></span>\n' +
-	'							</button>\n' +
-	'							<span class="navbar-brand"><i class="fa fa-chain"></i></span>\n' +
-	'						</div>\n' +
-	'						<div class="collapse navbar-collapse" id="tool-bar">\n' +
-	'							<ul class="nav navbar-nav" data-container="toolbar">\n' +
-	'								<li><a href="#" data-action="createSingleSelect"><i class="fa fa-check-circle-o"></i> 单项</a></li>\n' +
-	'								<li><a href="#" data-action="createMultiSelect"><i class="fa fa-check-square-o"></i> 多项</a></li>\n' +
-	'								<li><a href="#" data-action="createInput"><i class="fa fa-pencil"></i> 填空</a></li>\n' +
-	'								<li><a href="#" data-action="createSingleDropdown"><i class="fa fa-align-justify"></i> 单项下拉框</a></li>\n' +
-	'								<li><a href="#" data-action="createMultDropdown"><i class="fa fa-list"></i> 多项下拉框</a></li>\n' +
-	'								<li><a href="#" data-action="createFile"><i class="fa fa-file-text-o"></i> 上传文件</a></li>\n' +
-	'								<li class="dropdown">\n' +
-	'									<a href="#" class="dropdown-toggle" data-toggle="dropdown">\n' +
-	'										其它 <b class="caret"></b>\n' +
-	'									</a>\n' +
-	'									<ul class="dropdown-menu">\n' +
-	'										<li><a href="#">其它</a></li>\n' +
-	'										<li class="divider"></li>\n' +
-	'										<li><a href="#">其它</a></li>\n' +
-	'									</ul>\n' +
-	'								</li>\n' +
-	'							</ul>\n' +
-	'						</div>\n' +
-	'						</div>\n' +
-	'					</nav>\n' +
-	'					<ul id="tab-bar" class="nav nav-tabs" style="margin: 0 50px 0 50px;">\n' +
-	'						<li><a href="#123" data-toggle="tab">新建标签</a></li>\n' +
-	'						<!-- 标签列表 -->\n' +
-	'						<a href="#" data-action="addTab" style="float: left;padding: 8px 15px; font-size: 19px;"><i class="fa fa-plus-square"></i></a>\n' +
-	'					</ul>\n' +
-	'					<div id="tab-content" class="customized-scrollbar tab-content" style="height: 60vh; overflow-y: auto;">\n' +
-	'						<div class="tab-pane fade active in" id="123"></div>\n' +
-	'						<!-- 标签分页 -->\n' +
-	'					</div>\n' +
-	'				</div>\n' +
-	'			</div>\n' +
-	'			<div class="modal-footer">\n' +
-	'				<button type="button" class="btn btn-primary" data-action="submit">\n' +
-	'					提交\n' +
-	'				</button>\n' +
-	'				<button type="button" class="btn btn-default" data-dismiss="modal">关闭\n' +
-	'				</button>\n' +
-	'			</div>\n' +
-	'		</div>\n' +
-	'	</div>\n' +
-	'</div>'
-);
+/* 
 $modal.modal('show');
 
-var temp = tab4;
+var temp = tab1;
 
 var $q = jsonToQuestion(temp.questions[0]);
 //initializeConstraint($q, tab1.questions[0], tab1.questions);
@@ -1120,5 +1500,5 @@ $modal.find('#123').append($q);
 var $q = jsonToQuestion(temp.questions[2]);
 //initializeConstraint($q, tab1.questions[2], tab1.questions);
 
-$modal.find('#123').append($q);
+$modal.find('#123').append($q); */
 

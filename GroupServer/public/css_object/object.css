@@ -86,3 +86,19 @@
 .tooltip > .tooltip-inner {
 	background-color: #3c8dbc; 
 }
+
+
+#tab-bar [data-action=deleteTab] {
+	margin-left: 5px;
+	font-weight: 800;
+	display: none;
+	cursor: pointer;
+}
+
+#tab-bar li:hover [data-action=deleteTab]{
+	display: inline;
+	color:#3c8dbc;
+}
+
+
+
