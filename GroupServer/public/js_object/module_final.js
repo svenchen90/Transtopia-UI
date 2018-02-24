@@ -466,7 +466,11 @@ var jsonToQuestion = function(data){
 				break;
 			case 'confirmEdit':
 				$question.find('[data-action="confirmEdit"]').replaceWith('<div class="btn btn-primary btn-sm" data-action="activateEditor"><i class="fa fa-tag"></i> 编辑</div>');
-				update$question($question);
+				
+				// update question
+				var data = questionToJson($question);
+				$question.replaceWith(jsonToQuestion(data));
+				
 				$question.removeClass('active');
 				break;
 			case 'copy':
@@ -583,14 +587,28 @@ var jsonToQuestion = function(data){
 	return $question;
 };
 
-var get$Choice = function(data){
-	var isValidate = function(){
-		return true;
-	};
-	var $question;
-	
-	if(isValidate()){
-		$question = $(
+var get$Choice = function(data){	
+	if(data.lid == undefined){
+		return get$Choice({
+			lid: localIDGenerator(),
+			type: data.type,
+			required: 0,
+			title: '新的问题',
+			tooltip: '',
+			options: [{
+				lid: localIDGenerator(),
+				name: '选项1',
+				isDefault: 0,
+				value: 1
+			},{
+				lid: localIDGenerator(),
+				name: '选项2',
+				isDefault: 0,
+				value: 2
+			}]
+		});
+	}else{
+		var $question = $(
 			'<div class="question-item" data-type>\n' +
 			'	<div class="title">\n' +
 			'		<span name="index"></span>. \n' +
@@ -772,30 +790,32 @@ var get$Choice = function(data){
 		}else{
 			$question.find('[name="range"]').css('display', 'none');
 		}	
-	}else{
-		console.log('error');
+		
+		
+		// insufficient Constraint
+		if(data.constraints == undefined || data.constraints.length == 0){
+			$question.find('[data-action="addConstraint"]')
+				.css('display', 'none');
+			$question.find('.constraintList')
+				.css('display', 'none');
+		}else{
+			$question.find('[type=checkbox][name="constraint"]').prop('checked', true);	
+			$.each(data.constraints, function(i, c){
+				$question.find('.constraintList').append(get$constraint(c));
+			});
+		}
+		return $question;
 	}
 	
-	// insufficient Constraint
-	if(data.constraints == undefined || data.constraints.length == 0){
-		$question.find('[data-action="addConstraint"]')
-			.css('display', 'none');
-		$question.find('.constraintList')
-			.css('display', 'none');
-	}else{
-		$question.find('[type=checkbox][name="constraint"]').prop('checked', true);	
-		$.each(data.constraints, function(i, c){
-			$question.find('.constraintList').append(get$constraint(c));
-		});
-	}
+
 	
-	return $question;
+	
 };
 
-var update$question = function($question){
+/* var update$question = function($question){
 	var data = questionToJson($question);
 	$question.replaceWith(jsonToQuestion(data));
-};
+}; */
 
 var update$Constraint = function($question){
 	var ins_constraints = getConstraintData($question);
@@ -1266,15 +1286,6 @@ var TwinTables = function(context, data_top, data_bot, constr, toJson, callback)
 	
 };
 
-
-
-/* jsonToQuestion(
-	{
-		index: 2,
-		questions: tab1.questions
-	}
-); */
-
 var FormDesigner = function(data){
 	var $modal = $(
 		'<div class="modal fade">\n' +
@@ -1305,21 +1316,21 @@ var FormDesigner = function(data){
 		'						</div>\n' +
 		'						<div class="collapse navbar-collapse" id="tool-bar">\n' +
 		'							<ul class="nav navbar-nav" data-container="toolbar">\n' +
-		'								<li><a href="#" data-action="createSingleSelect"><i class="fa fa-check-circle-o"></i> 单项</a></li>\n' +
-		'								<li><a href="#" data-action="createMultiSelect"><i class="fa fa-check-square-o"></i> 多项</a></li>\n' +
-		'								<li><a href="#" data-action="createSingleDropdown"><i class="fa fa-align-justify"></i> 单项下拉框</a></li>\n' +
-		'								<li><a href="#" data-action="createMultDropdown"><i class="fa fa-list"></i> 多项下拉框</a></li>\n' +
+		'								<li><a href="#" data-action="singleSelect"><i class="fa fa-check-circle-o"></i> 单项</a></li>\n' +
+		'								<li><a href="#" data-action="multiSelect"><i class="fa fa-check-square-o"></i> 多项</a></li>\n' +
+		'								<li><a href="#" data-action="singleDropdown"><i class="fa fa-align-justify"></i> 单项下拉框</a></li>\n' +
+		'								<li><a href="#" data-action="multiDropdown"><i class="fa fa-list"></i> 多项下拉框</a></li>\n' +
 		'								<li class="dropdown">\n' +
 		'									<a href="#" class="dropdown-toggle" data-toggle="dropdown">\n' +
 		'										<i class="fa fa-pencil"></i> 填空 <b class="caret"></b>\n' +
 		'									</a>\n' +
 		'									<ul class="dropdown-menu">\n' +
-		'										<li><a href="#" data-action="createInput"><i class="fa fa-pencil"></i> 填空</a></li>\n' +
+		'										<li><a href="#" data-action="defaultInput"><i class="fa fa-pencil"></i> 填空</a></li>\n' +
 		'										<li class="divider"></li>\n' +
 		'										<li><a href="#">其它</a></li>\n' +
 		'									</ul>\n' +
 		'								</li>\n' +
-		'								<li><a href="#" data-action="createFile"><i class="fa fa-file-text-o"></i> 上传文件</a></li>\n' +
+		'								<li><a href="#" data-action="file"><i class="fa fa-file-text-o"></i> 上传文件</a></li>\n' +
 		'							</ul>\n' +
 		'						</div>\n' +
 		'						</div>\n' +
@@ -1461,7 +1472,12 @@ var FormDesigner = function(data){
 		
 		// 新建问题栏事件
 		$modal.on('click', '#tool-bar [data-action]', function(){
-			console.log($(this).attr('data-action'));
+			var $container = $modal.find('.tab-pane.active');
+			if($modal.find('.tab-pane.active').length != 0){
+				$container.append(jsonToQuestion({type: $(this).attr('data-action')}));
+			}else{
+				alert('请选择您要添加到分页');
+			}
 		});
 		
 		$modal.on('hidden.bs.modal', function(){
