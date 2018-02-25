@@ -750,8 +750,7 @@ var generateInput = function(isActive, data){
 		'		<span name="question-title"></span>\n' +
 		'	</div>\n' +
 		'	<div class="answer">\n' +
-		'  <textarea class="col-md-6" rows=1 style="background-color: white;resize: none; margin: 10px 0 10px" disabled></textarea>\n' +
-		'  <div class="clearfix"></div>\n' +
+
 		'	</div>\n' +
 		'	<div class="btn-list" style="text-align: right;">\n' +
 		'		<div class="btn btn-primary btn-sm" data-action="activateEditor"><i class="fa fa-tag"></i> 编辑</div>\n' +

@@ -200,9 +200,12 @@ var FormDesigner = function(data, submitCallback){
 		'										<i class="fa fa-pencil"></i> 填空 <b class="caret"></b>\n' +
 		'									</a>\n' +
 		'									<ul class="dropdown-menu">\n' +
-		'										<li><a href="#" data-action="defaultInput"><i class="fa fa-pencil"></i> 填空</a></li>\n' +
+		'										<li><a href="#" data-action="input" data-subType="default"><i class="fa fa-pencil"></i> 填空</a></li>\n' +
 		'										<li class="divider"></li>\n' +
-		'										<li><a href="#">其它</a></li>\n' +
+		'										<li><a href="#" data-action="input" data-subType="number"><i class="fa fa-list-ol"></i> 整数</a></li>\n' +
+		'										<li><a href="#" data-action="input" data-subType="date"><i class="fa fa-calendar"></i> 日期</a></li>\n' +
+		'										<li><a href="#" data-action="input" data-subType="email"><i class="fa fa-envelope-o"></i> email</a></li>\n' +
+		'										<li><a href="#" data-action="input" data-subType="phone"><i class="fa fa-phone"></i> phone</a></li>\n' +
 		'									</ul>\n' +
 		'								</li>\n' +
 		'								<li><a href="#" data-action="file"><i class="fa fa-file-text-o"></i> 上传文件</a></li>\n' +
@@ -242,10 +245,13 @@ var FormDesigner = function(data, submitCallback){
 			$modal.find('[data-type="formName"]')
 				.attr('data-id', data.lid)
 				.text(data.name);
-				
+			
+			var t_id;
 			$.each(data.tabs, function(index, t){
-				addTab(t);
+				t_id = addTab(t);
 			});
+			
+			activeTab(t_id);
 		}
 	};
 	
@@ -271,7 +277,7 @@ var FormDesigner = function(data, submitCallback){
 	
 	var addTab = function(data){
 		if(data == undefined || objIsEmpty(data)){
-			addTab({
+			return addTab({
 				lid: localIDGenerator(),
 				name: '新的分页',
 				questions:[]
@@ -285,6 +291,8 @@ var FormDesigner = function(data, submitCallback){
 			
 			$modal.find('#tab-bar [data-action="addTab"]').before($tab);
 			$modal.find('#tab-content').append($pane);
+			
+			return data.lid;
 		}
 	};
 	
@@ -312,14 +320,22 @@ var FormDesigner = function(data, submitCallback){
 		return json;
 	};
 	
+	var activeTab = function(id){
+		$modal.find('[href="#' + id + '"]').tab('show');
+		$modal.find('#' + id).addClass('active in');
+	};
+	
 	var addQuestion = function(data, $tab){
+		var $question;
 		if(data == undefined || objIsEmpty(data)){
 			console.log('error');
 		}else{
-			var $question = new QuestionDesigner().get$Question(data);
+			$question = new QuestionDesigner().get$Question(data);
 			$tab.append($question);
 			rerank($tab);
 		}
+		
+		return $question;
 	};
 	
 	var questionToJson = function($question){
@@ -356,7 +372,8 @@ var FormDesigner = function(data, submitCallback){
 		$modal.on('click', '#tab-bar [data-action]', function(){
 			var actionType = $(this).attr('data-action')
 			if(actionType == 'addTab'){
-				addTab();
+				var id = addTab();
+				activeTab(id);
 			}else if(actionType == 'deleteTab'){
 				var id = $(this).closest('a').attr('href').substring(1);
 				if(confirm('确认删除')){
@@ -397,9 +414,14 @@ var FormDesigner = function(data, submitCallback){
 		$modal.on('click', '#tool-bar [data-action]', function(){
 			var $container = $modal.find('.tab-pane.active');
 			if($modal.find('.tab-pane.active').length != 0){
-				addQuestion({
+				var json = {
 					type: $(this).attr('data-action')
-				}, $container);
+				};
+				if($(this).attr('data-subType')){
+					json.subType = $(this).attr('data-subType');
+				}
+				var $q = addQuestion(json, $container);
+				$q.find('.btn-list [data-action="activateEditor"]').trigger('click');
 			}else{
 				alert('请选择您要添加到分页');
 			}
@@ -441,17 +463,20 @@ var QuestionDesigner = function(){
 		var result = {};
 		
 		var questionType = $question.attr('data-type');
-		if(['singleSelect', 'multiSelect', 'singleDropdown', 'multiDropdown'].includes(questionType)){
+		if(['singleSelect', 'multiSelect', 'singleDropdown', 'multiDropdown', 'input', 'file'].includes(questionType)){
 			result.type = questionType;
 			result.lid = $question.attr('data-id');
 			result.title = $question.find('.editor textarea[name="title"]').val();
 			result.required = $question.find('.editor [name="required"]').is(':checked') ? 1 : 0;
 			result.tooltip = $question.find('[type="checkbox"][name="tooltip"]').is(':checked') ?  $question.find('[type="text"][name="tooltip"]').val() : '';
-			result.options = [];
-			$.each($question.find('.optionList tbody tr'), function(index, item){
-				result.options.push($optionToJson($(item)));
-			});
 			result.constraints = getConstraintData($question);
+			
+			if(['singleSelect', 'multiSelect', 'singleDropdown', 'multiDropdown'].includes(questionType)){
+				result.options = [];
+				$.each($question.find('.optionList tbody tr'), function(index, item){
+					result.options.push($optionToJson($(item)));
+				});
+			}
 			
 			if(['multiSelect','multiDropdown'].includes(questionType)){
 				result.min = $question.find('[name="range"] [name="min"]').val();
@@ -459,6 +484,18 @@ var QuestionDesigner = function(){
 				result.min = result.min == '' ?  undefined : result.min;
 				result.max = result.max == '' ?  undefined : result.max;
 			}
+			
+			if(['input'].includes(questionType)){
+				result.subType = $question.find('select[name="subType"] option:selected').val();
+			}
+			
+			if(['file'].includes(questionType)){
+				result.allowedType = [];
+				$question.find('[data-type="typeList"] [name="allowedType"]:checked').each(function(index, item){
+					result.allowedType.push($(item).attr('data-type'));
+				});
+			}
+			
 		}else{
 			
 		}
@@ -475,6 +512,12 @@ var QuestionDesigner = function(){
 			case 'singleDropdown':
 			case 'multiDropdown':
 				$question = get$Choice(data);
+				break;
+			case 'input':
+				$question = get$Input(data);
+				break;
+			case 'file':
+				$question = get$File(data);
 				break;
 			default:
 				console.log('error');
@@ -600,7 +643,7 @@ var QuestionDesigner = function(){
 					if($question.find('tr[name="editorOption"]').length > 1){
 						$o.remove();
 					}else if($question.find('tr[name="editorOption"]').length == 1){
-						// ?alert?
+						alert('选项不能为空');
 					}else{
 						console.log('error');
 					}
@@ -622,30 +665,18 @@ var QuestionDesigner = function(){
 			}
 		});	
 		
-		// range
-		$question.on('change', '[name="range"] [name="min"], [name="range"] [name="max"]', function(){
-			var max = $question.find('tr[name="editorOption"]').length;
-			var min_v = $question.find('[name="range"] [name="min"]').val();
-			var max_v = $question.find('[name="range"] [name="max"]').val();
-			if(min_v > max)
-				$question.find('[name="range"] [name="min"]').val(max);
-			if(max_v > max)
-				$question.find('[name="range"] [name="max"]').val(max);
-			
-			if(min_v>max_v){
-				$question.find('[name="range"] [name="max"]').val(min_v);
-			}
-		});
 		return $question;
 	};
 
+	// 'singleSelect', 'multiSelect', 'singleDropdown', 'multiDropdown'
+	// {lid, type, title, required, tooltip, options:[], constraints: []}
 	var get$Choice = function(data){	
 		if(data.lid == undefined){
 			return get$Choice({
 				lid: localIDGenerator(),
 				type: data.type,
 				required: 0,
-				title: '新的问题',
+				title: '新的文本选择',
 				tooltip: '',
 				options: [{
 					lid: localIDGenerator(),
@@ -848,7 +879,22 @@ var QuestionDesigner = function(){
 					.prop('max', data.options.length);
 			}else{
 				$question.find('[name="range"]').css('display', 'none');
-			}	
+			}
+			
+			// range
+			$question.on('change', '[name="range"] [name="min"], [name="range"] [name="max"]', function(){
+				var max = $question.find('tr[name="editorOption"]').length;
+				var min_v = $question.find('[name="range"] [name="min"]').val();
+				var max_v = $question.find('[name="range"] [name="max"]').val();
+				if(min_v > max)
+					$question.find('[name="range"] [name="min"]').val(max);
+				if(max_v > max)
+					$question.find('[name="range"] [name="max"]').val(max);
+				
+				if(min_v>max_v){
+					$question.find('[name="range"] [name="max"]').val(min_v);
+				}
+			});
 			
 			
 			// insufficient Constraint
@@ -865,12 +911,366 @@ var QuestionDesigner = function(){
 			}
 			return $question;
 		}
-		
-
-		
-		
 	};
-
+	
+	// 'input'
+	// {lid, type, title, required, tooltip, subType: [number, date, email, phone], constraints: []}
+	var get$Input = function(data){
+		if(data.lid == undefined){
+			return get$Input({
+				lid: localIDGenerator(),
+				type: data.type,
+				required: 0,
+				title: '新的文本填空',
+				tooltip: '',
+				subType: data.subType ? data.subType : 'default'
+			});
+		}else{
+			var $question = $(
+				'<div class="question-item" data-type>\n' +
+				'	<div class="title">\n' +
+				'		<span name="index"></span>. \n' +
+				'		<span name="question"></span>\n' +
+				'		<span name="tooltip" style="cursor: pointer;" title=""><i class="fa fa-info-circle"></i></span>\n' +
+				'	</div>\n' +
+				'	<div class="answer">\n' +
+				'  <div class="clearfix"></div>\n' +
+				'	</div>\n' +
+				'	<div class="btn-list" style="text-align: right;">\n' +
+				'		<div class="btn btn-primary btn-sm" data-action="activateEditor"><i class="fa fa-tag"></i> 编辑</div>\n' +
+				'		<div class="btn btn-default btn-sm" data-action="copy"><i class="fa fa-copy"></i> 复制</div>\n' +
+				'		<div class="btn btn-default btn-sm" data-action="delete"><i class="fa fa-trash"></i> 删除</div>\n' +
+				'		<div class="btn btn-default btn-sm" data-action="moveUp"><i class="fa fa-angle-up"></i> 上移</div>\n' +
+				'		<div class="btn btn-default btn-sm" data-action="moveDown"><i class="fa fa-angle-down"></i> 下移</div>\n' +
+				'		<div class="btn btn-default btn-sm" data-action="moveTop"><i class="fa fa-angle-double-up"></i> 最前</div>\n' +
+				'		<div class="btn btn-default btn-sm" data-action="moveBot"><i class="fa fa-angle-double-down"></i> 最后</div>\n' +
+				'	</div>\n' +
+				'	<div class="editor">\n' +
+				'		<div class="row">\n' +
+				'			<div class="col-sm-6">\n' +
+				'				<label>请输入问题</label>\n' +
+				'				<textarea name="title" placeholder="请输入问题标题..." rows=4 style="width: 100%;"></textarea>\n' +
+				'				<label>验证</label>\n' +
+				'				<select name="subType">\n' +
+				'					<option value="default">无</option>\n' +
+				'					<option value="number">整数</option>\n' +
+				'					<option value="date">日期</option>\n' +
+				'					<option value="email">邮箱</option>\n' +
+				'					<option value="phone">电话</option>\n' +
+				'				</select>\n' +
+				'			</div>\n' +
+				'			<div class="col-sm-6">\n' +
+				'				<div>\n' +
+				'					<input type="checkbox" name="required">\n' +
+				'					<label>必选</label>\n' +
+				'				</div>\n' +
+				'				<div>\n' +
+				'					<input type="checkbox" name="tooltip">\n' +
+				'					<label>提示</label>\n' +
+				'					<input type="text" name="tooltip" placeholder="请输入提示">\n' +
+				'				</div>\n' +
+				'				<div>\n' +
+				'					<input type="checkbox" name="constraint">\n' +
+				'					<label>关联逻辑</label>\n' +
+				'					<a href="#" data-action="addConstraint"><i class="fa fa-plus"></i></a>\n' +
+				'				</div>\n' +
+				'				<table class="table table-hover constraintList">\n' +
+				'					<thead>\n' +
+				'						<tr>\n' +
+				'							<th>关联题目</th>\n' +
+				'							<th>关联选项</th>\n' +
+				'							<th>关联类型</th>\n' +
+				'							<th>操作</th>\n' +
+				'						</tr>\n' +
+				'					</thead>\n' +
+				'					<tbody>\n' +
+				'					</tbody>\n' +
+				'				</table>\n' +
+				'			</div>\n' +
+				'		</div>\n' +
+				'	</div>\n' +
+				'</div>'
+			);
+			
+			// 1. Question Body
+			$question.find('.title [name="index"]').text(data.index ? data.index : '');
+			$question.attr('data-id', data.lid);
+			$question.attr('data-type', data.type);
+			
+			// load question;
+			$question.find('.title [name=question]').text(data.title);
+			
+			// load tooltip
+			var msgs = [];
+			if(data.required == 1)
+				msgs.push('必填');
+			if(data.tooltip != '')
+				msgs.push(data.tooltip);
+			
+			if(msgs.length != 0){
+				$question.find('.title [name="tooltip"]')
+					.css('display', 'inline')
+					.attr('title', msgs);
+			}else{
+				$question.find('.title [name="tooltip"]')
+					.css('display', 'none');
+			}
+			
+			// ### load field
+			switch(data.subType){
+				case 'default': 
+					$question.find('.answer').prepend('<textarea class="col-md-4" placeholder="请按照提示输入..." rows=1 style="background-color: white;resize: none; margin: 10px 0 10px" disabled></textarea>');
+					break;
+				case 'number': 
+					$question.find('.answer').prepend('<input type="number" placeholder="请输入整数" style="width: 200px;">');
+					break;
+				case 'date': 
+					$question.find('.answer').prepend(
+						'<div class="input-group date" style="margin: 5px 0 5px;">\n' +
+						'	<div class="input-group-addon">\n' +
+						'		<i class="fa fa-calendar"></i>\n' +
+						'	</div>\n' +
+						'	<input type="text" class="form-control" placeholder="请输入日期..." id="datepicker" style="width: 200px;">\n' +
+						'</div>'
+					);
+					
+					$.fn.datepicker.dates['zh-CN'] = {
+						days: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"],
+						daysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+						daysMin:  ["日", "一", "二", "三", "四", "五", "六", "日"],
+						months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+						monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+						today: "今日",
+						format: "yyyy年mm月dd日",
+						weekStart: 1
+					};
+			
+				 $question.find('#datepicker').datepicker({
+						language: 'zh-CN'
+					});
+					
+					break;
+				case 'email': 
+					$question.find('.answer').prepend(
+						'<div class="input-group date" style="margin: 5px 0 5px;">\n' +
+						'	<div class="input-group-addon">\n' +
+						'		<i class="fa fa-envelope-o"></i>\n' +
+						'	</div>\n' +
+						'	<input type="text" class="form-control" placeholder="请输入Email..." id="email" style="width: 200px;">\n' +
+						'</div>'
+					);
+					break;
+				case 'phone':
+					$question.find('.answer').prepend(
+						'<div class="input-group date" style="margin: 5px 0 5px;">\n' +
+						'	<div class="input-group-addon">\n' +
+						'		<i class="fa fa-phone"></i>\n' +
+						'	</div>\n' +
+						'	<input type="text" class="form-control" placeholder="请输入手机号..." id="email" style="width: 200px;">\n' +
+						'</div>'
+					);
+					break;
+				default:
+					break;
+			}
+			
+			
+			// 2. Question Editor
+			// load question
+			$question.find('.editor textarea[name="title"]').text(data.title);
+			// load required
+			$question.find('.editor [name="required"]').prop('checked', data.required);
+			// load tooltip
+			if(data.tooltip == ''){
+				$question.find('[type="checkbox"][name="tooltip"]').prop('checked', 0);
+				$question.find('[type="text"][name="tooltip"]').css('display', 'none');
+			}else{
+				$question.find('[type="checkbox"][name="tooltip"]').prop('checked', 1);
+				$question.find('[type="text"][name="tooltip"]')
+					.css('display', 'inline')
+					.val(data.tooltip);
+			}
+			
+			// subtype
+			$question.find('select[name="subType"] option[value="' + data.subType + '"]').prop('selected', true);
+			
+			
+			// insufficient Constraint
+			if(data.constraints == undefined || data.constraints.length == 0){
+				$question.find('[data-action="addConstraint"]')
+					.css('display', 'none');
+				$question.find('.constraintList')
+					.css('display', 'none');
+			}else{
+				$question.find('[type=checkbox][name="constraint"]').prop('checked', true);	
+				$.each(data.constraints, function(i, c){
+					$question.find('.constraintList').append(get$constraint(c));
+				});
+			}
+			return $question;
+		}
+	};
+	
+	// 'file'
+	// {lid, type, title, required, tooltip, allowedType: ['text', 'video', 'audio', 'image'], constraints: []}
+	var get$File = function(data){
+		if(data.lid == undefined){
+			return get$File({
+				lid: localIDGenerator(),
+				type: data.type,
+				required: 0,
+				title: '新的文件上传',
+				tooltip: '',
+				allowedType: ['text', 'video', 'audio', 'image']
+			});
+		}else{
+			var $question = $(
+				'<div class="question-item" data-type>\n' +
+				'	<div class="title">\n' +
+				'		<span name="index"></span>. \n' +
+				'		<span name="question"></span>\n' +
+				'		<span name="tooltip" style="cursor: pointer;" title=""><i class="fa fa-info-circle"></i></span>\n' +
+				'	</div>\n' +
+				'	<div class="answer">\n' +
+				' 	<div class="input-group" style="width: 50%; margin-top: 10px;margin-bottom: 10px;">\n' +
+				'			<input type="text" class="form-control" style="background-color: white;" disabled>\n' +
+				'			<span class="input-group-addon"><i class="fa fa-upload"></i> 上传文件</span>\n' +
+				'		</div>\n' +
+				'	</div>\n' +
+				'	<div class="btn-list" style="text-align: right;">\n' +
+				'		<div class="btn btn-primary btn-sm" data-action="activateEditor"><i class="fa fa-tag"></i> 编辑</div>\n' +
+				'		<div class="btn btn-default btn-sm" data-action="copy"><i class="fa fa-copy"></i> 复制</div>\n' +
+				'		<div class="btn btn-default btn-sm" data-action="delete"><i class="fa fa-trash"></i> 删除</div>\n' +
+				'		<div class="btn btn-default btn-sm" data-action="moveUp"><i class="fa fa-angle-up"></i> 上移</div>\n' +
+				'		<div class="btn btn-default btn-sm" data-action="moveDown"><i class="fa fa-angle-down"></i> 下移</div>\n' +
+				'		<div class="btn btn-default btn-sm" data-action="moveTop"><i class="fa fa-angle-double-up"></i> 最前</div>\n' +
+				'		<div class="btn btn-default btn-sm" data-action="moveBot"><i class="fa fa-angle-double-down"></i> 最后</div>\n' +
+				'	</div>\n' +
+				'	<div class="editor">\n' +
+				'		<div class="row">\n' +
+				'			<div class="col-sm-6">\n' +
+				'				<label>请输入问题</label>\n' +
+				'				<textarea name="title" placeholder="请输入问题标题..." rows=4 style="width: 100%;"></textarea>\n' +
+				'				<div data-type="allowedType">\n' +
+				'					<label>文件类型：</label> <input type="checkbox" name="allowedType" data-type="all"> <label>全部</label>\n' +
+				'						<div data-type="typeList">\n' +
+				'							<input type="checkbox" name="allowedType" data-type="text"> <label>文本</label>\n' +
+				'							<input type="checkbox" name="allowedType" data-type="video"> <label>视频</label>\n' +
+				'							<input type="checkbox" name="allowedType" data-type="audio"> <label>音频</label>\n' +
+				'							<input type="checkbox" name="allowedType" data-type="image"> <label>图片</label>\n' +
+				'						</div>\n' +
+				'				</div>\n' +
+				'			</div>\n' +
+				'			<div class="col-sm-6">\n' +
+				'				<div>\n' +
+				'					<input type="checkbox" name="required">\n' +
+				'					<label>必选</label>\n' +
+				'				</div>\n' +
+				'				<div>\n' +
+				'					<input type="checkbox" name="tooltip">\n' +
+				'					<label>提示</label>\n' +
+				'					<input type="text" name="tooltip" placeholder="请输入提示">\n' +
+				'				</div>\n' +
+				'				<div>\n' +
+				'					<input type="checkbox" name="constraint">\n' +
+				'					<label>关联逻辑</label>\n' +
+				'					<a href="#" data-action="addConstraint"><i class="fa fa-plus"></i></a>\n' +
+				'				</div>\n' +
+				'				<table class="table table-hover constraintList">\n' +
+				'					<thead>\n' +
+				'						<tr>\n' +
+				'							<th>关联题目</th>\n' +
+				'							<th>关联选项</th>\n' +
+				'							<th>关联类型</th>\n' +
+				'							<th>操作</th>\n' +
+				'						</tr>\n' +
+				'					</thead>\n' +
+				'					<tbody>\n' +
+				'					</tbody>\n' +
+				'				</table>\n' +
+				'			</div>\n' +
+				'		</div>\n' +
+				'	</div>\n' +
+				'</div>'
+			);
+			
+			// 1. Question Body
+			$question.find('.title [name="index"]').text(data.index ? data.index : '');
+			$question.attr('data-id', data.lid);
+			$question.attr('data-type', data.type);
+			
+			// load question;
+			$question.find('.title [name=question]').text(data.title);
+			
+			// load tooltip
+			var msgs = [];
+			if(data.required == 1)
+				msgs.push('必填');
+			if(data.tooltip != '')
+				msgs.push(data.tooltip);
+			
+			if(msgs.length != 0){
+				$question.find('.title [name="tooltip"]')
+					.css('display', 'inline')
+					.attr('title', msgs);
+			}else{
+				$question.find('.title [name="tooltip"]')
+					.css('display', 'none');
+			}
+			
+			// 2. Question Editor
+			// load question
+			$question.find('.editor textarea[name="title"]').text(data.title);
+			// load required
+			$question.find('.editor [name="required"]').prop('checked', data.required);
+			// load tooltip
+			if(data.tooltip == ''){
+				$question.find('[type="checkbox"][name="tooltip"]').prop('checked', 0);
+				$question.find('[type="text"][name="tooltip"]').css('display', 'none');
+			}else{
+				$question.find('[type="checkbox"][name="tooltip"]').prop('checked', 1);
+				$question.find('[type="text"][name="tooltip"]')
+					.css('display', 'inline')
+					.val(data.tooltip);
+			}
+			
+			// allowedType
+			$.each(data.allowedType, function(index, item){
+				$question.find('[data-type="typeList"] [name="allowedType"][data-type="' + item + '"]').prop('checked', true);
+			});
+			if($question.find('[data-type="typeList"] [name="allowedType"]:not(:checked)').length == 0)
+				$question.find('[data-type="allowedType"] [name="allowedType"][data-type="all"]').prop('checked', true);
+			
+			$question.on('click', '[data-type="allowedType"] [name="allowedType"][data-type="all"]', function(){
+				$question.find('[data-type="typeList"] [name="allowedType"]').prop('checked', $(this).is(':checked'));
+			});
+			
+			$question.on('click', '[data-type="typeList"] [name="allowedType"]', function(){
+				if($(this).is(':checked')){
+					if($question.find('[data-type="typeList"] [name="allowedType"]:not(:checked)').length == 0)
+						$question.find('[data-type="allowedType"] [name="allowedType"][data-type="all"]').prop('checked', true);
+				}else{
+					$question.find('[data-type="allowedType"] [name="allowedType"][data-type="all"]').prop('checked', false);
+				}
+			});
+			
+			// insufficient Constraint
+			if(data.constraints == undefined || data.constraints.length == 0){
+				$question.find('[data-action="addConstraint"]')
+					.css('display', 'none');
+				$question.find('.constraintList')
+					.css('display', 'none');
+			}else{
+				$question.find('[type=checkbox][name="constraint"]').prop('checked', true);	
+				$.each(data.constraints, function(i, c){
+					$question.find('.constraintList').append(get$constraint(c));
+				});
+			}
+			return $question;
+		}
+	};
+	
+	
 	/* var update$question = function($question){
 		var data = questionToJson($question);
 		$question.replaceWith(jsonToQuestion(data));
@@ -1590,8 +1990,179 @@ var tab4 = {
 	] 
 };
 
+var tab5 = {
+	lid: localIDGenerator(),
+	name: '标签1',
+	questions: [
+		{
+			lid: '_nzjs9whbt',
+			type: 'multiDropdown',
+			required: 0,
+			title: '请输入问题',
+			tooltip: '',
+			min: 0,
+			max: 7,
+			options: [
+				{
+					lid: "_4wl6caiet",
+					name: '选项1',
+					value: 0,
+					isDefault: 0
+				},
+				{
+					lid: "_5ndw0aln9",
+					name: '选项2',
+					value: 0,
+					isDefault: 0
+				}
+			]
+		},
+		{
+			lid: '_ezj0vd2hh',
+			type: 'multiDropdown',
+			required: 0,
+			title: '11111111',
+			tooltip: '',
+			options: [
+				{
+					lid: "_66vb3qv0q",
+					name: '111111',
+					value: 0,
+					isDefault: 0
+				},
+				{
+					lid: "_aeso5n1kq",
+					name: '222222',
+					value: 0,
+					isDefault: 0
+				}
+			]
+		},
+		{
+			lid: '_ch4hd4jpm',
+			type: 'input',
+			required: 1,
+			title: 'AAAAA',
+			tooltip: '123123123',
+			subType: 'email',
+			constraints: [
+				{
+					lid: '_nzjs9whbt',
+					type: 1,
+					options: [
+						{
+							lid: '_4wl6caiet'
+						},
+						{
+							lid: '_5ndw0aln9'
+						},
+					],
+				},{
+					lid: '_ezj0vd2hh',
+					type: 0,
+					options: [
+						{
+							lid: '_66vb3qv0q'
+						},
+						{
+							lid: '_aeso5n1kq'
+						},
+					],
+				},
+			]
+		}
+	] 
+};
+
+var tab6 = {
+	lid: localIDGenerator(),
+	name: '标签1',
+	questions: [
+		{
+			lid: '_nzjs9whbt',
+			type: 'multiDropdown',
+			required: 0,
+			title: '请输入问题',
+			tooltip: '',
+			min: 0,
+			max: 7,
+			options: [
+				{
+					lid: "_4wl6caiet",
+					name: '选项1',
+					value: 0,
+					isDefault: 0
+				},
+				{
+					lid: "_5ndw0aln9",
+					name: '选项2',
+					value: 0,
+					isDefault: 0
+				}
+			]
+		},
+		{
+			lid: '_ezj0vd2hh',
+			type: 'multiDropdown',
+			required: 0,
+			title: '11111111',
+			tooltip: '',
+			options: [
+				{
+					lid: "_66vb3qv0q",
+					name: '111111',
+					value: 0,
+					isDefault: 0
+				},
+				{
+					lid: "_aeso5n1kq",
+					name: '222222',
+					value: 0,
+					isDefault: 0
+				}
+			]
+		},
+		{
+			lid: '_ch4hd4jpm',
+			type: 'file',
+			required: 1,
+			title: 'AAAAA',
+			tooltip: '123123123',
+			allowedType: ['text', 'video', 'audio', 'image'],
+			constraints: [
+				{
+					lid: '_nzjs9whbt',
+					type: 1,
+					options: [
+						{
+							lid: '_4wl6caiet'
+						},
+						{
+							lid: '_5ndw0aln9'
+						},
+					],
+				},{
+					lid: '_ezj0vd2hh',
+					type: 0,
+					options: [
+						{
+							lid: '_66vb3qv0q'
+						},
+						{
+							lid: '_aeso5n1kq'
+						},
+					],
+				},
+			]
+		}
+	] 
+};
+
+
 FormDesigner({
 	lid: localIDGenerator(),
 	name: '新的物品',
-	tabs: [tab1, tab2, tab3, tab4]
+	tabs: [tab1, tab2, tab3, tab4, tab5, tab6]
 }, function(a){console.log(a)});
+
+
