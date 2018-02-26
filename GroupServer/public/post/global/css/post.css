@@ -1,0 +1,181 @@
+.post {
+	padding-top: 15px;
+	padding-bottom: 0;
+	padding-left: 15px;
+	padding-right: 15px;
+	border-radius: 2px;
+	background-color: #fff;
+	box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
+}
+
+.post [data-name="title"] {
+	font-size: 18px;
+	margin-bottom: 15px;
+}
+
+.post .img-responsive {
+	width: 100%;
+}
+
+.post .post-link {
+    padding-top: 20px;
+	border-top: 1px solid rgba(0,0,0,0.23); 
+	overflow: hidden;
+}
+
+.post .post-link [data-title] {
+	position: relative;
+}
+
+.post .post-link [data-link="title"] {
+	word-break: break-all;
+	text-align: center;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.post .divider{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-top: 1px solid #ddd;
+}
+
+.post .list-inline {
+	
+}
+
+.post .list-inline i{
+	font-size: 18px;
+}
+
+.post-modal .modal-dialog {
+	width: 60vw;
+}
+
+.post-modal .modal-body [data-type="title"] {
+	font-size: 22px;
+	padding-bottom: 5px;
+}
+
+.post-modal .modal-body [data-type="brief"] {
+	color: #999;
+	padding-bottom: 5px;
+}
+
+.post-modal .modal-body [data-type="content"] img {
+	max-width: 100%;
+}
+
+.post-modal .modal-body [data-type="brief"] span {
+	padding-left: 10px;
+}
+
+.post-modal [data-type="category"] {
+	margin-top: 15px;
+}
+
+.post-modal [data-type="tag"] {
+	margin-top: 5px;
+}
+
+.post-modal [data-type="category"] .label, .post-modal [data-type="tag"] .label {
+	margin-left: 5px;
+}
+
+.post-modal [data-type="func"] {
+	padding-right: 10px;
+}
+
+.post-modal [data-type="comment"]{
+	padding: 10px;
+}
+
+.post-modal [data-type="reply-content"] {
+	width: 100%;
+	resize: none;
+}
+
+.post-modal .divider {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #ddd;
+}
+
+/* ∑÷œÌ∑∂Œß  */
+.shared-with .modal-dialog {
+	width: 500px;
+}
+
+.shared-with .modal-body {
+	padding: 0;
+}
+
+.shared-with .modal-body label {
+	display: block !important;
+	margin-bottom: 0 !important;
+	line-height: 50px !important;
+	padding-left: 30px;
+	font-weight: 500 !important;
+	cursor: pointer;
+}
+
+.shared-with .modal-body label:hover {
+	background-color: rgba(0,0,0,0.1);
+}
+
+.shared-with .modal-body label[disabled]:hover {
+	background-color: rgba(255,0,0,0.3);
+}
+
+.shared-with .modal-body label span{
+	padding-left: 20px;
+	font-size: 16px;
+	color: #757575;
+}
+
+.shared-with .modal-body .user-label {
+	padding-left: 10px;
+}
+
+.shared-with .modal-body .collapse {
+	background-color: rgba(0,0,0,0.05);
+}
+
+.share_post_content:hover
+{
+	cursor:pointer;
+}
+
+.shared-with .modal-body .name-list {
+	line-height: 17px;
+	padding: 0 15px 15px;
+	word-break: break-all;
+}
+
+
+//”√ªßø®∆¨
+.card-user {
+	cursor: pointer;
+}
+
+.card-hover {
+	display: none;
+	height: 170px;
+	text-align:center;
+}
+
+.card-hover i{
+	position: relative;
+	top: 50px;
+	font-size: 70px;
+	color: rgba(255,255,255,0.8);
+}
+
+.card-user:hover .card-hover{
+
+}
+
+.card-user:hover .card-user-header, .card-user:hover .card-user-body {
+
+}

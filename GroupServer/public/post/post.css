@@ -1,0 +1,176 @@
+/* Post 编辑框 */
+.post-modal .modal-footer, .post-modal .modal-header {
+	border: none;
+}
+
+.post-modal [data-type=posterImage] {
+	width: 50px;
+	height: 50px;
+	padding: 2px;
+	border: 2px solid #d2d6de;
+	border-radius: 50%;
+}
+
+.post-modal [data-type="sharedImage"] {
+	width: 30px;
+	height: 30px;
+	padding: 2px;
+	border: 2px solid #d2d6de;
+	margin-right: 5px;
+}
+
+.post-modal [data-type="sharedImage"][data-role='1']  {
+	border-radius: 50%;
+}
+
+.post-modal .editor-block {
+	padding-bottom: 15px;
+}
+
+.post-modal .fa-caret-right {
+	font-size: 16px;
+	margin-left:5px;
+}
+.post-modal [data-action="modifyTag"] {
+	font-size: 20px;
+}
+
+.post-modal [data-type="tag"]{
+	margin-left: 5px;
+}
+
+.post-modal .modal-footer a{
+	margin-right: 30px;
+	color: #2196F3;
+	cursor: pointer;
+	
+}
+/* ！post 编辑框 */
+
+/* post 查看（block） */
+.post-block {
+	padding-top: 15px;
+	padding-bottom: 0;
+	padding-left: 15px;
+	padding-right: 15px;
+	border-radius: 2px;
+	background-color: #fff;
+	box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
+	border-bottom: 1px solid #d2d6de;
+	margin-bottom: 15px;
+	padding-bottom: 15px;
+	color: #666;
+}
+
+.post-block .span-50 {
+	font-size: 20px;
+	display: block;
+	margin-left: 50px;
+  font-weight: 600;
+}
+
+.post-block [data-type="sharedType"] + .tooltip > .tooltip-inner {
+	background-color: rgba(255,255,255,1); 
+	color: rgba(0,0,0,0.6); 
+	border: 1px solid rgba(0,0,0,0.3); 
+	padding: 5px;
+	box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
+}
+
+.post-block [data-type="createdDate"] {
+	font-weight: 500;
+	display: block;
+	margin-left: 50px;
+	color: rgba(0,0,0,0.4);
+}
+
+.post-block [data-action="viewPoster"] {
+	cursor: pointer;
+	color: #337ab7;
+}
+
+.post-block [data-type="posterImage"] {
+	width: 40px;
+	height: 40px;
+	padding: 2px;
+	border: 2px solid #d2d6de;
+	border-radius: 50%;
+	float: left;
+}
+
+.post-block [data-type="sharedImage"] {
+	width: 30px;
+	height: 30px;
+	padding: 2px;
+	border: 2px solid #d2d6de;
+	margin-right: 5px;
+}
+
+.post-block [data-type="sharedImage"][data-role='1']  {
+	border-radius: 50%;
+}
+
+
+.post-block [data-type="moreOptions"]{
+	color: rgb(151, 160, 179);
+	margin-left: 20px;
+	margin-right: 10px;
+}
+
+.post-block [data-action="viewDetails"]{
+	color: rgb(151, 160, 179);
+}
+
+
+.post-block [data-type="title"] {
+	font-size: 18px;
+	margin: 10px 0 10px;
+}
+
+.post-block [data-type="title"] a{
+	color: #337ab7;
+}
+
+.post-block [data-type="content"] {
+	margin-bottom: 10px;
+	max-height: 500px;
+	overflow: hidden;
+}
+
+.post-block .img-responsive {
+	width: 100%;
+}
+
+.post-block [data-type="tag"] {
+	margin-left: 5px;
+}
+
+/*
+.post-block .post-link {
+    padding-top: 20px;
+	border-top: 1px solid rgba(0,0,0,0.23); 
+	overflow: hidden;
+}
+
+.post-block .post-link [data-title] {
+	position: relative;
+}
+
+.post-block .post-link [data-link="title"] {
+	word-break: break-all;
+	text-align: center;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
+*/
+.post-block .divider{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-top: 1px solid #ddd;
+}
+
+.post-block .list-inline i{
+	font-size: 18px;
+}
+/* ！post 查看（block） */

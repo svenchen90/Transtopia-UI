@@ -6,6 +6,9 @@ var rimraf = require('rimraf');
 var path = require('path');
 const transCloudPath = 'C:/Users/Sven/Desktop/Transtopia-UI/GroupServer/public';
 
+router.get('/post', function(req, res, next) {
+  res.render('post');
+});
 
 
 /* GET home page. */

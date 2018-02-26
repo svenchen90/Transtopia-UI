@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<!-- jQuery	 -->
+	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+
+	<!-- Bootstrap 3.3.6 -->
+	<link rel="stylesheet" href="../plugins/bootstrap-3.3.6/css/bootstrap.min.css" />
+	<script src="../plugins/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="../plugins/font-awesome-4.7.0/css/font-awesome.min.css" />
+	
+	<!-- bootstrap-wysiwyg -->
+	<link href="../plugins/bootstrap-wysiwyg/external/google-code-prettify/prettify.css" rel="stylesheet">
+	<link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+	<script src="../plugins/bootstrap-wysiwyg/external/jquery.hotkeys.js"></script>
+	<script src="../plugins/bootstrap-wysiwyg/external/google-code-prettify/prettify.js"></script>
+	<script src="../plugins/bootstrap-wysiwyg/bootstrap-wysiwyg.js"></script>
+	
+	
+	
+	<!-- 自定义 -->
+	<link href="../post/editor.css" rel="stylesheet" />
+	<script src="../post/editor.js"></script>
+	
+	<link href="../post/switch.css" rel="stylesheet" />
+	
+	<link href="../post/global.css" rel="stylesheet" />
+	<script src="../post/global.js"></script>
+	
+	<link href="../post/post.css" rel="stylesheet" />
+	<script src="../post/post.js"></script>
+	
+
+	</head>
+  <body style="background-color: rgba(0,0,0,0.3)">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6">11</div>
+		</div>
+	</div>
+	
+	
+	<script>
+	
+	var tags = [{
+		name: 111
+	},{
+		name: 111
+	},{
+		name: 111
+	}];
+	
+	var tags2 = [{
+		name: 222
+	},{
+		name: 222
+	},{
+		name: 222
+	}];
+
+	var sharedTo = {
+		name: '自定义',
+		value: 1,
+		list: [{
+			id: 1,
+			name: '张震雨',
+			image: '/dist/img/avatar04.png',
+			role: 1
+		},{
+			id: 2,
+			name: '刘强',
+			image: '/dist/img/avatar04.png',
+			role: 1
+		}]
+	};
+	
+	var sharedTo2 = {
+		name: '自定义',
+		value: 1,
+		list: [{
+			id: 1,
+			name: '张震雨',
+			image: '/dist/img/avatar2.png',
+			role: 2
+		},{
+			id: 2,
+			name: '刘强',
+			image: '/dist/img/avatar2.png',
+			role: 2
+		}]
+	};
+
+	var post = {
+		id: 1,
+		type: 1,
+		createDate: '2015年1月15日-14:25',
+		poster: {
+			id: 1,
+			name: '李伟',
+			image: '/dist/img/avatar04.png'
+		},
+		shared: sharedTo,
+		title: '这是一个title',
+		postImage: '/dist/img/photo4.jpg',
+		content: '<p>adfaffsd</p><p>adfaffsd</p><p>adfaffsd</p><p>adfaffsd</p><p>adfaffsd</p>',
+		allowSharing: 1,
+		tags: tags,
+		likes: 523,
+		isLike: 1,
+		comments: [],
+		authority: 2 // 2 edit, 1 veiw details, 0 need to log in 
+	};
+	
+	$('.col-lg-6').append(post_Block(post));
+	
+	
+	/*
+	postEditor(
+		post, 
+		function(data, callback){
+			console.log(data);
+			callback(sharedTo2);
+		},
+		function(data, callback){
+			console.log(data);
+			callback(tags2);
+		},
+		function(data, callback){
+			console.log(data);
+			callback();
+		},
+		function(data){
+			console.log(data);
+		},
+		function(callback){
+			callback();
+		},
+	);
+	*/
+	
+	
+	</script>
+	
+	
+	
+	
+	</body>
+</html>

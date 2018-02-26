@@ -1,0 +1,146 @@
+/* 黑名单Card */
+.blacklist-card {
+	margin: 10px 0 10px;
+	box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
+	border: none;
+	border-radius: 3px;
+}
+
+.blacklist-card:before, .modal-card:after{
+	content: "";
+	display: block;
+	padding-top: 25%; 	/* initial ratio of 1:1*/
+}
+
+.blacklist-card .card-body {
+	text-align: center;
+	color: rgba(255,255,255,1);
+}
+
+.blacklist-card [data-target="image"]{
+	width: 60px;
+	height: 60px;
+	border-color: #fff;
+	border-style: solid;
+	border-width: 3px;
+	border-radius: 50%;
+}
+
+.blacklist-card [data-target="name"]{
+	margin-top: 5px;
+	font-weight: bold;
+	font-size: 18px;
+}
+
+.blacklist-card [data-target="btns"]{
+	padding-top: 20px;
+	padding-bottom: 10px;
+}
+
+.blacklist-card [data-target="btns"] a {
+	color: rgba(255,255,255,1);
+	cursor: pointer;
+}
+
+.blacklist-card [data-target="btns"] a i, .blacklist-card [data-target="btns"] a span {
+	vertical-align: middle;
+}
+/* 黑名单Card */
+
+/* 新成员申请Card */
+.apply-card {
+	margin: 10px 0 10px;
+	box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
+	border: none;
+	border-radius: 3px;
+}
+
+.apply-card:before, .modal-card:after{
+	content: "";
+	display: block;
+	padding-top: 25%; 	/* initial ratio of 1:1*/
+}
+
+.apply-card .card-body {
+	text-align: center;
+	color: rgba(255,255,255,1);
+}
+
+.apply-card [data-target="image"]{
+	width: 60px;
+	height: 60px;
+	border-color: #fff;
+	border-style: solid;
+	border-width: 3px;
+	border-radius: 50%;
+}
+
+.apply-card [data-target="name"]{
+	margin-top: 5px;
+	font-weight: bold;
+	font-size: 18px;
+}
+
+.apply-card [data-target="btns"]{
+	padding-top: 20px;
+	padding-bottom: 10px;
+}
+
+.apply-card [data-target="btns"] a {
+	color: rgba(255,255,255,1);
+	cursor: pointer;
+}
+
+.apply-card [data-target="btns"] a i, .apply-card [data-target="btns"] a span {
+	vertical-align: middle;
+}
+/* 新成员申请Card */
+
+/* 新成员申请Card */
+.member-card {
+	margin: 10px 0 10px;
+	box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
+	border: none;
+	border-radius: 3px;
+}
+
+.member-card:before, .member-card:after{
+	content: "";
+	display: block;
+	padding-top: 25%; 	/* initial ratio of 1:1*/
+}
+
+.member-card .card-body {
+	text-align: center;
+	color: rgba(255,255,255,1);
+}
+
+.member-card [data-target="image"]{
+	width: 60px;
+	height: 60px;
+	border-color: #fff;
+	border-style: solid;
+	border-width: 3px;
+	border-radius: 50%;
+}
+
+.member-card [data-target="name"]{
+	margin-top: 5px;
+	font-weight: bold;
+	font-size: 18px;
+}
+
+.member-card [data-target="btns"]{
+	padding-top: 20px;
+	padding-bottom: 10px;
+}
+
+.member-card [data-target="btns"] a {
+	color: rgba(255,255,255,1);
+	cursor: pointer;
+}
+
+.member-card [data-target="btns"] a i, .member-card [data-target="btns"] a span {
+	vertical-align: middle;
+}
+/* 新成员申请Card */
