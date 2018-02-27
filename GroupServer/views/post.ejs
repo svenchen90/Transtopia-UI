@@ -148,7 +148,7 @@
 		createDate: '2015年1月15日-14:25',
 		isLike: 0,
 		byMe: 0,
-		content: 'sa2d3f1as2f31sdf3a1f3sa2f1as3df\nds1f32asdf1as3f21asdf231asf3a2a1f'
+		content: '    		sa2d3f1as2f31sdf3a1f3sa2f1as3df\nds1f32asdf1as3f21asdf231asf3a2a1f'
 	},{
 		id: 2,
 		sender: {
@@ -165,10 +165,68 @@
 		createDate: '2015年1月15日-14:25',
 		isLike: 0,
 		byMe: 0,
-		content: 'sa2d3f1as2f31sdf3a1f3sa2f1as3df\nds1f32asdf1as3f21asdf231asf3a2a1f'
+		content: '    sa2d3f1as2f31sdf3a1f3sa2f1as3df\nds1f32asdf1as3f21asdf231asf3a2a1f'
+	},
+	{
+		id: 2,
+		sender: {
+			id: 1,
+			name: '张振宇',
+			image: '/dist/img/avatar2.png'
+		},
+		replyTo: {
+			id: 2,
+			name: '刘强',
+			image: '/dist/img/avatar3.png'
+		
+		},
+		createDate: '2015年1月15日-14:25',
+		isLike: 0,
+		byMe: 0,
+		content: '    		sa2d3f1as2f31sdf3a1f3sa2f1as3df\nds1f32asdf1as3f21asdf231asf3a2a1f'
+	},{
+		id: 2,
+		sender: {
+			id: 1,
+			name: '张振宇',
+			image: '/dist/img/avatar2.png'
+		},
+		replyTo: {
+			id: 2,
+			name: '刘强',
+			image: '/dist/img/avatar3.png'
+		
+		},
+		createDate: '2015年1月15日-14:25',
+		isLike: 0,
+		byMe: 0,
+		content: '    sa2d3f1as2f31sdf3a1f3sa2f1as3df\nds1f32asdf1as3f21asdf231asf3a2a1f'
 	}]
 	
 	var post = {
+		id: 1,
+		type: 1,
+		createDate: '2015年1月15日-14:25',
+		poster: {
+			id: 1,
+			name: '李伟',
+			image: '/dist/img/avatar04.png'
+		},
+		shared: sharedTo,
+		title: '这是一个title',
+		postImage: '/dist/img/photo4.jpg',
+		content: '<p>adfaffsd</p><p>adfaffsd</p><img class="img-responsive" data-name="postimage" src="/dist/img/photo4.jpg"><p>adfaffsd</p><p>adfaffsd</p><p>adfaffsd</p>',
+		allowSharing: 1,
+		tags: tags,
+		likes: 523,
+		isLike: 1,
+		commentLength: 530,
+		comments: comments,
+		authority: 2 // 2 edit, 1 veiw details, 0 need to log in 
+	};
+	
+	
+	var post2 = {
 		id: 1,
 		type: 1,
 		createDate: '2015年1月15日-14:25',
@@ -186,9 +244,10 @@
 		likes: 523,
 		isLike: 1,
 		commentLength: 530,
-		comments: comments,
+		comments: [comments[1], comments[2]],
 		authority: 2 // 2 edit, 1 veiw details, 0 need to log in 
 	};
+	
 	var $post = post_Block(
 		post,
 		//action_viewPoster
@@ -219,18 +278,95 @@
 		function(data, callback){
 			console.log(data);
 			callback({
-				isLike: 0,
-				likes: 999
+				isLike: data.isLike,
+				likes: 1
 			})
 		},
 		//action_getComment
 		function(data, callback){
 			console.log(data);
 			callback(post);
+		},
+		// action_likeComment
+		function(data, callback){
+			console.log(data);
+			callback(data)
+		},
+		// action_deleteComment
+		function(data, callback){
+			console.log(data);
+			callback(post2)
+		},
+		// action_reportComment
+		function(data){
+			console.log(data);
+		},
+		// action_reportComment
+		function(data, callback1, callback2){
+			console.log(data);
+			callback1(post2);
+			callback2();
 		}
 	);
 	$('.col-lg-6').append($post);
 	
+	
+	post_Modal(
+		post,
+		//action_viewPoster
+		function(data){
+			console.log(data);
+		},
+		//action_edit
+		function(data){
+			console.log(data);
+		},
+		//action_delete
+		function(data){
+			console.log(data);
+		},
+		//action_stack
+		function(data){
+			console.log(data);
+		},
+		//action_report
+		function(data){
+			console.log(data);
+		},
+		//action_like
+		function(data, callback){
+			console.log(data);
+			callback({
+				isLike: data.isLike,
+				likes: 1
+			})
+		},
+		//action_getComment
+		function(data, callback){
+			console.log(data);
+			callback(post);
+		},
+		// action_likeComment
+		function(data, callback){
+			console.log(data);
+			callback(data)
+		},
+		// action_deleteComment
+		function(data, callback){
+			console.log(data);
+			callback(post2)
+		},
+		// action_reportComment
+		function(data){
+			console.log(data);
+		},
+		// action_reportComment
+		function(data, callback1, callback2){
+			console.log(data);
+			callback1(post2);
+			callback2();
+		}
+	);
 	
 	/*
 	postEditor(
@@ -255,7 +391,6 @@
 		},
 	);
 	*/
-	
 	
 	</script>
 	

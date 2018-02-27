@@ -66,7 +66,7 @@
 	font-size: 20px;
 	display: block;
 	margin-left: 50px;
-  font-weight: 600;
+	font-weight: 600;
 }
 
 .post-block [data-type="sharedType"] + .tooltip > .tooltip-inner {
@@ -128,6 +128,9 @@
 
 .post-block [data-type="content"] {
 	margin-bottom: 10px;
+}
+
+.post-block [data-type="content"] .row {
 	max-height: 500px;
 	overflow: hidden;
 }
@@ -153,37 +156,41 @@
 	float: left;
 }
 
-.post-block .comment .span-50 {
+.post-block #comments .span-50 {
 	font-size: 14px;
 	font-weight: 500;
+}
+
+.post-block #comments .comment-list {
+	max-height: 300px;
+	overflow-y: scroll;
 }
 
 .post-block .comment [data-type="commentBody"]{
 	margin: 10px 0 10px;
 }
 
-
-/*
-.post-block .post-link {
-    padding-top: 20px;
-	border-top: 1px solid rgba(0,0,0,0.23); 
-	overflow: hidden;
+.post-block .reply-to {
+	display: block;
+	line-height: 40px;
 }
 
-.post-block .post-link [data-title] {
-	position: relative;
+.post-block .reply-to [data-action="removeReplyTo"]{
+	cursor: pointer;
+	display: none;
 }
 
-.post-block .post-link [data-link="title"] {
-	word-break: break-all;
-	text-align: center;
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
+.post-block .reply-to:hover [data-action="removeReplyTo"]{
+	display: inline;
 }
-*/
+
+.post-block [data-type="commentContent"]{
+	width: 100%;
+	resize: none;
+}
+
 .post-block .divider{
-	margin-top: 10px;
+	margin-top: 10px !important; 
 	margin-bottom: 10px;
 	border-top: 1px solid #ddd;
 }
@@ -191,4 +198,12 @@
 .post-block .list-inline i{
 	font-size: 18px;
 }
-/* ！post 查看（block） */
+/* post 查看（block） */
+
+/* post modal */
+.modal .post-block {
+	margin-bottom: 0;
+	box-shadow: 0 5px 15px rgba(0,0,0,.5);
+}
+/* ！post modal */
+
