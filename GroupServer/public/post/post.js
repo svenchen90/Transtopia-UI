@@ -1,4 +1,7 @@
 console.log('start of post');
+var objIsEmpty = function(obj){
+	return Object.keys(obj).length === 0 && obj.constructor === Object || obj == undefined;
+};
 /* 
 依赖
 editor.js / editor.css
@@ -206,25 +209,25 @@ var postEditor = function(data, action_shareTo, action_modifyTag, action_submit,
 	initialize();
 };
 
-var post_Block = function(data){
+var post_Block = function(data, action_viewUser, action_viewDetails, action_edit, action_delete, action_stack, action_report, action_like, action_getComment){
 	var $post = $(
 		'<div class="post-block">\n' +
 		'	<div>\n' +
-		'		<img data-type="posterImage" data-action="viewPoster"/>\n' +
+		'		<img data-type="posterImage" data-action="viewUser"/>\n' +
 		'		<span class="span-50">\n' +
-		'			<span data-type="poster" data-action="viewPoster"></span>\n' +
+		'			<span data-type="poster" data-action="viewUser"></span>\n' +
 		'			<b class="fa fa-caret-right"></b>\n' +
 		'			<span data-type="sharedType"></span>\n' +
 		'			<div class="dropdown pull-right">\n' +
-		'				<a href="#" data-toggle="dropdown" data-type="moreOptions"><i class="fa fa-ellipsis-v"></i></a>\n' +
+		'				<a class="grey-icon" href="#" data-toggle="dropdown" data-type="moreOptions" title="更多选项"><i class="fa fa-ellipsis-v"></i></a>\n' +
 		'				<ul class="dropdown-menu">\n' +
-		'					<li><a href="javascript:void(0);" data-action="edit">修改</a></li>\n' +
-		'					<li><a href="javascript:void(0);" data-action="delete">删除</a></li>\n' +
-		'					<li><a href="javascript:void(0);" data-action="stack">置顶</a></li>\n' +
-		'					<li><a href="javascript:void(0);" data-action="report">举报</a></li>\n' +
+		'					<li data-action="edit"><a href="javascript:void(0);">修改</a></li>\n' +
+		'					<li data-action="delete"><a href="javascript:void(0);">删除</a></li>\n' +
+		'					<li data-action="stack"><a href="javascript:void(0);">置顶</a></li>\n' +
+		'					<li data-action="report"><a href="javascript:void(0);">举报</a></li>\n' +
 		'				</ul>\n' +
 		'			</div>\n' +
-		'			<a href="#" class="pull-right" data-action="viewDetails"><i class="fa fa-external-link"></i></a>\n' +
+		'			<a href="#" class="pull-right grey-icon" data-action="viewDetails" title="查看详情"><i class="fa fa-external-link"></i></a>\n' +
 		'		</span>\n' +
 		'		<span data-type="createdDate"></span>\n' +
 		'	</div>\n' +
@@ -242,26 +245,33 @@ var post_Block = function(data){
 		'	<div class="row divider"></div>\n' +
 		'	<ul class="list-inline">\n' +
 		'		<li>\n' +
-		'			<a href="#" class="link-black text-sm" data-action="like"><i class="fa fa-thumbs-o-up"></i>(<span data-num></span>)</a>\n' +
+		'			<a href="#" class="link-black text-sm" data-action="like" title="点赞"><i class="fa fa-thumbs-o-up"></i>(<span data-num></span>)</a>\n' +
 		'		</li>\n' +
 		'		<li class="pull-right">\n' +
-		'			<a href="#" class="link-black text-sm" data-action="toggleComment"><i class="fa fa-comments-o"></i> 评论(<span data-num></span>)</a>\n' +
+		'			<a href="#" class="link-black text-sm" data-action="toggleComment" title="评论"><i class="fa fa-comments-o"></i> 评论(<span data-num></span>)</a>\n' +
 		'		</li>\n' +
 		'	</ul>\n' +
-		' <div class="clearfix"></div>\n' + 
+		' <div class="clearfix"></div>\n' +  
+		'	<div id="comments" class="collapse">\n' +
+		'	</div>\n' +
 		'</div>'
 	);
 	
 	var load = function(data){
+		// ### is stacked; scroll
 		$post.attr('data-id', data.id);
 		$post.attr('data-post-type', data.type);
 		$post.find('[data-type="posterImage"]').attr({
 			'data-id': data.poster.id,
 			'title': data.poster.name,
-			'src': data.poster.image
+			'src': data.poster.image,
+			'poster-type': data.type
 		});
 		$post.find('[data-type="poster"]')
-			.attr('data-id', data.poster.id)
+			.attr({
+				'data-id': data.poster.id,
+				'poster-type': data.type
+			})
 			.text(data.poster.name);
 		
 		$post.find('[data-type="sharedType"]')
@@ -278,25 +288,16 @@ var post_Block = function(data){
 			$tagContainer.append($tag);
 		});
 		
-		if(data.isLike == 1){
-			$post.find('[data-action="like"] i')
-				.removeClass('fa-thumbs-o-up')
-				.addClass('fa-thumbs-up');
-		}else{
-			$post.find('[data-action="like"] i')
-				.addClass('fa-thumbs-o-up')
-				.removeClass('fa-thumbs-up');
-		}
-		$post.find('[data-action="like"] [data-num]').text(data.likes);
-		$post.find('[data-action="toggleComment"] [data-num]').text(data.comments.length);
+		updateLike(data);
+		$post.find('[data-action="toggleComment"] [data-num]').text(data.commentLength);
 		
 		if(data.authority < 2){
-			$post.find('[data-action="edit"], [data-action="delete"], [data-action="stack"]').closest('li').css('display', 'none');
+			$post.find('[data-action="edit"], [data-action="delete"], [data-action="stack"]').css('display', 'none');
 		}else{
 			if(data.shared.list.length > 0){
 				var content = '';
 				$.each(data.shared.list, function(index, item){
-					content += '<img data-type="sharedImage" data-action="viewPoster" data-id="' + item.id + '" title="' + item.name + '" src="' + item.image + '" data-role="' + item.role + '">'
+					content += '<img data-type="sharedImage" data-action="viewUser" data-id="' + item.id + '" title="' + item.name + '" src="' + item.image + '" data-role="' + item.role + '">'
 				});
 				$post.find('[data-type="sharedType"]')
 					.css('cursor', 'pointer')
@@ -309,17 +310,188 @@ var post_Block = function(data){
 		}
 	};
 	
+	var updateLike = function(data){
+		// {isLike: 0/1, likes: 'total number'}
+		if(data.isLike == 1){
+			$post.find('[data-action="like"] i')
+				.removeClass('fa-thumbs-o-up')
+				.addClass('fa-thumbs-up');
+		}else if(data.isLike == 0){
+			$post.find('[data-action="like"] i')
+				.addClass('fa-thumbs-o-up')
+				.removeClass('fa-thumbs-up');
+		}else{
+			console.log('error');
+		}
+		
+		$post.find('[data-action="like"]').attr('data-value', data.isLike);
+		$post.find('[data-action="like"] [data-num]').text(data.likes);
+	};
+	
+	var updateComments = function(data){
+		$post.find('[data-action="toggleComment"] [data-num]').text(data.commentLength);
+		$post.find('#comments').empty();
+		$.each(data.comments, function(index, item){
+			$post.find('#comments').append(getComment(item));
+		});
+	};
+	
+	var getComment = function(data){
+		/* {
+			id,
+			sender: {
+				id,
+				name,
+				image
+			},
+			replyTo: {
+				id,
+				name,
+				image
+			},
+			createDate,
+			isLike: 0/1,
+			byMe: 0/1,
+			content,
+		}
+		 */
+		var $comment = $(
+			'<div class="comment">\n' +
+			'	<div data-type="commentHead">\n' +
+			'		<img data-type="senderImage" data-action="viewUser">\n' +
+			'		<span class="span-50">\n' +
+			'			<span class="user-name" data-type="sender" data-action="viewUser"></span>\n' +
+			'			<b class="fa fa-caret-right"></b>\n' +
+			'			<span class="user-name" data-type="replyTo" data-action="viewUser"></span>\n' +
+			'			<div class="dropdown pull-right">\n' +
+			'				<a class="grey-icon" href="#" data-toggle="dropdown" data-type="moreOptions" title="更多选项"><i class="fa fa-ellipsis-v"></i></a>\n' +
+			'				<ul class="dropdown-menu">\n' +
+			'					<li data-action="reply"><a href="javascript:void(0);">回复</a></li>\n' +
+			'					<li data-action="deleteComment"><a href="javascript:void(0);">删除</a></li>\n' +
+			'					<li data-action="reportComment"><a href="javascript:void(0);">举报</a></li>\n' +
+			'				</ul>\n' +
+			'			</div>\n' +
+			'				<a href="#" class="pull-right grey-icon" data-action="likeComment" title="点赞"><i class="fa fa-heart-o"></i></a>\n' +
+			'				<a href="#" class="pull-right grey-icon" data-action="reply" title="回复"><i class="fa fa-reply"></i></a>\n' +
+			'		</span>\n' +
+			'		<span data-type="commentDate"></span>\n' +
+			'	</div>\n' +
+			'	<div data-type="commentBody"></div>\n' +
+			'	<div data-type="commentFoot"></div>\n' +
+			'</div>'
+		);
+		
+		var load = function(data){
+			$comment.attr('data-id', data.id);
+			$comment.find('[data-type="senderImage"]')
+				.attr({
+					'data-id': data.sender.id,
+					'title': data.sender.name,
+					'src': data.sender.image,
+					'poster-type': 1
+				});
+			$comment.find('[data-type="sender"]')
+				.attr({
+					'data-id': data.sender.id,
+					'title': data.sender.name,
+					'poster-type': 1
+				})
+				.text(data.sender.name);
+			if(!objIsEmpty(data.replyTo)){
+				$comment.find('[data-type="replyTo"]')
+				.attr({
+					'data-id': data.replyTo.id,
+					'title': data.replyTo.name,
+					'poster-type': 1
+				})
+				.text(data.replyTo.name);
+			}else{
+				$comment.find('.fa-caret-right, [data-type="replyTo"]').css('display', 'none');
+			}
+			$comment.find('[data-type="commentDate"]').text(data.createDate);
+			
+			if(data.isLike == 0){
+				$comment.find('[data-action="likeComment"] i')
+					.addClass('fa-heart-o')
+					.removeClass('fa-heart');
+			}else{
+				$comment.find('[data-action="likeComment"] i')
+					.addClass('fa-heart')
+					.removeClass('fa-heart-o');
+			}
+			
+			$comment.find('[data-type="commentBody"]').html(data.content);
+			
+			if(data.byMe){
+				$comment.find('[data-action="likeComment"], [data-action="reply"], [data-action="reportComment"]').css('display', 'none');
+			}else{
+				$comment.find('[data-action="deleteComment"]').css('display', 'none');
+			}
+		};
+		
+		load(data);
+		
+		return $comment;
+	};
+	
 	var initialize = function(){
 		load(data);
 		
 		$post.on('click', '[data-action]', function(){
 			var actionType = $(this).attr('data-action');
+			// console.log(actionType);
 			switch(actionType){
+				case 'viewUser':
+					action_viewUser({
+						id: $(this).attr('data-id'),
+						type: $(this).attr('poster-type')
+					});
+					break;
+				case 'viewDetails':
+					action_viewDetails({
+						id: $(this).closest('.post-block').attr('data-id')
+					});
+					break;
+				case 'edit':
+					action_edit({
+						id: $(this).closest('.post-block').attr('data-id')
+					});
+					break;
+				case 'delete':
+					action_delete({
+						id: $(this).closest('.post-block').attr('data-id')
+					});
+					break;
+				case 'stack':
+					action_stack({
+						id: $(this).closest('.post-block').attr('data-id')
+					});
+					break;
+				case 'report':
+					action_report({
+						id: $(this).closest('.post-block').attr('data-id')
+					});
+					break;
+				case 'like':
+					action_like({
+						id: $(this).closest('.post-block').attr('data-id'),
+						isLike: $post.find('[data-action="like"]').attr('data-value')
+					}, updateLike);
+					break;
+				case 'toggleComment':
+					if($post.find('#comments').hasClass('in')){
+						$post.find('#comments').collapse('hide');
+					}else{
+						action_getComment({
+							id: $(this).closest('.post-block').attr('data-id')
+						}, updateComments);
+						$post.find('#comments').collapse('show');
+					}
+					break;
 				default:
 					console.log('error');
 			}
-		})
-		
+		});
 	};
 	
 	initialize();

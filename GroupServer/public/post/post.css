@@ -84,7 +84,7 @@
 	color: rgba(0,0,0,0.4);
 }
 
-.post-block [data-action="viewPoster"] {
+.post-block [data-action="viewUser"] {
 	cursor: pointer;
 	color: #337ab7;
 }
@@ -110,16 +110,11 @@
 	border-radius: 50%;
 }
 
-
-.post-block [data-type="moreOptions"]{
+.post-block .grey-icon {
 	color: rgb(151, 160, 179);
-	margin-left: 20px;
-	margin-right: 10px;
+	padding: 0 10px 0 10px;
 }
 
-.post-block [data-action="viewDetails"]{
-	color: rgb(151, 160, 179);
-}
 
 
 .post-block [data-type="title"] {
@@ -144,6 +139,29 @@
 .post-block [data-type="tag"] {
 	margin-left: 5px;
 }
+
+.post-block .comment {
+	margin: 15px 0 15px;
+}
+
+.post-block .comment [data-type="senderImage"]{
+	width: 40px;
+	height: 40px;
+	padding: 2px;
+	border: 2px solid #d2d6de;
+	border-radius: 50%;
+	float: left;
+}
+
+.post-block .comment .span-50 {
+	font-size: 14px;
+	font-weight: 500;
+}
+
+.post-block .comment [data-type="commentBody"]{
+	margin: 10px 0 10px;
+}
+
 
 /*
 .post-block .post-link {

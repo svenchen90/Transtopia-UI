@@ -38,9 +38,9 @@
 
 	</head>
   <body style="background-color: rgba(0,0,0,0.3)">
-	<div class="container">
+	<div class="container" style="margin-top: 15px;">
 		<div class="row">
-			<div class="col-lg-6">11</div>
+			<div class="col-lg-6"></div>
 		</div>
 	</div>
 	
@@ -94,7 +94,80 @@
 			role: 2
 		}]
 	};
-
+	
+	/* {
+		id,
+		sender: {
+			id,
+			name,
+			image
+		},
+		replyTo: {
+			id,
+			name,
+			image
+		},
+		createDate,
+		isLike: 0/1,
+		byMe: 0/1,
+		content,
+	}
+	 */
+	
+	var comments = [{
+		id: 1,
+		sender: {
+			id: 1,
+			name: '张振宇',
+			image: '/dist/img/avatar2.png'
+		},
+		replyTo: {
+			id: 2,
+			name: '刘强',
+			image: '/dist/img/avatar3.png'
+		
+		},
+		createDate: '2015年1月15日-14:25',
+		isLike: 0,
+		byMe: 1,
+		content: 'sa2d3f1as2f31sdf3a1f3sa2f1as3df\nds1f32asdf1as3f21asdf231asf3a2a1f'
+	},
+	{
+		id: 2,
+		sender: {
+			id: 1,
+			name: '张振宇',
+			image: '/dist/img/avatar2.png'
+		},
+		replyTo: {
+			id: 2,
+			name: '刘强',
+			image: '/dist/img/avatar3.png'
+		
+		},
+		createDate: '2015年1月15日-14:25',
+		isLike: 0,
+		byMe: 0,
+		content: 'sa2d3f1as2f31sdf3a1f3sa2f1as3df\nds1f32asdf1as3f21asdf231asf3a2a1f'
+	},{
+		id: 2,
+		sender: {
+			id: 1,
+			name: '张振宇',
+			image: '/dist/img/avatar2.png'
+		},
+		replyTo: {
+			id: 2,
+			name: '刘强',
+			image: '/dist/img/avatar3.png'
+		
+		},
+		createDate: '2015年1月15日-14:25',
+		isLike: 0,
+		byMe: 0,
+		content: 'sa2d3f1as2f31sdf3a1f3sa2f1as3df\nds1f32asdf1as3f21asdf231asf3a2a1f'
+	}]
+	
 	var post = {
 		id: 1,
 		type: 1,
@@ -112,11 +185,51 @@
 		tags: tags,
 		likes: 523,
 		isLike: 1,
-		comments: [],
+		commentLength: 530,
+		comments: comments,
 		authority: 2 // 2 edit, 1 veiw details, 0 need to log in 
 	};
-	
-	$('.col-lg-6').append(post_Block(post));
+	var $post = post_Block(
+		post,
+		//action_viewPoster
+		function(data){
+			console.log(data);
+		},
+		//action_viewDetails
+		function(data){
+			console.log(data);
+		},
+		//action_edit
+		function(data){
+			console.log(data);
+		},
+		//action_delete
+		function(data){
+			console.log(data);
+		},
+		//action_stack
+		function(data){
+			console.log(data);
+		},
+		//action_report
+		function(data){
+			console.log(data);
+		},
+		//action_like
+		function(data, callback){
+			console.log(data);
+			callback({
+				isLike: 0,
+				likes: 999
+			})
+		},
+		//action_getComment
+		function(data, callback){
+			console.log(data);
+			callback(post);
+		}
+	);
+	$('.col-lg-6').append($post);
 	
 	
 	/*
