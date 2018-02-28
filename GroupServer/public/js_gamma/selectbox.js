@@ -246,6 +246,8 @@ var SelectBox = function(title, radios, selected){
 	})();
 };
 
+
+
 // 通讯录导入
 var SelectBoxIndividual = function(callback){
 	getFriendTags()

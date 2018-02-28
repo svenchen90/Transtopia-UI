@@ -35,6 +35,9 @@
 	<link href="../post/post.css" rel="stylesheet" />
 	<script src="../post/post.js"></script>
 	
+	<link href="../post/selectbox.css" rel="stylesheet" />
+	<script src="../post/selectbox.js"></script>
+	
 
 	</head>
   <body style="background-color: rgba(0,0,0,0.3)">
@@ -46,6 +49,134 @@
 	
 	
 	<script>
+	var sharedList = {
+		title: '12313131231231',
+		tags:[
+			{
+				icon: '<i class="fa fa-plus"></i>',
+				name: 'sdfsafasfasdf',
+				value: '1',
+				hasCollapse: 1,
+				isSelect: 0,
+				collapseTags: [{
+					icon: '<i class="fa fa-minus"></i>',
+					name: '123123',
+					value: '22',
+					isSelect: 1
+				},{
+					icon: '<i class="fa fa-minus"></i>',
+					name: '123123',
+					value: '22',
+					isSelect: 0
+				}],
+				collapseBot: {
+					icon: '<i class="fa fa-pencil"></i>',
+					name: 'fasfasfa',
+					list: [{
+						id: '1',
+						name: '213123123',
+						src: '/dist/img/avatar04.png'
+					},{
+						id: '1',
+						name: '213123123',
+						src: '/dist/img/avatar04.png'
+					}]
+				}
+			},
+			{
+				icon: '<i class="fa fa-plus"></i>',
+				name: 'sdfsafasfasdf',
+				value: '1',
+				hasCollapse: 0,
+				isSelect: 1
+			},{
+				icon: '<i class="fa fa-plus"></i>',
+				name: 'sdfsafasfasdf',
+				value: '1',
+				hasCollapse: 1,
+				isSelect: 0,
+				collapseTags: [{
+					icon: '<i class="fa fa-minus"></i>',
+					name: '123123',
+					value: '22',
+					isSelect: 1
+				},{
+					icon: '<i class="fa fa-minus"></i>',
+					name: '123123',
+					value: '22',
+					isSelect: 0
+				}],
+				collapseBot: {
+					icon: '<i class="fa fa-pencil"></i>',
+					name: 'fasfasfa',
+					list: [{
+						id: '1',
+						name: '213123123',
+						src: '/dist/img/avatar04.png'
+					},{
+						id: '1',
+						name: '213123123',
+						src: '/dist/img/avatar04.png'
+					}]
+				}
+			},{
+				icon: '<i class="fa fa-plus"></i>',
+				name: 'sdfsafasfasdf',
+				value: '1',
+				hasCollapse: 1,
+				isSelect: 0,
+				collapseTags: [{
+					icon: '<i class="fa fa-minus"></i>',
+					name: '123123',
+					value: '22',
+					isSelect: 1
+				},{
+					icon: '<i class="fa fa-minus"></i>',
+					name: '123123',
+					value: '22',
+					isSelect: 0
+				}],
+				collapseBot: {
+					icon: '<i class="fa fa-pencil"></i>',
+					name: 'fasfasfa',
+					list: [{
+						id: '1',
+						name: '213123123',
+						src: '/dist/img/avatar04.png'
+					},{
+						id: '1',
+						name: '213123123',
+						src: '/dist/img/avatar04.png'
+					}]
+				}
+			}
+		]
+	};
+	
+	
+	selectBox(
+		sharedList, 
+		// action_viewTag
+		function(data){
+			console.log(data);
+		},
+		function(data, $tail, callback){
+			console.log(data);
+			data.push({
+				id: '1',
+				name: '21312312123123123123123123',
+				src: '/dist/img/avatar04.png'
+			})
+			callback($tail, data);
+		}
+	);
+	
+	
+	
+	
+	
+	
+	
 	
 	var tags = [{
 		name: 111
@@ -66,7 +197,7 @@
 	var sharedTo = {
 		name: '自定义',
 		value: 1,
-		list: [{
+		listItem: [{
 			id: 1,
 			name: '张震雨',
 			image: '/dist/img/avatar04.png',
@@ -76,13 +207,8 @@
 			name: '刘强',
 			image: '/dist/img/avatar04.png',
 			role: 1
-		}]
-	};
-	
-	var sharedTo2 = {
-		name: '自定义',
-		value: 1,
-		list: [{
+		}],
+		listTag: [{
 			id: 1,
 			name: '张震雨',
 			image: '/dist/img/avatar2.png',
@@ -310,7 +436,8 @@
 	);
 	$('.col-lg-6').append($post);
 	
-	
+	/*
+	console.log(post);
 	post_Modal(
 		post,
 		//action_viewPoster
@@ -367,13 +494,13 @@
 			callback2();
 		}
 	);
-	
+	*/
 	/*
 	postEditor(
 		post, 
 		function(data, callback){
 			console.log(data);
-			callback(sharedTo2);
+			callback(sharedTo);
 		},
 		function(data, callback){
 			console.log(data);
@@ -389,6 +516,10 @@
 		function(callback){
 			callback();
 		},
+		function(data){
+			console.log(data);
+			return 1111;
+		}
 	);
 	*/
 	

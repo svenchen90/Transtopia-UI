@@ -18,7 +18,7 @@ global.js global.css
 	allowSharing: 0/1,
 	tags: [{name}]
 } */
-var postEditor = function(data, action_shareTo, action_modifyTag, action_submit, action_save, action_close){
+var postEditor = function(data, action_shareTo, action_modifyTag, action_submit, action_save, action_close, action_formatContent){
 	var $modal = $(
 		'<div class="modal fade post-modal">\n' +
 		'	<div class="modal-dialog modal-lg">\n' +
@@ -95,7 +95,7 @@ var postEditor = function(data, action_shareTo, action_modifyTag, action_submit,
 				list: [] 
 			},
 			title:$modal.find('[data-type="title"]').val(),
-			content: $modal.find('[data-type="editor"] #editor').html(),
+			content: action_formatContent($modal.find('[data-type="editor"] #editor').html()),
 			allowSharing: $modal.find('[data-type="allowSharing"]').is(':checked') ? 1 : 0,
 			tags: []
 		};
@@ -110,7 +110,12 @@ var postEditor = function(data, action_shareTo, action_modifyTag, action_submit,
 			.text(data.name);
 		
 		var $container = $modal.find('[data-type="sharedList"]').empty();
-		$.each(data.list, function(index, item){
+		$.each(data.listTag, function(index, item){
+			var $icon = $('<img data-type="sharedImage" src="' + item.image + '" title="' + item.name + '" data-id="' + item.id + '" data-role="' + item.role + '" />');
+			$container.append($icon);
+		});
+		
+		$.each(data.listItem, function(index, item){
 			var $icon = $('<img data-type="sharedImage" src="' + item.image + '" title="' + item.name + '" data-id="' + item.id + '" data-role="' + item.role + '" />');
 			$container.append($icon);
 		});
@@ -120,11 +125,21 @@ var postEditor = function(data, action_shareTo, action_modifyTag, action_submit,
 		var result = {
 			name: $modal.find('[data-type="sharedType"]').text(),
 			value: $modal.find('[data-type="sharedType"]').attr('value'),
-			list: []
+			listTag: [],
+			listItem: []
 		};
 		
-		$modal.find('[data-type="sharedList"] [data-type="sharedImage"]').each(function(index, item){
-			result.list.push({
+		$modal.find('[data-type="sharedList"] [data-type="sharedImage"][data-role="1"]').each(function(index, item){
+			result.listItem.push({
+				id: $(this).attr('data-id'),
+				name: $(this).attr('title'),
+				image: $(this).attr('src'),
+				role: $(this).attr('data-role')
+			});
+		});
+		
+		$modal.find('[data-type="sharedList"] [data-type="sharedImage"][data-role="2"]').each(function(index, item){
+			result.listTag.push({
 				id: $(this).attr('data-id'),
 				name: $(this).attr('title'),
 				image: $(this).attr('src'),
@@ -306,11 +321,15 @@ var post_Block = function(data, action_viewUser, action_viewDetails, action_edit
 		if(data.authority < 2){
 			$post.find('[data-action="edit"], [data-action="delete"], [data-action="stack"]').css('display', 'none');
 		}else{
-			if(data.shared.list.length > 0){
+			if(data.shared.listTag.length > 0 || data.shared.listItem.length > 0){
 				var content = '';
-				$.each(data.shared.list, function(index, item){
+				$.each(data.shared.listTag, function(index, item){
 					content += '<img data-type="sharedImage" data-action="viewUser" data-id="' + item.id + '" title="' + item.name + '" src="' + item.image + '" data-role="' + item.role + '">'
 				});
+				$.each(data.shared.listItem, function(index, item){
+					content += '<img data-type="sharedImage" data-action="viewUser" data-id="' + item.id + '" title="' + item.name + '" src="' + item.image + '" data-role="' + item.role + '">'
+				});
+				
 				$post.find('[data-type="sharedType"]')
 					.css('cursor', 'pointer')
 					.tooltip({
@@ -702,11 +721,15 @@ var post_Modal = function(data, action_viewUser, action_edit, action_delete, act
 		if(data.authority < 2){
 			$post.find('[data-action="edit"], [data-action="delete"], [data-action="stack"]').css('display', 'none');
 		}else{
-			if(data.shared.list.length > 0){
+			if(data.shared.listTag.length > 0 || data.shared.listItem.length > 0){
 				var content = '';
-				$.each(data.shared.list, function(index, item){
+				$.each(data.shared.listTag, function(index, item){
 					content += '<img data-type="sharedImage" data-action="viewUser" data-id="' + item.id + '" title="' + item.name + '" src="' + item.image + '" data-role="' + item.role + '">'
 				});
+				$.each(data.shared.listItem, function(index, item){
+					content += '<img data-type="sharedImage" data-action="viewUser" data-id="' + item.id + '" title="' + item.name + '" src="' + item.image + '" data-role="' + item.role + '">'
+				});
+				
 				$post.find('[data-type="sharedType"]')
 					.css('cursor', 'pointer')
 					.tooltip({
@@ -988,12 +1011,16 @@ var post_Modal = function(data, action_viewUser, action_edit, action_delete, act
 					console.log('error');
 			}
 		});
+		
+		$post.on('hidden.bs.modal', function(){
+			$(this).remove();
+		});
+		
+		
+		$post.modal('show');
 	};
 	
 	initialize();
-	
-	
-	$post.modal('show');
 };
 
 

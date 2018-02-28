@@ -1,0 +1,48 @@
+/* End of 自定义菜单 */
+.select-box .modal-dialog {
+	width: 500px;
+}
+
+.select-box .modal-body {
+	padding: 0;
+}
+
+.select-box .modal-body label {
+	display: block !important;
+	margin-bottom: 0 !important;
+	line-height: 50px !important;
+	padding-left: 30px;
+	font-weight: 500 !important;
+	cursor: pointer;
+}
+
+.select-box .modal-body label:hover {
+	background-color: rgba(0,0,0,0.1);
+}
+
+.select-box .modal-body label[disabled]:hover {
+	background-color: rgba(255,0,0,0.3);
+}
+
+.select-box .modal-body label span{
+	padding-left: 20px;
+	font-size: 16px;
+	color: #757575;
+}
+
+.select-box .modal-body .user-label {
+	padding-left: 10px;
+}
+
+.select-box .modal-body .collapse {
+	background-color: rgba(0,0,0,0.05);
+	padding: 5px;
+}
+
+
+.select-box .modal-body .name-list {
+	line-height: 17px;
+	padding: 0 15px 15px;
+	word-break: break-all;
+}
+/* End of 分享范围  */

@@ -86,3 +86,14 @@
 	background-color: rgba(0,0,0,0.3);
 }
 /* End of 自定义滚动条 */
+/* 不可选 */
+.noselect {
+	-webkit-touch-callout: none; /* iOS Safari */
+		-webkit-user-select: none; /* Safari */
+		 -khtml-user-select: none; /* Konqueror HTML */
+			 -moz-user-select: none; /* Firefox */
+				-ms-user-select: none; /* Internet Explorer/Edge */
+						user-select: none; /* Non-prefixed version, currently
+																	supported by Chrome and Opera */
+}
+/* End of 不可选 */
