@@ -153,7 +153,7 @@
 		]
 	};
 	
-	
+	/*
 	selectBox(
 		sharedList, 
 		// action_viewTag
@@ -170,7 +170,7 @@
 			callback($tail, data);
 		}
 	);
-	
+	*/
 	
 	
 	
@@ -235,7 +235,7 @@
 		},
 		createDate,
 		isLike: 0/1,
-		byMe: 0/1,
+		authority: 0/1,
 		content,
 	}
 	 */
@@ -255,7 +255,7 @@
 		},
 		createDate: '2015年1月15日-14:25',
 		isLike: 0,
-		byMe: 1,
+		authority: 1,
 		content: 'sa2d3f1as2f31sdf3a1f3sa2f1as3df\nds1f32asdf1as3f21asdf231asf3a2a1f'
 	},
 	{
@@ -273,7 +273,7 @@
 		},
 		createDate: '2015年1月15日-14:25',
 		isLike: 0,
-		byMe: 0,
+		authority: 1,
 		content: '    		sa2d3f1as2f31sdf3a1f3sa2f1as3df\nds1f32asdf1as3f21asdf231asf3a2a1f'
 	},{
 		id: 2,
@@ -290,7 +290,7 @@
 		},
 		createDate: '2015年1月15日-14:25',
 		isLike: 0,
-		byMe: 0,
+		authority: 2,
 		content: '    sa2d3f1as2f31sdf3a1f3sa2f1as3df\nds1f32asdf1as3f21asdf231asf3a2a1f'
 	},
 	{
@@ -308,7 +308,7 @@
 		},
 		createDate: '2015年1月15日-14:25',
 		isLike: 0,
-		byMe: 0,
+		authority: 0,
 		content: '    		sa2d3f1as2f31sdf3a1f3sa2f1as3df\nds1f32asdf1as3f21asdf231asf3a2a1f'
 	},{
 		id: 2,
@@ -325,7 +325,7 @@
 		},
 		createDate: '2015年1月15日-14:25',
 		isLike: 0,
-		byMe: 0,
+		authority: 0,
 		content: '    sa2d3f1as2f31sdf3a1f3sa2f1as3df\nds1f32asdf1as3f21asdf231asf3a2a1f'
 	}]
 	
@@ -339,6 +339,7 @@
 			image: '/dist/img/avatar04.png'
 		},
 		shared: sharedTo,
+		isStacked: 0,
 		title: '这是一个title',
 		postImage: '/dist/img/photo4.jpg',
 		content: '<p>adfaffsd</p><p>adfaffsd</p><img class="img-responsive" data-name="postimage" src="/dist/img/photo4.jpg"><p>adfaffsd</p><p>adfaffsd</p><p>adfaffsd</p>',
@@ -374,8 +375,35 @@
 		authority: 2 // 2 edit, 1 veiw details, 0 need to log in 
 	};
 	
+	
+	/* 
+	'<li data-action="edit"><a href="javascript:void(0);">修改</a></li>\n' +
+	'<li data-action="delete"><a href="javascript:void(0);">删除</a></li>\n' +
+	'<li data-action="stack"><a href="javascript:void(0);">置顶</a></li>\n' +
+	'<li data-action="report"><a href="javascript:void(0);">举报</a></li>\n' + */
+	
 	var $post = post_Block(
 		post,
+		[{
+			name: '修改',
+			actionType: 'edit'
+		},{
+			name: '删除',
+			actionType: 'delete'
+		},{
+			name: '置顶',
+			actionType: 'stack'
+		},{
+			name: '举报',
+			actionType: 'report'
+		}],
+		[{
+			name: '删除',
+			actionType: 'deleteComment'
+		},{
+			name: '举报',
+			actionType: 'reportComment'
+		}],
 		//action_viewPoster
 		function(data){
 			console.log(data);

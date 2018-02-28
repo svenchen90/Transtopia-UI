@@ -1,3 +1,7 @@
+.none-display {
+	display: none;
+}
+
 /* Post 编辑框 */
 .post-modal .modal-footer, .post-modal .modal-header {
 	border: none;
