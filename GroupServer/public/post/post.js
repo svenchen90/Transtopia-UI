@@ -225,18 +225,18 @@ var postEditor = function(data, action_shareTo, action_modifyTag, action_submit,
 	initialize();
 };
 
-var post_Block = function(data, action_viewUser, action_viewDetails, action_edit, action_delete, action_stack, 
+var post_Block = function(data, list_postAction, list_commentAction, action_viewUser, action_viewDetails, action_edit, action_delete, action_stack, 
 	action_report, action_like, action_getComment, action_likeComment, action_deleteComment, action_reportComment, action_reply){
 	var $post = $(
 		'<div class="post-block">\n' +
 		'	<div>\n' +
-		'		<img data-type="posterImage" data-action="viewUser"/>\n' +
+		'		<img data-type="posterImage" data-action="viewUser" data-authority="1"/>\n' +
 		'		<span class="span-50">\n' +
-		'			<span data-type="poster" data-action="viewUser"></span>\n' +
+		'			<span data-type="poster" data-action="viewUser" data-authority="1"></span>\n' +
 		'			<b class="fa fa-caret-right"></b>\n' +
 		'			<span data-type="sharedType"></span>\n' +
 		'			<div class="dropdown pull-right">\n' +
-		'				<a class="grey-icon" href="javascript: void(0);" data-toggle="dropdown" data-type="moreOptions" title="更多选项"><i class="fa fa-ellipsis-v"></i></a>\n' +
+		'				<a class="grey-icon" href="javascript: void(0);" data-toggle="dropdown" data-type="postOption" title="更多选项"><i class="fa fa-ellipsis-v"></i></a>\n' +
 		'				<ul class="dropdown-menu">\n' +
 		'					<li data-action="edit"><a href="javascript:void(0);">修改</a></li>\n' +
 		'					<li data-action="delete"><a href="javascript:void(0);">删除</a></li>\n' +
@@ -244,12 +244,12 @@ var post_Block = function(data, action_viewUser, action_viewDetails, action_edit
 		'					<li data-action="report"><a href="javascript:void(0);">举报</a></li>\n' +
 		'				</ul>\n' +
 		'			</div>\n' +
-		'			<a href="javascript: void(0);" class="pull-right grey-icon" data-action="viewDetails" title="查看详情"><i class="fa fa-external-link"></i></a>\n' +
+		'			<a href="javascript: void(0);" class="pull-right grey-icon" data-action="viewDetails" title="查看详情" data-authority="1"><i class="fa fa-external-link"></i></a>\n' +
 		'		</span>\n' +
 		'		<span data-type="createdDate"></span>\n' +
 		'	</div>\n' +
 		'	<div data-type="title">\n' +
-		'		<a href="javascript: void(0);" data-action="viewDetails"></a>\n' +
+		'		<a href="javascript: void(0);" data-action="viewDetails" data-authority="1"></a>\n' +
 		'	</div>\n' +
 		'	<div data-type="content">\n' +
 		'		<div class="row">\n' +
@@ -262,10 +262,10 @@ var post_Block = function(data, action_viewUser, action_viewDetails, action_edit
 		'	<div class="row divider"></div>\n' +
 		'	<ul class="list-inline" style="margin-bottom: 0">\n' +
 		'		<li>\n' +
-		'			<a href="javascript: void(0);" class="link-black text-sm" data-action="like" title="点赞"><i class="fa fa-thumbs-o-up"></i>(<span data-num></span>)</a>\n' +
+		'			<a href="javascript: void(0);" class="link-black text-sm" data-action="like" title="点赞" data-authority="1"><i class="fa fa-thumbs-o-up"></i>(<span data-num></span>)</a>\n' +
 		'		</li>\n' +
 		'		<li class="pull-right">\n' +
-		'			<a href="javascript: void(0);" class="link-black text-sm" data-action="toggleComment" title="评论"><i class="fa fa-comments-o"></i> 评论(<span data-num></span>)</a>\n' +
+		'			<a href="javascript: void(0);" class="link-black text-sm" data-action="toggleComment" title="评论" data-authority="1"><i class="fa fa-comments-o"></i> 评论(<span data-num></span>)</a>\n' +
 		'		</li>\n' +
 		'	</ul>\n' +
 		' 	<div class="clearfix"></div>\n' + 
@@ -273,10 +273,10 @@ var post_Block = function(data, action_viewUser, action_viewDetails, action_edit
 		'		<div class="row divider"></div>\n' +
 		'		<div class="comment-list customized-scrollbar"></div>\n' +
 		'		<div class="reply-box">\n' +
-		'			<img data-type="posterImage" data-action="viewUser">\n' +
+		'			<img data-type="posterImage" data-action="viewUser" data-authority="1">\n' +
 		'			<span class="span-50">\n' +
 		'				<textarea data-type="commentContent"></textarea>\n' +
-		'				<a href="javascript: void(0);" class="pull-right btn-sm btn-primary" data-action="reply">回复</a>\n' +
+		'				<a href="javascript: void(0);" class="pull-right btn-sm btn-primary" data-action="reply" data-authority="1">回复</a>\n' +
 		'				<div class="clearfix"></div>\n' +
 		'			</span>\n' +
 		'		</div>\n' +
@@ -306,6 +306,10 @@ var post_Block = function(data, action_viewUser, action_viewDetails, action_edit
 			.text(data.shared.name);
 		//###
 		$post.find('[data-type="createdDate"]').text(data.createDate);
+		
+		
+		
+		
 		$post.find('[data-type="title"] a').text(data.title);
 		$post.find('[data-type="content"] img').attr('src', data.postImage);
 	

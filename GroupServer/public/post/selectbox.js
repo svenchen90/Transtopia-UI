@@ -28,7 +28,7 @@ data:{
 	]
 }
  */
-var selectBox = function(data, action_viewTag, action_selectUser){
+var selectBox = function(data, action_viewTag, action_selectUser, action_submit){
 	var $modal = $(
 		'<div class="modal fade select-box noselect">\n' +
 		'	<div class="modal-dialog">\n' +
@@ -43,7 +43,7 @@ var selectBox = function(data, action_viewTag, action_selectUser){
 		'			</div>\n' +
 		'			<div class="modal-footer">\n' +
 		'				<a data-action="submit">提交</a>\n' +
-		'				<a data-dismiss="modal">关闭</a>\n' +
+		'				<a data-action="close">关闭</a>\n' +
 		'			</div>\n' +
 		'		</div>\n' +
 		'	</div>\n' +
@@ -207,6 +207,24 @@ var selectBox = function(data, action_viewTag, action_selectUser){
 		};
 	};
 	
+	var getData = function(){
+		var $tag = $modal.find('[name="r1"]:checked').closest('[data-type="radioTag"]');
+			var json = {
+				name: $tag.attr('data-name'),
+				value: $tag.attr('data-value'),
+				tags: []
+			};
+		if($tag.find('.collapse').length != 0){
+			$tag.find('[data-type="tag"] input:checked').each(function(index, item){
+				json.tags.push(tagToJson($(item).closest('[data-type="tag"]')));
+			});
+			json.users = getTailData($tag.find('[data-type="tail"]'));
+		}
+		
+		return json;
+	};
+	
+	
 	var initialize = function(){
 		load(data);
 		
@@ -229,6 +247,9 @@ var selectBox = function(data, action_viewTag, action_selectUser){
 					var selected = getTailData($(this).closest('[data-type="tail"]'));
 					action_selectUser(selected, $(this).closest('[data-type="tail"]'), updateTail);
 					break;
+				case 'submit':
+					getData();
+					// action_submit();
 				default:
 					break;
 			}
