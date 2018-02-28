@@ -1022,6 +1022,3 @@ var post_Modal = function(data, action_viewUser, action_edit, action_delete, act
 	
 	initialize();
 };
-
-
-
