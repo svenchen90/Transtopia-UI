@@ -85,7 +85,8 @@ var SelectBoxComponent = function(){
 		);
 		return module;
 	};
-};
+
+	};
 
 /* SelectBox 主题函数 */
 var SelectBox = function(title, radios, selected){

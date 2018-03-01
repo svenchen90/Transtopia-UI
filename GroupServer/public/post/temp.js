@@ -398,3 +398,105 @@ var post_Modal = function(data, action_viewUser, action_edit, action_delete, act
 	
 	initialize();
 };
+
+
+
+switch(actionType){
+	case 'viewUser':
+		action_viewUser({
+			id: $(this).attr('data-id'),
+			type: $(this).attr('user-type')
+		});
+		break;
+	case 'viewDetails':
+		action_viewDetails({
+			id: $(this).closest('.post-block').attr('data-id')
+		});
+		break;
+	 case 'edit':
+		action_edit({
+			id: $(this).closest('.post-block').attr('data-id')
+		});
+		break;
+	case 'delete':
+		action_delete({
+			id: $(this).closest('.post-block').attr('data-id')
+		});
+		break;
+	case 'stack':
+		action_stack({
+			id: $(this).closest('.post-block').attr('data-id')
+		});
+		break;
+	case 'report':
+		action_report({
+			id: $(this).closest('.post-block').attr('data-id')
+		});
+		break; 
+	case 'like':
+		action_like({
+			id: $(this).closest('.post-block').attr('data-id'),
+			isLike: ((parseInt($(this).attr('data-value')) + 1))%2
+		}, updateLike);
+		break;
+	case 'viewComments':
+		if($post.find('#comments').hasClass('in')){
+			$post.find('#comments').collapse('hide');
+		}else{
+			action_viewComments({
+				id: $(this).closest('.post-block').attr('data-id')
+			}, instance.updateComments);
+			$post.find('#comments').collapse('show');
+		}
+		break;
+	case 'likeComment':
+		action_likeComment({
+			pid: $(this).closest('.post-block').attr('data-id'),
+			id: $(this).closest('.comment').attr('data-id'),
+			isLike: ((parseInt($(this).attr('data-value')) + 1))%2,
+			$comment: $(this).closest('.comment')
+		}, updateLikeComment);
+		break;
+	case 'deleteComment':
+		action_deleteComment({
+			pid: $(this).closest('.post-block').attr('data-id'),
+			id: $(this).closest('.comment').attr('data-id')
+		}, updateComments)
+		break;
+	case 'reportComment':
+		action_reportComment({
+			pid: $(this).closest('.post-block').attr('data-id'),
+			id: $(this).closest('.comment').attr('data-id')
+		});
+		break;
+	case 'replyTo':
+		var $replyTo = $(this).prevAll('[data-type="sender"]');
+		addReplyTo({
+			id: $replyTo.attr('data-id'),
+			name: $replyTo.text(),
+			type: $replyTo.attr('user-type'),
+			image: $replyTo.attr('src')
+		});
+		break;
+	case 'removeReplyTo':
+		removeReplyTo();
+		break;
+	case 'reply':
+		var comment = {
+			pid: $(this).closest('.post-block').attr('data-id'),
+			content: $post.find('[data-type="commentContent"]').val()
+		};
+		if($post.find('.reply-to').length == 1){
+			var $replyTo = $post.find('.reply-to [data-type="replyTo"]') 
+			comment.replyTo = {
+				id: $replyTo.attr('data-id'),
+				name: $replyTo.text(),
+				image: $replyTo.attr('src')
+			};
+		}
+		
+		action_reply(comment,updateComments, clearReplyBlock);
+		break;
+	default:
+		console.log('error');
+}

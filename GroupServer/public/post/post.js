@@ -1,4 +1,21 @@
-console.log('start of post');
+const POST_AUTHORITY_LIST = {
+	'viewUser': 1,
+	'viewDetails': 1,
+	'edit': 2,
+	'delete': 2,
+	'stack': 2,
+	'report': 1,
+	'like': 1,
+	'showComments': 1,
+	'hideComments': 1,
+	'reply': 1
+};
+const COMMENT_AUTHORITY_LIST = {
+	'likeComment': 1,
+	'deleteComment': 2,
+	'reportComment': 1,
+	'replyComment': 1
+}
 var objIsEmpty = function(obj){
 	return Object.keys(obj).length === 0 && obj.constructor === Object || obj == undefined;
 };
@@ -228,26 +245,8 @@ var postEditor = function(data, action_shareTo, action_modifyTag, action_submit,
 // action_clickTag
 // stack
 // check authority after updateCommands ??? 
-const POST_AUTHORITY_LIST = {
-	'viewUser': 1,
-	'viewDetails': 1,
-	'edit': 2,
-	'delete': 2,
-	'stack': 2,
-	'report': 1,
-	'like': 1,
-	'viewComments': 1,
-	'reply': 1
-};
 
-const COMMENT_AUTHORITY_LIST = {
-	'likeComment': 1,
-	'deleteComment': 2,
-	'reportComment': 1,
-	'replyComment': 1
-}
-var post_Block = function(data, list_postAction, list_commentAction, action_viewUser, action_viewDetails, action_edit, action_delete, action_stack, 
-	action_report, action_like, action_viewComments, action_likeComment, action_deleteComment, action_reportComment, action_reply){
+var post_Block = function(data, list_postAction, list_commentAction, actionMap){
 	var instance = this;
 	var $post = $(
 		'<div class="post-block">\n' +
@@ -283,7 +282,7 @@ var post_Block = function(data, list_postAction, list_commentAction, action_view
 		'		<li class="always-display" data-action="like">\n' +
 		'			<a href="javascript: void(0);" class="link-black text-sm"  title="点赞" ><i class="fa fa-thumbs-o-up"></i>(<span data-num></span>)</a>\n' +
 		'		</li>\n' +
-		'		<li class="always-display pull-right" data-action="viewComments">\n' +
+		'		<li class="always-display pull-right" data-action="showComments">\n' +
 		'			<a href="javascript: void(0);" class="link-black text-sm"  title="评论" ><i class="fa fa-comments-o"></i> 评论(<span data-num></span>)</a>\n' +
 		'		</li>\n' +
 		'	</ul>\n' +
@@ -377,17 +376,25 @@ var post_Block = function(data, list_postAction, list_commentAction, action_view
 
 	// {isStacked: 0/1}
 	this.updateStack = function(data){
-		if(data.isStacked == 1)
-			$post.find('[data-type="stack"]').removeClass('none-display');
-		else
-			$post.find('[data-type="stack"]').addClass('none-display');
-	};
-	
-		// [comment]
+			if(data.isStacked == 1){
+				$post.find('[data-type="stack"]').removeClass('none-display');
+				$post.find('.post-option li[data-action="stack"] a')
+					.text('取消置顶');
+			}
+			else{
+				$post.find('[data-type="stack"]').addClass('none-display');
+				$post.find('.post-option li[data-action="stack"] a')
+					.text('置顶');
+			}
+			
+			$post.find('.post-option li[data-action="stack"]').attr('data-value', data.isStacked);
+		};
+		
+			// [comment]
 	this.updateComments = function(data){
-		$post.find('[data-action="viewComments"] [data-num]').text(data.commentLength);
+		$post.find('[data-action="showComments"] [data-num], [data-action="hideComments"] [data-num]').text(data.length);
 		$post.find('#comments .comment-list').empty();
-		$.each(data.comments, function(index, item){
+		$.each(data, function(index, item){
 			$post.find('.comment-list').append(instance.getComment(item));
 		});
 	};
@@ -427,13 +434,13 @@ var post_Block = function(data, list_postAction, list_commentAction, action_view
 			.attr('value', data.shared.type)
 			.text(data.shared.name);
 		
-		instance.updateStack(data);
-		
 		var $postOptions = $post.find('.post-option .dropdown-menu').empty();
 		$.each(list_postAction, function(index, item){
 			var $o = $('<li data-action="' + item.actionType + '"><a href="javascript:void(0);">' + item.name + '</a></li>');
 			$postOptions.append($o);
 		});
+		
+		instance.updateStack(data);
 		
 		$post.find('[data-type="createdDate"]').text(instance.formatDatetime(data.createDate));
 		
@@ -443,7 +450,7 @@ var post_Block = function(data, list_postAction, list_commentAction, action_view
 		instance.loadTag(data.tags);
 		
 		instance.updateLike(data);
-		$post.find('[data-action="viewComments"] [data-num]').text(data.commentLength);
+		$post.find('[data-action="showComments"] [data-num]').text(data.commentLength);
 		
 		// this.authorityCheck(data.authority);
 		if(data.authority >= 2)
@@ -555,7 +562,6 @@ var post_Block = function(data, list_postAction, list_commentAction, action_view
 		return $comment;
 	};
 	
-
 	this.addReplyTo = function(data){
 		$post.find('#comments .reply-box .span-50 .reply-to').remove();
 		var $replyTo = $(
@@ -581,7 +587,7 @@ var post_Block = function(data, list_postAction, list_commentAction, action_view
 		$post.find('.reply-to').remove();
 	};
 	
-	var clearReplyBlock = function(){
+	this.clearReplyBlock = function(){
 		instance.removeReplyTo();
 		$post.find('.reply-box [data-type="commentContent"]').val('');
 	};
@@ -602,111 +608,139 @@ var post_Block = function(data, list_postAction, list_commentAction, action_view
 		return data;
 	};
 	
+	this.callAlert = function(error){
+		alert(error.type + error.content);
+	}
+	
+	this.hideComments = function(){
+		$post.find('#comments').collapse('hide');
+	};
+	
+	this.showComments = function(){
+		$post.find('#comments').collapse('show');
+	};
+	
+	this.get$Post = function(){
+		return $post;
+	};
 	
 	var initialize = function(){
 		this.load(data);
 		
+		var localActionMap = {
+			'replyComment': instance.addReplyTo,
+			'removeReplyTo': instance.removeReplyTo,
+			'alert': instance.callAlert,
+			'hideComments': instance.hideComments,
+		};
+		
+		var a_map = $.extend({}, localActionMap, actionMap);
+		
 		$post.on('click', '[data-action]', function(){
 			var actionType = $(this).attr('data-action');
 			console.log(actionType);
-			switch(actionType){
-				case 'viewUser':
-					action_viewUser({
-						id: $(this).attr('data-id'),
-						type: $(this).attr('user-type')
-					});
-					break;
-				case 'viewDetails':
-					action_viewDetails({
-						id: $(this).closest('.post-block').attr('data-id')
-					});
-					break;
-				/* case 'edit':
-					action_edit({
-						id: $(this).closest('.post-block').attr('data-id')
-					});
-					break;
-				case 'delete':
-					action_delete({
-						id: $(this).closest('.post-block').attr('data-id')
-					});
-					break;
-				case 'stack':
-					action_stack({
-						id: $(this).closest('.post-block').attr('data-id')
-					});
-					break;
-				case 'report':
-					action_report({
-						id: $(this).closest('.post-block').attr('data-id')
-					});
-					break; */
-				case 'like':
-					action_like({
-						id: $(this).closest('.post-block').attr('data-id'),
-						isLike: ((parseInt($(this).attr('data-value')) + 1))%2
-					}, updateLike);
-					break;
-				case 'viewComments':
-					if($post.find('#comments').hasClass('in')){
-						$post.find('#comments').collapse('hide');
-					}else{
-						action_viewComments({
-							id: $(this).closest('.post-block').attr('data-id')
-						}, instance.updateComments);
-						$post.find('#comments').collapse('show');
+			if($(this).attr('has-authority') == 0){
+				a_map['alert']({type: '权限不足',content: actionType});
+			}else{
+				if(a_map[actionType] == undefined){
+					a_map['alert']({type: '方法未定义',content: actionType});
+				}else{
+					var json = {}
+					switch(actionType){
+						case 'viewUser':
+							json = {
+								id: $(this).attr('data-id'),
+								type: $(this).attr('user-type')
+							};
+							break;
+						case 'viewDetails':
+							json = {
+								id: data.id
+							};
+							break;
+						case 'edit':
+							json = {
+								id: data.id
+							};
+							break;
+						case 'delete':
+							json = {
+								id: data.id
+							};
+							break;
+						case 'stack':
+							json = {
+								id: data.id,
+								isStacked: (parseInt($(this).attr('data-value')) + 1)%2
+							};
+							break;
+						case 'report':
+							json = {
+								id: data.id,
+								isStacked: (parseInt($(this).attr('data-value')) + 1)%2
+							};
+							break;
+						case 'like':
+							json = {
+								id: data.id,
+								isLike: (parseInt($(this).attr('data-value')) + 1)%2
+							};
+							break;
+						case 'showComments':
+							$(this).attr('data-action', 'hideComments');
+							json = {
+								id: data.id
+							}
+							break;
+						case 'hideComments':
+							$(this).attr('data-action', 'showComments');
+							break;
+						case 'replyComment':
+							var $replyTo = $(this).closest('[data-type="commentHead"]').find('[data-type="senderImage"]');
+							json =	{
+								id: $replyTo.attr('data-id'),
+								name: $replyTo.attr('title'),
+								type: $replyTo.attr('user-type'),
+								image: $replyTo.attr('src')
+							};
+							break;
+						case 'removeReplyTo':
+							break;
+						case 'reply':
+							json = {
+								pid: data.id,
+								content: $post.find('[data-type="commentContent"]').val()
+							};
+							if($post.find('.reply-to').length == 1){
+								var $replyTo = $post.find('.reply-to [data-type="replyTo"]') 
+								json.replyTo = {
+									id: $replyTo.attr('data-id'),
+									name: $replyTo.text(),
+									image: $replyTo.attr('src')
+								};
+							}
+							break;
+						case 'likeComment':
+							json = {
+								pid: data.id,
+								id: $(this).closest('.comment').attr('data-id'),
+								isLike: ((parseInt($(this).attr('data-value')) + 1))%2,
+								$comment: $(this).closest('.comment')
+							};
+							break;
+						case 'deleteComment':
+							json = {
+								pid: data.id,
+								id: $(this).closest('.comment').attr('data-id'),
+							};
+							break;
+						case 'reportComment':
+							break;
+						default:
+							break;
 					}
-					break;
-				case 'likeComment':
-					action_likeComment({
-						pid: $(this).closest('.post-block').attr('data-id'),
-						id: $(this).closest('.comment').attr('data-id'),
-						isLike: ((parseInt($(this).attr('data-value')) + 1))%2,
-						$comment: $(this).closest('.comment')
-					}, updateLikeComment);
-					break;
-				/* case 'deleteComment':
-					action_deleteComment({
-						pid: $(this).closest('.post-block').attr('data-id'),
-						id: $(this).closest('.comment').attr('data-id')
-					}, updateComments)
-					break;
-				case 'reportComment':
-					action_reportComment({
-						pid: $(this).closest('.post-block').attr('data-id'),
-						id: $(this).closest('.comment').attr('data-id')
-					});
-					break; */
-				case 'replyTo':
-					var $replyTo = $(this).prevAll('[data-type="sender"]');
-					addReplyTo({
-						id: $replyTo.attr('data-id'),
-						name: $replyTo.text(),
-						type: $replyTo.attr('user-type'),
-						image: $replyTo.attr('src')
-					});
-					break;
-				case 'removeReplyTo':
-					removeReplyTo();
-					break;
-				case 'reply':
-					var comment = {
-						pid: $(this).closest('.post-block').attr('data-id'),
-						content: $post.find('[data-type="commentContent"]').val()
-					};
-					if($post.find('.reply-to').length == 1){
-						var $replyTo = $post.find('.reply-to [data-type="replyTo"]') 
-						comment.replyTo = {
-							id: $replyTo.attr('data-id'),
-							name: $replyTo.text(),
-							image: $replyTo.attr('src')
-						};
-					}
-					
-					action_reply(comment,updateComments, clearReplyBlock);
-					break;
-				default:
-					console.log('error');
+					a_map[actionType](json, instance);
+				}
 			}
 		});
 	};
@@ -715,4 +749,47 @@ var post_Block = function(data, list_postAction, list_commentAction, action_view
 	
 	return $post;
 };
+
+var post_Modal = function(data, list_postAction, list_commentAction, actionMap){
+	// inheritance
+	post_Block.call(this, data, list_postAction, list_commentAction, actionMap);
+	
+	var $post = $(
+		'<div class="modal fade">\n' +
+		'	<div class="modal-dialog" style="width: 70vw;">\n' +
+		'		<div class="modal-content">\n' +
+		'			<div class="modal-body" style="padding: 0;">\n' +
+		'			</div>\n' +
+		'		</div>\n' +
+		'	</div>\n' +
+		'</div>'
+	);
+	
+	this.formatPostComment = function(data){
+		return data;
+	};
+	
+	var initialize = function(){
+		$post.find('.modal-body').append(this.get$Post());
+		
+		$post.find('.grey-icon[data-action="viewDetails"]').remove();
+		$post.find('.always-display[data-action="viewDetails"]')
+			.removeAttr('data-action').removeAttr('has-authority').css({'cursor': 'default'});
+		$post.find('.post-option')
+			.before('<button type="button" class="close" data-dismiss="modal" style="padding-left: 5px; margin-top: -10px;margin-right: -8px;">&times;</button>');
+
+		$post.find('[data-type=content] .row').remove();
+		$post.find('[data-type=content]').append(this.formatPostComment(data.content));
+		
+		
+		$post.on('hidden.bs.modal', function(){
+			$(this).remove();
+		});
+		
+		$post.modal('show');
+	};
+	
+	initialize();
+};
+
 

@@ -153,7 +153,7 @@
 		]
 	};
 	
-	/*
+	
 	selectBox(
 		sharedList, 
 		// action_viewTag
@@ -170,7 +170,7 @@
 			callback($tail, data);
 		}
 	);
-	*/
+	
 	
 	
 	
@@ -371,7 +371,7 @@
 		likes: 523,
 		isLike: 1,
 		commentLength: 530,
-		comments: [comments[1], comments[2]],
+		// comments: [comments[1], comments[2]],
 		authority: 2 // 2 edit, 1 veiw details, 0 need to log in 
 	};
 	
@@ -404,7 +404,107 @@
 			name: '举报',
 			actionType: 'reportComment'
 		}],
-		//action_viewPoster
+		{
+			'viewUser': 1,
+			'viewDetails': 1,
+			'edit': 2,
+			'delete': 2,
+			'stack': function(data,instance){
+				console.log(data)
+				instance.updateStack(data);
+			},
+			'report': 1,
+			'like': function(data,instance){
+				data.likes = 100
+				instance.updateLike(data);
+			},
+			'showComments': function(data,instance){
+				console.log(data);
+				instance.updateComments(comments);
+				instance.showComments();
+			},
+			// 'hideComments': 1,
+			'reply': function(data, instance){
+				console.log(data);
+				instance.clearReplyBlock();
+			},
+			'likeComment': function(data, instance){
+				console.log(data);
+				instance.updateLikeComment(data);
+			},
+			'deleteComment': function(data, instance){
+				console.log(data);
+				instance.updateLike(data);
+			},
+			'reportComment': 1,
+			//'replyComment': 1,
+		}
+	);
+	$('.col-lg-6').append($post);
+	
+	/*
+	post_Modal(
+		post,
+		[{
+			name: '修改',
+			actionType: 'edit'
+		},{
+			name: '删除',
+			actionType: 'delete'
+		},{
+			name: '置顶',
+			actionType: 'stack'
+		},{
+			name: '举报',
+			actionType: 'report'
+		}],
+		[{
+			name: '删除',
+			actionType: 'deleteComment'
+		},{
+			name: '举报',
+			actionType: 'reportComment'
+		}],
+		{
+			'viewUser': 1,
+			'viewDetails': 1,
+			'edit': 2,
+			'delete': 2,
+			'stack': function(data,instance){
+				console.log(data)
+				instance.updateStack(data);
+			},
+			'report': 1,
+			'like': function(data,instance){
+				data.likes = 100
+				instance.updateLike(data);
+			},
+			'showComments': function(data,instance){
+				console.log(data);
+				instance.updateComments(comments);
+				instance.showComments();
+			},
+			// 'hideComments': 1,
+			'reply': function(data, instance){
+				console.log(data);
+				instance.clearReplyBlock();
+			},
+			'likeComment': function(data, instance){
+				console.log(data);
+				instance.updateLikeComment(data);
+			},
+			'deleteComment': function(data, instance){
+				console.log(data);
+				instance.updateLike(data);
+			},
+			'reportComment': 1,
+			//'replyComment': 1
+		}
+	);
+	*/
+	
+	/*
+	//action_viewPoster
 		function(data){
 			console.log(data);
 		},
@@ -461,9 +561,7 @@
 			callback1(post2);
 			callback2();
 		}
-	);
-	$('.col-lg-6').append($post);
-	
+	*/
 	
 	/*
 	post_Modal(
@@ -523,7 +621,7 @@
 		}
 	);
 	*/
-	/*
+	
 	postEditor(
 		post, 
 		function(data, callback){
@@ -549,7 +647,7 @@
 			return 1111;
 		}
 	);
-	*/
+	
 	
 	</script>
 	
