@@ -210,38 +210,92 @@ var map = new mapboxgl.Map({
 });
 
 map.on('load', function () {
-		for(i=0; i<list.length; i++){
-			map.addSource('source_' + list[i].type, {
-				 type: 'geojson',
-				 data: list[i].source
-			});
-			map.addLayer({
-				'id': list[i].type,
-				'type': 'symbol',
-				'source': 'source_' + list[i].type,
-				'layout': {
-						'icon-image': list[i].icon,
-						'icon-size': 2,
-						'visibility': 'none',
-				},
-				/*
-				'paint': {
-						'circle-radius': 8,
-						'circle-color': list[i].color
-				},
-				*/
-				// 'source-layer': 'museum-cusco'
-				
-			});
+	for(i=0; i<list.length; i++){
+		map.addSource('source_' + list[i].type, {
+			 type: 'geojson',
+			 data: list[i].source
+		});
+		map.addLayer({
+			'id': list[i].type,
+			'type': 'circle',
+			'source': 'source_' + list[i].type,
+			'layout': {
+					// 'icon-image': list[i].icon,
+					//'icon-color': '#000000',
+					//'icon-size': 1,
+					//"icon-allow-overlap": true,
+					'visibility': 'visible',
+					
+			},
+			
+			'paint': {
+					'circle-radius': 8,
+					'circle-color': list[i].color
+			},
+			
+			// 'source-layer': 'museum-cusco'
+			
+		});
+	}
+	
+	
+   // Create a popup, but don't add it to the map yet.
+    var popup = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false
+    });
+	
+	for (var i in list){
+		map.on('mouseenter', list[i].type, function(e) {
+			// Change the cursor style as a UI indicator.
+			map.getCanvas().style.cursor = 'pointer';
+
+			var coordinates = e.features[0].geometry.coordinates.slice();
+			var description = e.features[0].properties.id;
+
+			// Ensure that if the map is zoomed out such that multiple
+			// copies of the feature are visible, the popup appears
+			// over the copy being pointed to.
+			while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+				coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+			}
+
+			// Populate the popup and set its coordinates
+			// based on the feature found.
+			popup.setLngLat(coordinates)
+				.setHTML(description)
+				.addTo(map);
+		});
+
+		map.on('mouseleave', list[i].type, function() {
+			//console.log(2);
+			//console.log(map.getLayer('note'))
+			map.getCanvas().style.cursor = '';
+			popup.remove();
+		});
+		
+		var coordinates = []
+		for (var j in list[i].source.features){
+			coordinates.push(list[i].source.features[j].geometry.coordinates);
 		}
+		
+		var bounds = coordinates.reduce(function(bounds, coord) {
+            return bounds.extend(coord);
+        }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
+
+        map.fitBounds(bounds, {
+            padding: 20
+        });
+		
+	}
+	
 });
 
 for (var i = 0; i < list.length; i++) {
     var id = list[i].type;
-
     var link = document.createElement('a');
     link.href = '#';
-    link.className = '';
+    link.className = 'active';
 		link.target = id;
     link.textContent = list[i].name;
 
@@ -259,11 +313,15 @@ for (var i = 0; i < list.length; i++) {
             this.className = 'active';
             map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
         }
+		console.log(map.getLayer('note'));
+		//console.log(map.getAllSource());
+		console.log(map.getStyle());
     };
 
     var layers = document.getElementById('menu');
     layers.appendChild(link);
 }
+
 
 </script>
 
