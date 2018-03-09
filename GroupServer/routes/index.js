@@ -3434,6 +3434,10 @@ router.get('/update_version', function(req, res, next){
 	res.json(1);
 });
 
-
+/* map */
+router.get('/map', function(req, res, next){
+	res.render('map',{});
+});
+/* !map */
 
 module.exports = router;
