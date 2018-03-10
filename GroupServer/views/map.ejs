@@ -367,6 +367,121 @@ map.on('load', function() {
 		pushDataToSource([createData(data)]);
 		popup.remove();
 	});
+	
+	map.on('click', function(e){
+		var test = 'kvtiFh~lnVn@qAb@YtEmAlBsC|BaC|GmEpDkDnBsAfGaDh]oR`Ay@x@sAn@_Bl@eESeAYg@c@WaAGiA[iAs@cBcBwAsBeBaFs@mAo@k@cAe@y@GmG^cAC{@YaAm@uAsB_A{Bo@i@gDcAgAUeAG}C\kB]i@_@wGgIw@sAe@sAS{@I}@?yAj@eEDoBOyODgBJs@XeArAiDbBeFlDiF`AiFbCoDv@kC|C}IbFeIlBsDhBiJnAoDTcAr@{LByBGgBQsB_@aC{H}WkFcPkDyJiAuFi@cAy@u@s@cAoAyD_@s@wSwU}EcFyTyMsBm@_ACiD|@eLdE}FbDcBPqJMyFy@aA_@}BqAeCgCwBgE_AyCa@sBQkCAoCTsFrA_Jd@oF?mFSsKiAm\a@_BcEaJcAwAm@a@oCs@s@Y}HmK}CaFcDaHsAsBmCsBoAYsDc@gCaB}FmFiAmBKkB?aBbDmK~@uI^mAlAeAdByBhB{Gd@cAXYbS{H|Ay@tCoCtI{L|CuLE}Ak@{BuCqDkDoBwAcAmDaDs@a@}CIQGiAqAy@[gCDyAi@o@iAe@yDcA_CS_DmAmA{@_B_@iAqBqB_FuKcEsHaAeAeAm@}AS_BDkAZm@p@c@x@YdAMtAgAtQu@~Gi@rI}Bzg@yAxCgCbGoBvBkLvGyDtB}DtAwGlA}BJyD_@qEmEgCsDoBaGaHcVkBmE]e@_AgBcEsGyA{@y@QaGSs@Q{Ay@mDYcBa@oBeAy@kAc@uBOwADwREsHOyHi@oFi@{BhGeDdHwCbB_AhAaA^s@ReARkBCmAiAoJQmCPkAGgBUkByBiEYy@UwBoAiDi@}C?yA^iCd@kBhAaA|@mAxAeETkABu@i@sNNoHo@yPPiBd@}AbBmAp@s@^yA^uCNeCnAwCLo@MiA_@gAIgBx@sDr@yB^yBjA{E`@_AdAyAdByDbByBv@S~AKpFoCdDf@n@Sf@s@n@e@x@SbBd@nBlA\?h@WdA{@lHfAl@f@t@fCfBv@~@AhCiA|A~@bEXdAErCu@pCKdAy@NsA?_@N{ARqA~@yAvDmAxByDfAw@p@Mn@F\V~B^n@Kr@m@rAeC`@yAb@cEXcBtAiFvA_Dd@kCLuBa@eGEmGKuDy@yKi@oCiDaGOw@_@{IJgDl@yB^sCNmCu@gIGgDXyBt@gDRgBNgH^yIbBaHb@eC~@{N?_Dm@{GeAiGS}BBuBHqAhAwF|A}E~BgCn@_An@sBx@oFlA}FDuAxAuLhBuHlA_GJgACeAWaCg@kA}DaHe@wAKgAd@aGJcKVsD@iAKij@?wSDmMXyANS`\{WxQ}QfMcNj\_]lb@qb@tBqAvBm@~d@aHlCm@vAk@~BeBhAyAbAmBdAyDxBiLb@gAhAsBrB_CnBgAjOmGrCoBvAs@|UmEbC_AxAaAnAaBhF_LlBaCdLoLh@kAh@sB~@mB~AwAlAc@vFy@n@YlG_Hh@_@jAa@rf@qAnDy@zD_C`KaKbT{NnHuHxHmFbBmBx@yAd@_BLeAUqOT_j@^g@b@YnP_J';
+		//console.log(decodePath(test));
+		
+		
+		$.ajax({
+			url : '/test_byway',
+			data: {},
+			type : "GET",
+			dataType : 'json',
+			success : function (result){
+				var notes = result.notes.map(function(el){
+					return [el[1], el[0]];
+				});
+				map.addLayer({
+					"id": "route",
+					"type": "line",
+					"source": {
+						"type": "geojson",
+						"data": {
+							"type": "Feature",
+							"properties": {},
+							"geometry": {
+								"type": "LineString",
+								"coordinates": notes
+							}
+						}
+					},
+					"layout": {
+						"line-join": "round",
+						"line-cap": "round"
+					},
+					"paint": {
+						"line-color": "#FF0000",
+						"line-width": 1
+					}
+				});
+				
+				
+				map.addLayer({
+					"id": "a",
+					"type": "line",
+					"source": {
+						"type": "geojson",
+						"data": {
+							"type": "Feature",
+							"properties": {},
+							"geometry": {
+								"type": "LineString",
+								"coordinates": [
+									[-123.11540199999996, 38.4020690000001],
+									[-122.82418799999994, 38.50249900000006],
+								]
+							}
+						}
+					},
+					"layout": {
+						"line-join": "round",
+						"line-cap": "round"
+					},
+					"paint": {
+						"line-color": "#FFFF00",
+						"line-width": 1
+					}
+				});
+				
+				map.addLayer({
+					'id': 'population',
+					'type': 'circle',
+					"source": {
+						"type": "geojson",
+						"data": {
+							"type": "Feature",
+							"properties": {},
+							"geometry": {
+								"type": "Point",
+								"coordinates": [-123.11540199999996, 38.44982099999993]
+							}
+						}
+					},
+					'paint': {
+						'circle-radius': {
+							'base': 1.75,
+							'stops': [[12, 2], [22, 180]]
+						},
+						'circle-color': '#fbb03b'
+						/*
+						'circle-color': [
+							'match',
+							['get', 'ethnicity'],
+							'White', '#fbb03b',
+							'Black', '#223b53',
+							'Hispanic', '#e55e5e',
+							'Asian', '#3bb2d0',
+							//other '#ccc'
+						]*/
+					}
+				});
+				
+				
+				
+				map.fitBounds([
+					[-123.11540199999996, 38.4020690000001],
+					[-122.82418799999994, 38.50249900000006],
+				]);
+			
+				console.log(result);
+			},
+			error: function(err){
+				reject('请求失败2');
+			}
+		});
+	});	
+	
 });
 
 

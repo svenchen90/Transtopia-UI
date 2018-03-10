@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Navigation functions (heading)</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <div id="floating-panel">
+      Origin: <input type="text" readonly id="origin">
+      Destination: <input type="text" readonly id="destination"><br>
+      Heading: <input type="text" readonly id="heading"> degrees
+    </div>
+    <script>
+      function initMap() {
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 14,
+    center: {lat: 34.366, lng: -89.519}
+  });
+  var poly = new google.maps.Polyline({
+    strokeColor: '#000000',
+    strokeOpacity: 1,
+    strokeWeight: 3,
+    map: map
+  });
+
+  // Add a listener for the click event
+  google.maps.event.addListener(map, 'click', function(event) {
+    addLatLngToPoly(event.latLng, poly);
+  });
+}
+
+/**
+ * Handles click events on a map, and adds a new point to the Polyline.
+ * Updates the encoding text area with the path's encoded values.
+ */
+function addLatLngToPoly(latLng, poly) {
+  var path = poly.getPath();
+  // Because path is an MVCArray, we can simply append a new coordinate
+  // and it will automatically appear
+  path.push(latLng);
+
+  // Update the text field to display the polyline encodings
+  var encodeString = google.maps.geometry.encoding.encodePath(path);
+  if (encodeString) {
+	console.log(encodeString)
+	console.log(google.maps.geometry.encoding.decodePath(encodeString)[0].lat())
+	
+    // document.getElementById('encoded-polyline').value = encodeString;
+  }
+}
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1LCWyuLkzDMvyOYxBIvmjyBJsqLDnPA4&libraries=geometry&callback=initMap"
+        async defer></script>
+  </body>
+</html>
