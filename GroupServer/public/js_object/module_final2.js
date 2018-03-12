@@ -53,7 +53,35 @@ file: {
 }
 */
 
-var FormDesigner = function(data, submitCallback){
+var localIDGenerator = function () {
+	return '_' + Math.random().toString(36).substr(2, 9);
+};
+
+var objIsEmpty = function(obj){
+	return Object.keys(obj).length === 0 && obj.constructor === Object;
+};
+
+var callAlert = function(msg){
+	alert(msg);
+};
+
+var callConfirm = function(title, text, actionConfirm, actionCancel){
+	$.confirm({
+		title: title,
+		content: text,
+		buttons: {
+			确定: function () {
+				actionConfirm();
+				/* callAlert('操作完成', 'done'); */
+			},
+			取消: function () {
+				actionCancel();
+			}
+		}
+	});
+};
+
+var FormDisplay = function(data, submitCallback){
 	var $modal = $(
 		'<div class="modal fade">\n' +
 		'	<div class="modal-dialog"  style="width:60vw;">\n' +
@@ -68,46 +96,8 @@ var FormDesigner = function(data, submitCallback){
 		'			</div>\n' +
 		'			<div class="modal-body">\n' +
 		'				<div class="form-designer">\n' +
-		'					<!-- 工具栏 -->\n' +
-		'					<nav class="navbar navbar-default">\n' +
-		'						<div class="container-fluid">\n' +
-		'						<div class="navbar-header">\n' +
-		'							<button type="button" class="navbar-toggle" data-toggle="collapse"\n' +
-		'									data-target="#tool-bar">\n' +
-		'								<span class="sr-only">切换导航</span>\n' +
-		'								<span class="icon-bar"></span>\n' +
-		'								<span class="icon-bar"></span>\n' +
-		'								<span class="icon-bar"></span>\n' +
-		'							</button>\n' +
-		'							<span class="navbar-brand"><i class="fa fa-chain"></i></span>\n' +
-		'						</div>\n' +
-		'						<div class="collapse navbar-collapse" id="tool-bar">\n' +
-		'							<ul class="nav navbar-nav" data-container="toolbar">\n' +
-		'								<li><a href="#" data-action="singleSelect"><i class="fa fa-check-circle-o"></i> 单项</a></li>\n' +
-		'								<li><a href="#" data-action="multiSelect"><i class="fa fa-check-square-o"></i> 多项</a></li>\n' +
-		'								<li><a href="#" data-action="singleDropdown"><i class="fa fa-align-justify"></i> 单项下拉框</a></li>\n' +
-		'								<li><a href="#" data-action="multiDropdown"><i class="fa fa-list"></i> 多项下拉框</a></li>\n' +
-		'								<li class="dropdown">\n' +
-		'									<a href="#" class="dropdown-toggle" data-toggle="dropdown">\n' +
-		'										<i class="fa fa-pencil"></i> 填空 <b class="caret"></b>\n' +
-		'									</a>\n' +
-		'									<ul class="dropdown-menu">\n' +
-		'										<li><a href="#" data-action="input" data-subType="default"><i class="fa fa-pencil"></i> 填空</a></li>\n' +
-		'										<li class="divider"></li>\n' +
-		'										<li><a href="#" data-action="input" data-subType="number"><i class="fa fa-list-ol"></i> 整数</a></li>\n' +
-		'										<li><a href="#" data-action="input" data-subType="date"><i class="fa fa-calendar"></i> 日期</a></li>\n' +
-		'										<li><a href="#" data-action="input" data-subType="email"><i class="fa fa-envelope-o"></i> email</a></li>\n' +
-		'										<li><a href="#" data-action="input" data-subType="phone"><i class="fa fa-phone"></i> phone</a></li>\n' +
-		'									</ul>\n' +
-		'								</li>\n' +
-		'								<li><a href="#" data-action="file"><i class="fa fa-file-text-o"></i> 上传文件</a></li>\n' +
-		'							</ul>\n' +
-		'						</div>\n' +
-		'						</div>\n' +
-		'					</nav>\n' +
 		'					<ul id="tab-bar" class="nav nav-tabs" style="margin: 0 50px 0 50px;">\n' +
 		'						<!-- 标签列表 -->\n' +
-		'						<a href="#" data-action="addTab" style="float: left;padding: 8px 15px; font-size: 19px;"><i class="fa fa-plus-square"></i></a>\n' +
 		'					</ul>\n' +
 		'					<div id="tab-content" class="customized-scrollbar tab-content" style="height: 60vh; overflow-y: auto;">\n' +
 		'						<!-- 标签分页 -->\n' +
@@ -126,27 +116,53 @@ var FormDesigner = function(data, submitCallback){
 		'</div>'
 	);
 	
+	var validate = function(data){
+		return true;
+	};
+	
 	var load = function(data){
-		if(data == undefined || objIsEmpty(data)){
-			load({
-				lid: localIDGenerator(),
-				name: '新的物品',
-				tabs: []
-			});
-		}else{
+		if(validate(data)){
 			$modal.find('[data-type="formName"]')
 				.attr('data-id', data.lid)
 				.text(data.name);
-			
-			var t_id;
 			$.each(data.tabs, function(index, t){
-				t_id = addTab(t);
+				//t_id = addTab(t);
+				addTab(t);
 			});
-			
-			activeTab(t_id);
+		}else{
+			console.log('invalid data');
 		}
 	};
 	
+	var addTab = function(data){
+		var $tab = $('<li><a href="#' + data.lid + '" data-toggle="tab"><span data-type="name">' + data.name + '</span><span data-action="deleteTab">&times</span></a></li>');
+		var $pane = $('<div class="tab-pane fade" id="' + data.lid + '"></div>');
+		$.each(data.questions, function(index, item){
+			addQuestion(item, $pane);
+		});
+		
+		$modal.find('#tab-bar').append($tab);
+		$modal.find('#tab-content').append($pane);
+		
+		return data.lid;
+	};
+	
+	var rerank = function($container){
+		$container.find('.question').each(function(index, item){
+			$(item).find('[question-main] [question-index]').text(index + 1);
+		});
+	};
+	
+	var addQuestion = function(data, $tab){
+		$question = jsonTo$question_display(data);
+		$tab.append($question);
+		rerank($tab);
+		
+		return $question;
+	};
+	
+	load(data);
+	/*
 	var clear = function(){
 		$modal.find('#tab-bar li').remove();
 		$modal.find('#tab-content').empty();
@@ -373,167 +389,228 @@ var FormDesigner = function(data, submitCallback){
 		$modal.modal('show');
 	};
 	
-	initialize();
+	initialize(); */
+	
+	$modal.modal('show');
 };
 
-
-var localIDGenerator = function () {
-	return '_' + Math.random().toString(36).substr(2, 9);
-};
-
-var objIsEmpty = function(obj){
-	return Object.keys(obj).length === 0 && obj.constructor === Object;
-};
-
-var TwinTables = function(context, data_top, data_bot, constr, toJson, callback){
-	var $modal = $(
-		'<div class="modal fade">\n' +
-		'	<div class="modal-dialog">\n' +
-		'		<div class="modal-content">\n' +
-		'			<div class="modal-header">\n' +
-		'				<h5 class="modal-title"></h5>\n' +
-		'			</div>\n' +
-		'			<div class="modal-body">\n' +
-		'				<table class="table">\n' +
-		'					<thead>\n' +
-		'						<!-- 标题 -->\n' +
-		'					</thead>\n' +
-		'					<tbody data-container="top">\n' +
-		'						<tr class="active">\n' +
-		'							<th style="text-align: center;" data-type="category"></th>\n' +
-		'						</tr>\n' +
-		'					</tbody >\n' +
-		'					<tbody data-container="bot">\n' +
-		'						<tr class="active">\n' +
-		'							<th style="text-align: center;" data-type="category"></th>\n' +
-		'						</tr>\n' +			
-		'					</tbody>\n' +
-		'				</table>\n' +
-		'			</div>\n' +
-		'			<div class="modal-footer">\n' +
-		'				<button type="button" class="btn btn-primary" data-action="submit">确认</button>\n' +
-		'				<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>\n' +
-		'			</div>\n' +
+var getQuestion = function(json){
+	var $question = $(
+		'<div class="question" question-type question-lid>\n' +
+		'	<div question-main>\n' +
+		'		<div>\n' +
+		'			<span question-index></span>.\n' +
+		'			<span question-title></span>\n' +
+		'			<span question-tooltip><i class="fa fa-info-circle"></i></span>\n' +
+		'			<span question-error-message style="color: red; display: none;"><span basic-error><span><span extends-error><span></span>\n' +
 		'		</div>\n' +
+		'		<div question-answer></div>\n' +
 		'	</div>\n' +
 		'</div>'
 	);
 	
-	var loadContext = function(){
-		$modal.find('.modal-title').text(context.title);
-		
-		$tr = $('<tr></tr>');
-		$.each(context.thead, function(idx, item){
-			$tr.append('<th>' + item + '</th>');
-		});
-		$tr.append('<th>操作</th>')
-		$modal.find('thead').append($tr);
-		
-		$modal.find('tbody[data-container="top"] [data-type="category"]').text(context.top);
-		$modal.find('tbody[data-container="bot"] [data-type="category"]').text(context.bot);
-		$modal.find('tbody[data-container="top"] [data-type="category"]').attr('colspan', context.thead.length+1);
-		$modal.find('tbody[data-container="bot"] [data-type="category"]').attr('colspan', context.thead.length+1);
-		
+	var validate = function(json){
+		return true;
 	}
 	
-	var loadTop = function(){
-		$.each(data_top, function(i, d){
-			var $item = constr(d);
-			$item.append('<td><a href="#" data-action="remove"><i class="fa fa-ban"></i></a></td>');
-			$modal.find('tbody[data-container="top"]').append($item);
+	if(validate(json)){
+		$question.attr({
+			'question-type': json.type,
+			'question-lid': json.lid
 		});
-	};
-	
-	var loadBot = function(){
-		$.each(data_bot, function(i, d){
-			var $item = constr(d);
-			$item.append('<td><a href="#" data-action="add"><i class="fa fa-plus"></i></a></td>');
-			$modal.find('tbody[data-container="bot"]').append($item);
-		});
-	};
-	
-	var initialize = function(){
-		loadContext();
-		loadTop();
-		loadBot();
-		checkEmpty();
 		
+		$question.find('[question-main] [question-index]').text(json.index);
+		// 1.3 title
+		$question.find('[question-main] [question-title]').text(json.title);
+		// 1.4 tooltip
+		var msg = [];
+		if(json.required == 1)
+			msg.push('必选');
+		if(json.tooltip != '')
+			msg.push(json.tooltip);	
 		
-		$modal.on('click', '[data-action]', function(){
-			var type = $(this).attr('data-action');
-			var $tr = $(this).closest('tr');
-			
-			if(type == 'remove'){
-				$modal.find('tbody[data-container="bot"]').append($tr);
-				$(this).replaceWith('<td><a href="#" data-action="add"><i class="fa fa-plus"></i></a></td>');
-				checkEmpty();
-			}else if(type == 'add'){
-				$modal.find('tbody[data-container="top"]').append($tr);
-				$(this).replaceWith('<td><a href="#" data-action="remove"><i class="fa fa-ban"></i></a></td>');
-				checkEmpty();
-			}else if(type == "submit"){
-				var result = [];
-				$modal.find('[data-container="top"] [data-type="tr"]').each(function(index, item){
-					var data = toJson($(item));
-					if(!objIsEmpty(data))
-						result.push(data);
+		if(msg.length != 0)
+			$question.find('[question-main] [question-tooltip]')
+				.attr({
+					'title': msg.join(', ')
+				})
+				.css({
+					'cursor': 'pointer',
+					'visibility': 'visible'
 				});
-				
-				callback(result);
-				
-				$modal.modal('hide');
-			}else{
-				console.lol('error');
-			}
-		});
-		
-		$modal.on('hidden.bs.modal', function(){
-			$(this).remove();
-		});
-		
-		$modal.modal('show');
-	};
-	
-	var checkEmpty = function(){
-		var colspan = $modal.find('tbody[data-container="top"] [data-type="category"]').attr('colspan');
-		
-		if($modal.find('tbody[data-container="top"] tr').length == 1){
-			$modal.find('tbody[data-container="top"]').append('<tr><td colspan="' + colspan + '" style="text-align: center;" data-type="empty-holder">暂无选项</td></tr>');
-		}else{
-			$modal.find('tbody[data-container="top"] [data-type="empty-holder"]').remove();
-		}
-		
-		if($modal.find('tbody[data-container="bot"] tr').length == 1){
-			$modal.find('tbody[data-container="bot"]').append('<tr><td colspan="' + colspan + '" style="text-align: center;" data-type="empty-holder">暂无选项</td></tr>');
-		}else{
-			$modal.find('tbody[data-container="bot"] [data-type="empty-holder"]').remove();
-			
-		}
+		else
+			$question.find('[question-main] [question-tooltip]').css({
+				'visibility': 'hidden'
+			});
+	}else{
+		console.log('data invalid');
 	}
-	
-	initialize();
-	
+	return $question;
 };
 
-var callAlert = function(msg){
-	alert(msg);
+var getSingleSelect = function(json){
+	var $question = getQuestion(json);
+	
+	var $container = $question.find('[question-answer]').empty();
+	$.each(json.options, function(index, item){
+		var $option = $(
+		'<div class="option" data-id="' + item.lid + '">\n' +
+		'	<input type="radio" name="' + json.lid + '"' + (item.isDefault == 1 ? ' checked' : '' )  + ' value="' + item.value + '"> <span name="radioName">' + item.name + '</span>\n' +
+		'</div>'
+		)
+		$container.append($option);
+	});
+	
+	return $question;
 };
 
-var callConfirm = function(title, text, actionConfirm, actionCancel){
-	$.confirm({
-		title: title,
-		content: text,
-		buttons: {
-			确定: function () {
-				actionConfirm();
-				/* callAlert('操作完成', 'done'); */
-			},
-			取消: function () {
-				actionCancel();
-			}
+var getMultiSelect = function(json){	
+	var $question = getQuestion(json);
+	
+	var $container = $question.find('[question-answer]').empty();
+	$.each(json.options, function(index, item){
+		var $option = $(
+		'<div class="option" data-id="' + item.lid + '">\n' +
+		'	<input type="checkbox" name="' + json.lid + '"' + (item.isDefault == 1 ? ' checked' : '' )  + ' value="' + item.value + '"> <span name="radioName">' + item.name + '</span>\n' +
+		'</div>'
+		)
+		$container.append($option);
+	});
+	
+	return $question;
+};
+
+var getSingleDropdown = function(json){
+	var $question = getQuestion(json);
+	
+	var $container = $question.find('[question-answer]').empty();
+	
+	$select = $('<select style="width: 200px; margin: 5px 0 10px 0;"></select>');
+	$select.append($('<option class="option default" disabled selected>请选择...</option>'));
+	$.each(json.options, function(index, item){
+		var $item = $('<option class="option" data-id="' + item.lid + '" value="' + item.value + '" ' + (item.isDefault ? 'selected' : '') + '>' + item.name +'</option>');
+		
+		$select.append($item);
+	});
+	$container.append($select);
+	
+	return $question;
+};
+
+var getMultiDropdown = function(json){
+	var $question = getQuestion(json);
+	
+	var $container = $question.find('[question-answer]').empty();
+	
+	$select = $('<select style="width: 200px; margin: 5px 0 10px 0;" multiple></select>');
+	$.each(json.options, function(index, item){
+		var $item = $('<option class="option" data-id="' + item.lid + '" value="' + item.value + '" ' + (item.isDefault ? 'selected' : '') + '>' + item.name +'</option>');
+		
+		$select.append($item);
+	});
+	$container.append($select);
+	
+	return $question;
+	
+}
+
+var getInput = function(json){
+	var $question = getQuestion(json);
+	
+	var $container = $question.find('[question-answer]').empty();
+	var sub_type = json.sub_type;
+	var textMap = {
+		"default": {
+			"icon": 'fa-keyboard-o',
+			'placeholder': '请输入..'
+		},
+		"number": {
+			"icon": 'fa-sort-numeric-asc',
+			'placeholder': '请输入数字..'
+		},
+		"date": {
+			"icon": 'fa-calendar',
+			'placeholder': '请输入日期..'
+		},
+		"email": {
+			"icon": 'fa-envelope-o',
+			'placeholder': '请输入Email..'
+		},
+		"phone": {
+			"icon": 'fa-phone',
+			'placeholder': '请输入电话..'
+		}
+	};
+	var $input = $(
+		'<div class="input-group" style="margin: 5px 0 5px;">\n' +
+		'	<div class="input-group-addon">\n' +
+		'		<i class="fa ' + textMap[sub_type].icon + '"></i>\n' +
+		'	</div>\n' +
+		'	<input type="text" class="form-control" placeholder="' + textMap[sub_type].placeholder + '" style="max-width: 300px;">\n' +
+		'</div>'
+	);
+	$container.append($input);
+
+	return $question;
+};
+
+var getFile = function(json){
+	var $question = getQuestion(json);
+	
+	var $container = $question.find('[question-answer]').empty();
+	$container.append('<input type="file" name="filesupload"></input>')
+	$container.find('[name="filesupload"]').fileinput({
+		language: "zh",
+		theme: "explorer",
+		uploadUrl: '/uploadfile_beta/123' /* + id */,
+		//allowedFileTypes: ['image'],
+		//allowedFileExtensions: IMAGE_EXTENTION,
+		maxFileCount: 1,
+		//showCaption: true,
+		//showPreview: true
+		//showRemove: true
+		//showUpload: true
+		//showCancel: true ?
+		showClose: false,
+		maxFileCount: 1,
+		layoutTemplates: {
+			actions: '<div class="file-actions">\n' +
+				'    <div class="file-footer-buttons">\n' +
+				'        {delete}' +
+				'    </div>\n' +
+				'    {drag}\n' +
+				'    <div class="file-upload-indicator" title="{indicatorTitle}">{indicator}</div>\n' +
+				'    <div class="clearfix"></div>\n' +
+				'</div>',
+			actionDelete: '<button type="button" class="kv-file-remove {removeClass}" title="{removeTitle}"{dataUrl}{dataKey}>{removeIcon}</button>\n',
 		}
 	});
+	
+	
+	return $question;
+}
+
+var inputValidation = function(){
+	
 };
+
+const QUESTION_DISPLAY_MAP = {
+	'singleSelect': getSingleSelect,
+	'singleDropdown': getSingleDropdown,
+	'multiSelect': getMultiSelect,
+	'multiDropdown': getMultiDropdown,
+	'input': getInput,
+	'file': getFile
+};
+const IMAGE_EXTENTION = ["ANI", "BMP", "CAL", "EPS", "FAX", "GIF", "IMG", "JBG", "JPE", "JPEG", "JPG", "MAC", "PBM", "PCD", "PCX", "PCT", "PGM", "PNG", "PPM", "PSD", "RAS", "TGA", "TIFF", "WMF"];
+//'webm, mkv, flv, vob, ogv, ogg, drc, gif, gifv, mng, avi, mov, qt, wmv, yuv, rm, rmvb, asf, amv, mp4, m4p';
+
+var jsonTo$question_display = function(json){
+	var type = json.type
+	return QUESTION_DISPLAY_MAP[type](json);
+};
+
+/* 
 
 var Constraint = function(){
 	var obj = this;
@@ -1457,7 +1534,7 @@ var $questionToJson = function($question){
 	return new QUESTION_MAP[type]().getJson($question);
 };
 
-
+ */
 var tab1 = {
 	lid: localIDGenerator(),
 	name: '标签1',
@@ -1931,10 +2008,31 @@ var tab5 = {
 var tab6 = {
 	lid: localIDGenerator(),
 	name: '标签1',
-	questions: [	] 
+	questions: [{
+		lid: '_nzjs9whbt',
+		type: 'file',
+		required: 0,
+		title: '请输入问题',
+		tooltip: '',
+		allowedType: ['text', 'video', 'audio', 'image'],
+		options: [
+			{
+				lid: "_4wl6caiet",
+				name: '选项1',
+				value: 0,
+				isDefault: 0
+			},
+			{
+				lid: "_5ndw0aln9",
+				name: '选项2',
+				value: 0,
+				isDefault: 0
+			}
+		]
+	}] 
 };
 
-FormDesigner({
+FormDisplay({
 	lid: localIDGenerator(),
 	name: '新的物品',
 	tabs: [tab1,tab2,tab3,tab4,tab5,tab6]
