@@ -53,34 +53,6 @@ file: {
 }
 */
 
-var localIDGenerator = function () {
-	return '_' + Math.random().toString(36).substr(2, 9);
-};
-
-var objIsEmpty = function(obj){
-	return Object.keys(obj).length === 0 && obj.constructor === Object;
-};
-
-var callAlert = function(msg){
-	alert(msg);
-};
-
-var callConfirm = function(title, text, actionConfirm, actionCancel){
-	$.confirm({
-		title: title,
-		content: text,
-		buttons: {
-			确定: function () {
-				actionConfirm();
-				/* callAlert('操作完成', 'done'); */
-			},
-			取消: function () {
-				actionCancel();
-			}
-		}
-	});
-};
-
 var FormDisplay = function(data, submitCallback){
 	var $modal = $(
 		'<div class="modal fade">\n' +
@@ -123,19 +95,38 @@ var FormDisplay = function(data, submitCallback){
 	var load = function(data){
 		if(validate(data)){
 			$modal.find('[data-type="formName"]')
-				.attr('data-id', data.lid)
+				.attr('data-id', localIDGenerator())
+				.attr('template-id', data.lid)
 				.text(data.name);
+			var t_id;
 			$.each(data.tabs, function(index, t){
-				//t_id = addTab(t);
-				addTab(t);
+				var temp_id = addTab(t);
+				if(t_id == undefined)
+					t_id = temp_id
 			});
+
+			activeTab(t_id);
 		}else{
 			console.log('invalid data');
 		}
 	};
 	
+	var toJson = function(){
+		var json = {
+			lid: $modal.find('[data-type="formName"]').attr('data-id'),
+			tid: $modal.find('[data-type="formName"]').attr('template-id'),
+			tabs: []
+		};
+		
+		 $modal.find('#tab-content .tab-pane').each(function(index, tab){
+			json.tabs.push(tabToJson($(tab)));
+		 });
+		
+		return json;
+	};
+	
 	var addTab = function(data){
-		var $tab = $('<li><a href="#' + data.lid + '" data-toggle="tab"><span data-type="name">' + data.name + '</span><span data-action="deleteTab">&times</span></a></li>');
+		var $tab = $('<li><a href="#' + data.lid + '" data-toggle="tab"><span data-type="name">' + data.name + '</span></a></li>');
 		var $pane = $('<div class="tab-pane fade" id="' + data.lid + '"></div>');
 		$.each(data.questions, function(index, item){
 			addQuestion(item, $pane);
@@ -145,6 +136,19 @@ var FormDisplay = function(data, submitCallback){
 		$modal.find('#tab-content').append($pane);
 		
 		return data.lid;
+	};
+	
+	var tabToJson = function($tab){
+		var json = {
+			lid: $tab.attr('id'),
+			questions: []
+		};
+		
+		$tab.find('.question').each(function(index, item){
+			json.questions.push($questionResultToJson($(item)));
+		});
+		
+		return json;
 	};
 	
 	var rerank = function($container){
@@ -161,238 +165,144 @@ var FormDisplay = function(data, submitCallback){
 		return $question;
 	};
 	
-	load(data);
-	/*
-	var clear = function(){
-		$modal.find('#tab-bar li').remove();
-		$modal.find('#tab-content').empty();
-	};
-	
-	var toJson = function(){
-		var json = {
-			lid : $modal.find('[data-type="formName"]').attr('data-id'),
-			name: $modal.find('[data-type="formName"]').text(),
-			tabs: []
-		};
-		
-		$modal.find('.tab-pane').each(function(index, item){
-			var id = $(item).attr('id');
-			json.tabs.push(tabToJson(id));
-		});
-		
-		return json
-	};
-	
-	var addTab = function(data){
-		if(data == undefined || objIsEmpty(data)){
-			return addTab({
-				lid: localIDGenerator(),
-				name: '新的分页',
-				questions:[]
-			});
-		}else{
-			var $tab = $('<li><a href="#' + data.lid + '" data-toggle="tab"><span data-type="name">' + data.name + '</span><span data-action="deleteTab">&times</span></a></li>');
-			var $pane = $('<div class="tab-pane fade" id="' + data.lid + '"></div>');
-			$.each(data.questions, function(index, item){
-				addQuestion(item, $pane);
-			});
-			
-			$modal.find('#tab-bar [data-action="addTab"]').before($tab);
-			$modal.find('#tab-content').append($pane);
-			
-			return data.lid;
-		}
-	};
-	
-	var deleteTabByID = function(id){
-		$modal.find('#tab-bar [href="#' + id + '"]').closest('li').remove();
-		$modal.find('#tab-content #' + id).remove();
-	};
-	
-	var rerank = function($container){
-		$container.find('.question').each(function(index, item){
-			$(item).find('[question-main] [question-index]').text(index + 1);
-		});
-	};
-	
-	var tabToJson = function(id){
-		var json = {
-			lid: id,
-			name: $modal.find('#tab-bar [href="#' + id + '"] [data-type="name"]').text(),
-			questions: []
-		};
-		
-		$modal.find('#' + id + ' .question').each(function(index, item){
-			json.questions.push(questionToJson($(item)));
-		});
-		return json;
-	};
-	
 	var activeTab = function(id){
 		$modal.find('[href="#' + id + '"]').tab('show');
 		$modal.find('#' + id).addClass('active in');
 	};
 	
-	var addQuestion = function(data, $tab){
-		var $question;
-		if(data == undefined || objIsEmpty(data)){
-			console.log('error');
-		}else{
-			$question = jsonTo$question(data);
-			$tab.append($question);
-			rerank($tab);
+	var initializeConstraint = function(){
+		var q_list = [];
+		for(var i in  data.tabs){
+			q_list = q_list.concat(data.tabs[i].questions);
+		}
+		c_list = q_list.filter(function(el){
+			return el.constraints != undefined && el.constraints.length > 0;
+		});
+		
+		// ? check existence
+		// console.log(c_list);
+		
+		var QC_map = {};
+		var CQ_map = {};
+		
+		for(var i in c_list){
+			QC_map[c_list[i].lid] = c_list[i].constraints.map(function(el){
+				el.options = el.options.map(function(o){
+					return o.lid
+				});
+				return el;
+			});
+			
+			for(var j in c_list[i].constraints){
+				for(var k in c_list[i].constraints[j].options){
+					var o_lid = c_list[i].constraints[j].options[k];
+					if(o_lid in CQ_map){
+						CQ_map[o_lid] = CQ_map[o_lid].concat([c_list[i].lid])
+					}else{
+						CQ_map[o_lid] = [c_list[i].lid];
+					}
+				}
+			}
 		}
 		
-		return $question;
+		//console.log(QC_map);
+		//console.log(CQ_map);
+		for(var key in QC_map){
+			checkConstraint(key, QC_map[key])
+		}
+		checkConstraint
+		
+		
+		$modal.on('change', '[question-answer] input, [question-answer] select', function(e){
+			var o_ids = [];
+			if($(this).is('select')){
+				$(this).find('option:not(.default)').map(function(index, item){
+					o_ids.push($(item).attr('data-id'));
+				});
+			}else{
+				o_ids.push($(this).closest('.option').attr('data-id'));
+			}
+			
+			o_ids.map(function(o_id){
+				if(o_id in CQ_map)
+					CQ_map[o_id].map(function(q_id){
+						checkConstraint(q_id, QC_map[q_id]);
+					});
+			});
+			
+			
+		});
 	};
 	
-	var questionToJson = function($question){
-		return $questionToJson($question);
+	var checkConstraint = function(q_id, constraints){
+		var flag = true;
+		constraints.map(function(item){
+			var sub_flag = false;
+			item.options.map(function(o_id){
+				if($modal.find('[data-id="' + o_id  + '"]').is('option'))
+					sub_flag = sub_flag || $modal.find('[data-id="' + o_id  + '"]').is(':selected');
+				else
+					sub_flag = sub_flag || $modal.find('[data-id="' + o_id  + '"] input').is(':checked');
+			});
+			
+			if(item.type == 0)
+				sub_flag = !sub_flag;
+			
+			flag = flag && sub_flag;
+		});
+		
+		toggleQuestion(q_id, flag);
 	};
 	
-	var initialize = function(){
+	var toggleQuestion = function(q_id, flag){
+		var $question = $modal.find('[question-lid="' + q_id + '"]');
+		if(flag){
+			$question.removeClass('disable');
+			$question.find('[question-answer] input, [question-answer] select').attr('disabled', false);
+		}else{
+			$question.addClass('disable');
+			$question.find('[question-answer] input, [question-answer] select').attr('disabled', true);
+		}
+	};
+	
+	(function(){
 		load(data);
 		
-		
-		// 激活重命名form
-		$modal.on('dblclick', 'span[data-type="formName"]', function(){
-			var id = $(this).attr('data-id');
-			var name = $(this).text();
-			var $input = $('<input data-type="formName" value="' + name + '" data-id="' + id + '" placeholder="请输表单名称">');
-			$(this).replaceWith($input);
-			$input.focus();
-		});
-		
-		// 完成form重命名
-		$modal.on('focusout keydown', 'input[data-type="formName"]', function(){
-			if(event.type == 'blur' || (event.type == 'keydown' && event.keyCode == '13')){
-				var id = $(this).attr('data-id');
-				var name = $(this).val();
-				if(name != ''){
-					var $a = $('<span data-type="formName" data-id="' + id + '">' + name + '</span>')
-					$(this).replaceWith($a);
-				}	
-			}
-		});
-		
-		// 添加删除 tab
-		$modal.on('click', '#tab-bar [data-action]', function(){
-			var actionType = $(this).attr('data-action')
-			if(actionType == 'addTab'){
-				var id = addTab();
-				activeTab(id);
-			}else if(actionType == 'deleteTab'){
-				var id = $(this).closest('a').attr('href').substring(1);
-				callConfirm('确认删除', '您确定要删除此分页？', 
-					function(){
-						deleteTabByID(id);
-					}, 
-					function(){
-						
-					});
-				
-			}else{
-				
-			}
-		});
-		
-		// 激活重命名tab
-		$modal.on('dblclick', '#tab-bar li.active', function(){
-			if($(this).find('a').length == 1){
-				var id = $(this).find('a').attr('href').substring(1);
-				var name = $(this).find('[data-type="name"]').text();
-				var $input = $('<input value="' + name + '" data-id="' + id + '" placeholder="请输入分页名称" style="position: relative;display: block;margin: 10px 15px;">');
-				$(this).html($input);
-				$input.focus();
-			}
-		});
-		
-		// 完成tab重命名
-		$modal.on('focusout keydown', '#tab-bar li input', function(){
-			if(event.type == 'blur' || (event.type == 'keydown' && event.keyCode == '13')){
-				var id = $(this).attr('data-id');
-				var name = $(this).val();
-				if(name != ''){
-					var $a = $('<a href="#' + id + '" data-toggle="tab"><span data-type="name">' + name + '</span><span data-action="deleteTab">&times</span></a>')
-					$(this).replaceWith($a);
-				}else{
-					callAlert('分页名称不能为空');
-					$(this).val('分页名称');
-				}
-			}
-		});
-		
-		// 新建问题栏事件
-		$modal.on('click', '#tool-bar [data-action]', function(){
-			var $container = $modal.find('.tab-pane.active');
-			if($modal.find('.tab-pane.active').length != 0){
-				var json = {
-					lid: localIDGenerator(),
-					type: $(this).attr('data-action'),
-					allowedType: ['text', 'video', 'audio', 'image'],
-					sub_type: 'default',
-					required: 0,
-					title: '请输入问题',
-					tooltip: '',
-					min: 0,
-					max: 7,
-					options: [
-						{
-							lid: localIDGenerator(),
-							name: '选项1',
-							value: 0,
-							isDefault: 0
-						},
-						{
-							lid: localIDGenerator(),
-							name: '选项2',
-							value: 0,
-							isDefault: 0
-						}
-					]
-				};
-				
-				if($(this).attr('data-subType')){
-					json.sub_type = $(this).attr('data-subType');
-				}
-				
-				
-				
-				var $q = addQuestion(json, $container);
-				$q.find('.btn-list [data-action="activateEditor"]').trigger('click');
-			}else{
-				callAlert('请选择您要添加到分页');
-			}
-		});
-		
-		// 排序
-		$modal.on('click', '.question [question-btn] [question-action]', function(){
-			rerank($modal.find('.tab-pane.active'));
-		});
-		
-		//submit
 		$modal.on('click', '[data-action="submit"]', function(){
-			callConfirm('确认提交', '您确定提交此物品？', 
-				function(){
-					submitCallback(toJson());
-					$modal.modal('hide');
-				}, 
-				function(){
-					
+			var json = toJson();
+			var err_required_id = [];
+			json.tabs.map(function(el){
+				el.questions.map(function(q){
+					if(q.required == 1 && (q.options != undefined && q.options.length == 0 || q.value != undefined && q.value == '')){
+						err_required_id.push(q.lid);
+						$modal.find('[question-lid="' + q.lid + '"] [basic-error]').text('*必选');
+					}else{
+						$modal.find('[question-lid="' + q.lid + '"] [basic-error]').text('');
+					}
 				});
+			});
+			
+			if(err_required_id.length > 0)
+				callAlert('请按照要求填写!');
 		});
 		
-		$modal.on('hidden.bs.modal', function(){
-			$(this).remove();
-		});
+		initializeConstraint()
 		
 		$modal.modal('show');
-	};
-	
-	initialize(); */
-	
-	$modal.modal('show');
+	})();
 };
+
+
+var jsonTo$question_display = function(json){
+	var type = json.type
+	return QUESTION_DISPLAY_MAP[type](json);
+};
+
+var $questionResultToJson = function($question){
+	var type = $question.attr('question-type');
+	return QUESTION_RESULT_MAP[type]($question);
+};
+
 
 var getQuestion = function(json){
 	var $question = $(
@@ -402,7 +312,7 @@ var getQuestion = function(json){
 		'			<span question-index></span>.\n' +
 		'			<span question-title></span>\n' +
 		'			<span question-tooltip><i class="fa fa-info-circle"></i></span>\n' +
-		'			<span question-error-message style="color: red; display: none;"><span basic-error><span><span extends-error><span></span>\n' +
+		'			<span question-error-message style="color: rgba(255,0,0,0.6 );"><span basic-error><span><span extends-error><span></span>\n' +
 		'		</div>\n' +
 		'		<div question-answer></div>\n' +
 		'	</div>\n' +
@@ -424,8 +334,11 @@ var getQuestion = function(json){
 		$question.find('[question-main] [question-title]').text(json.title);
 		// 1.4 tooltip
 		var msg = [];
-		if(json.required == 1)
-			msg.push('必选');
+		if(json.required == 1){
+			msg.push('必填');
+			$question.attr('question-required', 1);
+		}else
+			$question.attr('question-required', 0);
 		if(json.tooltip != '')
 			msg.push(json.tooltip);	
 		
@@ -455,10 +368,16 @@ var getSingleSelect = function(json){
 	$.each(json.options, function(index, item){
 		var $option = $(
 		'<div class="option" data-id="' + item.lid + '">\n' +
-		'	<input type="radio" name="' + json.lid + '"' + (item.isDefault == 1 ? ' checked' : '' )  + ' value="' + item.value + '"> <span name="radioName">' + item.name + '</span>\n' +
+		'	<input type="checkbox" name="' + json.lid + '"' + (item.isDefault == 1 ? ' checked' : '' )  + ' value="' + item.value + '"> <span name="radioName">' + item.name + '</span>\n' +
 		'</div>'
 		)
 		$container.append($option);
+	});
+	
+			
+	$container.on('click', '[type="checkbox"]' ,function(e){
+		var name = $(this).attr('name');
+		$container.find('[name="' + name + '"]').not($(this)).prop('checked', false);
 	});
 	
 	return $question;
@@ -476,6 +395,18 @@ var getMultiSelect = function(json){
 		)
 		$container.append($option);
 	});
+	
+	$container.on('change', '[type="checkbox"]', function(){
+		var number = $container.find('[type="checkbox"]:checked').length;
+		var err = [];
+		if(json.min != undefined && json.min > number)
+			err.push('至少选择' + json.min + '项');
+		if(json.max != undefined && json.max < number)
+			err.push('至多选择' + json.max + '项');
+		
+		$question.find('[extends-error]').text(err.join(' || '));
+	});
+	
 	
 	return $question;
 };
@@ -510,8 +441,57 @@ var getMultiDropdown = function(json){
 	});
 	$container.append($select);
 	
+	
+	$container.on('change', 'select', function(){
+		var number = $container.find('option:not(:disabled):selected').length;
+		var err = [];
+		if(json.min != undefined && json.min > number)
+			err.push('至少选择' + json.min + '项');
+		if(json.max != undefined && json.max < number)
+			err.push('至多选择' + json.max + '项');
+		
+		$question.find('[extends-error]').text(err.join(' || '));
+	});
+	
 	return $question;
 	
+}
+
+var inputValidation = function(value, type){
+	var map = {
+		email: validateEmail,
+		phone: validatePhone,
+		date: validateDate,
+		number: validateNumber
+	};
+	return map[type](value);
+};
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	if(re.test(String(email).toLowerCase()))
+		return '';
+	else
+		return '请输入正确的email地址！'
+}
+
+function validatePhone(phone) {
+	var re = /^1[358][0-9]{9}$/;
+	if(re.test(phone))
+		return '';
+	else
+		return '请输入10位有效电话号码！'
+}
+
+function validateDate(date) {
+	return '';
+}
+
+function validateNumber(numer) {
+	var re = /^\d*$/;
+	if(re.test(String(numer).toLowerCase()))
+		return '';
+	else
+		return '请输入数字！'
 }
 
 var getInput = function(json){
@@ -549,10 +529,33 @@ var getInput = function(json){
 		'	<input type="text" class="form-control" placeholder="' + textMap[sub_type].placeholder + '" style="max-width: 300px;">\n' +
 		'</div>'
 	);
+	if(json.sub_type == 'date')
+		$input.find('input').attr('type', 'date')
 	$container.append($input);
-
+	
+	
+	var delay = (function(){
+	  var timer = 0;
+	  return function(callback, ms){
+		clearTimeout (timer);
+		timer = setTimeout(callback, ms);
+	  };
+	})();
+	
+	$input.on('keyup', 'input', function(){
+		var value = this.value
+		delay(function(){
+			var err = inputValidation(value,json.sub_type);
+			$question.find('[extends-error]').text(err);
+		}, 500);
+	});
+	
+	
 	return $question;
 };
+
+//const IMAGE_EXTENTION = ["ANI", "BMP", "CAL", "EPS", "FAX", "GIF", "IMG", "JBG", "JPE", "JPEG", "JPG", "MAC", "PBM", "PCD", "PCX", "PCT", "PGM", "PNG", "PPM", "PSD", "RAS", "TGA", "TIFF", "WMF"];
+//'webm, mkv, flv, vob, ogv, ogg, drc, gif, gifv, mng, avi, mov, qt, wmv, yuv, rm, rmvb, asf, amv, mp4, m4p';
 
 var getFile = function(json){
 	var $question = getQuestion(json);
@@ -590,9 +593,6 @@ var getFile = function(json){
 	return $question;
 }
 
-var inputValidation = function(){
-	
-};
 
 const QUESTION_DISPLAY_MAP = {
 	'singleSelect': getSingleSelect,
@@ -602,12 +602,93 @@ const QUESTION_DISPLAY_MAP = {
 	'input': getInput,
 	'file': getFile
 };
-const IMAGE_EXTENTION = ["ANI", "BMP", "CAL", "EPS", "FAX", "GIF", "IMG", "JBG", "JPE", "JPEG", "JPG", "MAC", "PBM", "PCD", "PCX", "PCT", "PGM", "PNG", "PPM", "PSD", "RAS", "TGA", "TIFF", "WMF"];
-//'webm, mkv, flv, vob, ogv, ogg, drc, gif, gifv, mng, avi, mov, qt, wmv, yuv, rm, rmvb, asf, amv, mp4, m4p';
 
-var jsonTo$question_display = function(json){
-	var type = json.type
-	return QUESTION_DISPLAY_MAP[type](json);
+var getResult_SingleSelect = function($question){
+	var json = {
+		lid: $question.attr('question-lid'),
+		required: $question.attr('question-required')
+	};
+	
+	if($question.hasClass('disable')){
+		json.disable = 1;
+	}else
+		json.disable = 0;
+	json.options = []
+	
+	$question.find('[question-answer] input:checked').each(function(index, item){
+		json.options.push($(item).closest('.option').attr('data-id'));
+	});
+
+	return json;
+};
+
+var getResult_SingleDropdown = function($question){
+	var json = {
+		lid: $question.attr('question-lid'),
+		required: $question.attr('question-required')
+	};
+	
+	if($question.hasClass('disable')){
+		json.disable = 1;
+	}else
+		json.disable = 0;
+	json.options = []
+	
+	$question.find('[question-answer] option:not(:disabled):selected').each(function(index, item){
+		json.options.push($(item).attr('data-id'));
+	});
+
+	return json;
+};
+
+var getResult_MultiSelect = function($question){
+	return getResult_SingleSelect($question)
+};
+
+var getResult_MultiDropdown = function($question){
+	return getResult_SingleDropdown($question);
+};
+
+var getResult_Input = function($question){
+	var json = {
+		lid: $question.attr('question-lid'),
+		required: $question.attr('question-required')
+	};
+	
+	if($question.hasClass('disable')){
+		json.disable = 1;
+	}else
+		json.disable = 0;
+
+	json.value = $question.find('[question-answer] [type="text"]').val();
+
+	return json;
+};
+
+var getResult_File = function($question){
+	var json = {
+		lid: $question.attr('question-lid'),
+		required: $question.attr('question-required')
+	};
+	
+	if($question.hasClass('disable')){
+		json.disable = 1;
+	}else
+		json.disable = 0;
+
+	// ???
+	//json.value = $question.find('[question-answer] [type="text"]').val();
+
+	return json;
+};
+
+const QUESTION_RESULT_MAP = {
+	'singleSelect': getResult_SingleSelect,
+	'singleDropdown': getResult_SingleDropdown,
+	'multiSelect': getResult_MultiSelect,
+	'multiDropdown': getResult_MultiDropdown,
+	'input': getResult_Input,
+	'file': getResult_File
 };
 
 /* 
@@ -951,7 +1032,7 @@ var Question = function(){
 			'			<div class="col-md-6" style="margin-top: 25px;">\n' +
 			'				<div editor-required>\n' +
 			'					<input type="checkbox">\n' +
-			'					<label>必选</label>\n' +
+			'					<label>必填</label>\n' +
 			'				</div>\n' +
 			'				<div editor-tooltip>\n' +
 			'					<input type="checkbox">\n' +
@@ -1165,7 +1246,7 @@ var Question = function(){
 		// 1.4 tooltip
 		var msg = [];
 		if(json.required == 1)
-			msg.push('必选');
+			msg.push('必填');
 		if(json.tooltip != '')
 			msg.push(json.tooltip);	
 		
@@ -1579,6 +1660,20 @@ var tab1 = {
 					value: 0,
 					isDefault: 0
 				}
+			],
+			constraints: [
+				{
+					lid: '_nzjs9whbt',
+					type: 1,
+					options: [
+						{
+							lid: '_4wl6caiet'
+						},
+						{
+							lid: '_5ndw0aln9'
+						},
+					],
+				}
 			]
 		},
 		{
@@ -1640,8 +1735,8 @@ var tab2 = {
 			required: 0,
 			title: '请输入问题',
 			tooltip: '',
-			min: 0,
-			max: 7,
+			min: 1,
+			max: 1,
 			options: [
 				{
 					lid: "_4wl6caiet",
@@ -1931,8 +2026,8 @@ var tab5 = {
 			required: 0,
 			title: '请输入问题',
 			tooltip: '',
-			min: 0,
-			max: 7,
+			min: 1,
+			max: 1,
 			options: [
 				{
 					lid: "_4wl6caiet",
@@ -1975,11 +2070,11 @@ var tab5 = {
 			required: 1,
 			title: 'AAAAA',
 			tooltip: '123123123',
-			sub_type: 'email',
+			sub_type: 'number',
 			constraints: [
 				{
 					lid: '_nzjs9whbt',
-					type: 1,
+					type: 0,
 					options: [
 						{
 							lid: '_4wl6caiet'
@@ -2035,5 +2130,5 @@ var tab6 = {
 FormDisplay({
 	lid: localIDGenerator(),
 	name: '新的物品',
-	tabs: [tab1,tab2,tab3,tab4,tab5,tab6]
+	tabs: [tab5,tab2,tab3,tab4,tab1, tab6]
 }, function(a){console.log(a)});

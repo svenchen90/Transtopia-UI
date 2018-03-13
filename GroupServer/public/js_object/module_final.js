@@ -874,7 +874,7 @@ var Question = function(){
 			'			<div class="col-md-6" style="margin-top: 25px;">\n' +
 			'				<div editor-required>\n' +
 			'					<input type="checkbox">\n' +
-			'					<label>必选</label>\n' +
+			'					<label>必填</label>\n' +
 			'				</div>\n' +
 			'				<div editor-tooltip>\n' +
 			'					<input type="checkbox">\n' +
@@ -1088,7 +1088,7 @@ var Question = function(){
 		// 1.4 tooltip
 		var msg = [];
 		if(json.required == 1)
-			msg.push('必选');
+			msg.push('必填');
 		if(json.tooltip != '')
 			msg.push(json.tooltip);	
 		
@@ -1937,5 +1937,5 @@ var tab6 = {
 FormDesigner({
 	lid: localIDGenerator(),
 	name: '新的物品',
-	tabs: [tab1,tab2,tab3,tab4,tab5,tab6]
+	tabs: [tab1,tab2,tab3,tab4,tab5]
 }, function(a){console.log(a)});
