@@ -151,12 +151,6 @@ var FormDisplay = function(data, submitCallback){
 		return json;
 	};
 	
-	var rerank = function($container){
-		$container.find('.question').each(function(index, item){
-			$(item).find('[question-main] [question-index]').text(index + 1);
-		});
-	};
-	
 	var addQuestion = function(data, $tab){
 		$question = jsonTo$question_display(data);
 		$tab.append($question);
@@ -291,7 +285,6 @@ var FormDisplay = function(data, submitCallback){
 		$modal.modal('show');
 	})();
 };
-
 
 var jsonTo$question_display = function(json){
 	var type = json.type

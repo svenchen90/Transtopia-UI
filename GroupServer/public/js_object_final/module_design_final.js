@@ -59,11 +59,14 @@ var FormDesigner = function(data, submitCallback){
 		'	<div class="modal-dialog"  style="width:60vw;">\n' +
 		'		<div class="modal-content">\n' +
 		'			<div class="modal-header">\n' +
-		'				<button type="button" class="close" data-dismiss="modal">\n' +
-		'					&times;\n' +
-		'				</button>\n' +
 		'				<h4 class="modal-title">\n' +
 		'					<span data-type="formName" data-id></span>\n' +
+		'					<button type="button" class="close" data-dismiss="modal">\n' +
+		'						&times;\n' +
+		'					</button>\n' +
+		'					<span class="pull-right" style="margin-right : 10px; color: #3c8dbc; cursor: pointer;" title="导入模板" import-template>\n' +
+		'						<i class="fa fa-database"></i>\n' +
+		'					</span>\n' +
 		'				</h4>\n' +
 		'			</div>\n' +
 		'			<div class="modal-body">\n' +
@@ -126,6 +129,8 @@ var FormDesigner = function(data, submitCallback){
 		'</div>'
 	);
 	
+	var data = extendData(data);
+	
 	var load = function(data){
 		if(data == undefined || objIsEmpty(data)){
 			load({
@@ -138,6 +143,9 @@ var FormDesigner = function(data, submitCallback){
 				.attr('data-id', data.lid)
 				.text(data.name);
 			
+			
+			clear();
+			
 			var t_id;
 			$.each(data.tabs, function(index, t){
 				t_id = addTab(t);
@@ -148,6 +156,9 @@ var FormDesigner = function(data, submitCallback){
 	};
 	
 	var clear = function(){
+		$modal.find('[data-type="formName"]')
+				.attr('data-id', '')
+				.text('新的物品');
 		$modal.find('#tab-bar li').remove();
 		$modal.find('#tab-content').empty();
 	};
@@ -193,12 +204,6 @@ var FormDesigner = function(data, submitCallback){
 		$modal.find('#tab-content #' + id).remove();
 	};
 	
-	var rerank = function($container){
-		$container.find('.question').each(function(index, item){
-			$(item).find('[question-main] [question-index]').text(index + 1);
-		});
-	};
-	
 	var tabToJson = function(id){
 		var json = {
 			lid: id,
@@ -224,7 +229,7 @@ var FormDesigner = function(data, submitCallback){
 		}else{
 			$question = jsonTo$question(data);
 			$tab.append($question);
-			rerank($tab);
+			//rerank($tab);
 		}
 		
 		return $question;
@@ -347,14 +352,10 @@ var FormDesigner = function(data, submitCallback){
 			}else{
 				callAlert('请选择您要添加到分页');
 			}
+			rerank($container);
 		});
 		
-		// 排序
-		$modal.on('click', '.question [question-btn] [question-action]', function(){
-			rerank($modal.find('.tab-pane.active'));
-		});
-		
-		//submit
+		// #### submit
 		$modal.on('click', '[data-action="submit"]', function(){
 			callConfirm('确认提交', '您确定提交此物品？', 
 				function(){
@@ -364,6 +365,12 @@ var FormDesigner = function(data, submitCallback){
 				function(){
 					
 				});
+		});
+		
+		
+		// ####
+		$modal.on('click', '[import-template]', function(){
+			//load({});
 		});
 		
 		$modal.on('hidden.bs.modal', function(){
@@ -376,6 +383,11 @@ var FormDesigner = function(data, submitCallback){
 	initialize();
 };
 
+var rerank = function($container){
+	$container.find('.question').each(function(index, item){
+		$(item).find('[question-main] [question-index]').text(index + 1);
+	});
+};
 
 var localIDGenerator = function () {
 	return '_' + Math.random().toString(36).substr(2, 9);
@@ -538,7 +550,7 @@ var callConfirm = function(title, text, actionConfirm, actionCancel){
 var Constraint = function(){
 	var obj = this;
 	
-	// {index, title, lid, type: 0->不选中触发， 1->选中触发, options: [{index, lid, name}]}
+	// {/index/, /title/, lid, type: 0->不选中触发， 1->选中触发, options: [{/index/, lid, /name/}]}
 	this.get$constraint = function(data){
 		var $constraint = $(
 			'<tr name="constraint">\n' +
@@ -768,7 +780,7 @@ var Constraint = function(){
 			});
 			
 			if(flag)
-				selectedData.push(item1);
+				selectedData.unshift(item1);
 		});
 		
 		return selectedData;
@@ -863,6 +875,8 @@ var Question = function(){
 			'		<div class="btn btn-default btn-sm" question-action="moveTop"><i class="fa fa-angle-double-up"></i> 最前</div>\n' +
 			'		<div class="btn btn-default btn-sm" question-action="moveBot"><i class="fa fa-angle-double-down"></i> 最后</div>\n' +
 			'	</div>\n' +
+			'	<div question-constraint>\n' +
+			'	</div>\n' +
 			'	<div question-editor>\n' +
 			'		<div class="row" editor-basic>\n' +
 			'			<div class="col-md-6">\n' +
@@ -944,6 +958,7 @@ var Question = function(){
 		// 3.1 initialize list action
 		$question.on('click', '[question-btn] [question-action]', function(){
 			var actionType = $(this).attr('question-action');
+			var $tab = $(this).closest('.tab-pane.active');
 			switch(actionType){
 				case 'activateEditor':
 					$(this).replaceWith('<div class="btn btn-success btn-sm" question-action="confirmEdit"><i class="fa fa-check"></i> 完成</div>');
@@ -983,6 +998,10 @@ var Question = function(){
 				default:
 					callAlert('question aciton error: ' + actionType);
 			}
+			rerank($tab);
+			$tab.find('.question').each(function(i, item){
+				obj.updateConstraint($(item));
+			});
 		});
 		
 		// 3.2 tooltip toggle
@@ -1082,7 +1101,7 @@ var Question = function(){
 	
 	this.loadMain = function(json, $question){
 		// 1.2 index
-		// $question.find('[question-main] [question-index]').text(json.index);
+		$question.find('[question-main] [question-index]').text(json.index);
 		// 1.3 title
 		$question.find('[question-main] [question-title]').text(json.title);
 		// 1.4 tooltip
@@ -1115,6 +1134,24 @@ var Question = function(){
 			var c = new Constraint();
 			$container.append(c.get$constraint(item));
 		});
+		var $div = $question.find('[question-constraint]').empty();
+		$div.append();
+		var tooltip_msg = [];
+		var c = list.map(function(item){
+			var msg = '<span>第' + item.index + '题的</span>';
+			var tooltip_msg_sub = [];
+			msg += item.options.map(function(o){
+				tooltip_msg_sub.push(' [选项' + o.index + '] ');
+				return '<span style="color: #3c8dbc;"> [选项' + o.index + '] </span>'
+			}).join(',');
+			
+			tooltip_msg.push('第' + item.index + '题的' + tooltip_msg_sub.join('或者') + (item.type==1 ? '选中':'不选中'));
+			return msg;
+		}).join('；')
+		if(c != '')
+			c = '<span head>依赖于</span>' + c;
+		$div.append(c);
+		$div.attr('title', tooltip_msg.join(', 并且')).css('cursor', 'pointer');
 	};
 	
 	this.updateConstraint = function($question){
@@ -1456,486 +1493,3 @@ var $questionToJson = function($question){
 	var type = $question.attr('question-type');
 	return new QUESTION_MAP[type]().getJson($question);
 };
-
-
-var tab1 = {
-	lid: localIDGenerator(),
-	name: '标签1',
-	questions: [
-		{
-			lid: '_nzjs9whbt',
-			type: 'singleSelect',
-			required: 0,
-			title: '请输入问题',
-			tooltip: '',
-			options: [
-				{
-					lid: "_4wl6caiet",
-					name: '选项1',
-					value: 0,
-					isDefault: 0
-				},
-				{
-					lid: "_5ndw0aln9",
-					name: '选项2',
-					value: 0,
-					isDefault: 0
-				}
-			]
-		},
-		{
-			lid: '_ezj0vd2hh',
-			type: 'singleSelect',
-			required: 0,
-			title: '11111111',
-			tooltip: '',
-			options: [
-				{
-					lid: "_66vb3qv0q",
-					name: '111111',
-					value: 0,
-					isDefault: 0
-				},
-				{
-					lid: "_aeso5n1kq",
-					name: '222222',
-					value: 0,
-					isDefault: 0
-				}
-			]
-		},
-		{
-			lid: '_ch4hd4jpm',
-			type: 'singleSelect',
-			required: 1,
-			title: 'AAAAA',
-			tooltip: '123123123',
-			options: [
-				{
-					lid: "_is6frrvyt",
-					name: 'AAAAA',
-					value: 0,
-					isDefault: 0
-				},
-				{
-					lid: "_s01fk5bat",
-					name: 'BBBBB',
-					value: 0,
-					isDefault: 0
-				}
-			],
-			constraints: [
-				{
-					lid: '_nzjs9whbt',
-					type: 1,
-					options: [
-						{
-							lid: '_4wl6caiet'
-						},
-						{
-							lid: '_5ndw0aln9'
-						},
-					],
-				},{
-					lid: '_ezj0vd2hh',
-					type: 0,
-					options: [
-						{
-							lid: '_66vb3qv0q'
-						},
-						{
-							lid: '_aeso5n1kq'
-						},
-					],
-				},
-			]
-		}
-	] 
-};
-
-var tab2 = {
-	lid: localIDGenerator(),
-	name: '标签1',
-	questions: [
-		{
-			lid: '_nzjs9whbt',
-			type: 'multiSelect',
-			required: 0,
-			title: '请输入问题',
-			tooltip: '',
-			min: 0,
-			max: 7,
-			options: [
-				{
-					lid: "_4wl6caiet",
-					name: '选项1',
-					value: 0,
-					isDefault: 0
-				},
-				{
-					lid: "_5ndw0aln9",
-					name: '选项2',
-					value: 0,
-					isDefault: 0
-				}
-			]
-		},
-		{
-			lid: '_ezj0vd2hh',
-			type: 'multiSelect',
-			required: 0,
-			title: '11111111',
-			tooltip: '',
-			options: [
-				{
-					lid: "_66vb3qv0q",
-					name: '111111',
-					value: 0,
-					isDefault: 0
-				},
-				{
-					lid: "_aeso5n1kq",
-					name: '222222',
-					value: 0,
-					isDefault: 0
-				}
-			]
-		},
-		{
-			lid: '_ch4hd4jpm',
-			type: 'multiSelect',
-			required: 1,
-			title: 'AAAAA',
-			tooltip: '123123123',
-			options: [
-				{
-					lid: "_is6frrvyt",
-					name: 'AAAAA',
-					value: 0,
-					isDefault: 1
-				},
-				{
-					lid: "_s01fk5bat",
-					name: 'BBBBB',
-					value: 0,
-					isDefault: 0
-				}
-			],
-			constraints: [
-				{
-					lid: '_nzjs9whbt',
-					type: 1,
-					options: [
-						{
-							lid: '_4wl6caiet'
-						},
-						{
-							lid: '_5ndw0aln9'
-						},
-					],
-				},{
-					lid: '_ezj0vd2hh',
-					type: 0,
-					options: [
-						{
-							lid: '_66vb3qv0q'
-						},
-						{
-							lid: '_aeso5n1kq'
-						},
-					],
-				},
-			]
-		}
-	] 
-};
-
-var tab3 = {
-	lid: localIDGenerator(),
-	name: '标签1',
-	questions: [
-		{
-			lid: '_nzjs9whbt',
-			type: 'singleDropdown',
-			required: 0,
-			title: '请输入问题',
-			tooltip: '',
-			min: 0,
-			max: 7,
-			options: [
-				{
-					lid: "_4wl6caiet",
-					name: '选项1',
-					value: 0,
-					isDefault: 0
-				},
-				{
-					lid: "_5ndw0aln9",
-					name: '选项2',
-					value: 0,
-					isDefault: 0
-				}
-			]
-		},
-		{
-			lid: '_ezj0vd2hh',
-			type: 'singleDropdown',
-			required: 0,
-			title: '11111111',
-			tooltip: '',
-			options: [
-				{
-					lid: "_66vb3qv0q",
-					name: '111111',
-					value: 0,
-					isDefault: 0
-				},
-				{
-					lid: "_aeso5n1kq",
-					name: '222222',
-					value: 0,
-					isDefault: 0
-				}
-			]
-		},
-		{
-			lid: '_ch4hd4jpm',
-			type: 'singleDropdown',
-			required: 1,
-			title: 'AAAAA',
-			tooltip: '123123123',
-			options: [
-				{
-					lid: "_is6frrvyt",
-					name: 'AAAAA',
-					value: 0,
-					isDefault: 1
-				},
-				{
-					lid: "_s01fk5bat",
-					name: 'BBBBB',
-					value: 0,
-					isDefault: 0
-				}
-			],
-			constraints: [
-				{
-					lid: '_nzjs9whbt',
-					type: 1,
-					options: [
-						{
-							lid: '_4wl6caiet'
-						},
-						{
-							lid: '_5ndw0aln9'
-						},
-					],
-				},{
-					lid: '_ezj0vd2hh',
-					type: 0,
-					options: [
-						{
-							lid: '_66vb3qv0q'
-						},
-						{
-							lid: '_aeso5n1kq'
-						},
-					],
-				},
-			]
-		}
-	] 
-};
-
-var tab4 = {
-	lid: localIDGenerator(),
-	name: '标签1',
-	questions: [
-		{
-			lid: '_nzjs9whbt',
-			type: 'multiDropdown',
-			required: 0,
-			title: '请输入问题',
-			tooltip: '',
-			min: 0,
-			max: 7,
-			options: [
-				{
-					lid: "_4wl6caiet",
-					name: '选项1',
-					value: 0,
-					isDefault: 0
-				},
-				{
-					lid: "_5ndw0aln9",
-					name: '选项2',
-					value: 0,
-					isDefault: 0
-				}
-			]
-		},
-		{
-			lid: '_ezj0vd2hh',
-			type: 'multiDropdown',
-			required: 0,
-			title: '11111111',
-			tooltip: '',
-			options: [
-				{
-					lid: "_66vb3qv0q",
-					name: '111111',
-					value: 0,
-					isDefault: 0
-				},
-				{
-					lid: "_aeso5n1kq",
-					name: '222222',
-					value: 0,
-					isDefault: 0
-				}
-			]
-		},
-		{
-			lid: '_ch4hd4jpm',
-			type: 'multiDropdown',
-			required: 1,
-			title: 'AAAAA',
-			tooltip: '123123123',
-			options: [
-				{
-					lid: "_is6frrvyt",
-					name: 'AAAAA',
-					value: 0,
-					isDefault: 1
-				},
-				{
-					lid: "_s01fk5bat",
-					name: 'BBBBB',
-					value: 0,
-					isDefault: 0
-				}
-			],
-			constraints: [
-				{
-					lid: '_nzjs9whbt',
-					type: 1,
-					options: [
-						{
-							lid: '_4wl6caiet'
-						},
-						{
-							lid: '_5ndw0aln9'
-						},
-					],
-				},{
-					lid: '_ezj0vd2hh',
-					type: 0,
-					options: [
-						{
-							lid: '_66vb3qv0q'
-						},
-						{
-							lid: '_aeso5n1kq'
-						},
-					],
-				},
-			]
-		}
-	] 
-};
-
-var tab5 = {
-	lid: localIDGenerator(),
-	name: '标签1',
-	questions: [
-		{
-			lid: '_nzjs9whbt',
-			type: 'multiDropdown',
-			required: 0,
-			title: '请输入问题',
-			tooltip: '',
-			min: 0,
-			max: 7,
-			options: [
-				{
-					lid: "_4wl6caiet",
-					name: '选项1',
-					value: 0,
-					isDefault: 0
-				},
-				{
-					lid: "_5ndw0aln9",
-					name: '选项2',
-					value: 0,
-					isDefault: 0
-				}
-			]
-		},
-		{
-			lid: '_ezj0vd2hh',
-			type: 'multiDropdown',
-			required: 0,
-			title: '11111111',
-			tooltip: '',
-			options: [
-				{
-					lid: "_66vb3qv0q",
-					name: '111111',
-					value: 0,
-					isDefault: 0
-				},
-				{
-					lid: "_aeso5n1kq",
-					name: '222222',
-					value: 0,
-					isDefault: 0
-				}
-			]
-		},
-		{
-			lid: '_ch4hd4jpm',
-			type: 'input',
-			required: 1,
-			title: 'AAAAA',
-			tooltip: '123123123',
-			sub_type: 'email',
-			constraints: [
-				{
-					lid: '_nzjs9whbt',
-					type: 1,
-					options: [
-						{
-							lid: '_4wl6caiet'
-						},
-						{
-							lid: '_5ndw0aln9'
-						},
-					],
-				},{
-					lid: '_ezj0vd2hh',
-					type: 0,
-					options: [
-						{
-							lid: '_66vb3qv0q'
-						},
-						{
-							lid: '_aeso5n1kq'
-						},
-					],
-				},
-			]
-		}
-	] 
-};
-
-var tab6 = {
-	lid: localIDGenerator(),
-	name: '标签1',
-	questions: [	] 
-};
-
-FormDesigner({
-	lid: localIDGenerator(),
-	name: '新的物品',
-	tabs: [tab1,tab2,tab3,tab4,tab5]
-}, function(a){console.log(a)});
