@@ -282,6 +282,7 @@ var FormDisplay = function(data, submitCallback){
 			if(err_required_id.length > 0)
 				callAlert('请按照要求填写!');
 			else{
+				console.log(toJson());
 				//submitCallback((toJson()));
 			}
 		});

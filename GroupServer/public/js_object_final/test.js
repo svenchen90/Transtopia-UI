@@ -48,7 +48,7 @@ var tab1 = {
 					lid: '_nzjs9whbt',
 					type: 1,
 					options: [
-						{
+ 						{
 							lid: '_4wl6caiet'
 						},
 						{
@@ -60,11 +60,12 @@ var tab1 = {
 		},
 		{
 			lid: '_ch4hd4jpm',
-			type: 'singleSelect',
+			type: 'input',
+			sub_type: 'email',
 			required: 1,
 			title: 'AAAAA',
-			tooltip: '123123123',
-			options: [
+			tooltip: '这是一条提示信息',
+			/* options: [
 				{
 					lid: "_is6frrvyt",
 					name: 'AAAAA',
@@ -77,7 +78,7 @@ var tab1 = {
 					value: 0,
 					isDefault: 0
 				}
-			],
+			], */
 			constraints: [
 				{
 					lid: '_nzjs9whbt',
@@ -107,15 +108,15 @@ var tab1 = {
 	] 
 };
 
-/* 
+/*
 FormDisplay({
 	lid: localIDGenerator(),
 	name: '新的物品',
 	tabs: [tab1]
-}, function(a){console.log(a)}); */
-
+}, function(a){console.log(a)});
+*/
 FormDesigner({
 	lid: localIDGenerator(),
 	name: '新的物品',
 	tabs: [tab1]
-}, function(a){console.log(a)}); 
+}, function(a){console.log(a)});

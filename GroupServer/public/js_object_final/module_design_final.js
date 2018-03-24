@@ -353,6 +353,7 @@ var FormDesigner = function(data, submitCallback){
 				callAlert('请选择您要添加到分页');
 			}
 			rerank($container);
+			$("#tab-content").animate({ scrollTop: $('#tab-content').prop("scrollHeight")}, 1000);
 		});
 		
 		// #### submit
@@ -716,9 +717,12 @@ var Constraint = function(){
 			if(flag){
 				console.log(item1)
 				selectedData.push(item1);
-			}else
+			}else{
+				item1.q_type = item1.type;
 				return avaliableData.push(item1);
-		});
+			}
+				
+		});	
 		
 		TwinTables(CONSTRAINT_CONTEXT, selectedData, avaliableData, getConstraintTr, constraintTrToJson, function(result){
 			new Question().loadConstraint(result, $question);
@@ -1095,7 +1099,10 @@ var Question = function(){
 		json.title = $question.find('[editor-title] textarea').val();
 		json.required = $question.find('[editor-required] input').is(':checked') ? 1 : 0;
 		json.tooltip = $question.find('[editor-tooltip] [type="text"]').val();
-		json.constraints = c.getConstraintData($question);
+		json.constraints = []
+		c.getConstraintData($question).each(function(index, item){
+			json.constraints.push(item);
+		});
 		return json;
 	}
 	
