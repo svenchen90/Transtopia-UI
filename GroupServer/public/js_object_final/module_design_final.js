@@ -51,6 +51,11 @@ file: {
 	{question},
 	allowedType:[]
 }
+
+text: {
+	lid: 
+	text:
+}
 */
 
 var FormDesigner = function(data, submitCallback){
@@ -92,18 +97,13 @@ var FormDesigner = function(data, submitCallback){
 		'								<li><a href="#" data-action="multiDropdown"><i class="fa fa-list"></i> 多项下拉框</a></li>\n' +
 		'								<li class="dropdown">\n' +
 		'									<a href="#" class="dropdown-toggle" data-toggle="dropdown">\n' +
-		'										<i class="fa fa-pencil"></i> 填空 <b class="caret"></b>\n' +
+		'										<i class="fa fa-th"></i> 填空 <b class="caret"></b>\n' +
 		'									</a>\n' +
-		'									<ul class="dropdown-menu">\n' +
-		'										<li><a href="#" data-action="input" data-subType="default"><i class="fa fa-pencil"></i> 填空</a></li>\n' +
-		'										<li class="divider"></li>\n' +
-		'										<li><a href="#" data-action="input" data-subType="number"><i class="fa fa-list-ol"></i> 整数</a></li>\n' +
-		'										<li><a href="#" data-action="input" data-subType="date"><i class="fa fa-calendar"></i> 日期</a></li>\n' +
-		'										<li><a href="#" data-action="input" data-subType="email"><i class="fa fa-envelope-o"></i> email</a></li>\n' +
-		'										<li><a href="#" data-action="input" data-subType="phone"><i class="fa fa-phone"></i> phone</a></li>\n' +
+		'									<ul class="dropdown-menu" input-submenu>\n' +
 		'									</ul>\n' +
 		'								</li>\n' +
-		'								<li><a href="#" data-action="file"><i class="fa fa-file-text-o"></i> 上传文件</a></li>\n' +
+		'								<li><a href="#" data-action="file"><i class="fa fa-file-o"></i> 上传文件</a></li>\n' +
+		'								<li><a href="#" data-action="text"><i class="fa fa-pencil"></i> 添加文本</a></li>\n' +
 		'							</ul>\n' +
 		'						</div>\n' +
 		'						</div>\n' +
@@ -242,6 +242,13 @@ var FormDesigner = function(data, submitCallback){
 	var initialize = function(){
 		load(data);
 		
+		//动态添加填空子选项
+		var $container = $modal.find('#tool-bar [input-submenu]');
+		for(var sub_type in INPUT_SUBTYPE){
+			$container.append(
+				'<li><a href="javascript:void(0);" data-action="input" data-subType="' + sub_type + '"><i class="fa ' + INPUT_SUBTYPE[sub_type].icon + '"></i> ' + INPUT_SUBTYPE[sub_type].name + '</a></li>'
+			);
+		}
 		
 		// 激活重命名form
 		$modal.on('dblclick', 'span[data-type="formName"]', function(){
@@ -325,6 +332,7 @@ var FormDesigner = function(data, submitCallback){
 					tooltip: '',
 					min: 0,
 					max: 7,
+					text: '请输入文本内容',
 					options: [
 						{
 							lid: localIDGenerator(),
@@ -385,7 +393,7 @@ var FormDesigner = function(data, submitCallback){
 };
 
 var rerank = function($container){
-	$container.find('.question').each(function(index, item){
+	$container.find('.question:not(.puretext)').each(function(index, item){
 		$(item).find('[question-main] [question-index]').text(index + 1);
 	});
 };
@@ -896,8 +904,9 @@ var Question = function(){
 			'				</div>\n' +
 			'				<div editor-tooltip>\n' +
 			'					<input type="checkbox">\n' +
-			'					<label>提示</label>\n' +
-			'					<input type="text" placeholder="请输入提示">\n' +
+			'					<label>提示</label><br>\n' +
+			// '					<input type="text" placeholder="请输入提示">\n' +
+			'					<textarea type="text" placeholder="请输入提示"></textarea>\n' +
 			'				</div>\n' +
 			'			</div>\n' +
 			'		</div>\n' +
@@ -948,13 +957,13 @@ var Question = function(){
 			$check.prop('checked', false);
 			$input.val('')
 				.css({
-					'visibility': 'hidden'
+					'display': 'none'
 				});
 		}else{
 			$check.prop('checked', true);
 			$input.val(json.tooltip)
 				.css({
-					'visibility': 'visible'
+					'display': 'inline-block'
 				});
 		}
 		
@@ -1013,14 +1022,14 @@ var Question = function(){
 			if($(this).is(':checked')){
 				$(this).nextAll('[type="text"]')
 					.css({
-						'visibility': 'visible'
+						'display': 'inline-block'
 					})
 					.focus();
 			}else{
 				$(this).nextAll('[type="text"]')
 					.val('')
 					.css({
-						'visibility': 'hidden'
+						'display': 'none'
 					});
 			}
 		});
@@ -1030,7 +1039,7 @@ var Question = function(){
 				$question.find('[editor-tooltip] [type="checkbox"]').prop('checked', false);
 				$question.find('[editor-tooltip] [type="text"]').val('')
 					.css({
-						'visibility': 'hidden'
+						'display': 'none'
 					});
 			}
 		});
@@ -1354,14 +1363,16 @@ var Input = function(){
 			'<div editor-sub_type>\n' +
 			'	<label>验证</label>\n' +
 			'	<select name="sub_type">\n' +
-			'		<option value="default">无</option>\n' +
-			'		<option value="number">整数</option>\n' +
-			'		<option value="date">日期</option>\n' +
-			'		<option value="email">邮箱</option>\n' +
-			'		<option value="phone">电话</option>\n' +
 			'	</select>\n' +
 			'<div>'
 		);
+		
+		for(var key in INPUT_SUBTYPE){
+			$select.find('select').append('<option value="' + key + '">' + INPUT_SUBTYPE[key].name + '</option>');
+		}
+		
+		
+		
 		$question.find('[editor-tooltip]').after($select);
 		$select.find('[value="' + json.sub_type + '"]').prop('selected', true);
 		
@@ -1378,34 +1389,12 @@ var Input = function(){
 	this.loadAnswer = function(data, $question){
 		var sub_type = data.sub_type;
 		var $container = $question.find('[question-answer]').empty();
-		var textMap = {
-			"default": {
-				"icon": 'fa-keyboard-o',
-				'placeholder': '请输入..'
-			},
-			"number": {
-				"icon": 'fa-sort-numeric-asc',
-				'placeholder': '请输入数字..'
-			},
-			"date": {
-				"icon": 'fa-calendar',
-				'placeholder': '请输入日期..'
-			},
-			"email": {
-				"icon": 'fa-envelope-o',
-				'placeholder': '请输入Email..'
-			},
-			"phone": {
-				"icon": 'fa-phone',
-				'placeholder': '请输入电话..'
-			},
-		};
 		var $input = $(
 			'<div class="input-group" style="margin: 5px 0 5px;">\n' +
 			'	<div class="input-group-addon">\n' +
-			'		<i class="fa ' + textMap[sub_type].icon + '"></i>\n' +
+			'		<i class="fa ' + INPUT_SUBTYPE[sub_type].icon + '"></i>\n' +
 			'	</div>\n' +
-			'	<input type="text" class="form-control" placeholder="' + textMap[sub_type].placeholder + '">\n' +
+			'	<input type="text" class="form-control" placeholder="' + INPUT_SUBTYPE[sub_type].placeholder + '">\n' +
 			'</div>'
 		);
 		$container.append($input);
@@ -1482,6 +1471,119 @@ var File = function(){
 
 };
 
+var Text = function(){
+	var obj = this;
+	this.get$question = function(json){
+		var $question = $(
+			'<div class="question puretext" question-type question-lid>\n' +
+			'	<div question-main  style="margin: 20px;padding: 10px; background-color: rgba(0,0,0,0.07); border:none;">\n' +
+			'		<div question-answer></div>\n' +
+			'	</div>\n' +
+			'	<div style="text-align: right;" question-btn>\n' +
+			'		<div class="btn btn-primary btn-sm" question-action="activateEditor"><i class="fa fa-tag"></i> 编辑</div>\n' +
+			'		<div class="btn btn-default btn-sm" question-action="copy"><i class="fa fa-copy"></i> 复制</div>\n' +
+			'		<div class="btn btn-default btn-sm" question-action="delete"><i class="fa fa-trash"></i> 删除</div>\n' +
+			'		<div class="btn btn-default btn-sm" question-action="moveUp"><i class="fa fa-angle-up"></i> 上移</div>\n' +
+			'		<div class="btn btn-default btn-sm" question-action="moveDown"><i class="fa fa-angle-down"></i> 下移</div>\n' +
+			'		<div class="btn btn-default btn-sm" question-action="moveTop"><i class="fa fa-angle-double-up"></i> 最前</div>\n' +
+			'		<div class="btn btn-default btn-sm" question-action="moveBot"><i class="fa fa-angle-double-down"></i> 最后</div>\n' +
+			'	</div>\n' +
+			'	<div question-constraint>\n' +
+			'	</div>\n' +
+			'	<div question-editor>\n' +
+			'		<div class="row" editor-basic>\n' +
+			'			<div class="col-md-12">\n' +
+			'				<div editor-text>\n' +
+			'					<label>请输入文本</label>\n' +
+			'					<textarea placeholder="请输入问题标题..." rows=4 style="width: 100%;"></textarea>\n' +
+			'				</div>\n' +
+			'			</div>\n' +
+			'			<div class="col-md-6" style="margin-top: 25px;">\n' +
+			'			</div>\n' +
+			'		</div>\n' +
+			'	</div>\n' +
+			'</div>'
+		);
+		
+		//? validation
+		// 1 Main
+		// 1.1 type & lid
+		$question.attr({
+			'question-type': json.type,
+			'question-lid': json.lid
+		});
+		obj.loadAnswer(json, $question);
+		$question.find('[editor-text] textarea').text(json.text);
+		
+		
+		// 3 event handler
+		// 3.1 initialize list action
+		$question.on('click', '[question-btn] [question-action]', function(){
+			var actionType = $(this).attr('question-action');
+			var $tab = $(this).closest('.tab-pane.active');
+			switch(actionType){
+				case 'activateEditor':
+					$(this).replaceWith('<div class="btn btn-success btn-sm" question-action="confirmEdit"><i class="fa fa-check"></i> 完成</div>');
+					$question.addClass('active');
+					//? update constraint
+					$question.siblings().find('[question-btn] [question-action="confirmEdit"]').click();
+					break;
+				case 'confirmEdit':
+					if($question.find('[editor-text] textarea').val() == ''){
+						callAlert('文本不能为空！');
+					}else{
+						$(this).replaceWith('<div class="btn btn-primary btn-sm" question-action="activateEditor"><i class="fa fa-tag"></i> 编辑</div>');
+						$question.removeClass('active');
+						var data = $questionToJson($question);
+						new QUESTION_MAP[json.type]().loadAnswer($questionToJson($question), $question);
+					}
+					break;
+				case 'copy':
+					var data = $questionToJson($question);
+					data.lid = localIDGenerator();
+					var $copy = jsonTo$question(data);
+					$question.after($copy);
+					break;
+				case 'delete':
+					$question.remove();
+					break;
+				case 'moveUp':
+					$question.prev().before($question);
+					break;
+				case 'moveDown':
+					$question.next().after($question);
+					break;
+				case 'moveTop':
+					$question.closest('.tab-pane').prepend($question);
+					break;
+				case 'moveBot':
+					$question.closest('.tab-pane').append($question);
+					break;
+				default:
+					callAlert('question aciton error: ' + actionType);
+			}
+			rerank($tab);
+		});
+		
+		return $question;
+	};
+	
+	this.getJson = function($question){
+		var json = {};
+		json.lid = $question.attr('question-lid');
+		json.type = $question.attr('question-type');
+		json.text = $question.find('[editor-text] textarea').val();
+		return json;
+	};
+	
+	this.loadAnswer = function(data, $question){
+		var $container = $question.find('[question-answer]').empty();
+		data.text.split("\n").forEach(function(line){
+			$container.append('<div>' + line + '</div>');
+		});
+	};
+}
+
 const QC_FILTER = ['singleSelect', 'multiSelect', 'singleDropdown', 'multiDropdown'];
 const QUESTION_MAP = {
 	'singleSelect': SingleSelect,
@@ -1489,7 +1591,8 @@ const QUESTION_MAP = {
 	'multiSelect': MultiSelect,
 	'multiDropdown': MultiDropdown,
 	'input': Input,
-	'file': File
+	'file': File,
+	'text': Text
 };
 var jsonTo$question = function(json){
 	var type = json.type

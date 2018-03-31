@@ -303,7 +303,6 @@ var $questionResultToJson = function($question){
 	return QUESTION_RESULT_MAP[type]($question);
 };
 
-
 var getQuestion = function(json){
 	var $question = $(
 		'<div class="question" question-type question-lid>\n' +
@@ -391,14 +390,23 @@ var getSingleSelect = function(json){
 	var $container = $question.find('[question-answer]').empty();
 	$.each(json.options, function(index, item){
 		var $option = $(
-		'<div class="option" data-id="' + item.lid + '">\n' +
-		'	<input type="checkbox" name="' + json.lid + '"' + (item.isDefault == 1 ? ' checked' : '' )  + ' value="' + item.value + '"> <span name="radioName">' + item.name + '</span>\n' +
+		'<div class="option customized-checkbox" data-id="' + item.lid + '">\n' +
+		'	<input type="checkbox" name="' + json.lid + '"' + (item.isDefault == 1 ? ' checked' : '' )  + ' value="' + item.value + '">\n' + 
+		'	<span class="checkmark"></span>\n' +
+		'	<span name="radioName">' + item.name + '</span>\n' +
 		'</div>'
-		)
+		);
+		
+		$option
+			.css({
+				'cursor': 'pointer'
+			})
+			.on('click', function(){
+				$option.find('input').click();
+			});
 		$container.append($option);
 	});
-	
-			
+		
 	$container.on('click', '[type="checkbox"]' ,function(e){
 		var name = $(this).attr('name');
 		$container.find('[name="' + name + '"]').not($(this)).prop('checked', false);
@@ -413,11 +421,21 @@ var getMultiSelect = function(json){
 	var $container = $question.find('[question-answer]').empty();
 	$.each(json.options, function(index, item){
 		var $option = $(
-		'<div class="option" data-id="' + item.lid + '">\n' +
-		'	<input type="checkbox" name="' + json.lid + '"' + (item.isDefault == 1 ? ' checked' : '' )  + ' value="' + item.value + '"> <span name="radioName">' + item.name + '</span>\n' +
+		'<div class="option customized-checkbox" data-id="' + item.lid + '">\n' +
+		'	<input type="checkbox" name="' + json.lid + '"' + (item.isDefault == 1 ? ' checked' : '' )  + ' value="' + item.value + '">\n' + 
+		'	<span class="checkmark"></span>\n' +
+		'	<span name="radioName">' + item.name + '</span>\n' +
 		'</div>'
 		)
 		$container.append($option);
+		
+		$option
+			.css({
+				'cursor': 'pointer'
+			})
+			.on('click', function(){
+				$option.find('input').click();
+			});
 	});
 	
 	$container.on('change', '[type="checkbox"]', function(){
@@ -480,7 +498,7 @@ var getMultiDropdown = function(json){
 	return $question;
 	
 }
-
+/* 
 var inputValidation = function(value, type){
 	var map = {
 		email: validateEmail,
@@ -517,13 +535,13 @@ function validateNumber(numer) {
 	else
 		return '请输入数字！'
 }
-
+ */
 var getInput = function(json){
 	var $question = getQuestion(json);
 	
 	var $container = $question.find('[question-answer]').empty();
 	var sub_type = json.sub_type;
-	var textMap = {
+	/* var textMap = {
 		"default": {
 			"icon": 'fa-keyboard-o',
 			'placeholder': '请输入..'
@@ -532,9 +550,17 @@ var getInput = function(json){
 			"icon": 'fa-sort-numeric-asc',
 			'placeholder': '请输入数字..'
 		},
+		"time": {
+			"icon": 'fa-clock-o',
+			'placeholder': '请输入时间..'
+		},
 		"date": {
 			"icon": 'fa-calendar',
 			'placeholder': '请输入日期..'
+		},
+		"datetime": {
+			"icon": 'fa-calendar-check-o',
+			'placeholder': '请输入日期和时间..'
 		},
 		"email": {
 			"icon": 'fa-envelope-o',
@@ -544,20 +570,18 @@ var getInput = function(json){
 			"icon": 'fa-phone',
 			'placeholder': '请输入电话..'
 		}
-	};
+	}; */
 	var $input = $(
 		'<div class="input-group" style="margin: 5px 0 5px;">\n' +
 		'	<div class="input-group-addon">\n' +
-		'		<i class="fa ' + textMap[sub_type].icon + '"></i>\n' +
+		'		<i class="fa ' + INPUT_SUBTYPE[sub_type].icon + '"></i>\n' +
 		'	</div>\n' +
-		'	<input type="text" class="form-control" placeholder="' + textMap[sub_type].placeholder + '" style="max-width: 300px;">\n' +
+		'	<input type="' + INPUT_SUBTYPE[sub_type].textType + '" class="form-control" placeholder="' + INPUT_SUBTYPE[sub_type].placeholder + '" style="max-width: 300px;">\n' +
 		'</div>'
 	);
-	if(json.sub_type == 'date')
-		$input.find('input').attr('type', 'date')
+
 	$container.append($input);
-	
-	
+
 	var delay = (function(){
 	  var timer = 0;
 	  return function(callback, ms){
@@ -569,7 +593,8 @@ var getInput = function(json){
 	$input.on('keyup', 'input', function(){
 		var value = this.value
 		delay(function(){
-			var err = inputValidation(value,json.sub_type);
+			var err = INPUT_SUBTYPE[sub_type].validation(value)
+			//var err = inputValidation(value,json.sub_type);
 			$question.find('[extends-error]').text(err);
 		}, 500);
 	});

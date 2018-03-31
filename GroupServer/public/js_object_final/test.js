@@ -25,7 +25,7 @@ var tab1 = {
 		},
 		{
 			lid: '_ezj0vd2hh',
-			type: 'singleSelect',
+			type: 'multiSelect',
 			required: 0,
 			title: '11111111',
 			tooltip: '',
@@ -61,7 +61,7 @@ var tab1 = {
 		{
 			lid: '_ch4hd4jpm',
 			type: 'input',
-			sub_type: 'email',
+			sub_type: 'number',
 			required: 1,
 			title: 'AAAAA',
 			tooltip: '这是一条提示信息',
@@ -107,14 +107,19 @@ var tab1 = {
 		}
 	] 
 };
-
-/*
+/* 
 FormDisplay({
 	lid: localIDGenerator(),
 	name: '新的物品',
 	tabs: [tab1]
 }, function(a){console.log(a)});
-*/
+ */
+
+/* $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+	checkboxClass: 'icheckbox_flat-green',
+	radioClass: 'iradio_flat-green'
+}); */
+
 FormDesigner({
 	lid: localIDGenerator(),
 	name: '新的物品',
