@@ -61,7 +61,7 @@ var tab1 = {
 		{
 			lid: '_ch4hd4jpm',
 			type: 'input',
-			sub_type: 'number',
+			sub_type: 'time',
 			required: 1,
 			title: 'AAAAA',
 			tooltip: '这是一条提示信息',
@@ -104,6 +104,11 @@ var tab1 = {
 					],
 				},
 			]
+		},
+		{
+			lid: '_dqbp848fp',
+			type: 'text',
+			text: 'asfasdfsafs'
 		}
 	] 
 };

@@ -43,7 +43,7 @@ var INPUT_SUBTYPE = {
 		'name': '日期及时间',
 		"icon": 'fa-calendar-check-o',
 		'placeholder': '请输入日期和时间..',
-		'textType': 'texttime-local',
+		'textType': 'datetime-local',
 		'validation': function(input){
 			return '';
 		}

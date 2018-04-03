@@ -90,7 +90,7 @@ var FormDesigner = function(data, submitCallback){
 		'							<span class="navbar-brand"><i class="fa fa-chain"></i></span>\n' +
 		'						</div>\n' +
 		'						<div class="collapse navbar-collapse" id="tool-bar">\n' +
-		'							<ul class="nav navbar-nav" data-container="toolbar">\n' +
+		'							<ul class="nav navbar-nav sortable" data-container="toolbar">\n' +
 		'								<li><a href="#" data-action="singleSelect"><i class="fa fa-check-circle-o"></i> 单项</a></li>\n' +
 		'								<li><a href="#" data-action="multiSelect"><i class="fa fa-check-square-o"></i> 多项</a></li>\n' +
 		'								<li><a href="#" data-action="singleDropdown"><i class="fa fa-align-justify"></i> 单项下拉框</a></li>\n' +
@@ -147,9 +147,12 @@ var FormDesigner = function(data, submitCallback){
 			clear();
 			
 			var t_id;
-			$.each(data.tabs, function(index, t){
-				t_id = addTab(t);
-			});
+			if(data.tabs.length == 0)
+				t_id = addTab();
+			else 
+				$.each(data.tabs, function(index, t){
+					t_id = addTab(t);
+				});
 			
 			activeTab(t_id);
 		}
@@ -291,7 +294,7 @@ var FormDesigner = function(data, submitCallback){
 				
 			}
 		});
-		
+				
 		// 激活重命名tab
 		$modal.on('dblclick', '#tab-bar li.active', function(){
 			if($(this).find('a').length == 1){
@@ -301,6 +304,67 @@ var FormDesigner = function(data, submitCallback){
 				$(this).html($input);
 				$input.focus();
 			}
+		});
+		
+		// tab 栏右击事件
+		$modal.on('contextmenu', '#tab-bar li', function(ev){
+			ev.preventDefault();
+			ev.stopPropagation();
+			$('.tab-menu').remove();
+			
+			var id = $(ev.target).closest('a').attr('href').substring(1);
+			var $currentTab = $(ev.target).closest('li');
+			var $pane = $modal.find('#' + id)
+			
+			var $menu = $(
+				'<ul class="dropdown-menu tab-menu">\n' +
+				'	<li><a href="javascript:void(0);" data-action="forward"><i class="fa fa-angle-left"></i> 左移</a></li>\n' +
+				'	<li><a href="javascript:void(0);" data-action="backward"><i class="fa fa-angle-right"></i> 右移</a></li>\n' +
+				'	<li><a href="javascript:void(0);" data-action="copy"><i class="fa fa-copy"></i> 复制</a></li>\n' +
+				'	<li><a href="javascript:void(0);" data-action="delete"><i class="fa fa-trash"></i> 删除</a></li>\n' +
+				'</ul>'
+			);
+			
+			$menu.on('click', '[data-action]', function(ev){
+				var actionType = $(this).attr('data-action');
+				switch(actionType){
+					case 'forward':
+						$currentTab.prev().before($currentTab);
+						$pane.prev().before($pane);
+						break;
+					case 'backward':
+						$currentTab.next().after($currentTab);
+						$pane.next().after($pane);
+						break;
+					case 'copy':
+						var copyData = tabToJson(id);
+						copyData.lid = localIDGenerator();
+						copyData.name += '_copy';
+						extendData({tabs: [copyData]})
+						addTab(copyData);
+						break;
+					case 'delete':
+						deleteTabByID(id);
+						break;
+					default:
+						break;
+				}
+				$('.tab-menu').remove();
+			});
+			
+			
+			$menu.css({
+				'position': 'absolute',
+				'display': 'block',
+				'z-index': 10000,
+				'top': ev.pageY + 'px',
+				'left': ev.pageX + 'px'
+			});
+			$('body').append($menu);
+		});
+		
+		$modal.on('click', ':not(.tab-menu)', function(ev){
+			$('.tab-menu').remove();
 		});
 		
 		// 完成tab重命名
@@ -1495,10 +1559,8 @@ var Text = function(){
 			'			<div class="col-md-12">\n' +
 			'				<div editor-text>\n' +
 			'					<label>请输入文本</label>\n' +
-			'					<textarea placeholder="请输入问题标题..." rows=4 style="width: 100%;"></textarea>\n' +
+			'					<!-- <textarea placeholder="请输入问题标题..." rows=4 style="width: 100%;"></textarea> -->\n' +
 			'				</div>\n' +
-			'			</div>\n' +
-			'			<div class="col-md-6" style="margin-top: 25px;">\n' +
 			'			</div>\n' +
 			'		</div>\n' +
 			'	</div>\n' +
@@ -1512,8 +1574,14 @@ var Text = function(){
 			'question-type': json.type,
 			'question-lid': json.lid
 		});
-		obj.loadAnswer(json, $question);
-		$question.find('[editor-text] textarea').text(json.text);
+		
+		// 2. 加载Wysiwyg Editor
+		var $editor = getEditor();
+		$question.find('[editor-text]').append(getEditor());
+
+		//obj.loadAnswer(json, $question);
+		//$question.find('[editor-text] textarea').text(json.text);
+		
 		
 		
 		// 3 event handler
