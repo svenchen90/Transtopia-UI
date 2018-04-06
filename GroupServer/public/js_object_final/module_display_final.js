@@ -642,6 +642,28 @@ var getFile = function(json){
 	return $question;
 }
 
+var getText = function(json){
+	var $question = $(
+		'<div class="question" question-type question-lid>\n' +
+		'	<div question-main style="margin: 20px;padding: 10px; background-color: rgba(0,0,0,0.07); border:none;">\n' +
+		'		<div question-answer></div>\n' +
+		'	</div>\n' +
+		'</div>'
+	);
+	
+
+	$question.attr({
+		'question-type': json.type,
+		'question-lid': json.lid
+	});
+	
+	var $container = $question.find('[question-answer]').empty();
+	json.text.split("\n").forEach(function(line){
+		$container.append('<div>' + line + '</div>');
+	});
+
+	return $question;
+}
 
 const QUESTION_DISPLAY_MAP = {
 	'singleSelect': getSingleSelect,
@@ -649,7 +671,8 @@ const QUESTION_DISPLAY_MAP = {
 	'multiSelect': getMultiSelect,
 	'multiDropdown': getMultiDropdown,
 	'input': getInput,
-	'file': getFile
+	'file': getFile,
+	'text': getText
 };
 
 var getResult_SingleSelect = function($question){

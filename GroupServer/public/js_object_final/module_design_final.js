@@ -444,6 +444,11 @@ var FormDesigner = function(data, submitCallback){
 		// ####
 		$modal.on('click', '[import-template]', function(){
 			//load({});
+			//addTab(tab1)
+			tab1.lid = localIDGenerator()
+			var id = addTab(tab1)
+			activeTab(id)
+			
 		});
 		
 		$modal.on('hidden.bs.modal', function(){
@@ -1576,11 +1581,14 @@ var Text = function(){
 		});
 		
 		// 2. 加载Wysiwyg Editor
-		var $editor = getEditor();
-		$question.find('[editor-text]').append(getEditor());
+		$question.find('[editor-text]').append(getEditor(localIDGenerator()));
 
-		//obj.loadAnswer(json, $question);
-		//$question.find('[editor-text] textarea').text(json.text);
+		obj.loadAnswer(json, $question);
+		$question.find('.editor')
+			.css({
+				'background-color': 'white'
+			})
+			.html(json.text);
 		
 		
 		
@@ -1603,6 +1611,7 @@ var Text = function(){
 						$(this).replaceWith('<div class="btn btn-primary btn-sm" question-action="activateEditor"><i class="fa fa-tag"></i> 编辑</div>');
 						$question.removeClass('active');
 						var data = $questionToJson($question);
+						console.log(data);
 						new QUESTION_MAP[json.type]().loadAnswer($questionToJson($question), $question);
 					}
 					break;
@@ -1640,15 +1649,13 @@ var Text = function(){
 		var json = {};
 		json.lid = $question.attr('question-lid');
 		json.type = $question.attr('question-type');
-		json.text = $question.find('[editor-text] textarea').val();
+		json.text = $question.find('[editor-text] .editor').html();
 		return json;
 	};
 	
 	this.loadAnswer = function(data, $question){
 		var $container = $question.find('[question-answer]').empty();
-		data.text.split("\n").forEach(function(line){
-			$container.append('<div>' + line + '</div>');
-		});
+		$container.html(data.text);
 	};
 }
 
