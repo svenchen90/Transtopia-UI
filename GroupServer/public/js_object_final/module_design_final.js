@@ -432,7 +432,8 @@ var FormDesigner = function(data, submitCallback){
 		$modal.on('click', '[data-action="submit"]', function(){
 			callConfirm('确认提交', '您确定提交此物品？', 
 				function(){
-					submitCallback(toJson());
+					console.log(toJson())
+					//submitCallback(toJson());
 					$modal.modal('hide');
 				}, 
 				function(){

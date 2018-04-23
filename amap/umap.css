@@ -1,0 +1,172 @@
+html, body {
+	margin: 0;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+}
+
+#container {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.tool-bar-vertical {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	background-color: rgba(255,255,255,1);
+	border-radius: 3px;
+	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)!important;
+}
+
+.tool-bar-vertical a {
+	display: block;
+	text-align: center;
+	padding: 16px;
+	transition: all 0.3s ease;
+	color: rgba(0,0,0,0.6);
+	font-size: 18px;
+	
+}
+
+.tool-bar-vertical a:hover {
+	background-color: #007bff;
+	color: rgba(255,255,255,1);
+}
+
+.tool-bar-vertical a.active {
+	background-color: #4CAF50 !important;
+	color: rgba(255,255,255,1);
+}
+
+.tool-bar-vertical .divider {
+	border-bottom: 1px solid rgba(0,0,0,0.3)
+}
+
+#edit-panel {
+	background-color: #fff;
+	position: absolute;
+	font-size: 12px;
+	right: 10px;
+	top: 20px;
+	border-radius: 3px;
+	border: 1px solid #ccc;
+	line-height: 30px;
+}
+
+#edit-panel input[type='button'] {
+	background-color: #0D9BF2;
+	height: 30px;
+	text-align: center;
+	line-height: 30px;
+	color: #fff;
+	font-size: 12px;
+	border-radius: 3px;
+	outline: none;
+	border: 0;
+	cursor: pointer;
+}
+
+#edit-panel .edit-btn-group {
+	padding: 10px;
+	border-top: 1px solid rgba(0,0,0,0.3)
+}
+
+#edit-panel .edit-details {
+	padding: 10px;
+}
+
+.button-group {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	font-size: 12px;
+	padding: 10px;
+}
+
+.button-group .button {
+	height: 28px;
+	line-height: 28px;
+	background-color: #0D9BF2;
+	color: #FFF;
+	border: 0;
+	outline: none;
+	padding-left: 5px;
+	padding-right: 5px;
+	border-radius: 3px;
+	margin-bottom: 4px;
+	cursor: pointer;
+}
+.button-group .inputtext {
+	height: 26px;
+	line-height: 26px;
+	border: 1px;
+	outline: none;
+	padding-left: 5px;
+	padding-right: 5px;
+	border-radius: 3px;
+	margin-bottom: 4px;
+	cursor: pointer;
+}
+ /*
+.tip {
+	position: absolute;
+	bottom: 30px;
+	right: 10px;
+	background-color: #FFF;
+	text-align: center;
+	border: 1px solid #ccc;
+	line-height: 30px;
+	border-radius: 3px;
+	padding: 0 5px;
+	font-size: 12px;
+}
+*/
+
+
+/*
+#tip input[type='button'] {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background-color: #0D9BF2;
+	height: 30px;
+	text-align: center;
+	line-height: 30px;
+	color: #fff;
+	font-size: 12px;
+	border-radius: 3px;
+	outline: none;
+	border: 0;
+}
+*/
+.amap-info-content {
+	font-size: 12px;
+}
+
+#myPageTop {
+	position: absolute;
+	top: 5px;
+	right: 10px;
+	background: #fff none repeat scroll 0 0;
+	border: 1px solid #ccc;
+	margin: 10px auto;
+	padding:6px;
+	font-family: "Microsoft Yahei", "微软雅黑", "Pinghei";
+	font-size: 14px;
+}
+#myPageTop label {
+	margin: 0 20px 0 0;
+	color: #666666;
+	font-weight: normal;
+}
+#myPageTop input {
+	width: 170px;
+}
+#myPageTop .column2{
+	padding-left: 25px;
+}
