@@ -441,3 +441,13 @@ var MAP_SHAPE = {
 	});
 	 */
 })();
+
+var a = {
+	cde: 111,
+	abc: function(){
+		this.cde = 222;
+	}
+	
+};
+a.abc();
+console.log(a.cde);
