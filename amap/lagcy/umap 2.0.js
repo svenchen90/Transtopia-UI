@@ -286,26 +286,7 @@ var defaultToolbar = function(containerID){
 	return $html;
 };
 
-// Info Box
-var infoBox = function(containerID){
-	var $html = $(
-		'<div id="edit-panel">\n' +
-		'	<div class="edit-details">\n' +
-		'		基本信息: <div data-type="id"></div>\n' +
-		'	</div>	\n' +
-		'	<div class="edit-btn-group">\n' +
-		'		<input type="button" data-action="edit-active" value="编辑"/>\n' +
-		'		<input type="button" data-action="edit-inactive" value="完成"/>\n' +
-		'		<input type="button" data-action="edit-delete" value="删除"/>\n' +
-		'		<input type="button" data-action="edit-refer" value="连接装备"/>\n' +
-		'	</div>\n' +
-		'</div>'
-	);
 
-	$('#' + containerID).append($html);
-	
-	return $html;
-};
 
 var UController = function(containerID){
 	var map = UMap(containerID, {});
