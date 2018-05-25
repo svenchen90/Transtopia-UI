@@ -282,14 +282,249 @@ var FormDisplay = function(data, submitCallback){
 			if(err_required_id.length > 0)
 				callAlert('请按照要求填写!');
 			else{
-				console.log(toJson());
-				//submitCallback((toJson()));
+				// console.log(toJson());
+				submitCallback((toJson()));
 			}
 		});
 		
 		initializeConstraint()
 		
 		$modal.modal('show');
+	})();
+};
+
+var FormDisplay_mobile = function(data, submitCallback, $container = $('body')){
+	var $modal = $(
+		'<div class="modal-content">\n' +
+		'	<div class="modal-header navbar-fixed-top" style="background-color: #007bff; color: #fff;">\n' +
+		'		<h4 class="modal-title">\n' +
+		'			<span data-type="formName" data-id></span>\n' +
+		'		</h4>\n' +
+		'	</div>\n' +
+		'	<div class="modal-body">\n' +
+		'		<div class="form-designer" style="padding-top: 50px;">\n' +
+		'			<ul id="tab-bar" class="nav nav-tabs">\n' +
+		'				<!-- 标签列表 -->\n' +
+		'			</ul>\n' +
+		'			<div id="tab-content" class="customized-scrollbar tab-content" style="margin: 0; height: calc(100vh - 180px); overflow-y: auto;">\n' +
+		'				<!-- 标签分页 -->\n' +
+		'			</div>\n' +
+		'		</div>\n' +
+		'	</div>\n' +
+		'	<div class="modal-footer">\n' +
+		'		<button type="button" class="btn btn-primary" data-action="submit">\n' +
+		'			提交\n' +
+		'		</button>\n' +
+		'		<button type="button" class="btn btn-default" data-dismiss="modal">关闭\n' +
+		'		</button>\n' +
+		'	</div>\n' +
+		'</div>'
+	);
+	
+	var data = extendData(data);
+	
+	var validate = function(data){
+		return true;
+	};
+	
+	var load = function(data){
+		if(validate(data)){
+			$modal.find('[data-type="formName"]')
+				.attr('data-id', localIDGenerator())
+				.attr('template-id', data.lid)
+				.text(data.name);
+			var t_id;
+			$.each(data.tabs, function(index, t){
+				var temp_id = addTab(t);
+				if(t_id == undefined)
+					t_id = temp_id
+			});
+
+			activeTab(t_id);
+		}else{
+			console.log('invalid data');
+		}
+	};
+	
+	var toJson = function(){
+		var json = {
+			lid: $modal.find('[data-type="formName"]').attr('data-id'),
+			tid: $modal.find('[data-type="formName"]').attr('template-id'),
+			tabs: []
+		};
+		
+		 $modal.find('#tab-content .tab-pane').each(function(index, tab){
+			json.tabs.push(tabToJson($(tab)));
+		 });
+		
+		return json;
+	};
+	
+	var addTab = function(data){
+		var $tab = $('<li><a href="#' + data.lid + '" data-toggle="tab"><span data-type="name">' + data.name + '</span></a></li>');
+		var $pane = $('<div class="tab-pane fade" id="' + data.lid + '"></div>');
+		$.each(data.questions, function(index, item){
+			addQuestion(item, $pane);
+		});
+		
+		$modal.find('#tab-bar').append($tab);
+		$modal.find('#tab-content').append($pane);
+		
+		return data.lid;
+	};
+	
+	var tabToJson = function($tab){
+		var json = {
+			lid: $tab.attr('id'),
+			questions: []
+		};
+		
+		$tab.find('.question').each(function(index, item){
+			json.questions.push($questionResultToJson($(item)));
+		});
+		
+		return json;
+	};
+	
+	var addQuestion = function(data, $tab){
+		$question = jsonTo$question_display(data);
+		$tab.append($question);
+		rerank($tab);
+		
+		return $question;
+	};
+	
+	var activeTab = function(id){
+		$modal.find('[href="#' + id + '"]').tab('show');
+		$modal.find('#' + id).addClass('active in');
+	};
+	
+	var initializeConstraint = function(){
+		var q_list = [];
+		for(var i in  data.tabs){
+			q_list = q_list.concat(data.tabs[i].questions);
+		}
+		c_list = q_list.filter(function(el){
+			return el.constraints != undefined && el.constraints.length > 0;
+		});
+		
+		// ? check existence
+		// console.log(c_list);
+		
+		var QC_map = {};
+		var CQ_map = {};
+		
+		for(var i in c_list){
+			QC_map[c_list[i].lid] = c_list[i].constraints.map(function(el){
+				el.options = el.options.map(function(o){
+					return o.lid
+				});
+				return el;
+			});
+			
+			for(var j in c_list[i].constraints){
+				for(var k in c_list[i].constraints[j].options){
+					var o_lid = c_list[i].constraints[j].options[k];
+					if(o_lid in CQ_map){
+						CQ_map[o_lid] = CQ_map[o_lid].concat([c_list[i].lid])
+					}else{
+						CQ_map[o_lid] = [c_list[i].lid];
+					}
+				}
+			}
+		}
+		
+		//console.log(QC_map);
+		//console.log(CQ_map);
+		for(var key in QC_map){
+			checkConstraint(key, QC_map[key])
+		}
+		checkConstraint
+		
+		
+		$modal.on('change', '[question-answer] input, [question-answer] select', function(e){
+			var o_ids = [];
+			if($(this).is('select')){
+				$(this).find('option:not(.default)').map(function(index, item){
+					o_ids.push($(item).attr('data-id'));
+				});
+			}else{
+				o_ids.push($(this).closest('.option').attr('data-id'));
+			}
+			
+			o_ids.map(function(o_id){
+				if(o_id in CQ_map)
+					CQ_map[o_id].map(function(q_id){
+						checkConstraint(q_id, QC_map[q_id]);
+					});
+			});
+			
+			
+		});
+	};
+	
+	var checkConstraint = function(q_id, constraints){
+		var flag = true;
+		constraints.map(function(item){
+			var sub_flag = false;
+			item.options.map(function(o_id){
+				if($modal.find('[data-id="' + o_id  + '"]').is('option'))
+					sub_flag = sub_flag || $modal.find('[data-id="' + o_id  + '"]').is(':selected');
+				else
+					sub_flag = sub_flag || $modal.find('[data-id="' + o_id  + '"] input').is(':checked');
+			});
+			
+			if(item.type == 0)
+				sub_flag = !sub_flag;
+			
+			flag = flag && sub_flag;
+		});
+		
+		toggleQuestion(q_id, flag);
+	};
+	
+	var toggleQuestion = function(q_id, flag){
+		var $question = $modal.find('[question-lid="' + q_id + '"]');
+		if(flag){
+			$question.removeClass('disable');
+			$question.find('[question-answer] input, [question-answer] select').attr('disabled', false);
+		}else{
+			$question.addClass('disable');
+			$question.find('[question-answer] input, [question-answer] select').attr('disabled', true);
+		}
+	};
+	
+	(function(){
+		load(data);
+		
+		//####
+		$modal.on('click', '[data-action="submit"]', function(){
+			var json = toJson();
+			var err_required_id = [];
+			json.tabs.map(function(el){
+				el.questions.map(function(q){
+					if(q.required == 1 && (q.options != undefined && q.options.length == 0 || q.value != undefined && q.value == '')){
+						err_required_id.push(q.lid);
+						$modal.find('[question-lid="' + q.lid + '"] [basic-error]').text('*必选');
+					}else{
+						$modal.find('[question-lid="' + q.lid + '"] [basic-error]').text('');
+					}
+				});
+			});
+			
+			if(err_required_id.length > 0)
+				callAlert('请按照要求填写!');
+			else{
+				// console.log(toJson());
+				submitCallback((toJson()));
+			}
+		});
+		
+		initializeConstraint()
+		
+		
+		$container.append($modal);
+		// $modal.modal('show');
 	})();
 };
 
@@ -576,7 +811,7 @@ var getInput = function(json){
 		'	<div class="input-group-addon">\n' +
 		'		<i class="fa ' + INPUT_SUBTYPE[sub_type].icon + '"></i>\n' +
 		'	</div>\n' +
-		'	<input type="' + INPUT_SUBTYPE[sub_type].textType + '" class="form-control" placeholder="' + INPUT_SUBTYPE[sub_type].placeholder + '" style="max-width: 300px;">\n' +
+		'	<input type="' + INPUT_SUBTYPE[sub_type].textType + '" class="form-control"  placeholder="' + INPUT_SUBTYPE[sub_type].placeholder + '" style="max-width: 300px;">\n' +
 		'</div>'
 	);
 
@@ -724,8 +959,7 @@ var getResult_Input = function($question){
 	}else
 		json.disable = 0;
 
-	json.value = $question.find('[question-answer] [type="text"]').val();
-
+	json.value = $question.find('input').val();
 	return json;
 };
 

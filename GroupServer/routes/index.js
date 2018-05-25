@@ -3283,9 +3283,25 @@ router.get('/template_form', function(req, res, next) {
 	res.render('template_form');
 });
 
+router.get('/template_form_mobile', function(req, res, next) {
+	res.render('template_form_mobile');
+});
+
+router.get('/template_form_mobile', function(req, res, next) {
+	res.render('template_form_mobile');
+});
+
 // Object
 router.get('/object_index', function(req, res, next) {
 	res.render('object_index');
+});
+
+router.get('/object_display_mobile', function(req, res, next) {
+	res.render('object_display_mobile');
+});
+
+router.get('/object_review', function(req, res, next) {
+	res.render('object_review');
 });
 
 router.get('/get-role-for-object', function(req, res, next){

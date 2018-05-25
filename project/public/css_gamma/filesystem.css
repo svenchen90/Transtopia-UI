@@ -1,0 +1,350 @@
+/* 动画效果 */
+#left-block, #middle-block, #left-block {
+	transition: all 300ms;
+}
+/* End of 动画效果 */
+/* Animation */
+@keyframes colorchange
+{
+	0%   {color: red;}
+	25%  {color: yellow;}
+	50%  {color: blue;}
+	75%  {color: green;}
+	100% {color: red;}
+}
+
+@-webkit-keyframes colorchange /* Safari and Chrome - necessary duplicate */
+{
+	0%   {color: red;}
+	25%  {color: yellow;}
+	50%  {color: blue;}
+	75%  {color: green;}
+	100% {color: red;}
+}
+
+@keyframes opacitychange
+{
+	0%   {opacity: 0.3;}
+	50% {opacity: 1;}
+	100% {opacity: 0.3;}
+}
+
+@-webkit-keyframes opacitychange /* Safari and Chrome - necessary duplicate */
+{
+	0%   {opacity: 0.3;}
+	50% {opacity: 1;}
+	100% {opacity: 0.3;}
+}
+/* End of Animation */
+/* 左侧导航栏 */
+.main-block .left-block {
+	width: 200px;
+	background-color: rgba(0,0,0,.05);
+	
+}
+/* End of 左侧导航栏 */
+/* 左侧导航栏toggle */
+.main-block [data-toggle="left-block"] {
+	margin-top: 10px;
+	padding: 5px 0 5px 5px;
+	cursor: pointer;
+	border-radius: 2px;
+}
+
+.main-block [data-toggle="left-block"]:hover {
+	background-color: rgba(66, 133, 244, 1);
+	color: rgba(255,255,255,1);
+	font-size: 20px;
+}
+/* End of 左侧导航栏toggle */
+/* 中间主控栏目 */
+.main-block .middle-block {
+	background-color: rgba(0,0,0,.05);
+}
+
+.main-block .middle-block .file-folder-block {
+	padding: 15px;
+}
+
+.main-block .middle-block .file-folder-block [data-name="sort-by"] {
+	padding: 10px;
+	border-radius: 2px;
+}
+
+.main-block .middle-block .file-folder-block [data-name="sort-by"]:hover {
+	background-color: rgba(0,0,0,.08);
+}
+
+.main-block .middle-block .file-folder-block [data-name="ascending"] i {
+	padding: 10px;
+	border-radius: 50%;
+	color: rgba(0,0,0,.54);
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.main-block .middle-block .file-folder-block [data-name="ascending"]:hover i {
+	background-color: rgba(0,0,0,.08);
+}
+
+.main-block .middle-block .file-folder-block .loadmore {
+	border: 1px solid rgba(0,0,0,.1);
+}
+
+.main-block .middle-block .file-folder-block .loadmore:hover {
+	border: none;
+	font-weight: 600;
+	background-color: rgba(0,0,0,.08);
+}
+/* End of 中间主控栏目 */
+/* 右侧详情栏 */
+.main-block .right-block {
+	-webkit-box-shadow: -3px 4px 4px 0 rgba(0,0,0,0.14);
+	box-shadow: -3px 4px 4px 0 rgba(0,0,0,0.14);
+}
+.main-block .right-block .content {
+	padding: 10px 10px 10px 15px;;
+}
+
+/* End of 右侧详情栏 */
+
+
+.file-folder-content {
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
+/* 文件夹 */
+.folder {
+	height: 50px;
+	color: rgba(0,0,0,.5);
+	background-color: rgba(255,255,255,1);
+	margin-bottom: 15px;
+	-webkit-box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
+	box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
+	cursor: pointer;
+	border-radius: 3px;
+}
+
+.folder:hover, .folder.active {
+	background-color: rgba(66, 133, 244, 1);
+}
+
+.folder .icon {
+	line-height: 50px;
+	font-size: 24px;
+	border-radius: 50%;
+	padding: 4px 6px;
+	margin-left: 10px;
+	margin-top: -15px;
+}
+
+.folder .icon .material-icons {
+	position: relative;
+	top: 3px;
+}
+
+
+
+.folder:hover .icon, .folder.active .icon{
+	background-color: rgba(255, 255, 255, 1);
+}
+
+.folder .name {
+	display:inline-block;
+	padding-left: 15px;
+	width:calc(100% - 50px);
+	font-weight: 600;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis; 
+}
+
+.folder:hover .name, .folder.active .name {
+	color: rgba(255, 255, 255, 1);
+}
+
+.folder.disabled {
+	background-color:  rgba(255,0,0,0.3);
+}
+
+.folder.able {
+	opacity: 0.3 !important;
+}
+
+
+.folder.copy {
+	animation: opacitychange 3s infinite; /* animation-name followed by duration in seconds*/
+	-webkit-animation: opacitychange 3s infinite; /* Chrome and Safari */
+}
+.folder.cut {
+	opacity:0.3;
+}
+
+/* 列表模式 */
+.folder-list {
+	margin-top: 0;
+	margin-bottom: 0;
+	border-radius: 0 !important;
+}
+
+.folder-list .datetime, .folder-list .public, .folder-list .share, .folder-list .size {
+	display:inline-block;
+	font-weight: 600;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis; 
+	text-align: right;
+}
+
+
+.folder-list .name {
+	width: 40% !important;
+}
+
+.folder-list .datetime {
+	width: 20% !important;
+}
+
+.folder-list .share {
+	width: 10% !important;
+}
+
+.folder-list .public {
+	width: 10% !important;
+}
+
+.folder-list .size {
+	width: 10% !important;
+}
+
+/* End of 文件夹 */
+/* 文件 */
+.file {
+	background-color: rgba(255,255,255,1);
+	margin-bottom: 15px;
+	-webkit-box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
+	box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
+	cursor: pointer;
+	border-radius: 3px;
+}
+
+.file .top {
+	height: 150px;
+	opacity: 0.3;
+	/*
+	background-image: url(http://127.0.0.1:3000/dist/img/default6.png);
+	background-size: 100%;
+	*/
+}
+
+.file:hover .top, .file:active .top {
+	opacity: 1;
+}
+
+.file:hover .bot , .file.active .bot {
+	background-color: rgba(66, 133, 244, 1);
+}
+
+.file .icon {
+	padding: 4px 6px;
+	margin-left: 10px;
+	margin-top: -15px;
+	line-height: 50px;
+	font-size: 24px;
+	border-radius: 50%;
+}
+
+.file:hover .icon, .file.active .icon{
+	background-color: rgba(255, 255, 255, 1);
+}
+
+.file .name {
+	display:inline-block;
+	width:calc(100% - 50px);
+	padding-left: 15px;
+	font-weight: 600;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis; 
+}
+
+.file:hover .name, .file.active .name {
+	color: rgba(255, 255, 255, 1);
+}
+.file iframe img {
+	width: 100%;
+}
+
+.file.copy .bot {
+	animation: opacitychange 3s infinite; /* animation-name followed by duration in seconds*/
+	-webkit-animation: opacitychange 3s infinite; /* Chrome and Safari */
+}
+
+.file.cut .bot {
+	opacity:0.3;
+}
+
+
+/* 列表模式 */
+.file-list {
+	margin-top: 0;
+	margin-bottom: 0;
+	border-radius: 0 !important;
+}
+
+.file-list .datetime, .file-list .public, .file-list .share, .file-list .size {
+	display:inline-block;
+	font-weight: 600;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis; 
+	text-align: right;
+}
+
+
+.file-list .name {
+	width: 40% !important;
+}
+
+.file-list .datetime {
+	width: 20% !important;
+}
+
+.file-list .share {
+	width: 10% !important;
+}
+
+.file-list .public {
+	width: 10% !important;
+}
+
+.file-list .size {
+	width: 10% !important;
+}
+
+/* End of 文件 */
+/* 自定义菜单 */
+.customize-menu i {
+	margin-right: 10px;
+}
+/* End of 自定义菜单 */
+/* Right Block */
+.nav-tabs li.active a {
+	color: rgba(0,0,0, .5) !important;
+	border-bottom: 3px solid rgba(66, 133, 244, 1) !important;
+}
+
+.tab-content .col-xs-4 {
+	color: rgba(0,0,0,.5);
+}
+
+.tab-content .col-xs-8 {
+	word-break: break-all;
+	color: rgba(0,0,0,.7);
+}
+
+.tab-content .note {
+	color: rgba(0,0,0,.5);
+}
+/* End of Right Block */

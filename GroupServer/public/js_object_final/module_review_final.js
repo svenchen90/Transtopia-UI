@@ -1,0 +1,497 @@
+/*
+form: {
+	lid,
+	name,
+	tabs: [tab]
+}
+
+tab: {
+	lid,
+	name,
+	questions: [{/question/}]
+}
+
+question: {
+	lid,
+	type,
+	title,
+	required,
+	tooltip,
+	constraints: [{constraint}]
+}
+
+singleSelect: {
+	{question},
+	options: [{option}]
+}
+
+multiSelect: {
+	{question},
+	options: [{option}],
+	min,
+	max,
+}
+
+singleDropdown: {
+	{singleSelect}
+}
+
+multiDropdown: {
+	{multiSelect},
+	min,
+	max,
+}
+
+input: {
+	{question},
+	sub_type
+}
+
+file: {
+	{question},
+	allowedType:[]
+}
+*/
+
+var FormReview = function(data, data_answer, submitCallback){
+	var $modal = $(
+		'<div class="modal fade">\n' +
+		'	<div class="modal-dialog"  style="width:60vw;">\n' +
+		'		<div class="modal-content">\n' +
+		'			<div class="modal-header">\n' +
+		'				<button type="button" class="close" data-dismiss="modal">\n' +
+		'					&times;\n' +
+		'				</button>\n' +
+		'				<h4 class="modal-title">\n' +
+		'					<span data-type="formName" data-id></span>\n' +
+		'				</h4>\n' +
+		'			</div>\n' +
+		'			<div class="modal-body">\n' +
+		'				<div class="form-designer">\n' +
+		'					<ul id="tab-bar" class="nav nav-tabs" style="margin: 0 50px 0 50px;">\n' +
+		'						<!-- 标签列表 -->\n' +
+		'					</ul>\n' +
+		'					<div id="tab-content" class="customized-scrollbar tab-content" style="height: 60vh; overflow-y: auto;">\n' +
+		'						<!-- 标签分页 -->\n' +
+		'					</div>\n' +
+		'				</div>\n' +
+		'			</div>\n' +
+		'			<div class="modal-footer">\n' +
+		'				<button type="button" class="btn btn-default" data-dismiss="modal">关闭\n' +
+		'				</button>\n' +
+		'			</div>\n' +
+		'		</div>\n' +
+		'	</div>\n' +
+		'</div>'
+	);
+	
+	// var data = extendData(data);
+	
+	var validate = function(data){
+		return true;
+	};
+	
+	var load = function(data){
+		if(validate(data)){
+			$modal.find('[data-type="formName"]')
+				.attr('data-id', localIDGenerator())
+				.attr('template-id', data.lid)
+				.text(data.name);
+			var t_id;
+			$.each(data.tabs, function(index, t){
+				var temp_id = addTab(t, data_answer.tabs[index]);
+				if(t_id == undefined)
+					t_id = temp_id
+			});
+
+			activeTab(t_id);
+		}else{
+			console.log('invalid data');
+		}
+	};
+		
+	var addTab = function(data, data_answer){
+		var $tab = $('<li><a href="#' + data.lid + '" data-toggle="tab"><span data-type="name">' + data.name + '</span></a></li>');
+		var $pane = $('<div class="tab-pane fade" id="' + data.lid + '"></div>');
+		$.each(data.questions, function(index, item){
+			addQuestion(item, data_answer.questions[index], $pane);
+		});
+		
+		$modal.find('#tab-bar').append($tab);
+		$modal.find('#tab-content').append($pane);
+		
+		return data.lid;
+	};
+		
+	var addQuestion = function(data, data_answer, $tab){
+		$question = jsonTo$question_review(data, data_answer);
+		$tab.append($question);
+		rerank($tab);
+		
+		return $question;
+	};
+	
+	var activeTab = function(id){
+		$modal.find('[href="#' + id + '"]').tab('show');
+		$modal.find('#' + id).addClass('active in');
+	};
+	
+	(function(){
+		load(data);
+		
+		$modal.modal('show');
+	})();
+};
+
+var jsonTo$question_review = function(json, data_answer){
+	var type = json.type
+	return QUESTION_REVIEW_MAP[type](json, data_answer);
+};
+
+var $questionResultToJson = function($question){
+	var type = $question.attr('question-type');
+	return QUESTION_RESULT_MAP[type]($question);
+};
+
+var getQuestion = function(json){
+	var $question = $(
+		'<div class="question" question-type question-lid>\n' +
+		'	<div question-main>\n' +
+		'		<div>\n' +
+		'			<span question-index></span>.\n' +
+		'			<span question-title></span>\n' +
+		'			<span question-tooltip><i class="fa fa-info-circle"></i></span>\n' +
+		'			<span question-error-message style="color: rgba(255,0,0,0.6 );"><span basic-error><span><span extends-error><span></span>\n' +
+		'		</div>\n' +
+		'		<div question-answer></div>\n' +
+		'	</div>\n' +
+		'	<div question-constraint>\n' +
+		'	</div>\n' +
+		'</div>'
+	);
+	
+	var validate = function(json){
+		return true;
+	}
+	
+	if(validate(json)){
+		$question.attr({
+			'question-type': json.type,
+			'question-lid': json.lid
+		});
+		
+		$question.find('[question-main] [question-index]').text(json.index);
+		// 1.3 title
+		$question.find('[question-main] [question-title]').text(json.title);
+		// 1.4 tooltip
+		var msg = [];
+		if(json.required == 1){
+			msg.push('必填');
+			$question.attr('question-required', 1);
+		}else
+			$question.attr('question-required', 0);
+		if(json.tooltip != '')
+			msg.push(json.tooltip);	
+		
+		if(msg.length != 0)
+			$question.find('[question-main] [question-tooltip]')
+				.attr({
+					'title': msg.join(', ')
+				})
+				.css({
+					'cursor': 'pointer',
+					'visibility': 'visible'
+				});
+		else
+			$question.find('[question-main] [question-tooltip]').css({
+				'visibility': 'hidden'
+			});
+			
+	}else{
+		console.log('data invalid');
+	}
+	return $question;
+};
+
+var getSingleSelect_review = function(json, answer){
+	var $question = getQuestion(json);
+	
+	var $container = $question.find('[question-answer]').empty();
+	$.each(json.options, function(index, item){
+		var $option = $(
+		'<div class="option customized-checkbox" data-id="' + item.lid + '">\n' +
+		'	<input type="checkbox" name="' + json.lid + '"' + (answer.options.includes(item.lid) ? ' checked' : '' )  + ' value="' + item.value + '" disabled>\n' + 
+		'	<span class="checkmark"></span>\n' +
+		'	<span name="radioName">' + item.name + '</span>\n' +
+		'</div>'
+		);
+		
+		$option
+			.css({
+				'cursor': 'pointer'
+			})
+			.on('click', function(){
+				$option.find('input').click();
+			});
+		$container.append($option);
+	});
+		
+	$container.on('click', '[type="checkbox"]' ,function(e){
+		var name = $(this).attr('name');
+		$container.find('[name="' + name + '"]').not($(this)).prop('checked', false);
+	});
+	
+	return $question;
+};
+
+var getMultiSelect_review = function(json, answer){	
+	var $question = getQuestion(json);
+	
+	var $container = $question.find('[question-answer]').empty();
+	$.each(json.options, function(index, item){
+		var $option = $(
+		'<div class="option customized-checkbox" data-id="' + item.lid + '">\n' +
+		'	<input type="checkbox" name="' + json.lid + '"' + (answer.options.includes(item.lid) ? ' checked' : '' )  + ' value="' + item.value + '" disabled>\n' + 
+		'	<span class="checkmark"></span>\n' +
+		'	<span name="radioName">' + item.name + '</span>\n' +
+		'</div>'
+		)
+		$container.append($option);
+		
+		$option
+			.css({
+				'cursor': 'pointer'
+			})
+			.on('click', function(){
+				$option.find('input').click();
+			});
+	});
+	
+	$container.on('change', '[type="checkbox"]', function(){
+		var number = $container.find('[type="checkbox"]:checked').length;
+		var err = [];
+		if(json.min != undefined && json.min > number)
+			err.push('至少选择' + json.min + '项');
+		if(json.max != undefined && json.max < number)
+			err.push('至多选择' + json.max + '项');
+		
+		$question.find('[extends-error]').text(err.join(' || '));
+	});
+	
+	
+	return $question;
+};
+
+var getSingleDropdown_review = function(json, answer){
+	var $question = getQuestion(json);
+	
+	var $container = $question.find('[question-answer]').empty();
+	
+	$select = $('<select style="width: 200px; margin: 5px 0 10px 0;" disabled></select>');
+	$select.append($('<option class="option default" disabled selected>请选择...</option>'));
+	$.each(json.options, function(index, item){
+		var $item = $('<option class="option" data-id="' + item.lid + '" value="' + item.value + '" ' + (answer.options.includes(item.lid) ? 'selected' : '') + '>' + item.name +'</option>');
+		
+		$select.append($item);
+	});
+	$container.append($select);
+	
+	return $question;
+};
+
+var getMultiDropdown_review = function(json, answer){
+	var $question = getQuestion(json);
+	
+	var $container = $question.find('[question-answer]').empty();
+	
+	$select = $('<select style="width: 200px; margin: 5px 0 10px 0;" multiple disabled></select>');
+	$.each(json.options, function(index, item){
+		var $item = $('<option class="option" data-id="' + item.lid + '" value="' + item.value + '" ' + (answer.options.includes(item.lid) ? 'selected' : '') + '>' + item.name +'</option>');
+		
+		$select.append($item);
+	});
+	$container.append($select);
+	
+	
+	$container.on('change', 'select', function(){
+		var number = $container.find('option:not(:disabled):selected').length;
+		var err = [];
+		if(json.min != undefined && json.min > number)
+			err.push('至少选择' + json.min + '项');
+		if(json.max != undefined && json.max < number)
+			err.push('至多选择' + json.max + '项');
+		
+		$question.find('[extends-error]').text(err.join(' || '));
+	});
+	
+	return $question;
+	
+}
+/* 
+var inputValidation = function(value, type){
+	var map = {
+		email: validateEmail,
+		phone: validatePhone,
+		date: validateDate,
+		number: validateNumber
+	};
+	return map[type](value);
+};
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	if(re.test(String(email).toLowerCase()))
+		return '';
+	else
+		return '请输入正确的email地址！'
+}
+
+function validatePhone(phone) {
+	var re = /^1[358][0-9]{9}$/;
+	if(re.test(phone))
+		return '';
+	else
+		return '请输入10位有效电话号码！'
+}
+
+function validateDate(date) {
+	return '';
+}
+
+function validateNumber(numer) {
+	var re = /^\d*$/;
+	if(re.test(String(numer).toLowerCase()))
+		return '';
+	else
+		return '请输入数字！'
+}
+ */
+var getInput_review = function(json, answer){
+	var $question = getQuestion(json);
+	
+	var $container = $question.find('[question-answer]').empty();
+	var sub_type = json.sub_type;
+	/* var textMap = {
+		"default": {
+			"icon": 'fa-keyboard-o',
+			'placeholder': '请输入..'
+		},
+		"number": {
+			"icon": 'fa-sort-numeric-asc',
+			'placeholder': '请输入数字..'
+		},
+		"time": {
+			"icon": 'fa-clock-o',
+			'placeholder': '请输入时间..'
+		},
+		"date": {
+			"icon": 'fa-calendar',
+			'placeholder': '请输入日期..'
+		},
+		"datetime": {
+			"icon": 'fa-calendar-check-o',
+			'placeholder': '请输入日期和时间..'
+		},
+		"email": {
+			"icon": 'fa-envelope-o',
+			'placeholder': '请输入Email..'
+		},
+		"phone": {
+			"icon": 'fa-phone',
+			'placeholder': '请输入电话..'
+		}
+	}; */
+	var $input = $(
+		'<div class="input-group" style="margin: 5px 0 5px;">\n' +
+		'	<div class="input-group-addon">\n' +
+		'		<i class="fa ' + INPUT_SUBTYPE[sub_type].icon + '"></i>\n' +
+		'	</div>\n' +
+		'	<input  type="' + INPUT_SUBTYPE[sub_type].textType + '" class="form-control" placeholder="' + INPUT_SUBTYPE[sub_type].placeholder + '" value="' + answer.value + '" disabled style="max-width: 300px;">\n' +
+		'</div>'
+	);
+
+	$container.append($input);
+
+	$input.on('keyup', 'input', function(){
+		var value = this.value
+		delay(function(){
+			var err = INPUT_SUBTYPE[sub_type].validation(value)
+			//var err = inputValidation(value,json.sub_type);
+			$question.find('[extends-error]').text(err);
+		}, 500);
+	});
+	
+	
+	return $question;
+};
+
+//const IMAGE_EXTENTION = ["ANI", "BMP", "CAL", "EPS", "FAX", "GIF", "IMG", "JBG", "JPE", "JPEG", "JPG", "MAC", "PBM", "PCD", "PCX", "PCT", "PGM", "PNG", "PPM", "PSD", "RAS", "TGA", "TIFF", "WMF"];
+//'webm, mkv, flv, vob, ogv, ogg, drc, gif, gifv, mng, avi, mov, qt, wmv, yuv, rm, rmvb, asf, amv, mp4, m4p';
+
+var getFile_review = function(json){
+	var $question = getQuestion(json);
+	
+	var $container = $question.find('[question-answer]').empty();
+	$container.append('<input type="file" name="filesupload"></input>')
+	$container.find('[name="filesupload"]').fileinput({
+		language: "zh",
+		theme: "explorer",
+		uploadUrl: '/uploadfile_beta/123' /* + id */,
+		//allowedFileTypes: ['image'],
+		//allowedFileExtensions: IMAGE_EXTENTION,
+		maxFileCount: 1,
+		//showCaption: true,
+		//showPreview: true
+		//showRemove: true
+		//showUpload: true
+		//showCancel: true ?
+		showClose: false,
+		maxFileCount: 1,
+		layoutTemplates: {
+			actions: '<div class="file-actions">\n' +
+				'    <div class="file-footer-buttons">\n' +
+				'        {delete}' +
+				'    </div>\n' +
+				'    {drag}\n' +
+				'    <div class="file-upload-indicator" title="{indicatorTitle}">{indicator}</div>\n' +
+				'    <div class="clearfix"></div>\n' +
+				'</div>',
+			actionDelete: '<button type="button" class="kv-file-remove {removeClass}" title="{removeTitle}"{dataUrl}{dataKey}>{removeIcon}</button>\n',
+		}
+	});
+	
+	
+	return $question;
+}
+
+var getText_review = function(json){
+	var $question = $(
+		'<div class="question" question-type question-lid>\n' +
+		'	<div question-main style="margin: 20px;padding: 10px; background-color: rgba(0,0,0,0.07); border:none;">\n' +
+		'		<div question-answer></div>\n' +
+		'	</div>\n' +
+		'</div>'
+	);
+	
+
+	$question.attr({
+		'question-type': json.type,
+		'question-lid': json.lid
+	});
+	
+	var $container = $question.find('[question-answer]').empty();
+	json.text.split("\n").forEach(function(line){
+		$container.append('<div>' + line + '</div>');
+	});
+
+	return $question;
+}
+
+const QUESTION_REVIEW_MAP = {
+	'singleSelect': getSingleSelect_review,
+	'singleDropdown': getSingleDropdown_review,
+	'multiSelect': getMultiSelect_review,
+	'multiDropdown': getMultiDropdown_review,
+	'input': getInput_review,
+	'file': getFile_review,
+	'text': getText_review
+};

@@ -113,21 +113,27 @@ var tab1 = {
 	] 
 };
 
-/* 
-FormDisplay({
+
+/* FormDisplay({
 	lid: localIDGenerator(),
 	name: '新的物品',
 	tabs: [tab1]
 }, function(a){console.log(a)});
  */
+/* FormDisplay_mobile({
+	lid: localIDGenerator(),
+	name: '新的物品',
+	tabs: [tab1]
+}, function(a){console.log(a)}); */
+
 
 /* $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
 	checkboxClass: 'icheckbox_flat-green',
 	radioClass: 'iradio_flat-green'
 }); */
-
+/* 
 FormDesigner({
 	lid: localIDGenerator(),
 	name: '新的物品',
 	tabs: [tab1]
-}, function(a){console.log(a)});
+}, function(a){console.log(a)}); */
