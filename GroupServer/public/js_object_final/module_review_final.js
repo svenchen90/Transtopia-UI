@@ -153,7 +153,7 @@ var $questionResultToJson = function($question){
 	return QUESTION_RESULT_MAP[type]($question);
 };
 
-var getQuestion = function(json){
+var getQuestion_review = function(json){
 	var $question = $(
 		'<div class="question" question-type question-lid>\n' +
 		'	<div question-main>\n' +
@@ -214,7 +214,7 @@ var getQuestion = function(json){
 };
 
 var getSingleSelect_review = function(json, answer){
-	var $question = getQuestion(json);
+	var $question = getQuestion_review(json);
 	
 	var $container = $question.find('[question-answer]').empty();
 	$.each(json.options, function(index, item){
@@ -245,7 +245,7 @@ var getSingleSelect_review = function(json, answer){
 };
 
 var getMultiSelect_review = function(json, answer){	
-	var $question = getQuestion(json);
+	var $question = getQuestion_review(json);
 	
 	var $container = $question.find('[question-answer]').empty();
 	$.each(json.options, function(index, item){
@@ -283,7 +283,7 @@ var getMultiSelect_review = function(json, answer){
 };
 
 var getSingleDropdown_review = function(json, answer){
-	var $question = getQuestion(json);
+	var $question = getQuestion_review(json);
 	
 	var $container = $question.find('[question-answer]').empty();
 	
@@ -300,7 +300,7 @@ var getSingleDropdown_review = function(json, answer){
 };
 
 var getMultiDropdown_review = function(json, answer){
-	var $question = getQuestion(json);
+	var $question = getQuestion_review(json);
 	
 	var $container = $question.find('[question-answer]').empty();
 	
@@ -366,7 +366,7 @@ function validateNumber(numer) {
 }
  */
 var getInput_review = function(json, answer){
-	var $question = getQuestion(json);
+	var $question = getQuestion_review(json);
 	
 	var $container = $question.find('[question-answer]').empty();
 	var sub_type = json.sub_type;
@@ -428,7 +428,7 @@ var getInput_review = function(json, answer){
 //'webm, mkv, flv, vob, ogv, ogg, drc, gif, gifv, mng, avi, mov, qt, wmv, yuv, rm, rmvb, asf, amv, mp4, m4p';
 
 var getFile_review = function(json){
-	var $question = getQuestion(json);
+	var $question = getQuestion_review(json);
 	
 	var $container = $question.find('[question-answer]').empty();
 	$container.append('<input type="file" name="filesupload"></input>')
@@ -486,6 +486,248 @@ var getText_review = function(json){
 	return $question;
 }
 
+var getRating_review = function(json, answer){
+	var $question = getQuestion_review(json);
+	
+	var $container = $question.find('[question-answer]').empty();
+	$.each(json.options, function(index, item){
+		var $option = $(
+		'<span class="option customized-checkbox" data-id="' + item.lid + '" style="display: inline-block;">\n' +
+		'	<input type="checkbox" name="' + json.lid + '"' + (item.isDefault == 1 ? ' checked' : '' )  + ' value="' + item.value + '" ' + (answer.options.includes(item.lid) ? 'checked': '') + ' disabled>\n' + 
+		'	<span class="checkmark" style="border-radius: 50%;"></span>\n' +
+		'	<span name="radioName" style="display: none;">' + item.name + '</span>\n' +
+		'	<span name="radioValue">' + item.value + '</span>\n' +
+		'</span>'
+		);
+		
+		$container.append($option);
+		
+		
+		if(index == 0){
+			$container.append('<span class="head">' + item.name + '</span>');
+		}
+		$container.append($option);
+		
+		if(index == json.options.length-1){
+			$container.append('<span class="tail">' + item.name + '</span>');
+		}
+		
+	});
+		
+	$container.on('click', '[type="checkbox"]' ,function(e){
+		var name = $(this).attr('name');
+		$container.find('[name="' + name + '"]').not($(this)).prop('checked', false);
+	});
+	
+	return $question;
+};
+
+var getSlide_review  = function(json, answer){
+	var $question = getQuestion_review(json);
+	
+	var $container = $question.find('[question-answer]').empty();
+	var $input = $(
+		'<div class="slide-block">\n' +
+		'	<div>\n' +
+		'		<span class="head">' + json.min_text + '(' + json.min + ')</span>\n' +
+		'		<span class="pull-right tail">' + json.max_text + '(' + json.max + ')</span>\n' +
+		'	</div>\n' +
+		'	<input type="range" min="' + json.min + '" max="' + json.max + '" value="' +  answer.value + '" id="slider_bar" disabled>\n' +
+		'</div>\n'
+	);
+	$container.append($input);
+	return $question;
+};
+
+var getRanking_review = function(json, answer) {
+	var $question = getQuestion_review(json);
+	
+	var $container = $question.find('[question-answer]').empty();
+	
+	$.each(json.options, function(index, item){
+		var r = answer.rank[index]
+		var $option = $(
+		'<div class="option ranking-option clearfix' + (r ? ' active' : '') + '" data-id="' + item.lid + '">\n' +
+		'	<div class="ranking-box">' + r + '</div>\n' +
+		'	<span name="radioName">' + item.name + '</span>\n' +
+		'</div>'
+		);
+		$container.append($option);
+	});
+
+	return $question;
+};
+
+var getTable_review = function(json) {
+	var $question = getQuestion_review(json);
+	var $container = $question.find('[question-answer]').empty();
+	
+	var rows = json.row;
+	var $table = $(
+		'<table answer-table>\n' +
+		'	<thead>\n' +
+		'	</thead>\n' +
+		'	<tbody>\n' +
+		'	</tbody>\n' +
+		'</table>\n'
+	);
+	$.each(rows, function(index, item){
+		var $tr = $(
+			'<tr tr-option>\n' +
+			'	<td class="row-name">' + item + '</td>\n' +
+			'</tr>'
+		);
+		
+		$table.find('tbody').append($tr);
+	});
+	
+	$container.append($table);
+	return $question;
+};
+
+var getTable_SingleSelect_review = function(json, answer) {
+	var $question = getTable(json);
+	
+	var options = json.options;
+	var $table = $question.find('[question-answer] table');
+	
+	$table.find('thead').append('<tr></tr>');
+	var $h_tr = $table.find('thead tr').last().css({'height': '30px'});
+	$h_tr.append('<td></td>');
+	
+	$.each(json.row, function(index1){
+		var $b_tr = $table.find('tbody tr:nth-child(' +  (index1 + 1) + ')');
+		$.each(options, function(index, item){
+			if(index1 == 0)
+				$h_tr.append('<th style="text-align: left;">' + item.name + '</th>');
+			
+			var $option = $(
+			'<td class="option customized-checkbox" data-id="' + item.lid + '" style="display: table-cell;">\n' +
+			'	<input type="checkbox" name="' + json.lid + '"' + (item.isDefault == 1 ? ' checked' : '' )  + ' value="' + item.value + '" ' + (answer.table_option[index1].includes(item.lid)  ? 'checked' : '') + '>\n' + 
+			'	<span class="checkmark" style="border-radius: 50%;"></span>\n' +
+			'</td>\n'
+			)
+			
+			$b_tr.append($option).css({'height': '25px'});
+		});
+	});
+	
+	
+	return $question;
+};
+
+var getTable_MultiSelect_review = function(json, answer) {
+	var $question = getTable_SingleSelect_review(json, answer);
+	
+	$question.find('.checkmark').css({'border-radius': '0'});
+
+	return $question;
+};
+
+var getTable_Input_review = function(json, answer) {
+	var $question = getTable(json);
+	var $table = $question.find('[question-answer] table');
+		
+	$table.find('thead').append('<tr></tr>');
+	var $h_tr = $table.find('thead tr').last();
+	$h_tr.append('<td></td>');
+	
+	$.each(json.row, function(index1){
+		var $b_tr = $table.find('tbody tr:nth-child(' +  (index1 + 1) + ')');
+		var $input = $(
+		'<div class="input-group" style="margin: 5px 0 5px;">\n' +
+		'	<div class="input-group-addon">\n' +
+		'		<i class="fa fa-keyboard-o"></i>\n' +
+		'	</div>\n' +
+		'	<input type="text" class="form-control" placeholder="请输入.." value="' + answer.table_input[index1] + '" disabled>\n' +
+		'</div>'
+		)
+		$b_tr.append($input);
+	});		
+	
+	return $question;
+};
+
+var getTable_SingleDropdown_review = function(json, answer) {
+	var $question = getTable(json);
+	
+	var options = json.options;
+	var $table = $question.find('[question-answer] table');
+	
+	$.each(json.row, function(index1){
+		var $b_tr = $table.find('tbody tr:nth-child(' +  (index1 + 1) + ')');
+		var $select = $('<td style="text-align:left;"><select style="width: 200px; margin: 5px 0 10px 0;" disabled></select></td>');
+		$.each(options, function(index, item){
+			var $item = $('<option class="option" data-id="' + item.lid + '" value="' + item.value + '" ' + (item.isDefault ? 'selected' : '') + ' ' + (answer.table_option[index1] == item.lid  ? 'selected' : '') + '>' + item.name +'</option>');
+			
+			$select.find('select').append($item);
+		});
+		$b_tr.append($select);
+	});
+	return $question;
+};
+
+var getTable_Rating_review = function(json, answer) {
+	var $question = getTable(json);
+	
+	var options = json.options;
+	var $table = $question.find('[question-answer] table');
+	
+	$table.find('thead').append('<tr></tr>');
+	var $h_tr = $table.find('thead tr').last().css({'height': '30px'});
+	$h_tr.append('<td></td>');
+	
+	$table.find('tbody').prepend('<tr class="value-row"></tr>');
+	var $b_tr_value = $table.find('tbody tr:nth-child(1)');
+	$b_tr_value.append('<td>分值</td>');
+	
+	$.each(json.row, function(index1){
+		var $b_tr = $table.find('tbody tr:nth-child(' +  (index1 + 2) + ')');
+		$.each(options, function(index, item){
+			if(index1 == 0){
+				$h_tr.append('<th style="text-align: left;">' + item.name + '</th>');
+				$b_tr_value.append('<td style="text-align: left; padding-left: 15px;">' + item.value + '</td>');
+			}
+				
+			
+			var $option = $(
+			'<td class="option customized-checkbox" data-id="' + item.lid + '" style="display: table-cell;">\n' +
+			'	<input type="checkbox" name="' + json.lid + '"' + (item.isDefault == 1 ? ' checked' : '' )  + ' value="' + item.value + '" ' + (answer.table_option[index1].includes(item.lid)  ? 'checked' : '') + '>\n' + 
+			'	<span class="checkmark" style="border-radius: 50%;"></span>\n' +
+			'</td>\n'
+			)
+
+			$b_tr.append($option).css({'height': '25px'});
+		});
+	});
+	
+	
+	return $question;
+};
+
+var getTag_review = function(json, answer){
+	var $question = getQuestion_review(json);
+	
+	var $container = $question.find('[question-answer]').empty();
+	$container.addClass('clearfix');
+	answer.tags.forEach(function(item){
+		var $tag = $('<span style="">' + item + '</span>\n')
+			.css({
+				'color': '#555555',
+				'background': '#fff',
+				'border': '1px solid #ccc',
+				'border-radius': '4px',
+				'cursor': 'default',
+				'float': 'left',
+				'margin': '5px 0 0 6px',
+				'padding': '0 6px'
+			});
+		$container.append($tag);
+	});
+	
+	return $question;
+};
+
 const QUESTION_REVIEW_MAP = {
 	'singleSelect': getSingleSelect_review,
 	'singleDropdown': getSingleDropdown_review,
@@ -493,5 +735,14 @@ const QUESTION_REVIEW_MAP = {
 	'multiDropdown': getMultiDropdown_review,
 	'input': getInput_review,
 	'file': getFile_review,
-	'text': getText_review
+	'text': getText_review,
+	'rating': getRating_review,
+	'slide': getSlide_review,
+	'ranking': getRanking_review,
+	'table_singleselect': getTable_SingleSelect_review,
+	'table_multiselect': getTable_MultiSelect_review,
+	'table_input': getTable_Input_review,
+	'table_singledropdown': getTable_SingleDropdown_review,
+	'table_rating': getTable_Rating_review,
+	'tag': getTag_review,
 };

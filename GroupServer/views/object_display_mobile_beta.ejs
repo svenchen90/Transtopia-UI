@@ -69,13 +69,6 @@
 		<!-- bootstrap datepicker -->
 		<script src="plugins/datepicker/bootstrap-datepicker.js"></script>
 		
-		<!-- bootstrap-slider -->
-		<link rel="stylesheet" href="plugins/bootstrap-slider/slider.css">
-		<script src="plugins/bootstrap-slider/bootstrap-slider.js"></script>
-		
-		<!-- iCheck -->
-		<script src="plugins/iCheck/icheck.min.js"></script>
-		<link href="plugins/iCheck/all.css" rel="stylesheet">
 		
 		<!-- 自定义插件与样式 -->
 		<!-- 全局css -->
@@ -84,13 +77,17 @@
 		<!-- 功能插件 -->
 		<script src="js_object/gears.js"></script>
 		
+		<!-- 双行框 -->
+		<link href="css_object/twinrow.css" rel="stylesheet" />
+		<script src="js_object/twinrow.js"></script>
+		
+		<!-- 单行框 -->
+		<link href="css_object/singlerow.css" rel="stylesheet" />
+		<script src="js_object/singlerow.js"></script>
+		
 		<!-- eiditor -->
 		<script type="text/javascript" src="js_object_final/editor.js"></script>
 		<link href="css_object/editor.css" rel="stylesheet">
-		
-		<!-- Select box Beta -->
-		<link href="css_object/select-box-beta.css" rel="stylesheet">
-		<script type="text/javascript" src="js_object_final/select-box-beta.js"></script>
 		
 		
 		<link href="css_object/object_final.css" rel="stylesheet">
@@ -99,89 +96,113 @@
 		
 		<script type="text/javascript" src="js_object_final/module_design_final.js"></script>
 		<script type="text/javascript" src="js_object_final/module_display_final.js"></script>
-		<script type="text/javascript" src="js_object_final/module_review_final.js"></script>
 		
+		<!-- iCheck -->
+		<script src="plugins/iCheck/icheck.min.js"></script>
+		<link href="plugins/iCheck/all.css" rel="stylesheet">
 		
+		<style>
+		/* The customized-checkbox */
+		.customized-checkbox {
+				display: block;
+				position: relative;
+				padding-left: 35px;
+				margin-bottom: 12px;
+				cursor: pointer;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+		}
+
+		/* Hide the browser's default checkbox */
+		.customized-checkbox input {
+				display:none;
+		}
+
+		/* Create a custom checkbox */
+		.checkmark {
+				position: absolute;
+				top: 0;
+				left: 0;
+				margin-left: 10px;
+				height: 20px;
+				width: 20px;
+				background-color: #eee;
+		}
+
+		/* On mouse-over, add a grey background color */
+		.customized-checkbox:hover input ~ .checkmark {
+				background-color: #ccc;
+		}
+
+		/* When the checkbox is checked, add a blue background */
+		.customized-checkbox input:checked ~ .checkmark {
+				background-color: #2196F3;
+		}
+
+		/* Create the checkmark/indicator (hidden when not checked) */
+		.checkmark:after {
+				content: "";
+				position: absolute;
+				display: none;
+		}
+
+		/* Show the checkmark when checked */
+		.customized-checkbox input:checked ~ .checkmark:after {
+				display: block;
+		}
+
+		/* Style the checkmark/indicator */
+		.customized-checkbox .checkmark:after {
+				left: 8px;
+				top: 4px;
+				width: 5px;
+				height: 10px;
+				border: solid white;
+				border-width: 0 3px 3px 0;
+				-webkit-transform: rotate(45deg);
+				-ms-transform: rotate(45deg);
+				transform: rotate(45deg);
+		}
 		
+		[question-type="singleSelect"] .customized-checkbox .checkmark{
+			border-radius: 50%;
+		}
+		</style>
 		
 	</head>
     
 	<body class="skin-green-light">
+
+		
 		
 	</body>
 	<script type="text/javascript" src="js_object_final/test.js"></script>
 	
-	
-	
 	<script>
-	
-		// SelectBoxBeta(left_data, right_data, function(a){console.log(a);}, function(i){return '';});
-		
-		
-		FormDesigner({
+
+		/* FormDisplay_mobile({
 			lid: localIDGenerator(),
 			name: '新的物品',
 			tabs: [tab1]
-		}, function(a){
-			console.log(a);
-			FormDisplay(
-				a,
-				function(a){
-					FormReview(
-						{
-							lid: localIDGenerator(),
-							name: '新的物品',
-							tabs: [tab1]
-						},
-						a
-					);
-				}
-			);
-		});
-		
-		/*
-		FormDisplay({
-			lid: localIDGenerator(),
-			name: '新的物品',
-			tabs: [tab1]
-		}, function(a){
-			FormReview(
-				{
-					lid: localIDGenerator(),
-					name: '新的物品',
-					tabs: [tab1]
+		}, function(a){console.log(a)});*/
+
+		FormDisplay_mobile_beta({
+			info: {
+				author: {
+					name: '张银行'
 				},
-				a
-			);
-		});
-		
-		FormDisplay_mobile_beta(
-			{
-				json: {
-					lid: localIDGenerator(),
-					name: '新的物品',
-					tabs: [tab1]
-				},
-				info: {
-					deadline: new Date('2018-07-31'),
-					author: {
-						name: '张震宇'
-					},
-					commission: 25
-				}
+				deadline: new Date().getTime() + 10000,
+				commission: 25
+			},
+			json: {
+				lid: localIDGenerator(),
+				name: '新的物品',
+				tabs: [tab1]
 			}
-		, function(a){console.log(a)});
-		
-		
-		FormDisplay_mobile({
-			lid: localIDGenerator(),
-			name: '新的物品',
-			tabs: [tab1]
-		},
-		function(a){console.log(a)});
-		*/
+		}, function(a){console.log(a)});
 	</script>
-	
 </html>
 
 

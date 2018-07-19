@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Left Nav</title>
+		<!-- Tell the browser to be responsive to screen width -->
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	</head>
+    
+	<body>
+		<div class="container-test">
+			
+		</div>
+	</body>
+	
+	<!-- jQuery	 -->
+	<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+	
+	<!-- jQuery-UI -->
+	<script src="plugins/jQueryUI/jquery-ui.min.js"></script>
+	
+	<!-- Bootstrap 3.3.6 -->
+	<link rel="stylesheet" href="plugins/bootstrap-3.3.6/css/bootstrap.min.css" />
+	<script src="plugins/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+	
+	
+	<!-- Google Font -->
+	<link href="plugins/material-icons/icon.css" rel="stylesheet">
+	
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" />
+	
+	<script>
+		// promise 
+		const URL_GET_SUBFOLDERS_BY_ID = '/get_subfolders_by_id';
+		var querySubfoldersByID = function(id){
+			return new Promise(function(resolve, reject){
+				$.ajax({
+					url : URL_GET_SUBFOLDERS_BY_ID,
+					data: {id: id},
+					type : 'GET',
+					dataType : 'json',
+					success : function (result){
+						if(result == 0){
+							reject('请求失败1');
+						}else{
+							resolve(result);
+						}
+					},
+					error: function(err){
+						reject('请求失败2');
+					}
+				});
+			});
+		};
+	
+		var getNavList = function(data, click_fucntion=function(id, type){console.log(id, type)} ,toggle_function=querySubfoldersByID){
+			var $list = $(
+				'<div class="nav-list">\n' +
+				'</div>\n'
+			);
+			
+			var getNavItem = function(data){
+				return $(
+					'<div class="item nav-item noselect" data-id="' + data.id + '" data-type="' + data.type + '">\n' +
+					'	<span class="icon" data-action="click">' + data.icon + '</span>\n' +
+					'	<span class="text" data-action="click">' + data.name + '<span>\n' +
+					'</div>\n'
+				);
+			};
+			
+			var getNavItem_toggledown = function(data){
+				return $(
+					'<div class="item nav-item toggle-down noselect" data-id="' + data.id + '" data-type="' + data.type + '">\n' +
+					'	<span class="toggle-down" data-action="toggle"><i class="fa fa-caret-right"></i></span>\n' +
+					'	<span class="icon" data-action="click">' + data.icon + '</span>\n' +
+					'	<span class="text" data-action="click">' + data.name + '<span>\n' +
+					'</div>\n'
+				);
+			};
+			
+			var getToggleList = function(data, level=0){
+				var $list = $(
+					'<div class="toogle-down-list" data-level="' + level + '">\n' +
+					'</div>\n'
+				);
+					
+				var getToggleItem = function(data){
+					return $(
+						'<div class="item toogle-down-item noselect" data-id="' + data.id + '">\n' +
+						'	<span class="toggle-down" data-action="toggle"><i class="fa fa-caret-right"></i></span>\n' +
+						'	<span class="icon" data-action="click"><i class="fa fa-folder"></i></span>\n' +
+						'	<span class="text" data-action="click">' + data.name + '<span>\n' +
+						'</div>\n'
+					);
+				};
+				
+				data.forEach(function(d){
+					var $item = getToggleItem(d);
+					$item.css({
+						'padding-left' : 25 + level*25 + 'px'
+					});
+					
+					$list.append($item);
+				});
+				
+				return $list;
+			};
+			
+			
+			
+			
+			data.forEach(function(d){
+				var $item = (d.toggle == 1 ? getNavItem_toggledown(d) : getNavItem(d));
+				$list.append($item);
+			});
+			
+			$list.on('click', '[data-action="click"]', function(e){
+				var $item = $(this).closest('.item');
+				var id = $item.attr('data-id');
+				var type = $item.attr('data-type');
+				$list.find('.selected').removeClass('selected');
+				$item.addClass('selected');
+				click_fucntion(id, type);
+			});
+			
+			$list.on('click', '[data-action="toggle"]', function(e){
+				var $item = $(this).closest('.item');
+				var id = $item.attr('data-id');
+				var level = 0;
+				var $i = $(this).find('i');
+				
+				
+				if($item.hasClass('toogle-down-item')){
+					level = parseInt($item.closest('.toogle-down-list').attr('data-level')) + 1;
+					console.log(level);
+				}
+				
+				
+				var toUnfold = $(this).find('i').hasClass('fa-caret-right');
+				if(toUnfold){
+					toggle_function(id)
+						.then(function(result){
+							var $sub_list = getToggleList(result, level);
+							$item.after($sub_list);
+							$i.toggleClass('fa-caret-right').toggleClass('fa-caret-down');
+						})
+						.catch(function(exception){
+							console.log(exception);
+						});
+				}else{
+					$item.next('.toogle-down-list').remove();
+					$(this).find('i').toggleClass('fa-caret-right').toggleClass('fa-caret-down');
+				}
+			});
+			
+			
+			return $list;
+		};
+		
+		var NAV_LIST = [
+			{
+				id: 1,
+				type: 1,
+				name: '工作区',
+				icon: '<i class="fa fa-cloud"></i>',
+				toggle: 1
+			},
+			{
+				id: 1,
+				type: 2,
+				name: '分享给我',
+				icon: '<i class="fa fa-share-alt"></i>',
+				toggle: 1
+			},
+			{
+				id: 3,
+				type: 3,
+				name: '回收站',
+				icon: '<i class="fa fa-share-alt"></i>',
+				toggle: 0
+			},
+		];
+		
+		var $nav = getNavList(NAV_LIST);
+		$('.container-test').append($nav);
+	
+	</script>
+	
+	<style>
+		.noselect {
+			user-select: none;
+		}
+		
+		.nav-list {
+			width: 250px;
+			height: 100vh;
+		}
+		
+		.nav-list .nav-item {
+			padding: 10px 10px 10px 26px;
+			font-weight: 600;
+			color: #5f6368;
+		}
+		
+		.nav-list .nav-item:hover, .toogle-down-list .toogle-down-item:hover{
+			background-color: rgba(0,0,0,0.05)
+		}
+		
+		.nav-list .nav-item.selected, .toogle-down-list .toogle-down-item.selected{
+			color: #1967d2;
+			background-color: #e8f0fe;
+		}
+		
+		.nav-list .nav-item.toggle-down {
+			padding: 10px;
+		}
+		
+		.nav-list .nav-item .toggle-down{
+			margin-right: 5px;
+			cursor: pointer;
+		}
+		
+		.nav-list .nav-item .icon{
+			padding-right: 24px;
+			cursor: pointer;
+		}
+		
+		.nav-list .nav-item .text{
+			width: 150px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: inline-block;
+			vertical-align: middle;
+			white-space: nowrap;
+			cursor: pointer;
+		}
+		
+		.toogle-down-list {
+			
+		}
+		
+		.toogle-down-item {
+			padding: 5px;
+			font-weight: 600;
+			color: #5f6368;
+		}
+		
+		.toogle-down-item .toggle-down{
+			cursor: pointer;
+		}
+		
+		.toogle-down-item .icon {
+			padding-right: 5px;
+			cursor: pointer;
+		}
+		
+		.toogle-down-item .text {
+			font-size: 13px;
+			width: 100px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: inline-block;
+			vertical-align: middle;
+			white-space: nowrap;
+			cursor: pointer;
+		}
+	</style>
+</html>
+
+

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Transtopia - 群组</title>
+		<!-- Tell the browser to be responsive to screen width -->
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		
+		
+		<!-- 插件与样式 -->
+		<!-- jQuery	 -->
+		<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+		
+		<!-- jQuery-UI -->
+		<script src="plugins/jQueryUI/jquery-ui.min.js"></script>
+		
+		<!-- Bootstrap 3.3.6 -->
+		<link rel="stylesheet" href="plugins/bootstrap-3.3.6/css/bootstrap.min.css" />
+		<script src="plugins/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+		
+		<!-- AdminLTE App -->
+		<link rel="stylesheet" href="plugins/AdminLTE-2.3.11/css/AdminLTE.min.css" />
+		<link rel="stylesheet" href="plugins/AdminLTE-2.3.11/css/skins/_all-skins.min.css" />
+		<script src="plugins/AdminLTE-2.3.11/js/app.min.js"></script>
+	
+		<!-- Google Font -->
+		<link href="plugins/material-icons/icon.css" rel="stylesheet">
+		
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" />
+		
+		
+		
+		<!-- 全局css -->
+		<link href="css_object/global.css" rel="stylesheet" />
+		
+		<script src="js_mobile_assignment/js_assignment.js"></script>
+		<link href="css_mobile_assignment/css_mobile_assignment.css" rel="stylesheet" />
+		
+	</head>
+	<body class="skin-green-light">
+		<div class="modal-content">
+			<div class="modal-header navbar-fixed-top" style="background-color: #007bff; color: #fff;">
+				<h4 class="modal-title">
+					<a href="javascript:void(0);" style="color: rgba(255,255,255);">任务列表</a>
+					<input type="text" class="pull-right assignment-search"/>
+				</h4>
+			</div>
+			<div>
+				<div class="assignment-list">
+				</div>
+			</div>
+		</div>
+		
+		
+	</body>
+
+	<script>
+		(function(){
+			// #### initial
+			
+			
+			reloadAssignment([{
+				name: '南京交通调查问卷',
+				author_name: '张英航', 
+				date_start: '2018-05-13',
+				date_end: '2018-05-31',
+				commission: 25,
+				link: 'http://127.0.0.1:3000/object_display_mobile_beta'
+			},{
+				name: '南京交通调查问卷',
+				author_name: '张英航', 
+				date_start: '2018-05-13',
+				date_end: '2018-06-02',
+				commission: 25,
+				link: 'http://127.0.0.1:3000/object_display_mobile_beta'
+			}], $('.assignment-list'))
+			
+			
+			$('.assignment-search').on('keyup', function(e){
+				if(e.keyCode == 13){
+					// #### reload
+				}
+			});
+		})();
+	</script>
+</html>
+
+

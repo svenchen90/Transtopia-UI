@@ -1,0 +1,68 @@
+.nav-top {
+	-webkit-box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
+	box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.2);
+}
+.nav-top {
+	-webkit-box-shadow: 
+		0 4px 5px 0 rgba(0,0,0,0.14),
+		0 1px 10px 0 rgba(0,0,0,0.12),
+		0 2px 4px -1px rgba(0,0,0,0.2);
+	box-shadow: 
+		0 4px 5px 0 rgba(0,0,0,0.14),
+		0 1px 10px 0 rgba(0,0,0,0.12),
+		0 2px 4px -1px rgba(0,0,0,0.2);
+}
+
+.nav-top .navbar {
+	margin-bottom:0; border-radius:0;border-bottom: none;
+}
+
+.nav-top .navbar li a, .nav-top .navbar-brand{
+	color: rgba(0,0,0,0.6);
+}
+
+#firstNavTop .navbar-header {
+	width: 200px;
+}
+
+#firstNavTop .navbar-icon {
+	float: left;
+	font-size: 18px;
+	line-height: 20px;
+	color: rgba(0,0,0,0.6);1``````````````
+}
+#firstNavTop .navbar-icon {
+	padding: 5px;
+}
+#firstNavTop .navbar-icon:hover {
+   text-decoration: none;
+}
+
+#firstNavTop .navbar-icon img {
+	width:40px;
+	height:40px;
+}
+
+#firstNavTop .navbar-form input {
+	width: calc(100vw - 200px - 150px - 200px);
+	max-width: 500px;
+}
+
+#firstNavTop .left-top-text {
+	position: absolute;
+	top: 9px;
+	right: 7px;
+	text-align: center;
+	font-size: 9px;
+	padding: 2px 3px;
+	line-height: .9;
+	background-color: #f39c12;
+	color: rgba(255,255,255,0.8);
+}
+
+.avatar-icon {
+	height:40px;
+	border-radius: 50%;
+	border: 0.08em solid rgba(0,0,0,0.3);
+	padding: 3px;
+}

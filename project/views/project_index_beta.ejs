@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>UTopia - 工作区</title>
+		<!-- Tell the browser to be responsive to screen width -->
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		
+		<!-- jQuery	 -->
+		<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+		
+		<!-- jQuery-UI -->
+		<script src="plugins/jQueryUI/jquery-ui.min.js"></script>
+		
+		<!-- Bootstrap 3.3.6 -->
+		<link rel="stylesheet" href="plugins/bootstrap-3.3.6/css/bootstrap.min.css" />
+		<script src="plugins/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+		
+		<!-- DataTables -->
+		<script src="plugins/datatables/jquery.dataTables.min.js"></script>
+		<script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+		
+		<!-- Slimscroll -->
+		<script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+		
+		<!-- bootstrap-fileinput -->
+		<link href="plugins/bootstrap-fileinput/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="plugins/bootstrap-fileinput/themes/explorer/theme.css" media="all" rel="stylesheet" type="text/css" />
+		<script src="plugins/bootstrap-fileinput/js/plugins/sortable.js" type="text/javascript"></script>
+		<script src="plugins/bootstrap-fileinput/js/fileinput.js" type="text/javascript"></script>
+		<script src="plugins/bootstrap-fileinput/themes/explorer/theme.js" type="text/javascript"></script>
+		<script src="plugins/bootstrap-fileinput/js/locales/zh.js" type="text/javascript"></script>
+		
+		<!-- icheck -->
+		<link rel="stylesheet" href="plugins/iCheck/all.css">
+		<script src="plugins/iCheck/icheck.min.js"></script>
+		
+		<!-- Select 2 -->
+		<link href="plugins/select2/select2.min.css" rel="stylesheet" />
+		<link href="plugins/select2/select2-bootstrap.css" rel="stylesheet" />
+		<script src="plugins/select2/select2.full.min.js"></script>
+		<script src="plugins/select2/i18n/zh-CN.js"></script>
+		
+		<!-- JQuery Confirm -->
+		<link rel="stylesheet" href="plugins/jquery-confirm/jquery-confirm.min.css">
+		<script src="plugins/jquery-confirm/jquery-confirm.min.js"></script>
+		
+		<!-- Google Font -->
+		<link href="plugins/material-icons/icon.css" rel="stylesheet">
+		
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" />
+		
+		<!-- 自定义插件与样式 -->
+		<link href="css_project/global.css" rel="stylesheet">
+		<link href="css_project/filesystem.css" rel="stylesheet">
+		<link href="css_project/top-nav.css" rel="stylesheet">
+		<link href="css_project/google-style-menu.css" rel="stylesheet">
+		
+				
+		<script src="js_project/left-nav.js"></script>
+		<link href="css_project/left-nav.css" rel="stylesheet">
+		<!-- 测试 -->
+
+	</head>
+  	
+	<body class="customized-scrollbar">
+		<!-- 置顶一级导航栏 -->
+		<div class="nav-top">
+			<nav id="firstNavTop" class="navbar noselect container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-icon" href="#">
+						<img src="img/drive_48dp.png">
+						<span class="text">工作区</span>
+					</a>
+				</div>
+				<div class="navbar-form navbar-left">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="搜索" data-type="search">
+					</div>
+				</div>
+				<ul class="nav navbar-nav  navbar-right" data-type="left-list">
+					<li class="dropdown">
+						<a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-bell-o"></i> <span class="left-top-text">3</span>
+						</a>
+						<ul class="dropdown-menu">
+							<!-- 二级子菜单 -->
+							<li><a href="javascript: void(0)">这是一条消息</a></li>
+							<li class="divider"></li>
+							<li><a href="javascript: void(0)">这是一条消息</a></li>
+							<li><a href="javascript: void(0)">这是一条消息</a></li>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-th"></i>
+						</a>
+						<div class="dropdown-menu google-style-menu">
+							<ul class="content">
+								<li>
+									<a href="javascript:void(0);">
+										<span class="icon" style="background-position:0 -69px;"></span>
+										<span class="text">个人账户</span>
+									</a>
+								</li>
+								<li>
+									<a href="javascript:void(0);">
+										<span class="icon" style="background-position:0 -1449px"></span>
+										<span class="text">云盘</span>
+									</a>
+								</li>
+								<li>
+									<a href="javascript:void(0);">
+										<span class="icon" style="background-position:0 -1035px"></span>
+										<span class="text">动态</span>
+									</a>
+								</li>
+								<li>
+									<a href="javascript:void(0);">
+										<span class="icon" style="background-position:0 0"></span>
+										<span class="text">工作区</span>
+									</a>
+								</li>
+								<li>
+									<a href="javascript:void(0);">
+										<span class="icon" style="background-position:0 -1518px"></span>
+										<span class="text">装备库</span>
+									</a>
+								</li>
+							</ul>
+							<div class="load-more">
+								<a href="javascript: void(0);">更多</a>
+							</div>
+						</div>
+					</li>
+					<li class="dropdown">
+						<a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" style="padding:5px;">
+							<img class="avatar-icon" src="http://127.0.0.1:3000/dist/img/avatar.png">
+						</a>
+						<ul class="dropdown-menu">
+							<!-- 二级子菜单 -->
+							<li><a href="javascript: void(0)"><i class="fa fa-gear"></i> <span>功能1</span></a></li>
+							<li><a href="javascript: void(0)"><i class="fa fa-gear"></i> <span>功能2</span></a></li>
+							<li><a href="javascript: void(0)"><i class="fa fa-gear"></i> <span>功能3</span></a></li>
+							<li class="divider"></li>
+							<li><a href="javascript: void(0)"><i class="fa fa-sign-out"></i> <span>退出</span></a></li>
+						</ul>
+					</li>
+				</ul>
+				
+			</nav>
+			<nav id="secondNavTop" class="navbar noselect container-fluid">
+				<ul class="nav navbar-nav" style="width: 200px;">
+					<li class="dropdown">
+						<a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-plus"></i> 新建
+						</a>
+						<div class="dropdown-menu google-style-menu">
+							<ul class="content">
+								<li>
+									<a href="javascript:void(0);">
+										<span class="icon" style="background-position:0 -207px;"></span>
+										<span class="text">新建工作区</span>
+									</a>
+								</li>
+								<li>
+									<a href="javascript:void(0);">
+										<span class="icon" style="background-position:0 -897px"></span>
+										<span class="text">新建地图</span>
+									</a>
+								</li>
+								<li>
+									<a href="javascript:void(0);">
+										<span class="icon" style="background-position:0 -1587px"></span>
+										<span class="text">新建集合</span>
+									</a>
+								</li>
+								<li>
+									<a href="javascript:void(0);">
+										<span class="icon" style="background-position:0 414"></span>
+										<span class="text">添加图片</span>
+									</a>
+								</li>
+								<li>
+									<a href="javascript:void(0);">
+										<span class="icon" style="background-position:0 -1794px"></span>
+										<span class="text">添加语音</span>
+									</a>
+								</li>
+								<li>
+									<a href="javascript:void(0);">
+										<span class="icon" style="background-position:0 -2208px"></span>
+										<span class="text">添加笔记</span>
+									</a>
+								</li>
+							</ul>
+							<div class="load-more">
+								<a href="javascript: void(0);" style="text-decoration: none;">更多</a>
+							</div>
+						</div>
+					</li>
+				</ul>
+				<!-- 填充栏 -->
+				<ul class="nav navbar-nav" data-type="left-list">
+					<li class="nav-base"><a href="javascript: void(0)"><span>我的云盘</span> <i class="fa fa-angle-right"></i></a></li>
+					<li class="nav-base"><a href="javascript: void(0)"><span>文件夹1</span> <i class="fa fa-angle-right"></i></a></li>
+					<li class="nav-base"><a href="javascript: void(0)"><span>文件夹2</span> <i class="fa fa-angle-down"></i></a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right" data-type="left-list">
+					<li data-ation="toggle"><a href="javascript: void(0)"><i class="fa fa-info-circle" style="font-size: 20px;"></i></a></li>
+					<li data-ation="view-toggle"><a href="javascript: void(0)"><i class="fa fa-th" style="font-size: 20px;"></i></a></li>
+					<li class="dropdown">
+						<a href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gear" style="font-size: 20px;"></i></a>
+						<ul class="dropdown-menu">
+							<!-- 二级子菜单 -->
+							<li><a href="javascript: void(0)">子菜单</a></li>
+							<li><a href="javascript: void(0)">子菜单</a></li>
+							<li class="divider"></li>
+							<li><a href="javascript: void(0)">子菜单</a></li>
+							<li><a href="javascript: void(0)">子菜单</a></li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+		</div>
+		
+		
+		<!-- 主要展示框 -->
+		<div id="mainBlock">
+			<table class="main-block noselect">
+				<tbody>
+					<tr>
+						<!-- 主控区域内容 -->
+						<td class="left-block">
+							<div class="content customized-scrollbar" style="height: calc(100vh - 102px);">
+								<ul class="nav-list" id="container-test">
+
+								</ul>
+							</div>
+						</td>
+						<td class="middle-block">
+							<div class="content customized-scrollbar" style="height: calc(100vh - 102px);">
+								<!-- 填充内容 -->
+								<div class="file-folder-block">
+									<!-- 标题 -->
+									<div class="title" style="margin-bottom: 15px; line-height: 40px;">
+										<span data-name="title" style="color: rgba(0,0,0,.54); font-weight: 600;">工作区</span>
+										<span class="pull-right">
+			<span class="dropdown">
+				<a data-name="sort-by" href="javascript: void(0)" class="dropdown-toggle" data-toggle="dropdown" style="margin-right: 10px;color: rgba(0,0,0,.54); font-weight: 600; text-decoration: none;">名称</a>
+				<ul data-name="sort-by-menu" class="dropdown-menu dropdown-menu-right">
+					<!-- Sort By -->
+				<li><a href="javascript: void(0)">名称</a></li><li class="divider"></li><li><a href="javascript: void(0)">创建时间</a></li></ul>
+			</span>
+										<span data-name="ascending"><i class="fa fa-arrow-up"></i></span>
+										</span>
+									</div>
+									<div class="clearfix"></div>
+									<!--  文件夹 -->
+									<div class="file-folder-content row">
+										<div class="col-lg-2 col-md-4 col-sm-6 ui-draggable ui-draggable-handle ui-droppable" data-type="folder" style="position: relative;">
+											<div class="folder noselect" title="工作区1" data-index="0" data-id="1" data-set="1">
+												<span class="icon" style="color: rgb(66, 133, 244);"><i class="material-icons">folder_shared</i></span>
+												<span class="name">工作区1</span>
+											</div>
+										</div>
+										<div class="col-lg-2 col-md-4 col-sm-6 ui-draggable ui-draggable-handle ui-droppable" data-type="folder" style="position: relative;">
+											<div class="folder noselect" title="地图2" data-index="1" data-id="2" data-set="2">
+												<span class="icon"><i class="material-icons">folder</i></span>
+												<span class="name">地图2</span>
+											</div>
+										</div>
+										<div class="col-lg-2 col-md-4 col-sm-6 ui-draggable ui-draggable-handle ui-droppable" data-type="folder" style="position: relative;">
+											<div class="folder noselect" title="工作区3" data-index="2" data-id="3" data-set="undefined">
+												<span class="icon"><i class="material-icons">folder</i></span>
+												<span class="name">工作区3</span>
+											</div>
+										</div>
+										<div class="col-lg-2 col-md-4 col-sm-6 ui-draggable ui-draggable-handle ui-droppable" data-type="folder" style="position: relative;">
+											<div class="folder noselect" title="工作区4" data-index="3" data-id="4" data-set="undefined">
+												<span class="icon"><i class="material-icons">folder</i></span>
+												<span class="name">工作区4</span>
+											</div>
+										</div>
+									</div>
+									<!-- <p style="text-align:center;"><span class="btn loadmore">加载更多...</span></p> -->
+								</div>
+								<div class="file-folder-block">
+									<!-- 标题 -->
+									<div class="title" style="margin-bottom: 15px; line-height: 40px;">
+										<span data-name="title" style="color: rgba(0,0,0,.54); font-weight: 600;">集合</span>
+									</div>
+									<div class="clearfix"></div>
+									<!--  文件夹 -->
+									<div class="file-folder-content row">
+										<div class="col-lg-2 col-md-4 col-sm-6 ui-draggable ui-draggable-handle ui-droppable" data-type="folder" style="position: relative;">
+											<div class="folder noselect" title="集合1" data-index="0" data-id="1" data-set="1">
+												<span class="icon" style="color: rgb(66, 133, 244);"><i class="material-icons">folder_shared</i></span>
+												<span class="name">集合1</span>
+											</div>
+										</div>
+										<div class="col-lg-2 col-md-4 col-sm-6 ui-draggable ui-draggable-handle ui-droppable" data-type="folder" style="position: relative;">
+											<div class="folder noselect" title="集合2" data-index="1" data-id="2" data-set="2">
+												<span class="icon"><i class="material-icons">folder</i></span>
+												<span class="name">集合2</span>
+											</div>
+										</div>
+									</div>
+									<!-- <p style="text-align:center;"><span class="btn loadmore">加载更多...</span></p> -->
+								</div>
+								<div class="file-folder-block">
+									<!-- 标题 -->
+									<div class="title" style="margin-bottom: 15px; line-height: 40px;">
+										<span data-name="title" style="color: rgba(0,0,0,.54); font-weight: 600;">文件</span>
+									</div>
+									<div class="clearfix"></div>
+									<!--  文件夹 -->
+									<div class="file-folder-content row">
+										<div class="col-lg-2 col-md-4 col-sm-6" data-type="file">
+											<div class="file noselect" title="New Text Document.txt" data-index="0" data-id="1" data-set="1" data-src="http://127.0.0.1:3000/dist/img/New Text Document.txt">
+												<div class="top">
+													<iframe id="frame" src="http://127.0.0.1:3000/dist/img/New Text Document.txt" width="100%" scrolling="no" frameborder="0">
+													</iframe>
+												</div>
+												<div class="bot">
+													<span class="icon"><i class="fa fa-file-text-o"></i></span>
+													<span class="name">New Text Document.txt</span>
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-2 col-md-4 col-sm-6" data-type="file">
+											<div class="file noselect" title="extofgong_chen.pdf" data-index="1" data-id="2" data-set="2" data-src="http://127.0.0.1:3000/dist/img/extofgong_chen.pdf">
+												<div class="top">
+													<iframe id="frame" src="http://127.0.0.1:3000/dist/img/extofgong_chen.pdf" width="100%" scrolling="no" frameborder="0">
+													</iframe>
+												</div>
+												<div class="bot ui-draggable ui-draggable-handle" style="position: relative;">
+													<span class="icon"><i class="fa fa-file-pdf-o"></i></span>
+													<span class="name">extofgong_chen.pdf</span>
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-2 col-md-4 col-sm-6" data-type="file">
+											<div class="file noselect" title="阿尔法.png" data-index="2" data-id="3" data-set="undefined" data-src="http://127.0.0.1:3000/dist/img/photo1.png">
+												<div class="top">
+													<iframe id="frame" src="http://127.0.0.1:3000/dist/img/photo1.png" width="100%" scrolling="no" frameborder="0">
+													</iframe>
+												</div>
+												<div class="bot ui-draggable ui-draggable-handle" style="position: relative;">
+													<span class="icon"><i class="fa fa-file-image-o"></i></span>
+													<span class="name">阿尔法.png</span>
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-2 col-md-4 col-sm-6" data-type="file">
+											<div class="file noselect" title="阿尔法2.js" data-index="3" data-id="4" data-set="undefined" data-src="http://127.0.0.1:3000/dist/img/controller.js">
+												<div class="top">
+													<iframe id="frame" "=" " width="100% " scrolling="no " frameborder="0 ">
+					</iframe>
+				</div>
+				<div class="bot ui-draggable ui-draggable-handle " style="position: relative; ">
+					<span class="icon "><i class="fa fa-file-o "></i></span>
+					<span class="name ">阿尔法2.js</span>
+				</div>
+			</div>
+		</div><div class="col-lg-2 col-md-4 col-sm-6 " data-type="file ">
+			<div class="file noselect " title="定价模型_beta.docx " data-index="4 " data-id="5 " data-set="undefined " data-src="http://127.0.0.1:3000/TransCloud/交托帮/定价模型_beta.docx ">
+				<div class="top ">
+					<iframe id="frame " "="" width="100%" scrolling="no" frameborder="0">
+													</iframe>
+												</div>
+												<div class="bot ui-draggable ui-draggable-handle" style="position: relative;">
+													<span class="icon"><i class="fa fa-file-word-o"></i></span>
+													<span class="name">定价模型_beta.docx</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- <p style="text-align:center;"><span class="btn loadmore">加载更多...</span></p> -->
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</body>
+	
+	<script>
+	var NAV_LIST = [
+		{
+			id: 1,
+			type: 1,
+			name: '工作区',
+			icon: '<i class="fa fa-cloud"></i>',
+			toggle: 1
+		},
+		{
+			id: 1,
+			type: 2,
+			name: '分享给我',
+			icon: '<i class="fa fa-share-alt"></i>',
+			toggle: 1
+		},
+		{
+			id: 3,
+			type: 3,
+			name: '回收站',
+			icon: '<i class="fa fa-share-alt"></i>',
+			toggle: 0
+		},
+	];
+
+	var $nav = getNavList(NAV_LIST);
+	$('#container-test').append($nav);
+	
+	</script>
+	</script>
+	
+</html>
+
+

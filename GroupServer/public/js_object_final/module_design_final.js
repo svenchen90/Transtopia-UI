@@ -56,12 +56,17 @@ text: {
 	lid: 
 	text:
 }
+
+rating: {
+	{singleSelect}
+}
+
 */
 
 var FormDesigner = function(data, submitCallback){
 	var $modal = $(
 		'<div class="modal fade">\n' +
-		'	<div class="modal-dialog"  style="width:60vw;">\n' +
+		'	<div class="modal-dialog"  style="width:1200px;">\n' +
 		'		<div class="modal-content">\n' +
 		'			<div class="modal-header">\n' +
 		'				<h4 class="modal-title">\n' +
@@ -69,9 +74,9 @@ var FormDesigner = function(data, submitCallback){
 		'					<button type="button" class="close" data-dismiss="modal">\n' +
 		'						&times;\n' +
 		'					</button>\n' +
-		'					<span class="pull-right" style="margin-right : 10px; color: #3c8dbc; cursor: pointer;" title="导入模板" import-template>\n' +
+		'					<!-- <span class="pull-right" style="margin-right : 10px; color: #3c8dbc; cursor: pointer;" title="导入模板" import-template>\n' +
 		'						<i class="fa fa-database"></i>\n' +
-		'					</span>\n' +
+		'					</span> -->\n' +
 		'				</h4>\n' +
 		'			</div>\n' +
 		'			<div class="modal-body">\n' +
@@ -104,6 +109,22 @@ var FormDesigner = function(data, submitCallback){
 		'								</li>\n' +
 		'								<li><a href="#" data-action="file"><i class="fa fa-file-o"></i> 上传文件</a></li>\n' +
 		'								<li><a href="#" data-action="text"><i class="fa fa-pencil"></i> 添加文本</a></li>\n' +
+		'								<li><a href="#" data-action="rating"><i class="fa fa-star-o"></i> 评分</a></li>\n' +
+		'								<li><a href="#" data-action="slide"><i class="fa fa-exchange"></i> 滑动条</a></li>\n' +
+		'								<li><a href="#" data-action="ranking"><i class="fa fa-sort-numeric-asc"></i> 排序</a></li>\n' +
+		'								<li class="dropdown">\n' +
+		'									<a href="#" class="dropdown-toggle" data-toggle="dropdown">\n' +
+		'										<i class="fa fa-table"></i> 矩阵 <b class="caret"></b>\n' +
+		'									</a>\n' +
+		'									<ul class="dropdown-menu">\n' +
+		'										<li><a href="#" data-action="table_singleselect"><i class="fa fa-check-circle-o"></i> 矩阵单选</a></li>\n' +
+		'										<li><a href="#" data-action="table_multiselect"><i class="fa fa-check-square-o"></i> 矩阵多选</a></li>\n' +
+		'										<li><a href="#" data-action="table_input"><i class="fa fa-keyboard-o"></i> 矩阵填空</a></li>\n' +
+		'										<li><a href="#" data-action="table_singledropdown"><i class="fa fa-align-justify"></i> 矩阵下拉</a></li>\n' +
+		'										<li><a href="#" data-action="table_rating"><i class="fa fa-sort-numeric-asc"></i> 矩阵评分</a></li>\n' +
+		'									</ul>\n' +
+		'								</li>\n' +
+		'								<li><a href="#" data-action="tag"><i class="fa fa-tags"></i> 标签</a></li>\n' +
 		'							</ul>\n' +
 		'						</div>\n' +
 		'						</div>\n' +
@@ -417,7 +438,50 @@ var FormDesigner = function(data, submitCallback){
 					json.sub_type = $(this).attr('data-subType');
 				}
 				
-				
+				// rating
+				if(['table_singleselect', 'table_multiselect', 'table_singledropdown', 'table_rating', 'rating'].includes(json.type)){
+					json.options = [
+						{
+							lid: localIDGenerator(),
+							name: '很不满意',
+							value: 1,
+							isDefault: 0
+						},
+						{
+							lid: localIDGenerator(),
+							name: '不满意',
+							value: 2,
+							isDefault: 0
+						},
+						{
+							lid: localIDGenerator(),
+							name: '一般',
+							value: 3,
+							isDefault: 0
+						},
+						{
+							lid: localIDGenerator(),
+							name: '满意',
+							value: 4,
+							isDefault: 0
+						},
+						{
+							lid: localIDGenerator(),
+							name: '满意',
+							value: 5,
+							isDefault: 0
+						}
+					]
+				}
+				if(json.type == 'slide'){
+					json.min = 1;
+					json.max = 100;
+					json.min_text = '不满意';
+					json.max_text = '满意';
+				}
+				if(['table_singleselect', 'table_multiselect', 'table_input', 'table_singledropdown', 'table_rating', ].includes(json.type)){
+					json.row = ['标题行1', '标题行2', '标题行3']
+				}
 				
 				var $q = addQuestion(json, $container);
 				$q.find('.btn-list [data-action="activateEditor"]').trigger('click');
@@ -432,8 +496,13 @@ var FormDesigner = function(data, submitCallback){
 		$modal.on('click', '[data-action="submit"]', function(){
 			callConfirm('确认提交', '您确定提交此物品？', 
 				function(){
-					console.log(toJson())
-					//submitCallback(toJson());
+					submitCallback(toJson());
+					/* console.log(toJson())
+					FormDisplay(
+						toJson(), 
+						function(a){console.log(a)}
+					); */
+					
 					$modal.modal('hide');
 				}, 
 				function(){
@@ -869,7 +938,7 @@ var Constraint = function(){
 	};
 };
 
-var Option = function(){
+var Option = function(opt){
 	var obj = this;
 	this.get$option = function(data){
 		var $option = $(
@@ -890,6 +959,14 @@ var Option = function(){
 		$option.find('[name="name"]').val(data.name);
 		$option.find('[name="isDefault"]').prop('checked', data.isDefault);
 		$option.find('[name="value"]').val(data.value);
+		
+		if(opt && opt.hasDefault == 0){
+			$option.find('[name="isDefault"]').closest('td').remove();
+		}
+		
+		if(opt && opt.hasValue == 0){
+			$option.find('[name="value"]').closest('td').remove();
+		}
 		
 		$option.on('click', '[data-action]', function(){
 			var actionType = $(this).attr('data-action');
@@ -941,7 +1018,7 @@ var Question = function(){
 		var $question = $(
 			'<div class="question" question-type question-lid>\n' +
 			'	<div question-main>\n' +
-			'		<div>\n' +
+			'		<div question-head>\n' +
 			'			<span question-index></span>.\n' +
 			'			<span question-title></span>\n' +
 			'			<span question-tooltip><i class="fa fa-info-circle"></i></span>\n' +
@@ -1190,6 +1267,10 @@ var Question = function(){
 		$question.find('[question-main] [question-index]').text(json.index);
 		// 1.3 title
 		$question.find('[question-main] [question-title]').text(json.title);
+		if(json.type == 'ranking'){
+			$question.find('[question-main] [question-title]').append('<span class="type-aids"> [排序题] </span>');
+		}
+		
 		// 1.4 tooltip
 		var msg = [];
 		if(json.required == 1)
@@ -1395,7 +1476,7 @@ var SingleDropdown = function(){
 		var options = data.options;
 		var $container = $question.find('[question-answer]').empty();
 		
-		$select = $('<select style="width: 200px; margin: 5px 0 10px 0;" multiple disabled></select>');
+		$select = $('<select style="width: 200px; margin: 5px 0 10px 0;"></select>');
 		$.each(options, function(index, item){
 			var $item = $('<option class="option" data-id="' + item.lid + '" value="' + item.value + '" ' + (item.isDefault ? 'selected' : '') + '>' + item.name +'</option>');
 			
@@ -1441,8 +1522,6 @@ var Input = function(){
 			$select.find('select').append('<option value="' + key + '">' + INPUT_SUBTYPE[key].name + '</option>');
 		}
 		
-		
-		
 		$question.find('[editor-tooltip]').after($select);
 		$select.find('[value="' + json.sub_type + '"]').prop('selected', true);
 		
@@ -1472,6 +1551,8 @@ var Input = function(){
 
 };
 
+const FILE_TYPE_ALL = ["ANI", "BMP", "CAL", "EPS", "FAX", "GIF", "IMG", "JBG", "JPE", "JPEG", "JPG", "MAC", "PBM", "PCD", "PCX", "PCT", "PGM", "PNG", "PPM", "PSD", "RAS", "TGA", "TIFF", "WMF"];
+
 var File = function(){
 	var q = new Question();
 	var o = new Option();
@@ -1480,6 +1561,83 @@ var File = function(){
 	this.get$question = function(json){
 		var $question = q.get$question(json);
 		
+		var $fileNumber = $(
+			'<div data-type="fileNumber">\n' +
+			'	<input type="checkbox" name="file_num"><label>文件数量不高于: </label><input class="not-display" type="number" name="file_max_num" style="width: 100px;"><br>\n' +
+			'	<input type="checkbox" name="file_size"><label>文件大小不大于: </label><input class="not-display" type="number" name="file_max_size" style="width: 100px;">\n' +
+			'</div>'
+		);
+		
+		$fileNumber.on('click', '[type="checkbox"]', function(e){
+			var name = $(this).attr('name');
+			var selector;
+			if(name == 'file_num')
+				selector = '[name="file_max_num"]';
+			else if(name == "file_size")
+				selector = '[name="file_max_size"]';
+			if($(this).prop('checked'))
+				$fileNumber.find(selector).removeClass('not-display');
+			else
+				$fileNumber.find(selector).addClass('not-display');
+		});
+		
+		
+		$question.find('[editor-tooltip]').after($fileNumber);
+		
+		
+		var updateType = function(list){
+			$allowedType.find('span').remove();
+			list.forEach(function(type){
+				var $type = $('<span style="" data-id="' + type + '">' + type + '</span>\n')
+					.css({
+						'color': '#555555',
+						'background': '#fff',
+						'border': '1px solid #ccc',
+						'border-radius': '4px',
+						'cursor': 'default',
+						'margin': '5px 0 0 6px',
+						'padding': '0 6px'
+					});
+				$allowedType.append($type);
+			});
+		}
+		
+		var $allowedType = $(
+			'<div class="clearfix" data-type="allowedType">\n' +
+			'	<a href="javascript: void(0);" data-action="edit"><i class="fa fa-pencil"></i> 文件类型: </a>\n' +
+			'</div>'
+		);
+		
+		updateType(json.allowedType);
+		
+		$allowedType.on('click', '[data-action="edit"]', function(e){
+			var left_data = FILE_TYPE_ALL.map(function(type, index){
+				return {
+					id: type,
+					name: type,
+					'image': 'dist/img/Pencil-icon.gif'
+				};
+			});
+			
+			var right_data = []
+			$allowedType.find('span').each(function(index, t){
+				var type = $(t).attr('data-id');
+				right_data.push({
+					id: type,
+					name: type,
+					'image': 'dist/img/Pencil-icon.gif'
+				});
+			});
+			
+			SelectBoxBeta(left_data, right_data, function(a){updateType(a);}, function(i){return '';});
+		});
+		
+		
+		
+		$question.find('[editor-title]').after($allowedType);
+		
+		
+		/* 
 		var $allowedType = $(
 			'<div data-type="allowedType">\n' +
 			'	<label>文件类型：</label> <input type="checkbox" name="allowedType" data-type="all"> <label>全部</label>\n' +
@@ -1509,8 +1667,8 @@ var File = function(){
 			}else{
 				$question.find('[data-type="allowedType"] [name="allowedType"][data-type="all"]').prop('checked', false);
 			}
-		});
-		
+		}); */
+
 		
 		
 		return $question;
@@ -1519,10 +1677,18 @@ var File = function(){
 	this.getJson = function($question){
 		var json = q.getJson($question);
 		json.allowedType = [];
-		$question.find('[data-type="typeList"] input:checked').each(function(index, item){
-			json.allowedType.push($(item).attr('data-type'));
+		$question.find('[data-type="allowedType"] span').each(function(index, item){
+			json.allowedType.push($(item).attr('data-id'));
 		});
+
+		if($question.find('[name="file_num"]').is(':checked')){
+			json.file_max_num = $question.find('[name="file_max_num"]').val();
+		}
 		
+		if($question.find('[name="file_size"]').is(':checked')){
+			json.file_max_size = $question.find('[name="file_max_size"]').val();
+		}
+
 		return json;
 	};
 	
@@ -1530,15 +1696,14 @@ var File = function(){
 		var $container = $question.find('[question-answer]').empty();
 		var $input = $(
 			'<div class="input-group" style="margin: 5px 0 5px;">\n' +
-			'	<div class="input-group-addon">\n' +
-			'		<i class="fa fa-file"></i>\n' +
+			'	<input type="text" class="form-control" placeholder="请选择上传文件...">\n' +
+			'	<div class="input-group-addon" style="cursor: pointer;">\n' +
+			'		<i class="fa fa-file"></i> 选择文件\n' +
 			'	</div>\n' +
-			'	<input type="text" class="form-control">\n' +
-			'</div>'
+			'</div>\n'
 		);
 		$container.append($input);
 	};
-
 };
 
 var Text = function(){
@@ -1660,6 +1825,543 @@ var Text = function(){
 	};
 }
 
+var Rating = function(){
+	SingleSelect.call(this);
+	this.loadAnswer = function(data, $question){
+		var options = data.options;
+		var $container = $question.find('[question-answer]').empty();
+		$.each(options, function(index, item){
+			
+			var $option = $(
+			'<span class="option rate" data-id="' + item.lid + '">\n' +
+			'	<i class="fa ' + (item.isDefault == 0 ? 'fa-circle-o' : 'fa-check-circle-o')  + '"></i> <span name="radioName">' + item.value + '</span>\n' +
+			'</span>'
+			)
+			if(index == 0){
+				$container.append('<span class="head">' + item.name + '</span>');
+			}
+			$container.append($option);
+			
+			if(index == options.length-1){
+				$container.append('<span class="tail">' + item.name + '</span>');
+			}
+		});
+	};
+};
+
+var Slide = function(){
+	var q = new Question();
+	var o = new Option();
+	var obj = this;
+	
+	this.get$question = function(json){
+		var $question = q.get$question(json);
+		
+		$question.find('[editor-basic]').after(
+			'<div editor-option>\n' +
+			'	<div>\n' +
+			'		<span>最小值： </span>\n' +
+			'		<input type="number" name="min" value="' + json.min + '"/>\n' +
+			'		<span>最小值显示文本： </span>\n' +
+			'		<input type="text" name="min_text" value="' + json.min_text + '" />\n' +
+			'	</div>\n' +
+			'	<div>\n' +
+			'		<span>最小值： </span>\n' +
+			'		<input type="number" name="max"  value="' + json.max + '" />\n' +
+			'		<span>最小值显示文本： </span>\n' +
+			'		<input type="text" name="max_text"  value="' + json.max_text + '" />\n' +
+			'	</div>\n' +
+			'</div>\n'
+		);
+		
+		return $question;
+	};
+	
+	this.getJson = function($question){
+		var json = q.getJson($question);
+		json.sub_type = $question.find('select[name="sub_type"] option:selected').val();
+		
+		json.min = $question.find('[editor-option] [name="min"]').val();
+		json.min_text = $question.find('[editor-option] [name="min_text"]').val();
+		json.max = $question.find('[editor-option] [name="max"]').val();
+		json.max_text = $question.find('[editor-option] [name="max_text"]').val();
+		
+		return json;
+	};
+	
+	this.loadAnswer = function(data, $question){
+		var sub_type = data.sub_type;
+		var $container = $question.find('[question-answer]').empty();
+		var $input = $(
+			'<div class="slide-block">\n' +
+			'	<div>\n' +
+			'		<span class="head">' + data.min_text + '(' + data.min + ')</span>\n' +
+			'		<span class="pull-right tail">' + data.max_text + '(' + data.max + ')</span>\n' +
+			'	</div>\n' +
+			'	<input type="range" min="' + data.min + '" max="' + data.max + '" value="' +  (parseInt(data.min) + parseInt(data.max))/2 + '" id="slider_bar">\n' +
+			'</div>\n'
+		);
+
+		$container.append($input);
+		// $('#slider_bar').slider({ id: "pace_bar", min: 0, max: 10, value: 5 });
+	};
+
+};
+
+var Ranking = function(){
+	var q = new Question();
+	var o = new Option({hasDefault: 0, hasValue: 0});
+	var obj = this;
+	
+	this.get$question = function(json){
+		var $question = q.get$question(json);
+		
+		// add options
+		var $oContainer = $(
+			'<div editor-option>\n' +
+			'	<table class="table table-hover">\n' +
+			'		<!-- <caption>选项设置</caption> -->\n' +
+			'		<thead>\n' +
+			'			<tr>\n' +
+			'				<th>选项文字</th>\n' +
+			'				<th>操作</th>\n' +
+			'			</tr>\n' +
+			'		</thead>\n' +
+			'		<tbody>\n' +
+			'		</tbody>\n' +
+			'	</table>\n' +
+			'</div>'
+		);
+		$question.find('[editor-constraint]').before($oContainer);	
+		$.each(json.options, function(index, item){
+			var $o = o.get$option(item);
+			$oContainer.find('tbody').append($o);
+		});
+		
+		return $question;
+	};
+	
+	this.getJson = function($question){
+		var json = q.getJson($question);
+		json.options = [];
+		$question.find('[editor-option] [name="editorOption"]').each(function(index, item){
+			json.options.push(o.getJson($(item)));
+		});
+		
+		return json;
+	};
+	
+	this.loadAnswer = function(data, $question){
+		var options = data.options;
+		var $container = $question.find('[question-answer]').empty();
+		$.each(options, function(index, item){
+			var $option = $(
+			'<div class="option" data-id="' + item.lid + '">\n' +
+			'	<i class="fa ' + (item.isDefault == 0 ? 'fa-square-o' : 'fa-check-square-o')  + '"></i> <span name="radioName">' + item.name + '</span>\n' +
+			'</div>'
+			)
+			$container.append($option);
+		});
+	};
+
+};
+
+var Table = function(){
+	var q = new Question();
+	var obj = this;
+	
+	this.get$question = function(json){
+		var $question = q.get$question(json);
+		
+		var $row_editor = $(
+			'<div class="col-sm-3" eidotr-row>\n' +
+			'	<label>行标题</label>\n' +
+			'	<textarea style="width: 100%; min-height: 100px;"></textarea>\n' +
+			'</div>\n'
+		);
+		if(!json.row)
+			json.row = []
+		$row_editor.find('textarea').val(json.row.join('\n'));
+		
+		$question.find('[editor-constraint]').before('<div class="row row_editor"></div>')
+		$question.find('.row_editor').append($row_editor);
+	
+		return $question;
+	};
+	
+	this.getJson = function($question){
+		var json = q.getJson($question);
+
+		var row_text = $question.find('[eidotr-row] textarea').val();
+		json.row = [];
+		row_text.split('\n').forEach(function(item){
+			if(item != '')
+				json.row.push(item);
+		});
+
+		return json;
+	};
+	
+	this.loadAnswer = function(data, $question){
+		var rows = data.row;
+		var $container = $question.find('[question-answer]').empty();
+		var $table = $(
+			'<table answer-table>\n' +
+			'	<thead>\n' +
+			'	</thead>\n' +
+			'	<tbody>\n' +
+			'	</tbody>\n' +
+			'</table>\n'
+		);
+		$.each(rows, function(index, item){
+			var $tr = $(
+				'<tr>\n' +
+				'	<td class="row-name">' + item + '</td>\n' +
+				'</tr>'
+			);
+			
+			$table.find('tbody').append($tr);
+		});
+		$container.append($table);
+	};
+};
+
+var Table_SingleSelect = function(){
+	var t = new Table();
+	var q = new Question();
+	var o = new Option();
+	var obj = this;
+	
+	this.get$question = function(json){
+		$question = t.get$question(json);
+		
+		// add options
+		var $oContainer = $(
+			'<div editor-option class="col-sm-9">\n' +
+			'	<table class="table table-hover">\n' +
+			'		<!-- <caption>选项设置</caption> -->\n' +
+			'		<thead>\n' +
+			'			<tr>\n' +
+			'				<th>选项文字</th>\n' +
+			'				<th>默认</th>\n' +
+			'				<th>数值</th>\n' +
+			'				<th>操作</th>\n' +
+			'			</tr>\n' +
+			'		</thead>\n' +
+			'		<tbody>\n' +
+			'		</tbody>\n' +
+			'	</table>\n' +
+			'</div>'
+		);
+		$question.find('.row_editor').append($oContainer);
+		$.each(json.options, function(index, item){
+			$oContainer.find('tbody').append(o.get$option(item));
+		});
+		
+		$oContainer.on('click', '[name="isDefault"]', function(){
+			var $sibling = $oContainer.find('[name="isDefault"]').not($(this));
+			if($sibling.is(':checked')){
+				callAlert('默认选项至多一项！');
+				$sibling.prop('checked', false);
+			}
+		});
+		
+		return $question;
+	};
+	
+	this.getJson = function($question){
+		var json = t.getJson($question);
+
+		json.options = [];
+		$question.find('[editor-option] [name="editorOption"]').each(function(index, item){
+			json.options.push(o.getJson($(item)));
+		});
+		
+		return json;
+	};
+	
+	this.loadAnswer = function(data, $question){
+		t.loadAnswer(data, $question);
+		var options = data.options;
+		var $table = $question.find('[question-answer] table');
+		
+		$table.find('thead').append('<tr></tr>');
+		var $h_tr = $table.find('thead tr').last();
+		$h_tr.append('<td></td>');
+		
+		$.each(data.row, function(index1){
+			var $b_tr = $table.find('tbody tr:nth-child(' +  (index1 + 1) + ')');
+			$.each(options, function(index, item){
+				if(index1 == 0)
+					$h_tr.append('<th>' + item.name + '</th>');
+				
+				var $option = $(
+				'<td class="option" data-id="' + item.lid + '">\n' +
+				'	<i class="fa ' + (item.isDefault == 0 ? 'fa-circle-o' : 'fa-check-circle-o')  + '"></i>\n' +
+				'</td>'
+				)
+				$b_tr.append($option);
+			});
+		});
+	};
+};
+
+var Table_MultiSelect = function(){
+	var t = new Table();
+	var ts = new Table_SingleSelect();
+	var q = new Question();
+	var o = new Option();
+	var obj = this;
+	
+	this.get$question = function(json){
+		$question = ts.get$question(json);
+		
+		$question.find('[editor-option]')
+			.off('click', '[name="isDefault"]')
+			.append(
+				'<div>\n' +
+				'	<span>至少 <input type="text" name="min" value="' + (json.min == undefined ? '' : json.min) + '" style="width:50px;"> 项</span>\n' +
+				'	<span>至多 <input type="text" name="max" value="' + (json.max == undefined ? '' : json.max) + '" style="width:50px;"> 项</span>\n' +
+				'</div>'
+			);
+		
+		$question.on('keyup', '[editor-option] input[name="min"], [editor-option] input[name="max"]', function(){
+			var value = $(this).val();
+			var limit = $question.find('[name="editorOption"]').length;
+			var type = $(this).attr('name')
+			if(value == ''){
+				
+			}else if(parseInt(value) == value && parseInt(value)>=0){
+				var value = parseInt(value);
+				if(value > limit){
+					callAlert('输入超过选项数目！');
+					$(this).val('');
+				}else{
+					if(type == 'max'){
+						var min = $question.find('[editor-option] input[name="min"]').val();
+						if(min != '' && min > value){
+							callAlert('最大选项数必须大于等于最小选项数！');
+							$(this).val('');
+						}
+					}else{
+						var max = $question.find('[editor-option] input[name="max"]').val();
+						if(max != '' && max < value){
+							callAlert('最小选项数必须小于等于最大选项数！');
+							$(this).val('');
+						}
+					}
+				}
+			}else{
+				callAlert('请输入大于等于0的整数!');
+				$(this).val('');
+			}
+		});
+		
+		
+		return $question;
+	};
+	
+	this.getJson = function($question){
+		var json = ts.getJson($question);
+
+		json.options = [];
+		$question.find('[editor-option] [name="editorOption"]').each(function(index, item){
+			json.options.push(o.getJson($(item)));
+		});
+		
+		return json;
+	};
+	
+	this.loadAnswer = function(data, $question){
+		t.loadAnswer(data, $question);
+		
+		var options = data.options;
+		var $table = $question.find('[question-answer] table');
+		
+		$table.find('thead').append('<tr></tr>');
+		var $h_tr = $table.find('thead tr').last();
+		$h_tr.append('<td></td>');
+		
+		$.each(data.row, function(index1){
+			var $b_tr = $table.find('tbody tr:nth-child(' +  (index1 + 1) + ')');
+			$.each(options, function(index, item){
+				if(index1 == 0)
+					$h_tr.append('<th>' + item.name + '</th>');
+				
+				var $option = $(
+				'<td class="option" data-id="' + item.lid + '">\n' +
+				'	<i class="fa ' + (item.isDefault == 0 ? 'fa-square-o' : 'fa-check-square-o')  + '"></i>\n' +
+				'</td>'
+				)
+				$b_tr.append($option);
+			});
+		});
+		
+	};
+};
+
+var Table_Input = function(){
+	var t = new Table();
+	var q = new Question();
+	var o = new Option();
+	var obj = this;
+	
+	this.get$question = function(json){
+		$question = t.get$question(json);
+		// $question.find('[editor-constraint]').before('<div class="col-sm-9"></div>');	
+
+		return $question;
+	};
+	
+	this.getJson = function($question){
+		var json = t.getJson($question);
+		
+		return json;
+	};
+	
+	this.loadAnswer = function(data, $question){
+		t.loadAnswer(data, $question);
+		var $table = $question.find('[question-answer] table');
+		
+		$table.find('thead').append('<tr></tr>');
+		var $h_tr = $table.find('thead tr').last();
+		$h_tr.append('<td></td>');
+		
+		$.each(data.row, function(index1){
+			var $b_tr = $table.find('tbody tr:nth-child(' +  (index1 + 1) + ')');
+			var $input = $(
+			'<div class="input-group" style="margin: 5px 0 5px;">\n' +
+			'	<div class="input-group-addon">\n' +
+			'		<i class="fa fa-keyboard-o"></i>\n' +
+			'	</div>\n' +
+			'	<input type="text" class="form-control" placeholder="请输入..">\n' +
+			'</div>'
+			)
+			$b_tr.append($input);
+		});		
+	};
+
+};
+
+var Table_SingleDropdown = function(){
+	var t = new Table();
+	var q = new Question();
+	var o = new Option();
+	var obj = this;
+	
+	Table_SingleSelect.call(this);
+	this.loadAnswer = function(data, $question){
+		t.loadAnswer(data, $question);
+		var options = data.options;
+		var $table = $question.find('[question-answer] table');
+		
+		$table.find('thead').append('<tr></tr>');
+		var $h_tr = $table.find('thead tr').last();
+		$h_tr.append('<td></td>');
+		
+		$.each(data.row, function(index1){
+			var $b_tr = $table.find('tbody tr:nth-child(' +  (index1 + 1) + ')');
+			var $select = $('<td><select style="width: 200px; margin: 5px 0 10px 0;"></select></td>');
+			$.each(options, function(index, item){
+				var $item = $('<option class="option" data-id="' + item.lid + '" value="' + item.value + '" ' + (item.isDefault ? 'selected' : '') + '>' + item.name +'</option>');
+				
+				$select.find('select').append($item);
+			});
+			$b_tr.append($select);
+		});
+	};
+};
+
+var Table_Rating = function(){
+	var t = new Table();
+	var q = new Question();
+	var o = new Option();
+	var obj = this;
+	
+	Table_SingleSelect.call(this);
+	this.loadAnswer = function(data, $question){
+		t.loadAnswer(data, $question);
+		var options = data.options;
+		var $table = $question.find('[question-answer] table');
+		
+		$table.find('thead').append('<tr></tr>');
+		var $h_tr = $table.find('thead tr').last();
+		$h_tr.append('<td></td>');
+		
+		$table.find('tbody').prepend('<tr class="value-row"></tr>');
+		var $b_tr_value = $table.find('tbody tr:nth-child(1)');
+		$b_tr_value.append('<td>分值</td>');
+		
+		$.each(data.row, function(index1){
+			var $b_tr = $table.find('tbody tr:nth-child(' +  (index1 + 2) + ')');
+			$.each(options, function(index, item){
+				if(index1 == 0){
+					$h_tr.append('<th>' + item.name + '</th>');
+					$b_tr_value.append('<td>' + item.value + '</td>');
+				}
+					
+				
+				var $option = $(
+				'<td class="option" data-id="' + item.lid + '">\n' +
+				'	<i class="fa ' + (item.isDefault == 0 ? 'fa-circle-o' : 'fa-check-circle-o')  + '"></i>\n' +
+				'</td>'
+				)
+				$b_tr.append($option);
+			});
+		});
+	};
+};
+
+var Tag = function(){
+	var q = new Question();
+	var o = new Option();
+	var obj = this;
+	
+	this.get$question = function(json){
+		var $question = q.get$question(json);
+		
+		var $tagNumber = $(
+			'<div data-type="tagNumber">\n' +
+			'	<input type="checkbox" name="tag_max"><label>标签数量不超过: </label>  <input class="not-display" type="number" name="tag_max_num" style="width: 50px;"><br>\n' +
+			'	<input type="checkbox" name="tag_text_max"><label>标签字数不超过：</label><input class="not-display" type="number" name="tag_text_max_num" style="width: 50px;">\n' +
+			'</div>'
+		);
+		
+		$tagNumber.on('click', '[type="checkbox"]', function(e){
+			var name = $(this).attr('name');
+			if($(this).prop('checked'))
+				$tagNumber.find('[name=' + name + '_num]').removeClass('not-display');
+			else
+				$tagNumber.find('[name=' + name + '_num]').addClass('not-display');
+		});
+		
+		
+		$question.find('[editor-title]').after($tagNumber);
+		return $question;
+	};
+	
+	this.getJson = function($question){
+		var json = q.getJson($question);
+		
+		json.tag_max = $question.find('[name="tag_max_num"]:not(.not-display)').val();
+		json.tag_text_max = $question.find('[name="tag_text_max_num"]:not(.not-display)').val();
+		return json;
+	};
+	
+	this.loadAnswer = function(data, $question){
+		var $container = $question.find('[question-answer]').empty();
+		var $input = $(
+			'<div class="input-group" style="margin: 5px 0 5px;">\n' +
+			'	<div class="input-group-addon">\n' +
+			'		<i class="fa fa-tags"></i>\n' +
+			'	</div>\n' +
+			'	<input type="text" class="form-control" placeholder="请输入标签...">\n' +
+			'</div>\n'
+		);
+		$container.append($input);
+	};
+};
+
 const QC_FILTER = ['singleSelect', 'multiSelect', 'singleDropdown', 'multiDropdown'];
 const QUESTION_MAP = {
 	'singleSelect': SingleSelect,
@@ -1668,7 +2370,16 @@ const QUESTION_MAP = {
 	'multiDropdown': MultiDropdown,
 	'input': Input,
 	'file': File,
-	'text': Text
+	'text': Text,
+	'rating': Rating,
+	'slide': Slide,
+	'ranking': Ranking,
+	'table_singleselect': Table_SingleSelect,
+	'table_multiselect': Table_MultiSelect,
+	'table_input': Table_Input,
+	'table_singledropdown': Table_SingleDropdown,
+	'table_rating': Table_Rating,
+	'tag': Tag
 };
 var jsonTo$question = function(json){
 	var type = json.type

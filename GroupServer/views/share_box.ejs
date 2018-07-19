@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Transtopia - 云盘</title>
+		<!-- Tell the browser to be responsive to screen width -->
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	
+		<!-- jQuery	 -->
+		<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+		
+		<!-- Bootstrap 3.3.6 -->
+		<link rel="stylesheet" href="plugins/bootstrap-3.3.6/css/bootstrap.min.css" />
+		<script src="plugins/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+		
+		<!-- Slimscroll -->
+		<script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+
+		<!-- Google Font -->
+		<link href="plugins/material-icons/icon.css" rel="stylesheet">
+		
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" />
+		
+		<!-- Select 2 -->
+		<link href="plugins/select2/select2.min.css" rel="stylesheet" />
+		<link href="plugins/select2/select2-bootstrap.css" rel="stylesheet" />
+		<script src="plugins/select2/select2.full.min.js"></script>
+		<script src="plugins/select2/i18n/zh-CN.js"></script>
+		
+		<!-- 自定义插件与样式 -->
+		<link href="css_gamma/global.css" rel="stylesheet">
+	</head>
+    
+	<body>
+		
+	</body>
+
+	<script>
+		// 测试数据
+		// 初始化数据
+		var test_data = [
+			{
+				id: '123',
+				name: '张震宇',
+				image: 'http://127.0.0.1:3000/dist/img/avatar3.png',
+				authority: 1
+			},
+			{
+				id: '456',
+				name: '付志成',
+				image: 'http://127.0.0.1:3000/dist/img/avatar3.png',
+				authority: 0
+			},
+			{
+				id: '789',
+				name: '郭春晖',
+				image: 'http://127.0.0.1:3000/dist/img/avatar3.png',
+				authority: 2
+			},
+			{
+				id: '101112',
+				name: '江方怡',
+				image: 'http://127.0.0.1:3000/dist/img/avatar3.png',
+				authority: 2
+			}
+		];
+		
+		// 搜索数据
+		/*
+		[
+			{
+				id: '121314',
+				name: '江方怡2',
+				image: 'http://127.0.0.1:3000/dist/img/avatar3.png',
+			},
+					{
+				id: '151617',
+				name: '江方怡3',
+				image: 'http://127.0.0.1:3000/dist/img/avatar3.png',
+			},
+					{
+				id: '181920',
+				name: '江方怡4',
+				image: 'http://127.0.0.1:3000/dist/img/avatar3.png',
+			}
+		]
+		*/
+		
+		var submit_fun = function(list, f_id){console.log(list, f_id);}
+		// end 测试数据
+		
+		var getSharedList_Modal = function(list_data, file_id, submit_function=submit_fun, url_search="/share_box_ajax"){
+			var $modal = $(
+				'<div class="modal fade">\n' +
+				'	<div class="modal-dialog">\n' +
+				'		<div class="modal-content">\n' +
+				'			<div class="modal-body">\n' +
+				'				<div class="main-content">\n' +
+				'					<div class="modal-header" style="padding: 0 0 15px 0;">\n' +
+				'						<button type="button" class="close" data-dismiss="modal">×</button>\n' +
+				'						<h4 class="modal-title">分享设置</h4>\n' +
+				'					</div>\n' +
+				'					<div class="box">\n' +
+				'						<div class="box-header" style="padding-bottom: 5px;">\n' +
+				'							<span class="box-title" style="font-size: 18px;"><i class="fa fa-users"></i> 成员名单</span>\n' +
+				'							<span class="box-title pull-right">\n' +
+				'								<a href="javascript: void(0);" style="padding-left: 8px; font-size: 20px;" data-action="remove"><i class="fa fa-trash"></i></a>\n' +
+				'							</span>\n' +
+				'							<span class="pull-right"><select data-action="add-user" style="width: 200px;"></select></span>\n' +
+				'						</div>\n' +
+				'						<div class="box-body">\n' +
+				'							<table id="example1" class="table table-bordered table-striped hover">\n' +
+				'								<thead>\n' +
+				'									<tr>\n' +
+				'										<th style="width: 30px;"><!-- <input type="checkbox" name="selectall"> --></th>\n' +
+				'										<th>用户</th>\n' +
+				'										<th style="width: 150px;">权限</th>\n' +
+				'									</tr>\n' +
+				'								</thead>\n' +
+				'								<tbody>\n' +
+				'								<!-- 列表 -->\n' +
+				'								</tbody>\n' +
+				'							</table>\n' +
+				'						</div>\n' +
+				'					</div>\n' +
+				'				</div>\n' +
+				'			</div>\n' +
+				'			<div class="modal-footer">\n' +
+				'				<a href="javascript: void(0);" data-action="submit">确定</a>\n' +
+				'				<a href="javascript: void(0);" data-dismiss="modal">关闭</a>\n' +
+				'			</div>\n' +
+				'		</div>\n' +
+				'	</div>\n' +
+				'</div>\n'
+			);
+			
+			var AUTHORITY_MAP = {
+				0 : {
+					text: '可读',
+					icon: 'fa-eye'
+				},
+				1 : {
+					text: '可读写',
+					icon: 'fa-pencil'
+				},
+				2 : {
+					text: '管理员权限',
+					icon: 'fa-user-circle-o'
+				},
+			}
+			
+			var addTR = function(data){
+				if($modal.find('tr[data-id="' + data.id + '"]').length != 0){
+				
+				}else{
+					// data: {id, image, name, authority}
+					var $tr = $(
+						'<tr data-id="' + data.id + '">\n' +
+						'	<td><input type="checkbox" name="c1"></td>\n' +
+						'	<td>\n' +
+						'		<img src="' + data.image + '" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);">\n' +
+						'		<span style="padding-left: 10px;">' + data.name + '</span>\n' +
+						'	</td>\n' +
+						'	<td>\n' +
+						'		<div class="dropdown">\n' +
+						'			<a href="javascript: void(0);" data-toggle="dropdown" data-authority="' + data.authority + '"><i class="fa ' + AUTHORITY_MAP[data.authority].icon + '"></i> ' + AUTHORITY_MAP[data.authority].text + '</a>\n' +
+						'			<ul class="dropdown-menu">\n' +
+						'				<!-- 二级子菜单 -->\n' +
+						'				<li><a href="javascript: void(0)" data-action="update-authority" authority-type="0"><i class="fa ' + AUTHORITY_MAP[0].icon + '"></i> ' + AUTHORITY_MAP[0].text + '</a></li>\n' +
+						'				<li><a href="javascript: void(0)" data-action="update-authority" authority-type="1"><i class="fa ' + AUTHORITY_MAP[1].icon + '"></i> ' + AUTHORITY_MAP[1].text + '</a></li>\n' +
+						'				<li><a href="javascript: void(0)" data-action="update-authority" authority-type="2"><i class="fa ' + AUTHORITY_MAP[2].icon + '"></i> ' + AUTHORITY_MAP[2].text + '</a></li>\n' +
+						'			</ul>\n' +
+						'		</div>\n' +
+						'	</td>\n' +
+						'</tr>\n'
+					);
+					
+					$modal.find('tbody').append($tr);
+				}
+			};
+			
+			var trToJson = function($tr){
+				var json = {
+					id : $tr.attr('data-id'),
+					authority: $tr.find('[data-authority]').attr('data-authority')
+				};
+				return json;
+			};
+			
+			var removeTRs = function(){
+				$modal.find('[type="checkbox"][name="c1"]:checked').closest('tr').remove();
+			}
+			
+			var getList = function(){
+				var list = []
+				$modal.find('tr[data-id]').each(function(index, tr){
+					list.push( trToJson($(tr)));
+				});
+				return list;
+			};
+			
+			// 加载数据
+			list_data.forEach(function(item, index){
+				addTR(item)
+			});
+			
+			// 新增用户
+			$modal.find('[data-action="add-user"]').select2({
+			  language: 'zh-CN', 
+			  ajax: {
+				url: url_search,
+				dataType: 'json',
+				delay: 250,
+				data: function (params) {
+					var query = {
+						search: params.term,
+					}
+					return query;
+				},
+				processResults: function (data) {
+				  return {
+					results: data,
+				  };
+				},
+				cache: true
+			  },
+			  
+			  placeholder: '搜索...',
+			  escapeMarkup: function (markup) { return markup; },
+			  minimumInputLength: 1,
+			  templateResult: formatRepo,
+			  templateSelection: formatRepoSelection
+			});
+
+			function formatRepo (data) {
+				if (data.loading) {
+					return '搜索中...';
+				}
+
+				var markup = 					
+					'<tr data-id="' + data.id + '">\n' +
+					'	<td>\n' +
+					'		<img src="' + data.image + '" style="height:40px; border-radius: 50%; border: 0.08em solid rgba(0,0,0,0.3);">\n' +
+					'		<span style="padding-left: 10px;">' + data.name + '</span>\n' +
+					'	</td>\n' +
+					'</tr>\n'
+
+				return markup;
+			}
+
+			function formatRepoSelection (repo) {
+				if(repo.text != '搜索...'){
+					repo.authority = 0;
+					addTR(repo);
+				}
+				return '添加用户...';
+			} 
+				
+			// 删除
+			$modal.on('click', '[data-action="remove"]', function(){
+				removeTRs();
+			});
+			
+			// 提交
+			$modal.on('click', '[data-action="submit"]', function(){
+				var list = getList()
+				submit_function(getList(), file_id);
+				$modal.modal('hide');
+			});
+			
+			// 修改权限
+			$modal.on('click', '[data-action="update-authority"]', function(){
+				var authority = $(this).attr('authority-type')
+				$(this).closest('ul').prev('[data-authority]')
+					.attr('data-authority', authority)
+					.html('<i class="fa ' + AUTHORITY_MAP[authority].icon + '"></i> ' + AUTHORITY_MAP[authority].text + '');
+			});
+			
+			$modal.on('hidden.bs.modal', function(){
+				$(this).remove();
+			});
+		
+			$modal.modal('show');
+		};
+		
+		getSharedList_Modal(test_data, 123123);
+	</script>
+</html>
+
+

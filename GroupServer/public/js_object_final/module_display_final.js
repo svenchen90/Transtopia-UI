@@ -295,18 +295,18 @@ var FormDisplay = function(data, submitCallback){
 
 var FormDisplay_mobile = function(data, submitCallback, $container = $('body')){
 	var $modal = $(
-		'<div class="modal-content">\n' +
+		'<div class="modal-content mobile-form">\n' +
 		'	<div class="modal-header navbar-fixed-top" style="background-color: #007bff; color: #fff;">\n' +
 		'		<h4 class="modal-title">\n' +
 		'			<span data-type="formName" data-id></span>\n' +
 		'		</h4>\n' +
 		'	</div>\n' +
 		'	<div class="modal-body">\n' +
-		'		<div class="form-designer" style="padding-top: 50px;">\n' +
+		'		<div class="form-designer">\n' +
 		'			<ul id="tab-bar" class="nav nav-tabs">\n' +
 		'				<!-- 标签列表 -->\n' +
 		'			</ul>\n' +
-		'			<div id="tab-content" class="customized-scrollbar tab-content" style="margin: 0; height: calc(100vh - 180px); overflow-y: auto;">\n' +
+		'			<div id="tab-content" class="customized-scrollbar tab-content" style="margin: 0; height: calc(100vh - 225px); overflow-y: auto;">\n' +
 		'				<!-- 标签分页 -->\n' +
 		'			</div>\n' +
 		'		</div>\n' +
@@ -526,6 +526,40 @@ var FormDisplay_mobile = function(data, submitCallback, $container = $('body')){
 		$container.append($modal);
 		// $modal.modal('show');
 	})();
+	
+	return $modal;
+};
+
+var fillFormDetails = function(data, $form){
+	$form.find('.modal-header').append(
+	'<h6 class="modal-details">\n' +
+	'	<span data-type="formAuthor">发布者： <a href="javascript:void(0);" style="color: rgba(255,255,255)">' + data.author.name + '</a></span>\n' +
+	'	<span class="pull-right">距离结束剩余： <span data-type="formCountDown"></span></span>\n' +
+	'</h6>'
+	);
+	$form.find('.form-designer').css({
+		'padding-top' : $('.mobile-form .modal-header').outerHeight() + 'px'
+	});
+	
+	countDown(
+		data.deadline, 
+		function(counter){
+			$form.find('[data-type="formCountDown"]').html(counter);
+		},
+		function(){
+			//##
+		},
+	);
+	
+	$form.find('.modal-header .modal-title').append(
+		'<span class="pull-right">' + (data.commission == 0 ? '无偿' : ('佣金: $' + data.commission) ) + '</span>'
+	);
+	
+};
+
+var FormDisplay_mobile_beta = function(data, callback){
+	var $form = FormDisplay_mobile(data.json, callback);
+	fillFormDetails(data.info, $form);
 };
 
 var jsonTo$question_display = function(json){
@@ -591,9 +625,9 @@ var getQuestion = function(json){
 			$question.find('[question-main] [question-tooltip]').css({
 				'visibility': 'hidden'
 			});
-			
+		
+		
 		if(json.constraints != undefined){
-			console.log(json.constraints);
 			var $div = $question.find('[question-constraint]').empty();
 			$div.append();
 			var tooltip_msg = [];
@@ -621,7 +655,7 @@ var getQuestion = function(json){
 
 var getSingleSelect = function(json){
 	var $question = getQuestion(json);
-	
+
 	var $container = $question.find('[question-answer]').empty();
 	$.each(json.options, function(index, item){
 		var $option = $(
@@ -838,12 +872,14 @@ var getFile = function(json){
 	
 	var $container = $question.find('[question-answer]').empty();
 	$container.append('<input type="file" name="filesupload"></input>')
-	$container.find('[name="filesupload"]').fileinput({
+	
+	
+	var opt = {
 		language: "zh",
 		theme: "explorer",
 		uploadUrl: '/uploadfile_beta/123' /* + id */,
 		//allowedFileTypes: ['image'],
-		//allowedFileExtensions: IMAGE_EXTENTION,
+		// allowedFileExtensions: IMAGE_EXTENTION,
 		maxFileCount: 1,
 		//showCaption: true,
 		//showPreview: true
@@ -851,7 +887,7 @@ var getFile = function(json){
 		//showUpload: true
 		//showCancel: true ?
 		showClose: false,
-		maxFileCount: 1,
+		maxFileSize: 0,
 		layoutTemplates: {
 			actions: '<div class="file-actions">\n' +
 				'    <div class="file-footer-buttons">\n' +
@@ -863,7 +899,20 @@ var getFile = function(json){
 				'</div>',
 			actionDelete: '<button type="button" class="kv-file-remove {removeClass}" title="{removeTitle}"{dataUrl}{dataKey}>{removeIcon}</button>\n',
 		}
-	});
+	}
+	if(json.allowedType && json.allowedType.length > 0 ){
+		opt.allowedFileExtensions = json.allowedType;
+	}
+	if(json.file_max_num){
+		opt.maxFileCount = json.file_max_num;
+	}
+	
+	if(json.file_max_size){
+		opt.maxFileSize = json.file_max_size;
+	}
+
+	
+	$container.find('[name="filesupload"]').fileinput(opt);
 	
 	
 	return $question;
@@ -871,7 +920,7 @@ var getFile = function(json){
 
 var getText = function(json){
 	var $question = $(
-		'<div class="question" question-type question-lid>\n' +
+		'<div class="question puretext" question-type question-lid>\n' +
 		'	<div question-main style="margin: 20px;padding: 10px; background-color: rgba(0,0,0,0.07); border:none;">\n' +
 		'		<div question-answer></div>\n' +
 		'	</div>\n' +
@@ -892,6 +941,303 @@ var getText = function(json){
 	return $question;
 }
 
+var getRating = function(json){
+	var $question = getQuestion(json);
+	
+	var $container = $question.find('[question-answer]').empty();
+	$.each(json.options, function(index, item){
+		var $option = $(
+		'<span class="option customized-checkbox" data-id="' + item.lid + '" style="display: inline-block;">\n' +
+		'	<input type="checkbox" name="' + json.lid + '"' + (item.isDefault == 1 ? ' checked' : '' )  + ' value="' + item.value + '">\n' + 
+		'	<span class="checkmark" style="border-radius: 50%;"></span>\n' +
+		'	<span name="radioName" style="display: none;">' + item.name + '</span>\n' +
+		'	<span name="radioValue">' + item.value + '</span>\n' +
+		'</span>'
+		);
+		
+		$option
+			.css({
+				'cursor': 'pointer'
+			})
+			.on('click', function(){
+				$option.find('input').click();
+			});
+		$container.append($option);
+		
+		
+		if(index == 0){
+			$container.append('<span class="head">' + item.name + '</span>');
+		}
+		$container.append($option);
+		
+		if(index == json.options.length-1){
+			$container.append('<span class="tail">' + item.name + '</span>');
+		}
+		
+	});
+		
+	$container.on('click', '[type="checkbox"]' ,function(e){
+		var name = $(this).attr('name');
+		$container.find('[name="' + name + '"]').not($(this)).prop('checked', false);
+	});
+	
+	return $question;
+};
+
+var getSlide  = function(json){
+	var $question = getQuestion(json);
+	
+	var $container = $question.find('[question-answer]').empty();
+	var $input = $(
+		'<div class="slide-block">\n' +
+		'	<div>\n' +
+		'		<span class="head">' + json.min_text + '(' + json.min + ')</span>\n' +
+		'		<span class="pull-right tail">' + json.max_text + '(' + json.max + ')</span>\n' +
+		'	</div>\n' +
+		'	<input type="range" min="' + json.min + '" max="' + json.max + '" value="' +  (parseInt(json.min) + parseInt(json.max))/2 + '" id="slider_bar">\n' +
+		'</div>\n'
+	);
+	$container.append($input);
+	return $question;
+};
+
+var getRanking = function(json) {
+	var $question = getQuestion(json);
+	
+	var $container = $question.find('[question-answer]').empty();
+	
+	$.each(json.options, function(index, item){
+		var $option = $(
+		'<div class="option ranking-option clearfix" data-id="' + item.lid + '">\n' +
+		'	<div class="ranking-box"></div>\n' +
+		'	<span name="radioName">' + item.name + '</span>\n' +
+		'</div>'
+		);
+		$container.append($option);
+	});
+	
+	$question.on('click', '.ranking-option', function(e){
+		var current_rank = parseInt($(this).find('.ranking-box').text());
+		if(current_rank){
+			$(this).removeClass('active');
+			$(this).find('.ranking-box').empty();
+			
+			$(this).siblings().each(function(index, opt){
+				var opt_rank = parseInt($(opt).find('.ranking-box').text());
+				if(current_rank < opt_rank){
+					$(opt).find('.ranking-box').text(opt_rank-1);
+				}
+			});
+			
+		}else{
+			$(this).addClass('active');
+			var rank = 0;
+			$(this).siblings().each(function(index, opt){
+				var opt_rank = parseInt($(opt).find('.ranking-box').text());
+				if(opt_rank)
+					rank = Math.max(rank, opt_rank);
+			});
+			$(this).find('.ranking-box').text(rank+1);
+		}
+	});
+	
+	
+	return $question;
+};
+
+var getTable = function(json) {
+	var $question = getQuestion(json);
+	var $container = $question.find('[question-answer]').empty();
+	
+	var rows = json.row;
+	var $table = $(
+		'<table answer-table>\n' +
+		'	<thead>\n' +
+		'	</thead>\n' +
+		'	<tbody>\n' +
+		'	</tbody>\n' +
+		'</table>\n'
+	);
+	$.each(rows, function(index, item){
+		var $tr = $(
+			'<tr tr-option>\n' +
+			'	<td class="row-name">' + item + '</td>\n' +
+			'</tr>'
+		);
+		
+		$table.find('tbody').append($tr);
+	});
+	
+	$container.append($table);
+	return $question;
+};
+
+var getTable_SingleSelect = function(json) {
+	var $question = getTable(json);
+	
+	var options = json.options;
+	var $table = $question.find('[question-answer] table');
+	
+	$table.find('thead').append('<tr></tr>');
+	var $h_tr = $table.find('thead tr').last().css({'height': '30px'});
+	$h_tr.append('<td></td>');
+	
+	$.each(json.row, function(index1){
+		var $b_tr = $table.find('tbody tr:nth-child(' +  (index1 + 1) + ')');
+		$.each(options, function(index, item){
+			if(index1 == 0)
+				$h_tr.append('<th style="text-align: left;">' + item.name + '</th>');
+			
+			var $option = $(
+			'<td class="option customized-checkbox" data-id="' + item.lid + '" style="display: table-cell;">\n' +
+			'	<input type="checkbox" name="' + json.lid + '"' + (item.isDefault == 1 ? ' checked' : '' )  + ' value="' + item.value + '">\n' + 
+			'	<span class="checkmark" style="border-radius: 50%;"></span>\n' +
+			'</td>\n'
+			)
+			
+			$option.on('click', function(e){
+				var checked = $(this).find('input').prop('checked');
+				$(this).find('input').prop('checked', !checked);
+				
+				if(!checked){
+					$(this).siblings().find('input').prop('checked', false);
+				}
+				
+			});
+			
+			$b_tr.append($option).css({'height': '25px'});
+		});
+	});
+	
+	
+	return $question;
+};
+
+var getTable_MultiSelect = function(json) {
+	var $question = getTable_SingleSelect(json);
+	
+	$question.find('.checkmark').css({'border-radius': '0'});
+	$question.find('td.option')
+		.off('click')
+		.on('click', function(e){
+			var checked = $(this).find('input').prop('checked');
+			$(this).find('input').prop('checked', !checked);
+		});
+	
+	
+	return $question;
+};
+
+var getTable_Input = function(json) {
+	var $question = getTable(json);
+	var $table = $question.find('[question-answer] table');
+		
+	$table.find('thead').append('<tr></tr>');
+	var $h_tr = $table.find('thead tr').last();
+	$h_tr.append('<td></td>');
+	
+	$.each(json.row, function(index1){
+		var $b_tr = $table.find('tbody tr:nth-child(' +  (index1 + 1) + ')');
+		var $input = $(
+		'<div class="input-group" style="margin: 5px 0 5px;">\n' +
+		'	<div class="input-group-addon">\n' +
+		'		<i class="fa fa-keyboard-o"></i>\n' +
+		'	</div>\n' +
+		'	<input type="text" class="form-control" placeholder="请输入..">\n' +
+		'</div>'
+		)
+		$b_tr.append($input);
+	});		
+	
+	return $question;
+};
+
+var getTable_SingleDropdown = function(json) {
+	var $question = getTable(json);
+	
+	var options = json.options;
+	var $table = $question.find('[question-answer] table');
+	
+	$.each(json.row, function(index1){
+		var $b_tr = $table.find('tbody tr:nth-child(' +  (index1 + 1) + ')');
+		var $select = $('<td style="text-align:left;"><select style="width: 200px; margin: 5px 0 10px 0;"></select></td>');
+		$.each(options, function(index, item){
+			var $item = $('<option class="option" data-id="' + item.lid + '" value="' + item.value + '" ' + (item.isDefault ? 'selected' : '') + '>' + item.name +'</option>');
+			
+			$select.find('select').append($item);
+		});
+		$b_tr.append($select);
+	});
+	return $question;
+};
+
+var getTable_Rating = function(json) {
+	var $question = getTable(json);
+	
+	var options = json.options;
+	var $table = $question.find('[question-answer] table');
+	
+	$table.find('thead').append('<tr></tr>');
+	var $h_tr = $table.find('thead tr').last().css({'height': '30px'});
+	$h_tr.append('<td></td>');
+	
+	$table.find('tbody').prepend('<tr class="value-row"></tr>');
+	var $b_tr_value = $table.find('tbody tr:nth-child(1)');
+	$b_tr_value.append('<td>分值</td>');
+	
+	$.each(json.row, function(index1){
+		var $b_tr = $table.find('tbody tr:nth-child(' +  (index1 + 2) + ')');
+		$.each(options, function(index, item){
+			if(index1 == 0){
+				$h_tr.append('<th style="text-align: left;">' + item.name + '</th>');
+				$b_tr_value.append('<td style="text-align: left; padding-left: 15px;">' + item.value + '</td>');
+			}
+				
+			
+			var $option = $(
+			'<td class="option customized-checkbox" data-id="' + item.lid + '" style="display: table-cell;">\n' +
+			'	<input type="checkbox" name="' + json.lid + '"' + (item.isDefault == 1 ? ' checked' : '' )  + ' value="' + item.value + '">\n' + 
+			'	<span class="checkmark" style="border-radius: 50%;"></span>\n' +
+			'</td>\n'
+			)
+			
+			$option.on('click', function(e){
+				var checked = $(this).find('input').prop('checked');
+				$(this).find('input').prop('checked', !checked);
+				
+				if(!checked){
+					$(this).siblings().find('input').prop('checked', false);
+				}
+				
+			});
+			
+			$b_tr.append($option).css({'height': '25px'});
+		});
+	});
+	
+	
+	return $question;
+};
+
+var getTag = function(json){
+	var $question = getQuestion(json);
+	
+	var $container = $question.find('[question-answer]').empty();
+	$container.append('<select name="tags" class="form-control" style="width: 500px;"></select>')
+	$container.find('[name="tags"]').select2({
+		tags: true,
+		multiple: true,
+		language: 'zh-CN',
+		theme: "bootstrap",
+		maximumSelectionLength: json.tag_max,
+		maximumInputLength: json.tag_text_max
+	});
+	return $question;
+	
+	
+	/*  */
+};
+
 const QUESTION_DISPLAY_MAP = {
 	'singleSelect': getSingleSelect,
 	'singleDropdown': getSingleDropdown,
@@ -899,10 +1245,20 @@ const QUESTION_DISPLAY_MAP = {
 	'multiDropdown': getMultiDropdown,
 	'input': getInput,
 	'file': getFile,
-	'text': getText
+	'text': getText,
+	'rating': getRating,
+	'slide': getSlide,
+	'ranking': getRanking,
+	'table_singleselect': getTable_SingleSelect,
+	'table_multiselect': getTable_MultiSelect,
+	'table_input': getTable_Input,
+	'table_singledropdown': getTable_SingleDropdown,
+	'table_rating': getTable_Rating,
+	'tag': getTag
 };
 
-var getResult_SingleSelect = function($question){
+// Result
+1var getResult_SingleSelect = function($question){
 	var json = {
 		lid: $question.attr('question-lid'),
 		required: $question.attr('question-required')
@@ -980,11 +1336,169 @@ var getResult_File = function($question){
 	return json;
 };
 
+var getResult_Rating = function($question){
+	var json = {
+		lid: $question.attr('question-lid'),
+		required: $question.attr('question-required')
+	};
+	
+	if($question.hasClass('disable')){
+		json.disable = 1;
+	}else
+		json.disable = 0;
+	json.options = []
+	
+	$question.find('[question-answer] input:checked').each(function(index, item){
+		json.options.push($(item).closest('.option').attr('data-id'));
+	});
+
+	return json;
+};
+
+var getResult_Slide = function($question){
+	var json = {
+		lid: $question.attr('question-lid'),
+		required: $question.attr('question-required')
+	};
+	
+	if($question.hasClass('disable')){
+		json.disable = 1;
+	}else
+		json.disable = 0;
+	
+	json.value = $question.find('[type="range"]').val();
+
+	return json;
+};
+
+var getResult_Ranking = function($question){
+	var json = {
+		lid: $question.attr('question-lid'),
+		required: $question.attr('question-required')
+	};
+	
+	if($question.hasClass('disable')){
+		json.disable = 1;
+	}else
+		json.disable = 0;
+	
+	json.rank =[];
+	
+	$question.find('.ranking-box').each(function(index, opt){
+		var r = $(opt).text();
+		json.rank.push(r);
+	});
+	
+	
+	return json;
+};
+
+var getResult_Table_SingleSelect = function($question) {
+	var json = {
+		lid: $question.attr('question-lid'),
+		required: $question.attr('question-required')
+	};
+	
+	if($question.hasClass('disable')){
+		json.disable = 1;
+	}else
+		json.disable = 0;
+	
+	json.table_option =[];
+	
+	
+	
+	$question.find('[tr-option]').each(function(index, tr){
+		var opt_ids = [];
+		$(tr).find('input:checked').each(function(index2, opt){
+			opt_ids.push($(opt).closest('td').attr('data-id'));
+		});
+		json.table_option.push(opt_ids);
+	});
+	
+	
+	return json;
+};
+
+var getResult_Table_MultiSelect = function($question) {
+	var json = getResult_Table_SingleSelect($question);
+	return json;
+};
+
+var getResult_Table_Input = function($question) {
+	var json = {
+		lid: $question.attr('question-lid'),
+		required: $question.attr('question-required')
+	};
+	
+	if($question.hasClass('disable')){
+		json.disable = 1;
+	}else
+		json.disable = 0;
+	
+	json.table_input =[];
+	
+	$question.find('[tr-option] input').each(function(index, input){
+		json.table_input.push($(input).val());
+	});
+	
+	return json;
+};
+
+var getResult_Table_SingleDropdown = function($question) {
+	var json = {
+		lid: $question.attr('question-lid'),
+		required: $question.attr('question-required')
+	};
+	
+	if($question.hasClass('disable')){
+		json.disable = 1;
+	}else
+		json.disable = 0;
+	
+	json.table_option =[];
+	
+	$question.find('[tr-option] select option:selected').each(function(index, input){
+		json.table_option.push($(this).attr('data-id'));
+	});
+	
+	return json;
+};
+
+var getResult_Table_Rating = function($question) {
+	return getResult_Table_SingleSelect($question)
+};
+
+var getResult_Tag = function($question){
+	var json = {
+		lid: $question.attr('question-lid'),
+		required: $question.attr('question-required')
+	};
+	
+	if($question.hasClass('disable')){
+		json.disable = 1;
+	}else
+		json.disable = 0;
+	
+	json.tags = $question.find('[name="tags"]').val()
+
+	return json;
+};
+
 const QUESTION_RESULT_MAP = {
 	'singleSelect': getResult_SingleSelect,
 	'singleDropdown': getResult_SingleDropdown,
 	'multiSelect': getResult_MultiSelect,
 	'multiDropdown': getResult_MultiDropdown,
 	'input': getResult_Input,
-	'file': getResult_File
+	'file': getResult_File,
+	'rating': getResult_Rating,
+	'slide': getResult_Slide,
+	'ranking': getResult_Ranking,
+	'table_singleselect': getResult_Table_SingleSelect,
+	'table_multiselect': getResult_Table_MultiSelect,
+	'table_input': getResult_Table_Input,
+	'table_singledropdown': getResult_Table_SingleDropdown,
+	'table_rating': getResult_Table_Rating,
+	'tag': getResult_Tag
 };

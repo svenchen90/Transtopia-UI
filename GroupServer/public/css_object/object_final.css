@@ -7,6 +7,10 @@
 	padding: 5px;
 }
 
+.question .not-display {
+	display: none;
+};
+
 .question.disable {
 	opacity: 0.5;
 	border: 0.1em solid rgba(255,0,0,0.5);
@@ -37,8 +41,33 @@
 	margin-bottom: 10px;
 }
 
+.question [question-head] {
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.question [question-head] .type-aids {
+	color: #3c8dbc;
+}
 .question [question-answer] {
+	padding: 5px 15px;
 	margin-bottom: 10px;
+}
+
+.question [question-answer] .option i{
+	color: rgba(0,0,0,0.5);
+}
+
+.question [question-answer] .input-group:not(.file-caption-main) {
+	max-width: 300px;
+}
+
+.question [question-answer] .option.rate{
+	margin-right: 15px;
+}
+
+.question [question-answer] .head, .question [question-answer] .tail {
+	font-weight: 600;
 }
 
 .question [question-btn] {
@@ -53,9 +82,47 @@
 	margin-top: 0 !important;
 }
 
+.question[question-type="slide"] [editor-option] input[type="number"] {
+	width: 100px;
+	margin-right: 50px;
+	margin-bottom: 5px;
+}
+
+.question[question-type="slide"] .slide-block {
+	width: 300px;
+}
+.question[question-type="slide"] .slide-block {
+	width: 300px;
+}
+
+.question [answer-table] {
+	min-width: 60%;
+}
+
+.question [answer-table] .row-name{
+	font-weight: 600;
+}
+
+.question [answer-table] .value-row{
+	color: #efa030;
+}
+
+.question [answer-table] td, .question [answer-table] th{
+	text-align: center;
+}
+
 .tooltip > .tooltip-inner {
 	background-color: #3c8dbc; 
 }
+
+
+@media screen and (max-width: 480px) {
+    .question [answer-table] {
+		width: 100%;
+	}
+}
+
+
 
 #tab-bar [data-action=deleteTab] {
 	margin-left: 5px;
@@ -67,4 +134,120 @@
 #tab-bar li:hover [data-action=deleteTab]{
 	display: inline;
 	color:#3c8dbc;
+}
+
+
+[question-type="ranking"] [name="isDefault"]{
+	display: none;
+}
+
+/* Ranking */
+.ranking-option {
+	margin-bottom: 8px;
+	cursor: pointer;
+}
+.ranking-box {
+	float: left;
+	margin-left: 8px;
+	margin-right: 5px;
+	height: 20px;
+	width: 20px;
+	background-color: #eee;
+	text-align:center;
+	border-radius:50%;
+}
+
+.ranking-option:hover .ranking-box {
+	background-color: #ccc;
+}
+
+.ranking-option.active .ranking-box {
+	color: #f17819;
+	background-color: white;
+	border: 1px solid #f17819
+}
+/* 自定义滚动条 */
+.customized-scrollbar::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 5px;
+	background-color: #F5F5F5;
+}
+
+.customized-scrollbar::-webkit-scrollbar {
+	width: 6px;
+	background-color: #F5F5F5;
+}
+
+.customized-scrollbar::-webkit-scrollbar-thumb {
+	border-radius: 5px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: rgba(0,0,0,0.3);
+}
+/* End of 自定义滚动条 */
+/* The customized-checkbox */
+.customized-checkbox {
+		display: block;
+		position: relative;
+		padding-left: 35px;
+		margin-bottom: 8px;
+		cursor: pointer;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.customized-checkbox input {
+		display:none;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+		position: absolute;
+		top: 0;
+		left: 0;
+		margin-left: 10px;
+		height: 20px;
+		width: 20px;
+		background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.customized-checkbox:hover input ~ .checkmark {
+		background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.customized-checkbox input:checked ~ .checkmark {
+		background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+		content: "";
+		position: absolute;
+		display: none;
+}
+
+/* Show the checkmark when checked */
+.customized-checkbox input:checked ~ .checkmark:after {
+		display: block;
+}
+
+/* Style the checkmark/indicator */
+.customized-checkbox .checkmark:after {
+		left: 8px;
+		top: 4px;
+		width: 5px;
+		height: 10px;
+		border: solid white;
+		border-width: 0 3px 3px 0;
+		-webkit-transform: rotate(45deg);
+		-ms-transform: rotate(45deg);
+		transform: rotate(45deg);
+}
+
+[question-type="singleSelect"] .customized-checkbox .checkmark{
+	border-radius: 50%;
 }

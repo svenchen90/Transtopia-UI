@@ -1,0 +1,33 @@
+.assignment-search {
+	width: 150px;
+	color: rgba(0,0,0,0.7);
+	background-image: url('img/searchicon.png');
+	background-position: 5px 4px; 
+	background-repeat: no-repeat;
+	padding-left: 30px;			
+}
+
+.assignment-list {
+	padding-top: 56px;
+	height: 100vh;
+	overflow-y: auto;
+}
+
+.assignment-item {
+	padding: 15px;
+	border-bottom: 1px solid rgba(0,0,0, .1);
+}
+
+.assignment-item .title{
+	font-size: 20px;
+	margin-bottom: 8px;
+}
+
+.assignment-item:hover {
+	background-color: rgba(0,0,0,0.1);
+}
+
+.assignment-item.inactive {
+	cursor: no-drop;
+	color: rgba(0,0,0, 0.2);
+}

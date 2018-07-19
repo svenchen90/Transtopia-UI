@@ -10,6 +10,31 @@ router.get('/project_index', function(req, res, next) {
   res.render('project_index', {});
 });
 
+router.get('/project_index_beta', function(req, res, next) {
+  res.render('project_index_beta', {});
+});
+
+router.get('/left_nav', function(req, res, next) {
+  res.render('left_nav', {});
+});
+
+router.get('/get_subfolders_by_id', function(req, res, next) {
+  res.json([
+	{
+		id: 123,
+		name: '工作区1'
+	},
+	{
+		id: 345,
+		name: '工作区2'
+	},
+	{
+		id: 678,
+		name: '工作区3'
+	}
+  ]);
+});
+
 router.get('/getallinfolder', function(req, res, next) {
 	var temp = new Date().getTime();
 	var dataListOfFolder = [
@@ -124,5 +149,6 @@ router.get('/folder_authority', function(req, res, next) {
 router.get('/file_authority', function(req, res, next) {
 	res.json(2);
 });
+
 
 module.exports = router;

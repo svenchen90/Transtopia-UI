@@ -3287,9 +3287,6 @@ router.get('/template_form_mobile', function(req, res, next) {
 	res.render('template_form_mobile');
 });
 
-router.get('/template_form_mobile', function(req, res, next) {
-	res.render('template_form_mobile');
-});
 
 // Object
 router.get('/object_index', function(req, res, next) {
@@ -3298,6 +3295,14 @@ router.get('/object_index', function(req, res, next) {
 
 router.get('/object_display_mobile', function(req, res, next) {
 	res.render('object_display_mobile');
+});
+
+router.get('/object_display_mobile_beta', function(req, res, next) {
+	res.render('object_display_mobile_beta');
+});
+
+router.get('/object_display_mobile_list', function(req, res, next) {
+	res.render('object_display_mobile_list');
 });
 
 router.get('/object_review', function(req, res, next) {
@@ -3449,6 +3454,32 @@ router.get('/release_version', function(req, res, next){
 router.get('/update_version', function(req, res, next){
 	res.json(1);
 });
+
+router.get('/share_box', function(req, res, next) {
+	res.render('share_box');
+});
+
+router.get('/share_box_ajax', function(req, res, next) {
+	res.json([
+		{
+			id: '121314',
+			name: '江方怡2',
+			image: 'http://127.0.0.1:3000/dist/img/avatar3.png',
+		},
+				{
+			id: '151617',
+			name: '江方怡3',
+			image: 'http://127.0.0.1:3000/dist/img/avatar3.png',
+		},
+				{
+			id: '181920',
+			name: '江方怡4',
+			image: 'http://127.0.0.1:3000/dist/img/avatar3.png',
+		}
+	]);
+});
+
+
 
 /* map */
 router.get('/map', function(req, res, next){

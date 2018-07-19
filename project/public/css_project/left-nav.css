@@ -1,0 +1,77 @@
+.noselect {
+			user-select: none;
+		}
+		
+		.nav-list {
+			width: 250px;
+			height: 100vh;
+		}
+		
+		.nav-list .nav-item {
+			padding: 10px 10px 10px 26px;
+			font-weight: 600;
+			color: #5f6368;
+		}
+		
+		.nav-list .nav-item:hover, .toogle-down-list .toogle-down-item:hover{
+			background-color: rgba(0,0,0,0.05)
+		}
+		
+		.nav-list .nav-item.selected, .toogle-down-list .toogle-down-item.selected{
+			color: #1967d2;
+			background-color: #e8f0fe;
+		}
+		
+		.nav-list .nav-item.toggle-down {
+			padding: 10px;
+		}
+		
+		.nav-list .nav-item .toggle-down{
+			margin-right: 5px;
+			cursor: pointer;
+		}
+		
+		.nav-list .nav-item .icon{
+			padding-right: 24px;
+			cursor: pointer;
+		}
+		
+		.nav-list .nav-item .text{
+			width: 100px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: inline-block;
+			vertical-align: middle;
+			white-space: nowrap;
+			cursor: pointer;
+		}
+		
+		.toogle-down-list {
+			
+		}
+		
+		.toogle-down-item {
+			padding: 5px;
+			font-weight: 600;
+			color: #5f6368;
+		}
+		
+		.toogle-down-item .toggle-down{
+			cursor: pointer;
+		}
+		
+		.toogle-down-item .icon {
+			padding-right: 5px;
+			cursor: pointer;
+		}
+		
+		.toogle-down-item .text {
+			font-size: 13px;
+			width: 100px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: inline-block;
+			vertical-align: middle;
+			white-space: nowrap;
+			cursor: pointer;
+		}

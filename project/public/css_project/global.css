@@ -168,34 +168,6 @@ body {
 	padding: 15px 0 15px 0;
 	margin: 0;
 }
-
-.nav-list .item {
-	padding: 12px 0 12px 20px;
-	font-size: 18px;
-	cursor: pointer;
-}
-.nav-list .item a {
-	text-decoration: none;
-	color: rgba(0,0,0,.6);
-}
-
-.nav-list .item i{
-	padding-right: 20px;
-}
-
-.nav-list .item:hover, .nav-list .item.active {
-	background-color: rgba(0,0,0,.08);
-	color: rgba(0,0,0,1);
-	font-weight: 600;
-}
-
-.nav-list .item.active i {
-	color: rgb(66,133,244);
-}
-
-.nav-list .divider {
-	border-top: 1px solid rgba(0,0,0,.1);
-}
 /* End of 自定义导航栏样式 */
 
 /* 自定义滚动条 */
