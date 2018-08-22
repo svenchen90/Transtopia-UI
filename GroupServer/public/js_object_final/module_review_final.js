@@ -557,7 +557,7 @@ var getRanking_review = function(json, answer) {
 
 	return $question;
 };
-
+//###
 var getTable_review = function(json) {
 	var $question = getQuestion_review(json);
 	var $container = $question.find('[question-answer]').empty();
@@ -574,7 +574,7 @@ var getTable_review = function(json) {
 	$.each(rows, function(index, item){
 		var $tr = $(
 			'<tr tr-option>\n' +
-			'	<td class="row-name">' + item + '</td>\n' +
+			'	<td class="row-name">' + item.text + '</td>\n' +
 			'</tr>'
 		);
 		
@@ -584,7 +584,7 @@ var getTable_review = function(json) {
 	$container.append($table);
 	return $question;
 };
-
+//###
 var getTable_SingleSelect_review = function(json, answer) {
 	var $question = getTable(json);
 	

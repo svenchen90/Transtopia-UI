@@ -1966,39 +1966,144 @@ var Ranking = function(){
 
 };
 
+// ####
+var Row = function(){
+	var obj = this;
+	this.get$row = function(data){
+		var $row = $(
+			'<tr name="editorRow" id="">\n' +
+			'	<td><input type="text" placeholder="请输入选项..." name="text"></td>\n' +
+			'	<td><input type="text" name="name" style="width: 200px;"></td>\n' +
+			'	<td>\n' +
+			'		<a class="btn btn-primary btn-xs" data-action="editor-create"><i class="fa fa-plus"></i></a>\n' +
+			'		<a class="btn btn-primary btn-xs" data-action="editor-delete"><i class="fa fa-trash"></i></a>\n' +
+			'		<a class="btn btn-primary btn-xs" data-action="editor-moveup"><i class="fa fa-arrow-up"></i></a>\n' +
+			'		<a class="btn btn-primary btn-xs" data-action="editor-movedown"><i class="fa fa-arrow-down"></i></a>\n' +
+			'	</td>\n' +
+			'</tr>'
+		);
+		
+		$row.attr('data-id', data.lid);
+		$row.find('[name="text"]').val(data.text);
+		$row.find('[name="name"]').val(data.name);
+		
+		
+		$row.on('click', '[data-action]', function(){
+			var actionType = $(this).attr('data-action');
+			switch(actionType){
+				case 'editor-create':
+					$row.after(obj.get$row({
+					lid: localIDGenerator(),
+					text: '新的行名称',
+					name: localIDGenerator()
+				}));
+					break;
+				case 'editor-delete':
+					if($row.siblings().length == 0){
+						callAlert('选项列表不能为空！');
+					}else
+						$row.remove();
+					break;
+				case 'editor-moveup':
+					$row.prev().before($row);
+					break;
+				case 'editor-movedown':
+					$row.next().after($row);
+					break;
+				default:
+					console.log('error');
+					break;
+			}
+		});
+		
+		return $row;
+	};
+	
+	this.getJson = function($row){
+		var json = {};
+		json.lid = $row.attr('data-id');
+		json.text = $row.find('[name="text"]').val();
+		json.name = $row.find('[name="name"]').val();
+		
+		return json;
+	};
+};
+
 var Table = function(){
 	var q = new Question();
 	var obj = this;
+	var r = new Row();
 	
 	this.get$question = function(json){
+
 		var $question = q.get$question(json);
 		
 		var $row_editor = $(
-			'<div class="col-sm-3" eidotr-row>\n' +
-			'	<label>行标题</label>\n' +
-			'	<textarea style="width: 100%; min-height: 100px;"></textarea>\n' +
-			'</div>\n'
+			'<div editor-row class="">\n' +
+			'	<table class="table table-hover">\n' +
+			'		<!-- <caption>选项行选项</caption> -->\n' +
+			'		<thead>\n' +
+			'			<tr>\n' +
+			'				<th>选项文字</th>\n' +
+			'				<th>ID</th>\n' +
+			'				<th>操作</th>\n' +
+			'			</tr>\n' +
+			'		</thead>\n' +
+			'		<tbody>\n' +
+			'		</tbody>\n' +
+			'	</table>\n' +
+			'</div>'
 		);
-		if(!json.row)
-			json.row = []
-		$row_editor.find('textarea').val(json.row.join('\n'));
-		
 		$question.find('[editor-constraint]').before('<div class="row row_editor"></div>')
 		$question.find('.row_editor').append($row_editor);
-	
+		
+		$.each(json.row, function(index, item){
+			$row_editor.find('tbody').append(r.get$row(item));
+		});
+		
+		$row_editor.on('change', '[name="editorRow"] [name="name"]', function(e){
+			var value = $(this).val();
+			var val_list = [];
+			$(this).closest('[name="editorRow"]').siblings().each(function(index, item){
+				val_list.push( $(item).find('[name="name"]').val());
+			});
+			
+			if(val_list.includes(value)) {
+				alert('行ID不能重复！');
+				$(this).val(localIDGenerator());
+			}
+			
+			if(value == ''){
+				alert('行ID不能为空！');
+				$(this).val(localIDGenerator());
+			}
+			
+			// 其它
+		});
+		
+		
+		
 		return $question;
 	};
 	
 	this.getJson = function($question){
 		var json = q.getJson($question);
-
+		
+		json.row = [];
+		$question.find('[editor-row] [name="editorRow"]').each(function(index, item){
+			json.row.push(r.getJson($(item)));
+		});
+		
+		
+		
+		/* 
 		var row_text = $question.find('[eidotr-row] textarea').val();
 		json.row = [];
 		row_text.split('\n').forEach(function(item){
 			if(item != '')
 				json.row.push(item);
 		});
-
+		 */
 		return json;
 	};
 	
@@ -2016,7 +2121,7 @@ var Table = function(){
 		$.each(rows, function(index, item){
 			var $tr = $(
 				'<tr>\n' +
-				'	<td class="row-name">' + item + '</td>\n' +
+				'	<td class="row-name">' + item.text + '(<span style="color: red;">' + item.name + '</span>)' + '</td>\n' +
 				'</tr>'
 			);
 			
@@ -2025,6 +2130,8 @@ var Table = function(){
 		$container.append($table);
 	};
 };
+// ####
+
 
 var Table_SingleSelect = function(){
 	var t = new Table();
@@ -2037,7 +2144,7 @@ var Table_SingleSelect = function(){
 		
 		// add options
 		var $oContainer = $(
-			'<div editor-option class="col-sm-9">\n' +
+			'<div editor-option class="">\n' +
 			'	<table class="table table-hover">\n' +
 			'		<!-- <caption>选项设置</caption> -->\n' +
 			'		<thead>\n' +

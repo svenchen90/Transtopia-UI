@@ -1045,6 +1045,7 @@ var getRanking = function(json) {
 	return $question;
 };
 
+// ####
 var getTable = function(json) {
 	var $question = getQuestion(json);
 	var $container = $question.find('[question-answer]').empty();
@@ -1061,7 +1062,7 @@ var getTable = function(json) {
 	$.each(rows, function(index, item){
 		var $tr = $(
 			'<tr tr-option>\n' +
-			'	<td class="row-name">' + item + '</td>\n' +
+			'	<td class="row-name">' + item.text + '</td>\n' +
 			'</tr>'
 		);
 		
@@ -1071,7 +1072,7 @@ var getTable = function(json) {
 	$container.append($table);
 	return $question;
 };
-
+// ####
 var getTable_SingleSelect = function(json) {
 	var $question = getTable(json);
 	
@@ -1258,7 +1259,7 @@ const QUESTION_DISPLAY_MAP = {
 };
 
 // Result
-1var getResult_SingleSelect = function($question){
+var getResult_SingleSelect = function($question){
 	var json = {
 		lid: $question.attr('question-lid'),
 		required: $question.attr('question-required')

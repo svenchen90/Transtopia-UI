@@ -2,6 +2,52 @@ var tab1 = {
 	lid: localIDGenerator(),
 	name: '标签1',
 	questions: [
+		{
+			lid: '_nzjs9whxx',
+			type: 'table_singleselect',
+			required: 1,
+			title: '请输入问题',
+			tooltip: '',
+			row: [
+				{
+					text: '标签行1',
+					name: '111'
+				},
+				{
+					text: '标签行2',
+					name: '222'
+				},
+				{
+					text: '标签行3',
+					name: '333'
+				}],
+			options: [
+				{
+					lid: "_4wl6caiet",
+					name: '选项1',
+					value: 0,
+					isDefault: 0
+				},
+				{
+					lid: "_5ndw0aln9",
+					name: '选项2',
+					value: 0,
+					isDefault: 0
+				},
+				{
+					lid: "_5ndw0aln8",
+					name: '选项3',
+					value: 0,
+					isDefault: 0
+				},
+				{
+					lid: "_5ndw0aln7",
+					name: '选项4',
+					value: 0,
+					isDefault: 0
+				}
+			]
+		},
 		/* {
 			lid: '_nzjs9whxx',
 			type: 'table_rating',
@@ -223,7 +269,7 @@ var tab1 = {
 				}
 			]
 		}, */
-		{
+		/* {
 			lid: '_nzjs9whbx',
 			type: 'file',
 			required: 0,
@@ -303,20 +349,6 @@ var tab1 = {
 			required: 0,
 			title: 'AAAAA',
 			tooltip: '这是一条提示信息',
-			/* options: [
-				{
-					lid: "_is6frrvyt",
-					name: 'AAAAA',
-					value: 0,
-					isDefault: 0
-				},
-				{
-					lid: "_s01fk5bat",
-					name: 'BBBBB',
-					value: 0,
-					isDefault: 0
-				}
-			], */
 			constraints: [
 				{
 					lid: '_nzjs9whbt',
@@ -342,7 +374,7 @@ var tab1 = {
 					],
 				},
 			]
-		},
+		}, */
 /* 		{
 			lid: '_dqbp848fp',
 			type: 'text',
