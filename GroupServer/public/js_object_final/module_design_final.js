@@ -62,6 +62,473 @@ rating: {
 }
 
 */
+// 1. @@@@
+var getGeneralJson = function(){
+	return {
+		lid: localIDGenerator(),
+		required: 0,
+		title: '请输入问题',
+		tooltip: '请输入提示',
+		key: localIDGenerator(),
+	};
+};
+var getGeneralOptions = function(){
+	return {
+		options: [
+			{
+				lid: localIDGenerator(),
+				name: '选项1',
+				value: 0,
+				isDefault: 0
+			},
+			{
+				lid: localIDGenerator(),
+				name: '选项2',
+				value: 0,
+				isDefault: 0
+			}
+		]
+	};
+};
+var getTableJson_Default = function(type) {
+	return $.extend(
+		{
+			type: type,
+			options: [
+				{
+					lid: localIDGenerator(),
+					name: '很不满意',
+					value: 1,
+					isDefault: 0
+				},
+				{
+					lid: localIDGenerator(),
+					name: '不满意',
+					value: 2,
+					isDefault: 0
+				},
+				{
+					lid: localIDGenerator(),
+					name: '一般',
+					value: 3,
+					isDefault: 0
+				},
+				{
+					lid: localIDGenerator(),
+					name: '满意',
+					value: 4,
+					isDefault: 0
+				},
+				{
+					lid: localIDGenerator(),
+					name: '满意',
+					value: 5,
+					isDefault: 0
+				}
+			],
+			row: [
+				{
+					lid: localIDGenerator(),
+					text: '标题行1',
+					name: localIDGenerator()
+				},
+				{
+					lid: localIDGenerator(),
+					text: '标题行2',
+					name: localIDGenerator()
+				},
+				{
+					lid: localIDGenerator(),
+					text: '标题行3',
+					name: localIDGenerator()
+				},
+				
+			]
+		},
+		getGeneralJson(),
+	);
+};
+const QUESTION_DEFAULT_JSON_MAP = {
+	// 单项
+	'singleSelect': {
+		text: '单项选择',
+		getDefaultJson: function() {
+			return $.extend(
+				{
+					type: 'singleSelect'
+				},
+				getGeneralJson(),
+				getGeneralOptions(),
+			);
+		},
+	},
+	// 多项
+	'multiSelect': {
+		text: '多项选择',
+		getDefaultJson: function() {
+			return $.extend(
+				{
+					type: 'multiSelect',
+					min: 0,
+					max: 2
+				},
+				getGeneralJson(),
+				getGeneralOptions(),
+			);
+		},
+	},
+	// 单项下拉框
+	'singleDropdown': {
+		text: '单项下拉框',
+		getDefaultJson: function() {
+			return $.extend(
+				{
+					type: 'singleDropdown'
+				},
+				getGeneralJson(),
+				getGeneralOptions(),
+			);
+		},
+	},
+	// 多项下拉框
+	'multiDropdown': {
+		text: '多项下拉框',
+		getDefaultJson: function() {
+			return $.extend(
+				{
+					type: 'multiDropdown',
+					min: 0,
+					max: 2
+				},
+				getGeneralJson(),
+				getGeneralOptions(),
+			);
+		},
+	},
+	// 填空
+	'input': {
+		text: '填空',
+		getDefaultJson: function(extra_data) {
+			return $.extend(
+				{
+					type: 'input',
+					sub_type: (extra_data == undefined || extra_data.sub_type == undefined) ? 'default' : extra_data.sub_type,
+					max: 20,
+					min_num: 0,
+					max_num: 20
+				},
+				getGeneralJson()
+			);
+		},
+	},
+	// 上传文件
+	'file': {
+		text: '文件上传',
+		getDefaultJson: function() {
+			return $.extend(
+				{
+					allowedType: ['text', 'video', 'audio', 'image']
+				},
+				getGeneralJson()
+			);
+		},
+	},
+	// 添加文本
+	'text': {
+		text: '文本',
+		getDefaultJson: function() {
+			return {
+				lid: localIDGenerator(),
+				type: 'text',
+				text: '请输入文本'
+			};
+		},
+	},
+	// 评分
+	'rating': {
+		text: '评分',
+		getDefaultJson: function() {
+			return $.extend(
+				{
+					type: 'rating',
+					options: [
+						{
+							lid: localIDGenerator(),
+							name: '很不满意',
+							value: 1,
+							isDefault: 0
+						},
+						{
+							lid: localIDGenerator(),
+							name: '不满意',
+							value: 2,
+							isDefault: 0
+						},
+						{
+							lid: localIDGenerator(),
+							name: '一般',
+							value: 3,
+							isDefault: 0
+						},
+						{
+							lid: localIDGenerator(),
+							name: '满意',
+							value: 4,
+							isDefault: 0
+						},
+						{
+							lid: localIDGenerator(),
+							name: '满意',
+							value: 5,
+							isDefault: 0
+						}
+					]
+				},
+				getGeneralJson()
+			);
+			
+		},		
+	},
+	// 滑动条
+	'slide': {
+		text: '滑动条',
+		getDefaultJson: function() {
+			return $.extend(
+				{
+					type: 'rating',
+					max: 100,
+					max_text: '满意',
+					min: 1,
+					min_text: '不满意'
+				},
+				getGeneralJson()
+			);
+		},
+	},
+	// 排序
+	'ranking': {
+		text: '排序',
+		getDefaultJson: function() {
+			return $.extend(
+				{
+					type: 'ranking'
+				},
+				getGeneralJson(),
+				getGeneralOptions(),
+			);
+		},
+	},
+	// 矩阵
+	// 矩阵单选
+	'table_singleselect': {
+		text: '矩阵单选',
+		getDefaultJson: function(){
+			return getTableJson_Default('table_singleselect');
+		}
+	},
+	// 矩阵多选
+	'table_multiselect': {
+		text: '矩阵多选',
+		getDefaultJson: function(){
+			return getTableJson_Default('table_multiselect');
+		}
+	},
+	// 矩阵填空
+	'table_input': {
+		text: '矩阵填空',
+		getDefaultJson: function(){
+			return {
+				lid: localIDGenerator(),
+				type: 'table_input',
+				required: 0,
+				title: '请输入问题',
+				tooltip: '',
+				row: [
+					{
+						lid: localIDGenerator(),
+						text: '标题行1',
+						name: localIDGenerator()
+					},
+					{
+						lid: localIDGenerator(),
+						text: '标题行2',
+						name: localIDGenerator()
+					},
+					{
+						lid: localIDGenerator(),
+						text: '标题行3',
+						name: localIDGenerator()
+					},
+					
+				]
+			};
+		}
+	},
+	// 矩阵下拉
+	'table_singledropdown': {
+		text: '矩阵单项下拉',
+		getDefaultJson: function(){
+			return getTableJson_Default('table_singledropdown');
+		}
+	},
+	// 矩阵评分
+	'table_rating': {
+		text: '矩阵评分',
+		getDefaultJson: function(){
+			return getTableJson_Default('table_rating');
+		}
+	},
+	// 多列矩阵
+	'table_nested': {
+		text: '多列矩阵',
+		getDefaultJson: function(){
+			return $.extend(
+				{
+					type: 'table_nested',
+					row: [
+						{
+							lid: localIDGenerator(),
+							text: '标题行1',
+							name: localIDGenerator()
+						},
+						{
+							lid: localIDGenerator(),
+							text: '标题行2',
+							name: localIDGenerator()
+						},
+						{
+							lid: localIDGenerator(),
+							text: '标题行3',
+							name: localIDGenerator()
+						},
+						
+					],
+					col: [
+						QUESTION_DEFAULT_JSON_MAP['singleSelect'].getDefaultJson(),
+						QUESTION_DEFAULT_JSON_MAP['multiSelect'].getDefaultJson(),
+						QUESTION_DEFAULT_JSON_MAP['singleDropdown'].getDefaultJson(),
+						QUESTION_DEFAULT_JSON_MAP['multiDropdown'].getDefaultJson(),
+						QUESTION_DEFAULT_JSON_MAP['input'].getDefaultJson({sub_type: 'default'})
+					]
+				},
+				getGeneralJson(),
+				getGeneralOptions(),
+			);
+		}
+	},
+	// 标签
+	'tag': {
+		text: '标签',
+		getDefaultJson: function(){
+			return $.extend(
+				{
+					type: 'tag',
+					tag_max: 10,
+					tag_text_max: 20,
+				},
+				getGeneralJson()
+			);
+		}
+	}
+};
+const TAB_LIST = [
+	{
+		name: '单项',
+		action_name: 'singleSelect',
+		icon: 'fa-check-circle-o'
+	},
+	{
+		name: '多项',
+		action_name: 'multiSelect',
+		icon: 'fa-check-square-o'
+	},
+	{
+		name: '单项下拉框',
+		action_name: 'singleDropdown',
+		icon: 'fa-align-justify'
+	},
+	{
+		name: '多项下拉框',
+		action_name: 'multiDropdown',
+		icon: 'fa-list'
+	},
+	{
+		name: '填空',
+		icon: 'fa-th',
+		sub_list: [
+			// module_static.js
+		],
+		addition: ['input-submenu']
+	},
+	{
+		name: '上传文件',
+		action_name: 'file',
+		icon: 'fa-file-o'
+	},
+	{
+		name: '添加文本',
+		action_name: 'text',
+		icon: 'fa-pencil'
+	},
+	{
+		name: '评分',
+		action_name: 'rating',
+		icon: 'fa-star-o'
+	},
+	{
+		name: '滑动条',
+		action_name: 'slide',
+		icon: 'fa-exchange'
+	},
+	{
+		name: '排序',
+		action_name: 'ranking',
+		icon: 'fa-sort-numeric-asc'
+	},
+	{
+		name: '矩阵',
+		icon: 'fa-table',
+		sub_list: [
+			{
+				name: '矩阵单选',
+				action_name: 'table_singleselect',
+				icon: 'fa-check-circle-o'
+			},
+			{
+				name: '矩阵多选',
+				action_name: 'table_multiselect',
+				icon: 'fa-check-square-o'
+			},
+			{
+				name: '矩阵填空',
+				action_name: 'table_input',
+				icon: 'fa-keyboard-o'
+			},
+			{
+				name: '矩阵下拉',
+				action_name: 'table_singledropdown',
+				icon: 'fa-align-justify'
+			},
+			{
+				name: '矩阵评分',
+				action_name: 'table_rating',
+				icon: 'fa-sort-numeric-asc'
+			},
+			{		
+				name: '多列矩阵',
+				action_name: 'table_nested',
+				icon: 'fa-window-restore'
+			},
+		],
+		addition: []
+	},
+	{
+		name: '标签',
+		action_name: 'tag',
+		icon: 'fa-tags',
+	}
+];
+// ! 1. @@@@
 
 var FormDesigner = function(data, submitCallback){
 	var $modal = $(
@@ -96,35 +563,7 @@ var FormDesigner = function(data, submitCallback){
 		'						</div>\n' +
 		'						<div class="collapse navbar-collapse" id="tool-bar">\n' +
 		'							<ul class="nav navbar-nav sortable" data-container="toolbar">\n' +
-		'								<li><a href="#" data-action="singleSelect"><i class="fa fa-check-circle-o"></i> 单项</a></li>\n' +
-		'								<li><a href="#" data-action="multiSelect"><i class="fa fa-check-square-o"></i> 多项</a></li>\n' +
-		'								<li><a href="#" data-action="singleDropdown"><i class="fa fa-align-justify"></i> 单项下拉框</a></li>\n' +
-		'								<li><a href="#" data-action="multiDropdown"><i class="fa fa-list"></i> 多项下拉框</a></li>\n' +
-		'								<li class="dropdown">\n' +
-		'									<a href="#" class="dropdown-toggle" data-toggle="dropdown">\n' +
-		'										<i class="fa fa-th"></i> 填空 <b class="caret"></b>\n' +
-		'									</a>\n' +
-		'									<ul class="dropdown-menu" input-submenu>\n' +
-		'									</ul>\n' +
-		'								</li>\n' +
-		'								<li><a href="#" data-action="file"><i class="fa fa-file-o"></i> 上传文件</a></li>\n' +
-		'								<li><a href="#" data-action="text"><i class="fa fa-pencil"></i> 添加文本</a></li>\n' +
-		'								<li><a href="#" data-action="rating"><i class="fa fa-star-o"></i> 评分</a></li>\n' +
-		'								<li><a href="#" data-action="slide"><i class="fa fa-exchange"></i> 滑动条</a></li>\n' +
-		'								<li><a href="#" data-action="ranking"><i class="fa fa-sort-numeric-asc"></i> 排序</a></li>\n' +
-		'								<li class="dropdown">\n' +
-		'									<a href="#" class="dropdown-toggle" data-toggle="dropdown">\n' +
-		'										<i class="fa fa-table"></i> 矩阵 <b class="caret"></b>\n' +
-		'									</a>\n' +
-		'									<ul class="dropdown-menu">\n' +
-		'										<li><a href="#" data-action="table_singleselect"><i class="fa fa-check-circle-o"></i> 矩阵单选</a></li>\n' +
-		'										<li><a href="#" data-action="table_multiselect"><i class="fa fa-check-square-o"></i> 矩阵多选</a></li>\n' +
-		'										<li><a href="#" data-action="table_input"><i class="fa fa-keyboard-o"></i> 矩阵填空</a></li>\n' +
-		'										<li><a href="#" data-action="table_singledropdown"><i class="fa fa-align-justify"></i> 矩阵下拉</a></li>\n' +
-		'										<li><a href="#" data-action="table_rating"><i class="fa fa-sort-numeric-asc"></i> 矩阵评分</a></li>\n' +
-		'									</ul>\n' +
-		'								</li>\n' +
-		'								<li><a href="#" data-action="tag"><i class="fa fa-tags"></i> 标签</a></li>\n' +
+		'								<!-- 3. @@@@ 删除这个部分 --->\n' +
 		'							</ul>\n' +
 		'						</div>\n' +
 		'						</div>\n' +
@@ -151,6 +590,51 @@ var FormDesigner = function(data, submitCallback){
 	);
 	
 	var data = extendData(data);
+	
+	// 2. @@@@
+	var loadToolBar = function(list) {
+		var getSingleTag = function(data) {
+			return $(
+				'<li><a href="javascript:void(0);" data-action="' + data.action_name + '"><i class="fa ' + data.icon + '"></i> ' + data.name + '</a></li>\n'
+			);
+		};
+		var getNestedTag = function(data) {
+			var $tag = $(
+				'<li class="dropdown">\n' +
+				'	<a href="#" class="dropdown-toggle" data-toggle="dropdown">\n' +
+				'		<i class="fa ' + data.icon + '"></i> ' + data.name + ' <b class="caret"></b>\n' +
+				'	</a>\n' +
+				'	<ul class="dropdown-menu">\n' +
+				'		<!-- sub-list -->\n' +
+				'	</ul>\n' +
+				'</li>\n'
+			);
+			
+			var $container = $tag.find('.dropdown-menu');
+			data.addition.forEach(function(item, index){
+				$container.attr(item, '');
+			});
+			
+			data.sub_list.forEach(function(item, index){
+				$container.append(getSingleTag(item));
+			});
+			
+			return $tag;
+		};
+		
+		var $container = $modal.find('[data-container="toolbar"]');
+		TAB_LIST.forEach(function(item, index){
+			var $tag;
+			if(item.sub_list == undefined){
+				$tag = getSingleTag(item);
+			}else{
+				$tag = getNestedTag(item);
+			}
+			$container.append($tag);
+		});
+	};
+	loadToolBar(TAB_LIST);
+	// !2. @@@@
 	
 	var load = function(data){
 		if(data == undefined || objIsEmpty(data)){
@@ -407,81 +891,13 @@ var FormDesigner = function(data, submitCallback){
 		$modal.on('click', '#tool-bar [data-action]', function(){
 			var $container = $modal.find('.tab-pane.active');
 			if($modal.find('.tab-pane.active').length != 0){
-				var json = {
-					lid: localIDGenerator(),
-					type: $(this).attr('data-action'),
-					allowedType: ['text', 'video', 'audio', 'image'],
-					sub_type: 'default',
-					required: 0,
-					title: '请输入问题',
-					tooltip: '',
-					min: 0,
-					max: 7,
-					text: '请输入文本内容',
-					options: [
-						{
-							lid: localIDGenerator(),
-							name: '选项1',
-							value: 0,
-							isDefault: 0
-						},
-						{
-							lid: localIDGenerator(),
-							name: '选项2',
-							value: 0,
-							isDefault: 0
-						}
-					]
+				// 6. @@@@
+				var type = $(this).attr('data-action');
+				var extra_data = {
+					sub_type: $(this).attr('data-subType')
 				};
-				
-				if($(this).attr('data-subType')){
-					json.sub_type = $(this).attr('data-subType');
-				}
-				
-				// rating
-				if(['table_singleselect', 'table_multiselect', 'table_singledropdown', 'table_rating', 'rating'].includes(json.type)){
-					json.options = [
-						{
-							lid: localIDGenerator(),
-							name: '很不满意',
-							value: 1,
-							isDefault: 0
-						},
-						{
-							lid: localIDGenerator(),
-							name: '不满意',
-							value: 2,
-							isDefault: 0
-						},
-						{
-							lid: localIDGenerator(),
-							name: '一般',
-							value: 3,
-							isDefault: 0
-						},
-						{
-							lid: localIDGenerator(),
-							name: '满意',
-							value: 4,
-							isDefault: 0
-						},
-						{
-							lid: localIDGenerator(),
-							name: '满意',
-							value: 5,
-							isDefault: 0
-						}
-					]
-				}
-				if(json.type == 'slide'){
-					json.min = 1;
-					json.max = 100;
-					json.min_text = '不满意';
-					json.max_text = '满意';
-				}
-				if(['table_singleselect', 'table_multiselect', 'table_input', 'table_singledropdown', 'table_rating', ].includes(json.type)){
-					json.row = ['标题行1', '标题行2', '标题行3']
-				}
+				var json = QUESTION_DEFAULT_JSON_MAP[type].getDefaultJson(extra_data);
+				// !6. @@@@
 				
 				var $q = addQuestion(json, $container);
 				$q.find('.btn-list [data-action="activateEditor"]').trigger('click');
@@ -2037,9 +2453,10 @@ var Table = function(){
 	this.get$question = function(json){
 
 		var $question = q.get$question(json);
-		
+		// 7. @@@@
 		var $row_editor = $(
-			'<div editor-row class="">\n' +
+			'<div editor-row class="" style="margin-top: 10px;">\n' +
+			'	<div style="font-size: 16px; padding-left: 15px;"><i class="fa fa-arrows-h"></i> 行选项</div>\n' +
 			'	<table class="table table-hover">\n' +
 			'		<!-- <caption>选项行选项</caption> -->\n' +
 			'		<thead>\n' +
@@ -2054,6 +2471,7 @@ var Table = function(){
 			'	</table>\n' +
 			'</div>'
 		);
+		// ! 7. @@@@
 		$question.find('[editor-constraint]').before('<div class="row row_editor"></div>')
 		$question.find('.row_editor').append($row_editor);
 		
@@ -2419,6 +2837,753 @@ var Table_Rating = function(){
 	};
 };
 
+// 5. @@@@
+var Col = function(){
+	var c = this;
+	
+	var map = {
+		'singleSelect': SingleSelectCol,
+		'singleDropdown': SingleDropdownCol,
+		'multiSelect': MultiSelectCol,
+		'multiDropdown': MultiDropdownCol,
+		'input': InputCol,
+	};
+	
+	this.get$col = function(data){
+		var obj = new map[data.type]();
+		var $col = obj.get$col(data);
+		
+		$col.on('click', '[data-action]', function(){
+			var actionType = $(this).attr('data-action');
+			switch(actionType){
+				case 'editor-edit':
+					var current_data = obj.getJson($col);
+					c.get$Editor(current_data, $col);
+					break;
+				case 'editor-delete':
+					if($col.siblings().length == 0){
+						callAlert('选项列表不能为空！');
+					}else
+						$col.remove();
+					break;
+				case 'editor-moveup':
+					$col.prev().before($col);
+					break;
+				case 'editor-movedown':
+					$col.next().after($col);
+					break;
+				default:
+					console.log('error');
+					break;
+			}
+		});
+		
+		return $col;
+	};
+	
+	this.getJson = function($col){
+		var type = $col.find('[name="type"]').attr('type');
+		return new map[type]().getJson($col);
+	};
+	
+	this.get$Answer = function(data){
+		return new map[data.type]().get$Answer(data);
+	};
+	
+	this.get$Editor = function(data, $col){
+		var $editor = $(
+			'<div class="modal fade">\n' +
+			'	<div class="modal-dialog">\n' +
+			'		<div class="modal-content">\n' +
+			'			<div class="modal-header">\n' +
+			'				<h5 class="modal-title">编辑列属性</h5>\n' +
+			'			</div>\n' +
+			'			<div class="modal-body">\n' +
+			'			</div>\n' +
+			'			<div class="modal-footer">\n' +
+			'				<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>\n' +
+			'				<button type="button" class="btn btn-primary" data-action="submit">保存</button>\n' +
+			'			</div>\n' +
+			'		</div>\n' +
+			'	</div>\n' +
+			'</div>\n'
+		);
+		
+		var $basic_table = $(
+			'<table class="table table-hover" basic-table data-id="' + data.lid + '" data-type="' + data.type + '">\n' +
+			'	<thead>\n' +
+			'		<tr>\n' +
+			'			<th>属性名称</th>\n' +
+			'			<th>属性详情</th>\n' +
+			'		</tr>\n' +
+			'	</thead>\n' +
+			'	<tbody>\n' +
+			'		<!-- <tr>\n' +
+			'			<td>\n' +
+			'				列数：\n' +
+			'			</td>\n' +
+			'			<td>\n' +
+			'				第' + data.index + '列\n' +
+			'			</td>\n' +
+			'		</tr> -->\n' +
+			'		<tr>\n' +
+			'			<td>\n' +
+			'				问题：\n' +
+			'			</td>\n' +
+			'			<td>\n' +
+			'				<input type="text" name="title" placeholder="请输入问题" value="' + data.title + '">\n' +
+			'			</td>\n' +
+			'		</tr>\n' +
+						'		<tr>\n' +
+			'			<td>\n' +
+			'				关键词：\n' +
+			'			</td>\n' +
+			'			<td>\n' +
+			'				<input type="text" name="key" placeholder="请输入问题" value="' + data.key + '">\n' +
+			'			</td>\n' +
+			'		</tr>\n' +
+			'		<tr>\n' +
+			'			<td>\n' +
+			'				提示信息：\n' +
+			'			</td>\n' +
+			'			<td>\n' +
+			'				<input type="text" name="tooltip" placeholder="请输入提示" value="' + data.tooltip + '">\n' +
+			'			</td>\n' +
+			'		</tr>\n' +
+			'		<tr>\n' +
+			'			<td>\n' +
+			'				必填：\n' +
+			'			</td>\n' +
+			'			<td>\n' +
+			'				<input type="checkbox" name="required" ' + (data.required == 1 ? 'checked' : '') + '>\n' +
+			'			</td>\n' +
+			'		</tr>\n' +
+			'	</tbody>\n' +
+			'</table>\n'
+		);
+		$editor.find('.modal-body').append($basic_table);
+		$editor.find('.modal-body').append($basic_table);
+		
+		var extra = new map[data.type]().get$Editor(data);
+		extra.advance.forEach(function($item, index){
+			
+			$editor.find('.modal-body').append($item);
+		});
+		extra.addOn.forEach(function($item, index){
+			$basic_table.find('tbody').append($item);
+		});
+		
+		$editor.on('hidden.bs.modal', function(e){
+			$(this).remove();
+		});
+		
+		$editor.on('click', '[data-action="submit"]', function(e){
+			
+			var new_json = c.getEditorData($editor);
+			if(new_json.error.length != 0) {
+				var text = '';
+				new_json.error.forEach(function(item, index){
+					text += item + '\n';
+				});
+				alert(text);
+			}else{
+				var $new_col = c.get$col(new_json);
+				$col.after($new_col);
+				$col.remove();
+				$editor.modal('hide');
+			}
+		});
+		
+		$editor.modal('show');
+	};
+	
+	this.getEditorData = function($editor) {
+		var json = {};
+		var $basic = $editor.find('[basic-table]');
+		
+		json.lid = $basic.attr('data-id');
+		json.key = $basic.find('[name="key"]').val();
+		json.type = $basic.attr('data-type');
+		json.title = $basic.find('[name="title"]').val();
+		json.tooltip = $basic.find('[name="tooltip"]').val();
+		json.required = $basic.find('[name="required"]').is(':checked') ? 1 : 0;
+		
+		json.error = [];
+		if(json.title == '')
+			json.error.push('问题不能为空！');
+		if(json.key == '')
+			json.error.push('关键词不能为空！');
+		
+		var sub_json = new map[json.type]().getEditorData($editor);
+		var json = $.extend(json, sub_json);
+		json.error = json.error.concat(sub_json.sub_error); 
+		return json;
+	};
+	
+};
+
+var SingleSelectCol = function(){
+	var obj = this;
+	this.get$col = function(data){
+		var $col = $(
+			'<tr name="editorCol" id="">\n' +
+			'	<td name="type"></td>\n' +
+			'	<td name="title"></td>\n' +
+			'	<td name="options">\n' +
+			'		<select>\n' +
+			'		</select>\n' +
+			' </td>\n' +
+			'	<td name="key">\n' +
+			' </td>\n' +
+			'	<td>\n' +
+			'		<a class="btn btn-primary btn-xs" data-action="editor-edit"><i class="fa fa-pencil"></i></a>\n' +
+			'		<a class="btn btn-primary btn-xs" data-action="editor-delete"><i class="fa fa-trash"></i></a>\n' +
+			'		<a class="btn btn-primary btn-xs" data-action="editor-moveup"><i class="fa fa-arrow-up"></i></a>\n' +
+			'		<a class="btn btn-primary btn-xs" data-action="editor-movedown"><i class="fa fa-arrow-down"></i></a>\n' +
+			'	</td>\n' +
+			'</tr>'
+		);
+		
+		$col.attr({
+			'data-id': data.lid,
+			'required': data.required,
+			'tooltip': data.tooltip
+		});
+		$col.find('[name="type"]').attr('type', data.type).html(QUESTION_DEFAULT_JSON_MAP[data.type].text);
+		$col.find('[name="title"]').html(data.title);
+		$col.find('[name="key"]').html(data.key);
+		
+		var $select = $col.find('[name="options"] select');
+		data.options.forEach(function(item, index){
+			var $o = $('<option isDefault="' + item.isDefault + '" lid="' + item.lid + '" value="' + item.value + '">' + item.name + '</option>\n');
+			if(item.isDefault == 1)
+				$o.prop('selected', 1);
+			$select.append($o);
+		});
+	
+		return $col;
+	};
+	
+	this.getJson = function($col){
+		var json = {};
+		json.lid = $col.attr('data-id');
+		json.required = $col.attr('required');
+		json.tooltip = $col.attr('tooltip');
+		json.type = $col.find('[name="type"]').attr('type');
+		
+		json.title = $col.find('[name="title"]').html();
+		json.key = $col.find('[name="key"]').html();
+		
+		json.options = [];
+		$col.find('[name="options"] select option').each(function(index, item){
+			var $item = $(item);
+			var option = {
+				lid: $item.attr('lid'),
+				name: $item.text(),
+				value: $item.attr('isDefault'),
+				isDefault: $item.attr('value') 
+			};
+			json.options.push(option);
+		});
+		return json;
+	};
+	
+	this.get$Answer = function(data){
+		var $answer = $(
+			'<td>\n' +
+			
+			'</td>\n'
+		);
+
+		data.options.forEach(function(item, index){
+			var $option = $(
+				'<span class="option" data-id="' + item.lid + '">\n' +
+				'	<i class="fa ' + (item.isDefault == 0 ? 'fa-circle-o' : 'fa-check-circle-o')  + '"></i> <span name="radioName">' + item.name + '</span>\n' +
+				'</span>'
+			);
+
+			$answer.append($option);
+		});
+		
+		return $answer;
+	};
+	
+	this.get$Editor = function(data, $col){
+		var $editor = $(
+			'<table class="table table-hover" option-table>\n' +
+			'	<thead>\n' +
+			'		<tr>\n' +
+			'			<th>选项文字</th>\n' +
+			'			<th>默认</th>\n' +
+			'			<th>值</th>\n' +
+			'			<th>操作</th>\n' +
+			'		</tr>\n' +
+			'	</thead>\n' +
+			'	<tbody>\n' +
+			'	</tbody>\n' +
+			'</table>\n'
+		);
+		
+		var getOption = function(data) {
+			var $o = $(
+				'<tr option-item data-id="' + data.lid + '">\n' +
+				'	<td>\n' +
+				'		<input type="text" name="name" placeholder="请输入问题" value="' + data.name + '">\n' +
+				'	</td>\n' +
+				'	<td>\n' +
+				'		<input type="checkbox" name="isDefault" ' + (data.isDefault == 1 ? 'checked' : '') + '>\n' +
+				'	</td>\n' +
+				'	<td>\n' +
+				'		<input type="text" name="value" placeholder="请输入值" value="' + data.value + '">\n' +
+				'	</td>\n' +
+				'	<td>\n' +
+				'		<a class="btn btn-primary btn-xs" data-action="editor-create"><i class="fa fa-plus"></i></a>\n' +
+				'		<a class="btn btn-primary btn-xs" data-action="editor-delete"><i class="fa fa-trash"></i></a>\n' +
+				'		<a class="btn btn-primary btn-xs" data-action="editor-moveup"><i class="fa fa-arrow-up"></i></a>\n' +
+				'		<a class="btn btn-primary btn-xs" data-action="editor-movedown"><i class="fa fa-arrow-down"></i></a>\n' +
+				'	</td>\n' +
+				'</tr>\n'
+			);
+			
+			
+			$o.on('click', '[data-action]', function(){
+				var actionType = $(this).attr('data-action');
+				switch(actionType){
+					case 'editor-create':
+						var json = {
+							lid: localIDGenerator(),
+							name: '新的选项',
+							value: 0,
+							isDefault: 0
+						};
+						$o.after(getOption(json));
+						break;
+					case 'editor-delete':
+						if($o.siblings().length == 0){
+							callAlert('选项列表不能为空！');
+						}else
+							$o.remove();
+						break;
+					case 'editor-moveup':
+						$o.prev().before($o);
+						break;
+					case 'editor-movedown':
+						$o.next().after($o);
+						break;
+					default:
+						console.log('error');
+						break;
+				}
+			});
+			
+			return $o;
+		};
+		
+		data.options.forEach(function(item, index){
+			$editor.find('tbody').append(getOption(item));
+		});
+		
+		return {
+			advance: [$editor],
+			addOn: []
+		};
+	};
+	
+	this.getEditorData = function($editor) {
+		var json = {};
+		
+		var $table = $editor.find('[option-table]');
+		json.options = []
+		$table.find('[option-item]').each(function(index, item){
+			var option = {};
+			option.lid = $(item).attr('data-id');
+			option.name = $(item).find('[name="name"]').val();
+			option.value = $(item).find('[name="value"]').val();
+			option.isDefault = $(item).find('[name="isDefault"]').is(':checked') ? 1 : 0;
+			json.options.push(option);
+		});
+		
+		return json;
+	};
+	
+};
+
+var SingleDropdownCol = function(){
+	SingleSelectCol.call(this);
+	
+	this.get$Answer = function(data){
+		var $answer = $(
+			'<td>\n' +
+			'	<select>\n' +
+			'	</select>\n' +
+			'</td>\n'
+		);
+		
+		var $select = $answer.find('select');
+		data.options.forEach(function(item, index){
+			var $o = $('<option isDefault="' + item.isDefault + '" lid="' + item.lid + '" value="' + item.value + '">' + item.name + '</option>\n');
+			if(item.isDefault == 1)
+				$o.prop('selected', 1);
+			$select.append($o);
+		});
+		
+		return $answer;
+	};
+};
+
+var MultiSelectCol = function(){
+	var ssc = new SingleSelectCol();
+	this.get$col = function(data){
+		var $col = ssc.get$col(data);
+		
+		$col.attr({
+			'min': data.min,
+			'max': data.max,
+		});
+		
+		return $col;
+	};
+	
+	this.getJson = function($col){
+		var json = ssc.getJson($col);;
+		json.min = $col.attr('min');
+		json.max = $col.attr('max');
+		
+		return json;
+	};
+	
+	this.get$Answer = function(data){
+		var $answer = $(
+			'<td>\n' +
+			
+			'</td>\n'
+		);
+
+		data.options.forEach(function(item, index){
+			var $option = $(
+				'<span class="option" data-id="' + item.lid + '">\n' +
+				'	<i class="fa ' + (item.isDefault == 0 ? 'fa-square-o' : 'fa-check-square-o')  + '"></i> <span name="radioName">' + item.name + '</span>\n' +
+				'</span>'
+			);
+
+			$answer.append($option);
+		});
+		
+		return $answer;
+	};
+	
+	this.get$Editor = function(data, $col){
+		var $table = new SingleSelectCol().get$Editor(data);
+		
+		var $addOn = $(
+			'<tr>\n' +
+			'	<th>最少选几项：</th>\n' +
+			'	<td><input type="number" name="min" value="' + data.min + '"></td>\n' +
+			'</tr>\n' +
+			'<tr>\n' +
+			'	<th>最多选几项：</th>\n' +
+			'	<td><input type="number" name="max" value="' + data.max + '"></td>\n' +
+			'</tr>\n'
+		);
+		
+		return {
+			advance: $table.advance,
+			addOn: [$addOn]
+		};
+	};
+	
+	this.getEditorData = function($editor) {
+		var json = new SingleSelectCol().getEditorData($editor);
+		
+		var $basic = $editor.find('[basic-table]');
+		json.min = $basic.find('[name=min]').val();
+		json.max = $basic.find('[name=max]').val();
+		
+		return json;
+	};
+};
+
+var MultiDropdownCol = function(){
+	MultiSelectCol.call(this);
+	
+	this.get$Answer = function(data){
+		var $answer = $(
+			'<td>\n' +
+			'	<select multiple style="height: 50px;">\n' +
+			'	</select>\n' +
+			'</td>\n'
+		);
+		
+		var $select = $answer.find('select');
+		data.options.forEach(function(item, index){
+			var $o = $('<option isDefault="' + item.isDefault + '" lid="' + item.lid + '" value="' + item.value + '">' + item.name + '</option>\n');
+			if(item.isDefault == 1)
+				$o.prop('selected', 1);
+			$select.append($o);
+		});
+		
+		return $answer;
+	};
+};
+
+var InputCol = function(){
+	var obj = this;
+	this.get$col = function(data){
+		var $col = $(
+			'<tr name="editorCol" id="">\n' +
+			'	<td name="type"></td>\n' +
+			'	<td name="title"></td>\n' +
+			'	<td name="sub_type"></td>\n' +
+			'	<td name="key"></td>\n' +
+			'	<td>\n' +
+			'		<a class="btn btn-primary btn-xs" data-action="editor-edit"><i class="fa fa-pencil"></i></a>\n' +
+			'		<a class="btn btn-primary btn-xs" data-action="editor-delete"><i class="fa fa-trash"></i></a>\n' +
+			'		<a class="btn btn-primary btn-xs" data-action="editor-moveup"><i class="fa fa-arrow-up"></i></a>\n' +
+			'		<a class="btn btn-primary btn-xs" data-action="editor-movedown"><i class="fa fa-arrow-down"></i></a>\n' +
+			'	</td>\n' +
+			'</tr>'
+		);
+		
+		$col.attr({
+			'data-id': data.lid,
+			'required': data.required,
+			'tooltip': data.tooltip,
+			'max': data.max,
+			'max_num': data.max_num,
+			'min_num': data.min_num
+		});
+		$col.find('[name="type"]').attr('type', data.type).html(QUESTION_DEFAULT_JSON_MAP[data.type].text);
+		$col.find('[name="title"]').html(data.title);
+		$col.find('[name="sub_type"]')
+			.html('[输入类型] ' + INPUT_SUBTYPE[data.sub_type].name)
+			.attr('type', data.sub_type);
+		$col.find('[name="key"]').html(data.key);
+	
+		return $col;
+	};
+	
+	this.getJson = function($col){
+		var json = {};
+		json.lid = $col.attr('data-id');
+		json.required = $col.attr('required');
+		json.tooltip = $col.attr('tooltip');
+		json.type = $col.find('[name="type"]').attr('type');
+		json.sub_type = $col.find('[name="sub_type"]').attr('type');
+		json.title = $col.find('[name="title"]').html();
+		json.key = $col.find('[name="key"]').html();
+		json.max = $col.attr('max');
+		json.max_num = $col.attr('max_num');
+		json.min_num = $col.attr('min_num');
+		
+		return json;
+	};
+	
+	this.get$Answer = function(data){
+		var $input = $(
+			'<td>\n' +
+			'	<div class="input-group" style="margin: auto;">\n' +
+			'		<div class="input-group-addon">\n' +
+			'			<i class="fa ' + INPUT_SUBTYPE[data.sub_type].icon + '"></i>\n' +
+			'		</div>\n' +
+			'		<input type="text" class="form-control" placeholder="' + INPUT_SUBTYPE[data.sub_type].placeholder + '">\n' +
+			'	</div>\n' +
+			'</td>\n'
+		);
+		
+		return $input;
+	};
+	
+	this.get$Editor = function(data, $col){
+		var $addOn = $(
+			'<tr>\n' +
+			'	<th>输入类型：</th>\n' +
+			'	<td>\n' +
+			'		<select name="sub_type">\n' +
+			'		</select>\n' +
+			'	</td>\n' +
+			'</tr>\n'
+		);
+		
+		var addAddition = function(type) {
+			$addOn.siblings('[addition]').remove();
+			if(type == 'default'){
+				return $(
+					'<tr addition>\n' +
+					'	<th>字符限制：</th>\n' +
+					'	<td><input type="number" name="max" value="' + data.max + '"></td>\n' +
+					'</tr>\n'
+				);
+			}else if(type == 'number') {
+				return $(
+					'<tr addition>\n' +
+					'	<th>上限：</th>\n' +
+					'	<td><input type="number" name="max_num" value="' + data.max_num + '"></td>\n' +
+					'</tr>\n' +
+					'<tr addition>\n' +
+					'	<th>下限：</th>\n' +
+					'	<td><input type="number" name="min_num" value="' + data.min_num + '"></td>\n' +
+					'</tr>\n'
+				);
+			}
+		};
+		
+		var $sub_type = $addOn.find('[name="sub_type"]');
+		for(var key in INPUT_SUBTYPE){
+			$sub_type.append('<option value="' + key + '" ' + (data.sub_type == key ? 'selected' : '') + '>' + INPUT_SUBTYPE[key].name + '</option>');
+		}
+		
+		
+		$sub_type.on('change', function(e){
+			$addOn.after(addAddition(this.value));
+		});
+		
+		
+		
+		
+		return {
+			advance: [],
+			addOn: [$addOn, addAddition(data.sub_type)]
+		};
+	};
+	
+	this.getEditorData = function($editor) {
+		var json = {};
+		var $basic = $editor.find('[basic-table]');
+		
+		json.max = $basic.find('[name="max"]').val();
+		json.min_num = $basic.find('[name="min_num"]').val();
+		json.max_num = $basic.find('[name="max_num"]').val();
+		json.sub_type = $basic.find('[name="sub_type"] :selected').val();
+		
+
+		json.sub_error = [];
+		if(json.sub_type == 'default'){
+			if(json.max <= 0)
+				json.sub_error.push('最小字符数必须大于0！');
+		}else if(json.sub_type == 'number') {
+			if(json.min_num > json.max_num)
+				json.sub_error.push('数值下限不能大于上限！');
+		}
+		
+		
+		return json;
+	};
+	
+};
+
+
+const NESTED_COL_MAP = [
+	{
+		name: '单项',
+		action_name: 'singleSelect',
+		icon: 'fa-check-circle-o'
+	},
+	{
+		name: '多项',
+		action_name: 'multiSelect',
+		icon: 'fa-check-square-o'
+	},
+	{
+		name: '单项下拉框',
+		action_name: 'singleDropdown',
+		icon: 'fa-align-justify'
+	},
+	{
+		name: '多项下拉框',
+		action_name: 'multiDropdown',
+		icon: 'fa-list'
+	},
+	{
+		name: '填空',
+		action_name: 'input',
+		icon: 'fa-th'
+	}
+];
+var Table_Nested = function(){
+	var t = new Table();
+	// var q = new Question();
+	// var o = new Option();
+	var c = new Col();
+	var obj = this;
+	
+	this.get$question = function(json){
+		$question = t.get$question(json);
+		
+		// add options
+		var $colContainer = $(
+			'<div editor-col class="">\n' +
+			'	<div style="font-size: 16px; padding-left: 15px;"><i class="fa fa-arrows-h"></i> 列选项</div>\n' +
+			'	<div class="col-tool-bar"style="padding-left: 15px;">\n' +
+			'		<span><i class="fa fa-plus"></i> 添加:</span>\n' +
+			' </div>\n' +
+			'	<table class="table table-hover">\n' +
+			'		<thead>\n' +
+			'			<tr>\n' +
+			'				<th>题型</th>\n' +
+			'				<th>问题</th>\n' +
+			'				<th>详情</th>\n' +
+			'				<th>关键字</th>\n' +
+			'				<th>操作</th>\n' +
+			'			</tr>\n' +
+			'		</thead>\n' +
+			'		<tbody>\n' +
+			'		</tbody>\n' +
+			'	</table>\n' +
+			'</div>'
+		);
+		
+		NESTED_COL_MAP.forEach(function(item, index){
+			$colContainer.find('.col-tool-bar').append('<div class="btn btn-default btn-sm" col-add-type="' + item.action_name + '"><i class="fa ' + item.icon + '"></i> ' + item.name + '</div>\n');
+		});
+		
+		$colContainer.on('click', '[col-add-type]', function(e){
+			var actionType = $(this).attr('col-add-type');
+			$colContainer.find('tbody').append(c.get$col(QUESTION_DEFAULT_JSON_MAP[actionType].getDefaultJson()));
+		});
+		
+		$question.find('.row_editor').append($colContainer);
+		$.each(json.col, function(index, item){
+			$colContainer.find('tbody').append(c.get$col(item));
+		});
+				
+		return $question;
+	};
+	
+	this.getJson = function($question){
+		var json = t.getJson($question);
+
+		json.col = [];
+		$question.find('[editor-col] [name="editorCol"]').each(function(index, item){
+			json.col.push(c.getJson($(item)));
+		});
+		
+		return json;
+	};
+	
+	this.loadAnswer = function(data, $question){
+		t.loadAnswer(data, $question);
+		var $table = $question.find('[question-answer] table');
+		
+		$table.find('thead').append('<tr></tr>');
+		var $h_tr = $table.find('thead tr').last();
+		$h_tr.append('<td></td>');
+		
+		$.each(data.row, function(index1){
+			var $b_tr = $table.find('tbody tr:nth-child(' +  (index1 + 1) + ')');
+			$.each(data.col, function(index, item){
+				if(index1 == 0)
+					$h_tr.append('<th>[<span style="color: red;">' + QUESTION_DEFAULT_JSON_MAP[item.type].text + '</span>]' + item.title + '(<span style="color: red;">' 
+						+ item.key + '</span>)</th>');
+				var $answer = c.get$Answer(item);
+
+				$b_tr.append($answer);
+			});
+		});
+	};
+};
+// ！5. @@@@ 
+
+
 var Tag = function(){
 	var q = new Question();
 	var o = new Option();
@@ -2470,6 +3635,7 @@ var Tag = function(){
 };
 
 const QC_FILTER = ['singleSelect', 'multiSelect', 'singleDropdown', 'multiDropdown'];
+
 const QUESTION_MAP = {
 	'singleSelect': SingleSelect,
 	'singleDropdown': SingleDropdown,
@@ -2486,8 +3652,12 @@ const QUESTION_MAP = {
 	'table_input': Table_Input,
 	'table_singledropdown': Table_SingleDropdown,
 	'table_rating': Table_Rating,
+	// 4. @@@@ 添加多行多列
+	'table_nested': Table_Nested,
+	// ！4. @@@@ 添加多行多列
 	'tag': Tag
 };
+
 var jsonTo$question = function(json){
 	var type = json.type
 	return new QUESTION_MAP[type]().get$question(json);

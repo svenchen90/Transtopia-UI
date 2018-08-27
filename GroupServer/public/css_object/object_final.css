@@ -251,3 +251,11 @@
 [question-type="singleSelect"] .customized-checkbox .checkmark{
 	border-radius: 50%;
 }
+
+/* 1. @@@@ */
+[answer-table] td, [answer-table] th {
+	padding: 0 5px;
+}
+/* !1. @@@@ */
+
+
