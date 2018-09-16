@@ -152,15 +152,6 @@ var getJson_TableDefault = function(type) {
 	);
 };
 
-var getJson_TabDefault = function(){
-	return {
-		lid: localIDGenerator(),
-		key: localIDGenerator(),
-		name: '新的分页',
-		questions:[]
-	}
-};
-
 const QUESTION_DEFAULT_JSON_MAP = {
 	// 单项
 	'singleSelect': {
@@ -309,7 +300,7 @@ const QUESTION_DEFAULT_JSON_MAP = {
 		getDefaultJson: function() {
 			return $.extend(
 				{
-					type: 'slide',
+					type: 'rating',
 					max: 100,
 					max_text: '满意',
 					min: 1,
@@ -432,7 +423,7 @@ const QUESTION_DEFAULT_JSON_MAP = {
 	},
 	// 标签
 	'tag': {
-		text: '自定义标签',
+		text: '标签',
 		getDefaultJson: function(){
 			return $.extend(
 				{
@@ -443,37 +434,8 @@ const QUESTION_DEFAULT_JSON_MAP = {
 				getJson_QuestionDefault()
 			);
 		}
-	},
-	/* 2. #@#@ */
-	'tagButton': {
-		text: '按钮标签',
-		getDefaultJson: function(){
-			return $.extend(
-				{
-					type: 'tagButton',
-					min: 0,
-					max: 2
-				},
-				getJson_QuestionDefault(),
-				getJson_OptionsDefault(),
-			);
-		}
-	},
-	'colorPicker': {
-		text: '选色题',
-		getDefaultJson: function(){
-			return $.extend(
-				{
-					type: 'colorPicker',
-					default_color: '#00a65a'
-				},
-				getJson_QuestionDefault(),
-			);
-		}
 	}
-	/* !2. #@#@ */
 };
-
 const TAB_LIST = [
 	{
 		name: '单项',
@@ -565,168 +527,13 @@ const TAB_LIST = [
 		],
 		addition: []
 	},
-	/* 1. #@#@ */
 	{
 		name: '标签',
+		action_name: 'tag',
 		icon: 'fa-tags',
-		sub_list: [{
-			name: '自定义标签',
-			action_name: 'tag',
-			icon: 'fa-tag',
-		},{
-			name: '按钮标签',
-			action_name: 'tagButton',
-			icon: 'fa-tasks',
-		}],
-		addition: []
-	},
-	{
-		name: '选色',
-		action_name: 'colorPicker',
-		icon: 'fa-paint-brush'
 	}
-	/* !1. #@#@ */
 ];
-
-const FORM_NAME_MODIFY = {
-	title: '修改装备名称',
-	placeholder: '请输入装备名称...',
-	validation: function(value){
-		if(value == ''){
-			return '装备名称不能为空！';
-		}else{
-			return '';
-		}
-	}
-};
-
-const TAB_NAME_MODIFY = {
-	title: '修改Tab名称',
-	placeholder: '请输入Tab名称...',
-	validation: function(value){
-		if(value == ''){
-			return 'Tab名称不能为空！';
-		}else{
-			return '';
-		}
-	}
-};
-
-const TAB_KEY_MODIFY = {
-	title: '修改Tab ID',
-	placeholder: '请输入ID...',
-	validation: function(value){
-		if(value == ''){
-			return 'ID不能为空！';
-		}else{
-			return '';
-		}
-	}
-};
-
-var IDValidation = function(id){
-	// character, _ or number, length: [5,12]
-	var IDRegExp = /^[a-zA-Z0-9_]{5,12}$/;
-	if(IDRegExp.test(id)){
-		return '';
-	}else{
-		return 'ID格式： 英文字符， 数字， 下划线； 总长度5位到12位.';
-	}
-};
-
-const FILE_TYPE_ALL = ["ANI", "BMP", "CAL", "EPS", "FAX", "GIF", "IMG", "JBG", "JPE", "JPEG", "JPG", "MAC", "PBM", "PCD", "PCX", "PCT", "PGM", "PNG", "PPM", "PSD", "RAS", "TGA", "TIFF", "WMF"];
 /* ! config */
-
-/* gear */
-// 0. Delay
-var delay = (function(){
-  var timer = 0;
-  return function(callback, ms){
-    clearTimeout (timer);
-    timer = setTimeout(callback, ms);
-  };
-})();
-// 1. 单行输入框
-var singleLineInput = function(title, default_value, placeholder, callback, validation=function(value){return '';}){
-	var modal = $(
-		'<div class="modal fade">\n' +
-		'	<div class="modal-dialog">\n' +
-		'		<div class="modal-content">\n' +
-		'			<div class="modal-header">\n' +
-		'				<button type="button" class="close btn-close" data-dismiss="modal">&times;</button>\n' +
-		'				<h4 class="modal-title"></h4>\n' +
-		'			</div>\n' +
-		'			<div class="modal-body">\n' +
-		'				<div class="form-group">\n' +
-		'					<input name="input" type="text" class="form-control" />\n' +
-		'					<div name="error_msg" class="error"></div>\n' +
-		'				</div>\n' +
-		'			</div>\n' +
-		'			<div class="modal-footer">\n' +
-		'				<a href="javascript: void(0);" data-action="submit">确定</a>\n' +
-		'				<a href="javascript: void(0);" data-dismiss="modal">关闭</a>\n' +
-		'			</div>\n' +
-		'		</div>\n' +
-		'	</div>\n' + 
-		'</div>'
-	);
-	
-	var updateErr = function(error_msg){
-		if(error_msg != ''){
-			modal.find('.form-group').addClass('invalid');
-			modal.find('[name="error_msg"]').html(error_msg);
-		}else{
-			modal.find('.form-group').removeClass('invalid');
-			modal.find('[name="error_msg"]').html('');
-		}
-	};
-	
-	//初始化
-	(function(){
-		modal.find('.modal-title').text(title);
-		modal.find('input')
-			.attr('placeholder', placeholder)
-			.val(default_value);
-		
-		//submit
-		modal.on('click', '[data-action="submit"]:not(.disabled)', function(){
-			// 获取数据
-			var input = modal.find('input').val();
-			// validation
-			var error_msg = validation(input);
-			updateErr(error_msg);
-			if(error_msg == ''){
-				callback(input);
-				modal.modal('hide');
-			}
-		});
-		
-		modal.on('change', '[name="input"]', function(e){
-			var input = $(this).val();
-			// validation
-			var error_msg = validation(input);
-			updateErr(error_msg);
-		});
-		
-		
-		modal.on('hidden.bs.modal', function(){
-			$(this).remove();
-		});
-		
-		modal.modal('show');
-	})();
-};
-// 2. check array has duplicate
-var hasDuplicate = function(list){
-	for(var i=0; i<list.length; i++){
-		for(j=i+1; j<list.length; j++){
-			if(list[i] == list[j])
-				return true;
-		}
-	}
-	return false;
-};
-/* !gear */
 
 
 var FormDesigner = function(data, submitCallback){
@@ -737,7 +544,6 @@ var FormDesigner = function(data, submitCallback){
 		'			<div class="modal-header">\n' +
 		'				<h4 class="modal-title">\n' +
 		'					<span data-type="formName" data-id></span>\n' +
-		'					<a href="javascript:void(0)" title="修改名称" data-action="modify-form-name"><i class="fa fa-pencil"></i></a>\n' +
 		'					<button type="button" class="close" data-dismiss="modal">\n' +
 		'						&times;\n' +
 		'					</button>\n' +
@@ -844,11 +650,13 @@ var FormDesigner = function(data, submitCallback){
 				tabs: []
 			});
 		}else{
-			clear();
 			$modal.find('[data-type="formName"]')
 				.attr('data-id', data.lid)
 				.text(data.name);
-
+			
+			
+			clear();
+			
 			var t_id;
 			if(data.tabs.length == 0)
 				t_id = addTab();
@@ -886,17 +694,13 @@ var FormDesigner = function(data, submitCallback){
 	
 	var addTab = function(data){
 		if(data == undefined || objIsEmpty(data)){
-			return addTab(getJson_TabDefault());
+			return addTab({
+				lid: localIDGenerator(),
+				name: '新的分页',
+				questions:[]
+			});
 		}else{
-			var $tab = $(
-			'<li>\n' +
-			'	<a href="#' + data.lid + '" data-toggle="tab">\n' +
-			'		<span data-type="name">' + data.name + '</span>\n' +
-			'		[<span data-type="key" style="color: red;">' + data.key + '</span>]\n' +
-			'		<span data-action="modify-tab" style="color: #3c8dbc; cursor: pointer;"><i class="fa fa-gear"></i></span>\n' +
-			'	</a>\n' +
-			'</li>\n'
-			);
+			var $tab = $('<li><a href="#' + data.lid + '" data-toggle="tab"><span data-type="name">' + data.name + '</span><span data-action="deleteTab">&times</span></a></li>');
 			var $pane = $('<div class="tab-pane fade" id="' + data.lid + '"></div>');
 			$.each(data.questions, function(index, item){
 				addQuestion(item, $pane);
@@ -918,7 +722,6 @@ var FormDesigner = function(data, submitCallback){
 		var json = {
 			lid: id,
 			name: $modal.find('#tab-bar [href="#' + id + '"] [data-type="name"]').text(),
-			key: $modal.find('#tab-bar [href="#' + id + '"] [data-type="key"]').text(),
 			questions: []
 		};
 		
@@ -950,22 +753,6 @@ var FormDesigner = function(data, submitCallback){
 		return $questionToJson($question);
 	};
 	
-	var getAllTabName = function(){
-		var list = []
-		$modal.find('#tab-bar > li [data-type="name"]').each(function(index, item){
-			list.push($(item).text());
-		});
-		return list;
-	};
-	
-	var getAllTabKey = function(){
-		var list = []
-		$modal.find('#tab-bar > li [data-type="key"]').each(function(index, item){
-			list.push($(item).text());
-		});
-		return list;
-	};
-	
 	var initialize = function(){
 		load(data);
 		
@@ -977,43 +764,61 @@ var FormDesigner = function(data, submitCallback){
 			);
 		}
 		
-		// 修改表单名称
-		$modal.on('click', '[data-action="modify-form-name"]', function(e){
-			var current_name = $modal.find('[data-type="formName"]').text();
-			singleLineInput(FORM_NAME_MODIFY.title, current_name, 
-				FORM_NAME_MODIFY.placeholder, 
-				function(value){
-					$modal.find('[data-type="formName"]').html(value);
-				},
-				FORM_NAME_MODIFY.validation);
+		// 激活重命名form
+		$modal.on('dblclick', 'span[data-type="formName"]', function(){
+			var id = $(this).attr('data-id');
+			var name = $(this).text();
+			var $input = $('<input data-type="formName" value="' + name + '" data-id="' + id + '" placeholder="请输表单名称">');
+			$(this).replaceWith($input);
+			$input.focus();
 		});
 		
-		// 添加 tab
+		// 完成form重命名
+		$modal.on('focusout keydown', 'input[data-type="formName"]', function(){
+			if(event.type == 'blur' || (event.type == 'keydown' && event.keyCode == '13')){
+				var id = $(this).attr('data-id');
+				var name = $(this).val();
+				if(name != ''){
+					var $a = $('<span data-type="formName" data-id="' + id + '">' + name + '</span>')
+					$(this).replaceWith($a);
+				}	
+			}
+		});
+		
+		// 添加删除 tab
 		$modal.on('click', '#tab-bar [data-action]', function(){
-			getAllTabName();
 			var actionType = $(this).attr('data-action')
 			if(actionType == 'addTab'){
-				var new_tab = getJson_TabDefault();
-				var list_tabs = getAllTabName();
-				var name = new_tab.name;
-				if(list_tabs.includes(name)){
-					var index = 1;
-					while(list_tabs.includes(name + '_' + index)){
-						index += 1;
-					}
-					name += '_' + index;
-				}
-
-				new_tab.name = name
-				var id = addTab(new_tab);
+				var id = addTab();
 				activeTab(id);
+			}else if(actionType == 'deleteTab'){
+				var id = $(this).closest('a').attr('href').substring(1);
+				callConfirm('确认删除', '您确定要删除此分页？', 
+					function(){
+						deleteTabByID(id);
+					}, 
+					function(){
+						
+					});
+				
 			}else{
 				
 			}
 		});
+				
+		// 激活重命名tab
+		$modal.on('dblclick', '#tab-bar li.active', function(){
+			if($(this).find('a').length == 1){
+				var id = $(this).find('a').attr('href').substring(1);
+				var name = $(this).find('[data-type="name"]').text();
+				var $input = $('<input value="' + name + '" data-id="' + id + '" placeholder="请输入分页名称" style="position: relative;display: block;margin: 10px 15px;">');
+				$(this).html($input);
+				$input.focus();
+			}
+		});
 		
 		// tab 栏右击事件
-		$modal.on('click', '[data-action="modify-tab"]', function(ev){
+		$modal.on('contextmenu', '#tab-bar li', function(ev){
 			ev.preventDefault();
 			ev.stopPropagation();
 			$('.tab-menu').remove();
@@ -1024,60 +829,16 @@ var FormDesigner = function(data, submitCallback){
 			
 			var $menu = $(
 				'<ul class="dropdown-menu tab-menu">\n' +
-				'	<li><a href="javascript:void(0);" data-action="modify-name"><i class="fa fa-header"></i> 修改名称</a></li>\n' +
-				'	<li><a href="javascript:void(0);" data-action="modify-key"><i class="fa fa-key"></i> 修改ID</a></li>\n' +
-				'	<li><a href="javascript:void(0);" data-action="copy"><i class="fa fa-copy"></i> 复制</a></li>\n' +
-				'	<li><a href="javascript:void(0);" data-action="delete"><i class="fa fa-trash"></i> 删除</a></li>\n' +
 				'	<li><a href="javascript:void(0);" data-action="forward"><i class="fa fa-angle-left"></i> 左移</a></li>\n' +
 				'	<li><a href="javascript:void(0);" data-action="backward"><i class="fa fa-angle-right"></i> 右移</a></li>\n' +
+				'	<li><a href="javascript:void(0);" data-action="copy"><i class="fa fa-copy"></i> 复制</a></li>\n' +
+				'	<li><a href="javascript:void(0);" data-action="delete"><i class="fa fa-trash"></i> 删除</a></li>\n' +
 				'</ul>'
 			);
 			
 			$menu.on('click', '[data-action]', function(ev){
 				var actionType = $(this).attr('data-action');
 				switch(actionType){
-					case 'modify-name':
-						var current_name = tabToJson(id).name;
-						singleLineInput(TAB_NAME_MODIFY.title, current_name, 
-							TAB_NAME_MODIFY.placeholder, 
-							function(value){
-								$modal.find('[href="#' + id + '"] [data-type="name"]').html(value);
-							},
-							function(new_name){
-								if(new_name == ''){
-									return 'Tab 名称不能为空！';
-								}else{
-									var list_name = getAllTabName();
-									if(new_name != current_name && list_name.includes(new_name)){
-										return 'Tab 名称已存在！';
-									}else{
-										return '';
-									}
-								}
-							}
-						);
-						break;
-					case 'modify-key':
-						var current_key = tabToJson(id).key;
-						singleLineInput(TAB_KEY_MODIFY.title, current_key, 
-							TAB_KEY_MODIFY.placeholder, 
-							function(value){
-								$modal.find('[href="#' + id + '"] [data-type="key"]').html(value);
-							},
-							function(new_key){
-								if(new_key == ''){
-									return 'ID 名称不能为空！';
-								}else{
-									var list_key = getAllTabKey();
-									if(new_key != current_key && list_key.includes(new_key)){
-										return 'ID 名称已存在！';
-									}else{
-										return IDValidation(new_key);
-									}
-								}
-							}
-						);
-						break;
 					case 'forward':
 						$currentTab.prev().before($currentTab);
 						$pane.prev().before($pane);
@@ -1090,19 +851,11 @@ var FormDesigner = function(data, submitCallback){
 						var copyData = tabToJson(id);
 						copyData.lid = localIDGenerator();
 						copyData.name += '_copy';
-						copyData.key = localIDGenerator();
 						extendData({tabs: [copyData]})
 						addTab(copyData);
 						break;
 					case 'delete':
-						callConfirm('确认删除', '您确定要删除此分页？', 
-							function(){
-								deleteTabByID(id);
-							}, 
-							function(){
-								
-							}
-						);
+						deleteTabByID(id);
 						break;
 					default:
 						break;
@@ -1121,10 +874,24 @@ var FormDesigner = function(data, submitCallback){
 			$('body').append($menu);
 		});
 		
-		$modal.on('click', ':not(.tab-menu, [data-action="modify-tab"])', function(ev){
+		$modal.on('click', ':not(.tab-menu)', function(ev){
 			$('.tab-menu').remove();
 		});
 		
+		// 完成tab重命名
+		$modal.on('focusout keydown', '#tab-bar li input', function(){
+			if(event.type == 'blur' || (event.type == 'keydown' && event.keyCode == '13')){
+				var id = $(this).attr('data-id');
+				var name = $(this).val();
+				if(name != ''){
+					var $a = $('<a href="#' + id + '" data-toggle="tab"><span data-type="name">' + name + '</span><span data-action="deleteTab">&times</span></a>')
+					$(this).replaceWith($a);
+				}else{
+					callAlert('分页名称不能为空');
+					$(this).val('分页名称');
+				}
+			}
+		});
 		
 		// 新建问题栏事件
 		$modal.on('click', '#tool-bar [data-action]', function(){
@@ -1132,7 +899,7 @@ var FormDesigner = function(data, submitCallback){
 			if($modal.find('.tab-pane.active').length != 0){
 				// 6. @@@@
 				var type = $(this).attr('data-action');
-				// console.log(type);
+				console.log();
 				var extra_data = {
 					sub_type: $(this).attr('data-subType')
 				};
@@ -1163,8 +930,7 @@ var FormDesigner = function(data, submitCallback){
 				}, 
 				function(){
 					
-				}
-			);
+				});
 		});
 		
 		
@@ -1332,36 +1098,8 @@ var TwinTables = function(context, data_top, data_bot, constr, toJson, callback)
 	
 };
 
-var callAlert = function(msg, title="消息框"){
-	var msg_formated = msg
-	if(Array.isArray(msg)){
-		msg_formated = msg.join('\n');
-	}
-	var $modal = $(
-		'<div class="modal" tabindex="-1" role="dialog">\n' +
-		'	<div class="modal-dialog" role="document">\n' +
-		'		<div class="modal-content">\n' +
-		'			<div class="modal-header">\n' +
-		'				<h5 class="modal-title">' + title + '</h5>\n' +
-		'			</div>\n' +
-		'			<div class="modal-body">\n' +
-		'				<p>' + msg_formated + '</p>\n' +
-		'			</div>\n' +
-		'			<div class="modal-footer">\n' +
-		'				<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>\n' +
-		'			</div>\n' +
-		'		</div>\n' +
-		'	</div>\n' +
-		'</div>\n'
-	);
-	
-	
-	
-	$modal.on('hidden.bs.modal', function(){
-		$(this).remove();
-	});
-	
-	$modal.modal('show');
+var callAlert = function(msg){
+	alert(msg);
 };
 
 var callConfirm = function(title, text, actionConfirm, actionCancel){
@@ -1822,111 +1560,15 @@ var Question = function(){
 					$question.siblings().find('[question-btn] [question-action="confirmEdit"]').click();
 					break;
 				case 'confirmEdit':
+					$(this).replaceWith('<div class="btn btn-primary btn-sm" question-action="activateEditor"><i class="fa fa-tag"></i> 编辑</div>');
+					$question.removeClass('active');
 					var data = $questionToJson($question);
-					// validate general id, name
-					var error_msg = [];
-					if(data.key == ''){
-						error_msg.push('ID 不能为空!');
-					}
-					if(data.title == ''){
-						error_msg.push('题目不能为空!');
-					}
-					var getAllKey_Question = function($question){
-						var list_key = [];
-						$question.siblings().each(function(index, item){
-							var key = $(item).find('[question-title] [data-type="key"]').text()
-							list_key.push(key);
-							
-						});
-						return list_key;
-					};
-					list_key = getAllKey_Question($question);
-					if(list_key.includes(data.key)){
-						error_msg.push('ID不能重复');
-					}
-					var temp_err = IDValidation(data.key);
-					if(temp_err != '')
-						error_msg.push(temp_err);
-					
-					// option 
-					if (data.options != undefined){
-						for(var index in data.options){
-							if(data.options[index].name == ''){
-								error_msg.push('选项名称不能为空！');
-								break;
-							}
-						}
-					}
-					// table row
-					if (data.row != undefined){
-						var flag1 = false;
-						var flag2 = false;
-						var flag3 = false;
-
-						for(var index in data.row){
-							if(data.row[index].name == ''){
-								flag1 = true;
-							}
-							if(data.row[index].text == ''){
-								flag2 = true;
-							}
-							
-							if(IDValidation(data.row[index].name) != ''){
-								flag3 = true;
-							}
-								
-						}
-						if(flag1)
-							error_msg.push('矩阵行ID不能为空！');
-						if(flag2)
-							error_msg.push('矩阵行名称不能为空！');
-						if(flag3)
-							error_msg.push('矩阵行ID格式： 英文字符， 数字， 下划线； 总长度5位到12位.');
-						
-						var key_list =  data.row.map(function(item, index){
-							return item.name;
-						});
-						if(hasDuplicate(key_list))
-							error_msg.push('矩阵行ID不能重复！');
-					}
-					
-					// table col
-					if (data.col != undefined){
-						var flag1 = false;
-						var flag2 = false;
-						for(var index in data.col){
-							if(data.col[index].title == ''){
-								flag1 = true;
-							}
-							if(data.col[index].key == ''){
-								flag1 = true;
-							}
-						}
-						if(flag1)
-							error_msg.push('矩阵列ID不能为空！');
-						if(flag2)
-							error_msg.push('矩阵列名称不能为空！');
-						
-						var key_list =  data.col.map(function(item, index){
-							return item.key;
-						});
-						if(hasDuplicate(key_list))
-							error_msg.push('矩阵列ID不能重复！');
-					}
-					
-					if(error_msg.length != 0){
-						callAlert(error_msg);
-					}else{
-						$(this).replaceWith('<div class="btn btn-primary btn-sm" question-action="activateEditor"><i class="fa fa-tag"></i> 编辑</div>');
-						$question.removeClass('active');
-						obj.loadMain(data, $question)
-						new QUESTION_MAP[json.type]().loadAnswer($questionToJson($question), $question);
-					}
+					obj.loadMain(data, $question)
+					new QUESTION_MAP[json.type]().loadAnswer($questionToJson($question), $question);
 					break;
 				case 'copy':
 					var data = $questionToJson($question);
 					data.lid = localIDGenerator();
-					data.key = localIDGenerator();
 					var $copy = jsonTo$question(data);
 					$question.after($copy);
 					break;
@@ -2059,8 +1701,8 @@ var Question = function(){
 		$question.find('[question-main] [question-index]').text(json.index);
 		// 1.3 title
 		$question.find('[question-main] [question-title]')
-			.html('[ <span class="type-aids">' + QUESTION_DEFAULT_JSON_MAP[json.type].text + '</span> ]<span> ' + 
-				json.title + ' </span>[ <span data-type="key" style="color: red;">' + json.key + '</span> ]');
+			.html('<span class="type-aids"> [ ' + QUESTION_DEFAULT_JSON_MAP[json.type].text + ' ] </span><span> ' + 
+				json.title + ' </span><span style="color: red;"> [ ' + json.key + ' ] </span>');
 		
 		// 1.4 tooltip
 		var msg = [];
@@ -2341,6 +1983,8 @@ var Input = function(){
 	};
 
 };
+
+const FILE_TYPE_ALL = ["ANI", "BMP", "CAL", "EPS", "FAX", "GIF", "IMG", "JBG", "JPE", "JPEG", "JPG", "MAC", "PBM", "PCD", "PCX", "PCT", "PGM", "PNG", "PPM", "PSD", "RAS", "TGA", "TIFF", "WMF"];
 
 var File = function(){
 	var q = new Question();
@@ -2858,6 +2502,17 @@ var Table = function(){
 			$(this).closest('[name="editorRow"]').siblings().each(function(index, item){
 				val_list.push( $(item).find('[name="name"]').val());
 			});
+			
+			if(val_list.includes(value)) {
+				alert('行ID不能重复！');
+				$(this).val(localIDGenerator());
+			}
+			
+			if(value == ''){
+				alert('行ID不能为空！');
+				$(this).val(localIDGenerator());
+			}
+			
 			// 其它
 		});
 		
@@ -3356,7 +3011,7 @@ var Col = function(){
 				new_json.error.forEach(function(item, index){
 					text += item + '\n';
 				});
-				callAlert(text);
+				alert(text);
 			}else{
 				var $new_col = c.get$col(new_json);
 				$col.after($new_col);
@@ -4019,83 +3674,6 @@ var Tag = function(){
 	};
 };
 
-/* 4. #@#@ */
-var TagButton = function(){
-	var q = new MultiSelect();
-	var o = new Option();
-	var obj = this;
-	
-	this.get$question = function(json){
-		var $question = q.get$question(json);
-		
-		return $question;
-	};
-	
-	this.getJson = function($question){
-		var json = q.getJson($question);
-		return json;
-	};
-	
-	this.loadAnswer = function(data, $question){
-		var $container = $question.find('[question-answer]').empty();
-		var $input = $(
-			'<div class="input-group" style="margin: 5px 0 5px;">\n' +
-			'	<div class="input-group-addon">\n' +
-			'		<i class="fa fa-tasks"></i>\n' +
-			'	</div>\n' +
-			'	<input type="text" class="form-control" placeholder="请输入标签...">\n' +
-			'</div>\n'
-		);
-		$container.append($input);
-	};
-};
-
-var ColorPicker = function(){
-	var q = new Question();
-	var o = new Option();
-	var obj = this;
-	
-	this.get$question = function(json){
-		var $question = q.get$question(json);
-		
-		var $input = $(
-			'<div class="input-group" style="margin: 5px 0 5px;">\n' +
-			'	<div class="input-group-addon">\n' +
-			'		<i class="fa fa-paint-brush"></i> 默认颜色: \n' +
-			'	</div>\n' +
-			'	<input class="form-control" value="' + json.default_color + '" type="color" name="color" style="width: 80px;">\n' +
-			'</div>\n'
-		);
-		$question.find('[editor-constraint]').before($input);
-		
-		return $question;
-	};
-	
-	this.getJson = function($question){
-		var json = q.getJson($question);
-		
-		json.default_color = $question.find('[name="color"]').val();
-		
-		return json;
-	};
-	
-	this.loadAnswer = function(data, $question){
-		var $container = $question.find('[question-answer]').empty();
-		var $input = $(
-			'<div class="input-group" style="margin: 5px 0 5px;">\n' +
-			'	<div class="input-group-addon">\n' +
-			'		<i class="fa fa-paint-brush"></i> \n' +
-			'	</div>\n' +
-			'	<input class="form-control" disabled value="' + data.default_color + '" type="color" style="width: 80px;">\n' +
-			'</div>\n'
-		);
-		$container.append($input);
-	};
-}
-/* !4. #@#@ */
-
-
-
 const QC_FILTER = ['singleSelect', 'multiSelect', 'singleDropdown', 'multiDropdown'];
 
 const QUESTION_MAP = {
@@ -4117,11 +3695,7 @@ const QUESTION_MAP = {
 	// 4. @@@@ 添加多行多列
 	'table_nested': Table_Nested,
 	// ！4. @@@@ 添加多行多列
-	/* 3. #@#@ */
-	'tagButton': TagButton,
-	'tag': Tag,
-	'colorPicker': ColorPicker,
-	/* !3. #@#@ */
+	'tag': Tag
 };
 
 var jsonTo$question = function(json){
@@ -4131,6 +3705,5 @@ var jsonTo$question = function(json){
 
 var $questionToJson = function($question){
 	var type = $question.attr('question-type');
-	
 	return new QUESTION_MAP[type]().getJson($question);
 };

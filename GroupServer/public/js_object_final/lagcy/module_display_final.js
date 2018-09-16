@@ -58,263 +58,6 @@ var delay = function(fun, time){
 };
 // !16. @@@@
 
-var answerAapter = function(json_question, answer){
-/* {
-	'key_tab':{
-		'question_key': 
-			single/input : value, 
-			multiline: array; 
-			table(not nested): {'row_key': // value(like above)}; 
-			table(nested): {'row_key': {'col_key': // value}}
-			file: singleFile: name, multFile: list of name 
-			rank: //自行定义,
-			text: html
-	}
-} */
-	
-	var singleSelect_Adapter = function(json_question, answer){
-		var key = json_question.key;
-		var value = 'not defined';
-		if(answer.options.length != 0){
-			json_question.options.forEach(function(item, index){
-				if(item.lid == answer.options[0])
-					value = item.value;
-			});
-		}
-		var json = {}
-		json[key] = value;
-
-		return json;
-	};
-	
-	var multiSelect_Adapter = function(json_question, answer){
-		var key = json_question.key;
-		var value = [];
-		if(answer.options.length != 0){
-			for(var i in json_question.options){
-				for(var j in answer.options){
-					if(json_question.options[i].lid ==  answer.options[j]){
-						value.push(json_question.options[i].value);
-					}
-				}
-			}
-		}
-		var json = {}
-		json[key] = value;
-		return json;
-	};
-	
-	var input_Adapter = function(json_question, answer){
-		var key = json_question.key;
-		var json = {}
-		json[key] = answer.value;
-		return json;
-	};
-	
-	var rank_Adapter = function(json_question, answer){
-		var key = answer.key;
-		var json = {}
-		json[key] = answer.rank.map(function(item, index){
-			return json_question.options[parseInt(item)-1].name;
-		});
-		return json;
-	};
-	
-	var table_singleselect_Adapter = function(json_question, answer){
-		var key = answer.key;
-		var json = {}
-		
-		var values = {}
-		json_question.row.forEach(function(item, index){
-			var row_key = item.name;
-			var temp = {}
-			var value = 'not defined';
-			if(answer.table_option[index].length != 0){
-				json_question.options.forEach(function(item2, index2){
-					if(item2.lid == answer.table_option[index][0])
-						value = item2.value;
-				});
-			}
-			temp[row_key] = value;
-			$.extend(values, temp);
-		});
-		
-		json[key] = values;
-		
-		return json;
-	};
-	
-	var table_multiselect_Adapter = function(json_question, answer){
-		var key = answer.key;
-		var json = {}
-		
-		var values = {}
-		json_question.row.forEach(function(item, index){
-			var row_key = item.name;
-			var temp = {}
-			var value = [];
-			if(answer.table_option[index].length != 0){
-				json_question.options.forEach(function(item2, index2){
-					if(answer.table_option[index].includes(item2.lid))
-						value.push(item2.value);
-				});
-			}
-			temp[row_key] = value;
-			$.extend(values, temp);
-		});
-		
-		json[key] = values;
-		
-		return json;
-	};
-	
-	var table_singledropdown_Adapter = function(json_question, answer){
-		var key = answer.key;
-		var json = {}
-		
-		var values = {}
-		json_question.row.forEach(function(item, index){
-			var row_key = item.name;
-			var temp = {}
-			var value = 'not defined';
-			if(answer.table_option[index].length != 0){
-				json_question.options.forEach(function(item2, index2){
-					if(item2.lid == answer.table_option[index])
-						value = item2.value;
-				});
-			}
-			temp[row_key] = value;
-			$.extend(values, temp);
-		});
-		
-		json[key] = values;
-		
-		return json;
-	};
-	
-	var table_input_Adapter = function(json_question, answer){
-		var key = answer.key;
-		var json = {}
-		
-		var values = {}
-		json_question.row.forEach(function(item, index){
-			var row_key = item.name;
-			var temp = {}
-
-			temp[row_key] = answer.table_input[index];
-			$.extend(values, temp);
-		});
-		
-		json[key] = values;
-		
-		return json;
-	};
-	
-	var table_nested_Adapter = function(json_question, answer){
-		var key = answer.key;
-		
-		var table_json = {}
-		var table_values = {}
-		for(var i=0; i<answer.table.length; i++){
-			var row_key = json_question.row[i].name;
-			var row_json = {};
-			var values = {}
-			for(var j=0; j<answer.table[0].length; j++){
-				var question_type = json_question.col[j].type;
-				var col_answer = {}
-				if(question_type == "singleSelect" || question_type == "multiSelect" ||
-					question_type == "singleDropdown" || question_type == "multiDropdown"){
-					col_answer['options'] = answer.table[i][j]
-				}else if(question_type == "input"){
-					col_answer['value'] = answer.table[i][j]
-				}else{
-					
-				}
-				
-				var current_td = adpterMap[question_type](json_question.col[j], col_answer)
-				$.extend(values, current_td);
-			}
-			row_json[row_key] = values;
-			$.extend(table_values, row_json);
-		}
-		table_json[key] = table_values;
-		return table_json;
-	};
-	
-	
-	var tag_Adapter = function(json_question, answer){
-		var key = json_question.key;
-		var json = {}
-		json[key] = answer.tags;
-		return json;
-	};
-	/* 5. #@#@= */
-	var tagButton_Adapter = function(json_question, answer){
-		var key = json_question.key;
-		var json = {}
-		json[key] = answer.tags.map(function(item, index){
-			return item.value;
-		});
-		return json;
-	};
-	
-	var colorPicker_Adapter = function(json_question, answer){
-		var key = json_question.key;
-		var json = {}
-		json[key] = answer.color;
-		return json;
-	};
-	/* 5. #@#@= */
-	var adpterMap = {
-	'singleSelect': singleSelect_Adapter,
-	'multiSelect': multiSelect_Adapter,
-	'singleDropdown': singleSelect_Adapter,
-	'multiDropdown': multiSelect_Adapter,
-	'input': input_Adapter,
-	// 'file': 
-	// 'text': 
-	'rating': singleSelect_Adapter,
-	'slide': input_Adapter,
-	'ranking': rank_Adapter,
-	'table_singleselect': table_singleselect_Adapter,
-	'table_multiselect': table_multiselect_Adapter,
-	'table_input': table_input_Adapter,
-	'table_singledropdown': table_singledropdown_Adapter,
-	'table_rating': table_singleselect_Adapter,
-	'table_nested': table_nested_Adapter,
-	'tag':tag_Adapter,
-	/* 4. #@#@ */
-	'tagButton':tagButton_Adapter,
-	'colorPicker': colorPicker_Adapter
-	/* 4. #@#@ */
-	};
-
-	var json = {};
-	json_question.tabs.forEach(function(item, index){
-		var t_key = item.key;
-		var json_q = item.questions;
-		var json_a = answer.tabs[index].questions;
-		var result = {};
-		json_a.forEach(function(current_a, i){
-			var temp_index = -1;
-			var current_q;
-			for(var x in json_q){
-				if(json_q[x].lid == current_a.lid){
-					current_q = json_q[x];
-					break;
-				}
-			}
-			$.extend(result, adpterMap[current_q.type](current_q, current_a));
-		});
-		current_tab_json = {};
-		current_tab_json[t_key] = result;
-		$.extend(json, current_tab_json);
-	});
-	var result = {};
-	result[json_question.lid] = json;
-	return result;
-};
-
 var FormDisplay = function(data, submitCallback){
 	var $modal = $(
 		'<div class="modal fade">\n' +
@@ -408,7 +151,7 @@ var FormDisplay = function(data, submitCallback){
 			questions: []
 		};
 		
-		$tab.find('.question:not(.puretext)').each(function(index, item){
+		$tab.find('.question').each(function(index, item){
 			json.questions.push($questionResultToJson($(item)));
 		});
 		
@@ -528,7 +271,6 @@ var FormDisplay = function(data, submitCallback){
 		
 		//####
 		$modal.on('click', '[data-action="submit"]', function(){
-			
 			var json = toJson();
 			var err_required_id = [];
 			json.tabs.map(function(el){
@@ -545,10 +287,8 @@ var FormDisplay = function(data, submitCallback){
 			if(err_required_id.length > 0)
 				callAlert('请按照要求填写!');
 			else{
-				var answer = toJson()
-				console.log(toJson());
-				console.log(answerAapter(data ,answer));
-				submitCallback(answer);
+				// console.log(toJson());
+				submitCallback((toJson()));
 			}
 		});
 		
@@ -843,7 +583,6 @@ var getQuestion = function(json){
 		'	<div question-main>\n' +
 		'		<div>\n' +
 		'			<span question-index></span>.\n' +
-		'			[<span q-type style="color: #3c8dbc;"></span>]\n' +
 		'			<span question-title></span>\n' +
 		'			<span question-tooltip><i class="fa fa-info-circle"></i></span>\n' +
 		'			<span question-error-message style="color: rgba(255,0,0,0.6 );"><span basic-error><span><span extends-error><span></span>\n' +
@@ -871,7 +610,6 @@ var getQuestion = function(json){
 		$question.find('[question-main] [question-index]').text(json.index);
 		// 1.3 title
 		$question.find('[question-main] [question-title]').text(json.title);
-		$question.find('[question-main] [q-type]').text(QUESTION_DEFAULT_JSON_MAP[json.type].text);
 		// 1.4 tooltip
 		var msg = [];
 		if(json.required == 1){
@@ -1264,17 +1002,9 @@ var getSlide  = function(json){
 		'		<span class="head">' + json.min_text + '(' + json.min + ')</span>\n' +
 		'		<span class="pull-right tail">' + json.max_text + '(' + json.max + ')</span>\n' +
 		'	</div>\n' +
-		'	<input type="range" min="' + json.min + '" max="' + json.max + '" value="' +  (parseInt(json.min) + parseInt(json.max))/2 + '" id="slider_bar" data-show-value="true">\n' +
-		'	当前值：  <span data-type="current-value">' + (parseInt(json.min) + parseInt(json.max))/2 + '</span>\n' +
+		'	<input type="range" min="' + json.min + '" max="' + json.max + '" value="' +  (parseInt(json.min) + parseInt(json.max))/2 + '" id="slider_bar">\n' +
 		'</div>\n'
 	);
-	
-	$input.on('change', '[type="range"]',  function(e){
-		console.log(this.value);
-		$input.find('[data-type="current-value"]').text(this.value);
-	});
-	
-	
 	$container.append($input);
 	return $question;
 };
@@ -1757,175 +1487,7 @@ var getTag = function(json){
 	
 	/*  */
 };
-/* 1. #@#@ */
-var TagButton_Display = function(){
-	var obj = this;
-	this.get$Question = function(json){
-		var $question = getQuestion(json);
-		var $container = $question.find('[question-answer]').empty();
-		
-		var $current_index, $tagContainer, $tagOptions;
-		var activeIndex = function($new_index){
-			$current_index = $new_index;
-			$tagContainer.find('.tag-index').removeClass('active');
-			$new_index.addClass('active');
-		};
-		
-		var addButton = function(json){
-			var $btn = jsonTo$Button(json);
-			var $new_index = getTagIndex()
-			$current_index.after($btn);
-			$btn.after($new_index);
-			activeIndex($new_index);
-		};
-		
-		var deleteButton = function($btn){
-			activeIndex($btn.prev());
-			$btn.next().remove();
-			
-			$btn.remove();
-		};
-		
-		$container.append(
-			'<ul data-type="tag-container"></ul>\n' +
-			'<div data-type="tag-options" style="margin-top: 15px;">\n' +
-			'	<i class="fa fa-tasks"></i> 可选项: \n' +
-			'</div>\n'
-		);
-		
-		$tagContainer = $container.find('[data-type="tag-container"]');
-		$tagOptions = $container.find('[data-type="tag-options"]');
-		// load tagContainer & tagOptions
-		$current_index = getTagIndex();
-		$tagContainer.append($current_index);
-		activeIndex($current_index);
-		json.options.forEach(function(item, index){
-			if(item.isDefault == 1){
-				addButton(item);
-			};
-			$tagOptions.append(jsonTo$Button(item, false));
-		});
 
-		$tagContainer.on('click', '.tag-index', function(e){
-			activeIndex($(this))
-		});
-		
-		$tagContainer.on('click', '[data-action="delete"]', function(e){
-
-			var error_msg = validation($question, json, 'deletion')
-			if(error_msg == ''){
-				var $btn = $(this).closest('li');
-				deleteButton($btn);
-			}else{
-				callAlert(error_msg)
-			}
-		});
-		
-		$tagOptions.on('click', 'li', function(e){
-			var error_msg = validation($question, json, 'addition')
-			if(error_msg == ''){
-				var temp_json = $buttonToJson($(this));
-				addButton(temp_json);
-			}else{
-				callAlert(error_msg)
-			}
-
-		});
-		
-		$tagContainer.sortable({
-			stop: function(ev, ui) {
-				$tagContainer.find('.tag-index').remove();
-				$tagContainer.prepend(getTagIndex());
-				$tagContainer.find('li').each(function(index,item){
-					var $i = getTagIndex();
-					$(item).after($i);
-					$current_index = $i;
-					activeIndex($current_index)
-				});
-			}
-		});
-		
-		return $question;
-	};
-	
-	this.getJson = function($question){
-		var json = getResult_Question($question)
-		
-		json.tags = []
-		$question.find('[data-type="tag-container"] li').each(function(index, item){
-			json.tags.push($buttonToJson($(this)));
-		});
-
-		return json;	
-	};
-	
-	var validation = function($question, json, actionType){
-		var length = new TagButton_Display().getJson($question).tags.length;
-		
-		if(actionType == 'deletion' && json.min != undefined && json.min != '' && length <= json.min)
-			return '标签数量大于等于' + json.min;
-		
-		if(actionType == 'addition' && json.max != undefined && json.max != '' && length >= json.max)
-			return '标签数量小于等于' + json.max;
-		
-		return ''
-	};
-	
-	var jsonTo$Button = function(json, deletion=true){
-		return $(
-			'<li>\n' +
-			'	<span data-value="' + json.value + '" data-lid="' + json.lid + '">' + json.name + '</span> \n'+
-			'	' + (deletion ? '<i class="fa fa-times" data-action="delete"></i>' : '') + '\n' +
-			'</li>\n'
-		);
-	};
-	
-	var $buttonToJson = function($btn){
-		return {
-			lid: $btn.find('[data-value]').attr('data-lid'),
-			name: $btn.find('[data-value]').text(),
-			value: $btn.find('[data-value]').attr('data-value'),
-		};
-	};
-	
-	var getTagIndex = function(){
-		return $(
-			'<span class="tag-index">\n' +
-			'	<span class="cursor blink_me"><i class="fa fa-i-cursor"></i></span>\n' +
-			'</span>\n'
-		);
-	};
-	
-};
-
-var ColorPicker_Display = function(json){
-	this.get$Question = function(json){
-		var $question = getQuestion(json);
-		var $container = $question.find('[question-answer]').empty();
-		
-		$container.append(
-			'<div class="input-group" style="margin: 5px 0 5px;">\n' +
-			'	<div class="input-group-addon">\n' +
-			'		<i class="fa fa-paint-brush"></i> \n' +
-			'	</div>\n' +
-			'	<input class="form-control" value="' + json.default_color + '" type="color" name="color" style="width: 80px;">\n' +
-			'</div>\n'
-		);
-		
-		return $question;
-	};
-	
-	this.getJson = function($question){
-		var json = getResult_Question($question)
-		
-		json.color = $question.find('[name="color"]').val();
-
-		return json;	
-	};
-
-};
-
-/* ! 1. #@#@ */
 const QUESTION_DISPLAY_MAP = {
 	'singleSelect': getSingleSelect,
 	'singleDropdown': getSingleDropdown,
@@ -1945,11 +1507,7 @@ const QUESTION_DISPLAY_MAP = {
 	/* 2. @@@@ */
 	'table_nested': getTable_Nested,
 	/* ! 2. @@@@ */
-	'tag': getTag,
-	/* 2. #@#@ */
-	'tagButton': new TagButton_Display().get$Question,
-	'colorPicker': new ColorPicker_Display().get$Question
-	/* 2. #@#@ */
+	'tag': getTag
 };
 
 // Result
@@ -2162,9 +1720,5 @@ const QUESTION_RESULT_MAP = {
 	// !17. @@@@
 	'table_singledropdown': getResult_Table_SingleDropdown,
 	'table_rating': getResult_Table_Rating,
-	'tag': getResult_Tag,
-	/* 3. #@#@ */
-	'tagButton': new TagButton_Display().getJson,
-	'colorPicker': new ColorPicker_Display().getJson,
-	/* !3. #@#@ */
+	'tag': getResult_Tag
 };

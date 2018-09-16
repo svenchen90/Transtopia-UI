@@ -258,4 +258,20 @@
 }
 /* !1. @@@@ */
 
-
+/* error */
+.error {
+	display: none;
+	color: red;
+	margin: 5px 10px;
+}
+.invalid .error {
+	display: block;
+}
+.invalid input {
+	border-color: red;
+}
+a.disabled {
+	color: rgba(0,0,0,0.3) !important;
+    cursor: no-drop !important;
+}
+/* !error */

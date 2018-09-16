@@ -19,6 +19,11 @@
 		<link rel="stylesheet" href="plugins/bootstrap-3.3.6/css/bootstrap.min.css" />
 		<script src="plugins/bootstrap-3.3.6/js/bootstrap.min.js"></script>
 		
+		<!-- Bootstrap 4 -->
+		<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+		<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
+		
+		
 		<!-- AdminLTE App -->
 		<link rel="stylesheet" href="plugins/AdminLTE-2.3.11/css/AdminLTE.min.css" />
 		<link rel="stylesheet" href="plugins/AdminLTE-2.3.11/css/skins/_all-skins.min.css" />
@@ -111,34 +116,95 @@
 	</body>
 	<script type="text/javascript" src="js_object_final/test.js"></script>
 	
+	<style>
+	[data-type="tag-container"] {
+		padding: 5px;
+		min-height: 20px;
+		border:1px solid rgba(0,0,0,0.3);
+		list-style: none;
+	}
 	
+	[data-type="tag-container"] li, [data-type="tag-options"] li {
+		display: inline-block;
+		background-color: #007bff!important;
+		color: white;
+		padding: 3px;
+		border-radius: 3px;
+		cursor: pointer;
+	}
+	
+	
+	[data-type="tag-options"]{
+		line-height: 30px;
+	}
+	
+	[data-type="tag-options"] li {
+		margin: 2px;
+	}
+	
+	.tag-index {
+		display: inline-block;
+		padding: 1px;
+		cursor: text;
+	}
+	
+	.tag-index .cursor {
+		font-size: 18px;
+		visibility: hidden;
+	}
+	
+	.tag-index.active .cursor{
+		visibility: visible;
+	}
+	
+	.blink_me {
+	  animation: blinker 1s infinite;
+	}
+
+	@keyframes blinker {
+	  50% {
+		opacity: 0;
+	  }
+	}
+	</style>
 	
 	<script>
-	
-		// SelectBoxBeta(left_data, right_data, function(a){console.log(a);}, function(i){return '';});
-		
-		
 		FormDesigner({
 			lid: localIDGenerator(),
 			name: '新的物品',
 			tabs: [tab1]
 		}, function(a){
-			console.log(a);
+			// console.log(a.tabs[0].questions[1]);
+			// console.log(a);
 			FormDisplay(
 				a,
-				function(a){
+				function(b){
+					// console.log(b.tabs[0].questions[1]);
+					
 					FormReview(
 						{
 							lid: localIDGenerator(),
 							name: '新的物品',
 							tabs: [tab1]
 						},
-						a
+						b
 					);
 				}
 			);
 		});
 		
+		
+		/*
+		FormDisplay(
+			{
+				lid: localIDGenerator(),
+				name: '新的物品',
+				tabs: [tab1]
+			},
+			function(a){
+			}
+		);
+		*/
 		/*
 		FormDisplay({
 			lid: localIDGenerator(),

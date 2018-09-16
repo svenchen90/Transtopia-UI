@@ -430,18 +430,35 @@ var getInput_review = function(json, answer){
 var getFile_review = function(json){
 	var $question = getQuestion_review(json);
 	
-	/* json.files = [{
-		url:'dist/img/photo1.png',
-		name: 'photo1.png'
-	},{
-		url:'dist/img/photo1.png',
-		name: 'photo1.png'
-	}] */
-	
-	json.files.forEach(function(item,index){
-		$question.find('[question-answer]')
-		.append('<div><span><i class="fa fa-file"></i> 文件 ' + (index+1) + ':</span><a href="' + item.url + '">' + item.name + '</a></div>\n');
+	var $container = $question.find('[question-answer]').empty();
+	$container.append('<input type="file" name="filesupload"></input>')
+	$container.find('[name="filesupload"]').fileinput({
+		language: "zh",
+		theme: "explorer",
+		uploadUrl: '/uploadfile_beta/123' /* + id */,
+		//allowedFileTypes: ['image'],
+		//allowedFileExtensions: IMAGE_EXTENTION,
+		maxFileCount: 1,
+		//showCaption: true,
+		//showPreview: true
+		//showRemove: true
+		//showUpload: true
+		//showCancel: true ?
+		showClose: false,
+		maxFileCount: 1,
+		layoutTemplates: {
+			actions: '<div class="file-actions">\n' +
+				'    <div class="file-footer-buttons">\n' +
+				'        {delete}' +
+				'    </div>\n' +
+				'    {drag}\n' +
+				'    <div class="file-upload-indicator" title="{indicatorTitle}">{indicator}</div>\n' +
+				'    <div class="clearfix"></div>\n' +
+				'</div>',
+			actionDelete: '<button type="button" class="kv-file-remove {removeClass}" title="{removeTitle}"{dataUrl}{dataKey}>{removeIcon}</button>\n',
+		}
 	});
+	
 	
 	return $question;
 }
@@ -777,43 +794,6 @@ var getTag_review = function(json, answer){
 	return $question;
 };
 
-/* #@#@ */
-var getTagButton_review = function(json, answer){
-	var $question = getQuestion_review(json);
-	
-	var $container = $question.find('[question-answer]').empty();
-	$container.append(
-		'<ul data-type="tag-container"></ul>\n'
-	);
-	answer.tags.forEach(function(item, index){
-		$container.find('[data-type="tag-container"]').append(
-			'<li>\n' +
-			'	<span data-value="' + item.value + '" data-lid="' + item.lid + '">' + item.name + '</span> \n'+
-			'</li>\n'
-		);
-	});
-	
-	
-	return $question;
-};
-var getColorPicker_review = function(json, answer){
-	var $question = getQuestion_review(json);
-	
-	var $container = $question.find('[question-answer]').empty();
-	
-	var $input = $(
-		'<div class="input-group" style="margin: 5px 0 5px;">\n' +
-		'	<div class="input-group-addon">\n' +
-		'		<i class="fa fa-paint-brush"></i> \n' +
-		'	</div>\n' +
-		'	<input class="form-control" disabled value="' + answer.color + '" type="color" style="width: 80px;">\n' +
-		'</div>\n'
-	);
-	
-	$container.append($input);
-	return $question;
-};
-/* #@#@ */
 const QUESTION_REVIEW_MAP = {
 	'singleSelect': getSingleSelect_review,
 	'singleDropdown': getSingleDropdown_review,
@@ -834,8 +814,4 @@ const QUESTION_REVIEW_MAP = {
 	'table_nested': getTable_Nested_review,
 	// ! 1. @@@@
 	'tag': getTag_review,
-	/* 1. #@#@ */
-	'tagButton': getTagButton_review,
-	'colorPicker': getColorPicker_review,
-	/* 1. #@#@ */
 };
