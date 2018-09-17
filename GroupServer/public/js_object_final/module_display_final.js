@@ -1110,15 +1110,16 @@ var getInput = function(json){
 			'placeholder': '请输入电话..'
 		}
 	}; */
+	/* 1. ***** */
 	var $input = $(
 		'<div class="input-group" style="margin: 5px 0 5px;">\n' +
 		'	<div class="input-group-addon">\n' +
 		'		<i class="fa ' + INPUT_SUBTYPE[sub_type].icon + '"></i>\n' +
 		'	</div>\n' +
-		'	<input type="' + INPUT_SUBTYPE[sub_type].textType + '" class="form-control"  placeholder="' + INPUT_SUBTYPE[sub_type].placeholder + '" style="max-width: 300px;">\n' +
+		'	<input value="' + json.default_input + '" type="' + INPUT_SUBTYPE[sub_type].textType + '" class="form-control"  placeholder="' + INPUT_SUBTYPE[sub_type].placeholder + '" style="max-width: 300px;">\n' +
 		'</div>'
 	);
-
+	/* 1. ***** */
 	$container.append($input);
 
 	$input.on('keyup', 'input', function(){
@@ -1407,6 +1408,7 @@ var getTable_MultiSelect = function(json) {
 	return $question;
 };
 
+/* 1. &&&&& */
 var getTable_Input = function(json) {
 	var $question = getTable(json);
 	var $table = $question.find('[question-answer] table');
@@ -1415,22 +1417,32 @@ var getTable_Input = function(json) {
 	var $h_tr = $table.find('thead tr').last();
 	$h_tr.append('<td></td>');
 	
-	$.each(json.row, function(index1){
+	$.each(json.row, function(index1, item){
 		var $b_tr = $table.find('tbody tr:nth-child(' +  (index1 + 1) + ')');
+		console.log(item);
 		var $input = $(
-		'<div class="input-group" style="margin: 5px 0 5px;">\n' +
-		'	<div class="input-group-addon">\n' +
-		'		<i class="fa fa-keyboard-o"></i>\n' +
-		'	</div>\n' +
-		'	<input type="text" class="form-control" placeholder="请输入..">\n' +
-		'</div>'
-		)
+			'<div class="input-group" style="margin: 5px 0 5px;">\n' +
+			'	<div class="input-group-addon">\n' +
+			'		<i class="fa ' + INPUT_SUBTYPE[item.sub_type].icon + '"></i>\n' +
+			'	</div>\n' +
+			'	<input value="' + item.default_input + '" type="' + INPUT_SUBTYPE[item.sub_type].textType + '" class="form-control"  placeholder="' + INPUT_SUBTYPE[item.sub_type].placeholder + '" style="max-width: 300px;">\n' +
+			'</div>'
+		);
+		
+		// var $input = $(
+		// '<div class="input-group" style="margin: 5px 0 5px;">\n' +
+		// '	<div class="input-group-addon">\n' +
+		// '		<i class="fa fa-keyboard-o"></i>\n' +
+		// '	</div>\n' +
+		// '	<input type="text" value="' + item.default_input + '" class="form-control" placeholder="请输入..">\n' +
+		// '</div>'
+		// )
 		$b_tr.append($input);
 	});		
 	
 	return $question;
 };
-
+/* 1. &&&&& */
 var getTable_SingleDropdown = function(json) {
 	var $question = getTable(json);
 	
@@ -1589,6 +1601,7 @@ var TableTd = function(){
 		return $container;
 	};
 	
+	/* 2. &&&&& */
 	var get$Td_Input = function(json, $question) {
 		var $container = $('<td question-type="' + json.type + '"></td>');
 		var sub_type = json.sub_type;
@@ -1598,7 +1611,7 @@ var TableTd = function(){
 			'	<div class="input-group-addon">\n' +
 			'		<i class="fa ' + INPUT_SUBTYPE[sub_type].icon + '"></i>\n' +
 			'	</div>\n' +
-			'	<input type="' + INPUT_SUBTYPE[sub_type].textType + '" class="form-control"  placeholder="' + INPUT_SUBTYPE[sub_type].placeholder + '" style="max-width: 300px;">\n' +
+			'	<input value="' + json.default_input + '" type="' + INPUT_SUBTYPE[sub_type].textType + '" class="form-control"  placeholder="' + INPUT_SUBTYPE[sub_type].placeholder + '" style="max-width: 300px;">\n' +
 			'</div>'
 		);
 
@@ -1615,7 +1628,7 @@ var TableTd = function(){
 		});
 		return $container
 	};
-	
+	/* 2. &&&&& */
 	var map_td = {
 		'singleSelect': get$Td_SingleSelect,
 		'singleDropdown': get$Td_SingleDropdown,

@@ -228,7 +228,10 @@ const QUESTION_DEFAULT_JSON_MAP = {
 					sub_type: (extra_data == undefined || extra_data.sub_type == undefined) ? 'default' : extra_data.sub_type,
 					max: 20,
 					min_num: 0,
-					max_num: 20
+					max_num: 20,
+					/* 1. ***** */
+					default_input: '默认值'
+					/* 1. ***** */
 				},
 				getJson_QuestionDefault()
 			);
@@ -348,6 +351,7 @@ const QUESTION_DEFAULT_JSON_MAP = {
 		}
 	},
 	// 矩阵填空
+	/* 2. &&&&& */
 	'table_input': {
 		text: '矩阵填空',
 		getDefaultJson: function(){
@@ -357,27 +361,35 @@ const QUESTION_DEFAULT_JSON_MAP = {
 				required: 0,
 				title: '请输入问题',
 				tooltip: '',
+				key: localIDGenerator(),
 				row: [
 					{
 						lid: localIDGenerator(),
 						text: '标题行1',
-						name: localIDGenerator()
+						name: localIDGenerator(),
+						default_input: '',
+						sub_type: 'default'
 					},
 					{
 						lid: localIDGenerator(),
 						text: '标题行2',
-						name: localIDGenerator()
+						name: localIDGenerator(),
+						default_input: '',
+						sub_type: 'default'
 					},
 					{
 						lid: localIDGenerator(),
 						text: '标题行3',
-						name: localIDGenerator()
+						name: localIDGenerator(),
+						default_input: '',
+						sub_type: 'default'
 					},
 					
 				]
 			};
 		}
 	},
+	/* 2. &&&&& */
 	// 矩阵下拉
 	'table_singledropdown': {
 		text: '矩阵单项下拉',
@@ -1886,6 +1898,7 @@ var Question = function(){
 						var key_list =  data.row.map(function(item, index){
 							return item.name;
 						});
+						
 						if(hasDuplicate(key_list))
 							error_msg.push('矩阵行ID不能重复！');
 					}
@@ -2316,27 +2329,43 @@ var Input = function(){
 		$question.find('[editor-tooltip]').after($select);
 		$select.find('[value="' + json.sub_type + '"]').prop('selected', true);
 		
+		/* 2. ***** */
+		$question.find('[editor-basic]').append(
+			'<div class="col-md-12">\n' +
+			'	<div editor-default-input>\n' +
+			'		<label>默认值: </label>\n' +
+			'		<input type="text" value="' + json.default_input + '" placeholder="请输入默认值...">\n' +
+			'	</div>\n' +
+			'</div>'
+		);
+		/* 2. ***** */
+		
+		
 		return $question;
 	};
 	
 	this.getJson = function($question){
 		var json = q.getJson($question);
 		json.sub_type = $question.find('select[name="sub_type"] option:selected').val();
-		
+		/* 3 ***** */
+		json.default_input = $question.find('[editor-default-input] input').val();
+		/* 3 ***** */
 		return json;
 	};
 	
 	this.loadAnswer = function(data, $question){
 		var sub_type = data.sub_type;
 		var $container = $question.find('[question-answer]').empty();
+		/* 4 ***** */
 		var $input = $(
 			'<div class="input-group" style="margin: 5px 0 5px;">\n' +
 			'	<div class="input-group-addon">\n' +
 			'		<i class="fa ' + INPUT_SUBTYPE[sub_type].icon + '"></i>\n' +
 			'	</div>\n' +
-			'	<input type="text" class="form-control" placeholder="' + INPUT_SUBTYPE[sub_type].placeholder + '">\n' +
+			'	<input type="text" value="' + data.default_input + '" class="form-control" placeholder="' + INPUT_SUBTYPE[sub_type].placeholder + '">\n' +
 			'</div>'
 		);
+		/* 4 ***** */
 		$container.append($input);
 	};
 
@@ -2828,7 +2857,7 @@ var Table = function(){
 		var $question = q.get$question(json);
 		// 7. @@@@
 		var $row_editor = $(
-			'<div editor-row class="" style="margin-top: 10px;">\n' +
+			'<div editor-row style="margin-top: 10px;">\n' +
 			'	<div style="font-size: 16px; padding-left: 15px;"><i class="fa fa-arrows-h"></i> 行选项</div>\n' +
 			'	<table class="table table-hover">\n' +
 			'		<!-- <caption>选项行选项</caption> -->\n' +
@@ -3087,21 +3116,75 @@ var Table_MultiSelect = function(){
 	};
 };
 
+/* 1. &&&&& */
 var Table_Input = function(){
 	var t = new Table();
 	var q = new Question();
 	var o = new Option();
+	var r = new Row();
 	var obj = this;
 	
+	
 	this.get$question = function(json){
-		$question = t.get$question(json);
+		var $question = q.get$question(json);
+		// $question = t.get$question(json);
 		// $question.find('[editor-constraint]').before('<div class="col-sm-9"></div>');	
-
+		
+		var $row_editor = $(
+			'<div editor-row style="margin-top: 10px;">\n' +
+			'	<div style="font-size: 16px; padding-left: 15px;"><i class="fa fa-arrows-h"></i> 行选项</div>\n' +
+			'	<table class="table table-hover">\n' +
+			'		<!-- <caption>选项行选项</caption> -->\n' +
+			'		<thead>\n' +
+			'			<tr>\n' +
+			'				<th>选项文字</th>\n' +
+			'				<th>ID</th>\n' +
+			'				<th>默认值</th>\n' +
+			'				<th>类型</th>\n' +
+			'				<th>操作</th>\n' +
+			'			</tr>\n' +
+			'		</thead>\n' +
+			'		<tbody>\n' +
+			'		</tbody>\n' +
+			'	</table>\n' +
+			'</div>'
+		);
+		// ! 7. @@@@
+		$question.find('[editor-constraint]').before('<div class="row row_editor"></div>')
+		$question.find('.row_editor').append($row_editor);
+		
+		$.each(json.row, function(index, item){
+			var $r = r.get$row(item);
+			
+			var $select = $(
+				'<td><select name="sub_type"></select></td>\n'
+			);
+			
+			for(var key in INPUT_SUBTYPE){
+				$select.find('select').append('<option value="' + key + '" ' + (key == item.sub_type ? 'selected' : '') + '>' + INPUT_SUBTYPE[key].name + '</option>');
+			}
+			
+			
+			$r.find('td:nth-child(2)')
+				.after($select)
+				.after('<td><input type="text" name="row-default" value="' + item.default_input + '"></td>');
+				
+			
+			$row_editor.find('tbody').append($r);
+		});
+		
 		return $question;
 	};
 	
+	
 	this.getJson = function($question){
 		var json = t.getJson($question);
+		
+		$question.find('[editor-row] [name="editorRow"]').each(function(index, item){
+			json.row[index].default_input = $(this).find('[name="row-default"]').val();
+			json.row[index].sub_type = $(this).find('select[name="sub_type"] option:selected').val();
+			
+		});
 		
 		return json;
 	};
@@ -3114,14 +3197,14 @@ var Table_Input = function(){
 		var $h_tr = $table.find('thead tr').last();
 		$h_tr.append('<td></td>');
 		
-		$.each(data.row, function(index1){
+		$.each(data.row, function(index1, item){
 			var $b_tr = $table.find('tbody tr:nth-child(' +  (index1 + 1) + ')');
 			var $input = $(
 			'<div class="input-group" style="margin: 5px 0 5px;">\n' +
 			'	<div class="input-group-addon">\n' +
 			'		<i class="fa fa-keyboard-o"></i>\n' +
 			'	</div>\n' +
-			'	<input type="text" class="form-control" placeholder="请输入..">\n' +
+			'	<input type="text" value="' + item.default_input + '" class="form-control" placeholder="请输入..">\n' +
 			'</div>'
 			)
 			$b_tr.append($input);
@@ -3129,6 +3212,7 @@ var Table_Input = function(){
 	};
 
 };
+/* 1. &&&&& */
 
 var Table_SingleDropdown = function(){
 	var t = new Table();
@@ -3711,6 +3795,7 @@ var MultiDropdownCol = function(){
 	};
 };
 
+/* 3. &&&&& */
 var InputCol = function(){
 	var obj = this;
 	this.get$col = function(data){
@@ -3736,7 +3821,8 @@ var InputCol = function(){
 			'tooltip': data.tooltip,
 			'max': data.max,
 			'max_num': data.max_num,
-			'min_num': data.min_num
+			'min_num': data.min_num,
+			'default_input': data.default_input,
 		});
 		$col.find('[name="type"]').attr('type', data.type).html(QUESTION_DEFAULT_JSON_MAP[data.type].text);
 		$col.find('[name="title"]').html(data.title);
@@ -3760,6 +3846,7 @@ var InputCol = function(){
 		json.max = $col.attr('max');
 		json.max_num = $col.attr('max_num');
 		json.min_num = $col.attr('min_num');
+		json.default_input = $col.attr('default_input');
 		
 		return json;
 	};
@@ -3771,7 +3858,7 @@ var InputCol = function(){
 			'		<div class="input-group-addon">\n' +
 			'			<i class="fa ' + INPUT_SUBTYPE[data.sub_type].icon + '"></i>\n' +
 			'		</div>\n' +
-			'		<input type="text" class="form-control" placeholder="' + INPUT_SUBTYPE[data.sub_type].placeholder + '">\n' +
+			'		<input value="' + data.default_input + '" type="text" class="form-control" placeholder="' + INPUT_SUBTYPE[data.sub_type].placeholder + '">\n' +
 			'	</div>\n' +
 			'</td>\n'
 		);
@@ -3822,13 +3909,20 @@ var InputCol = function(){
 		$sub_type.on('change', function(e){
 			$addOn.after(addAddition(this.value));
 		});
-		
-		
+
+		var $default_input = $(
+			'<tr>\n' +
+			'	<th>默认值</th>\n' +
+			'	<td>\n' +
+			'		<input type="text" name="default_input" value="' + data.default_input + '">\n' +
+			'	</td>\n' +
+			'</tr>\n'
+		);
 		
 		
 		return {
 			advance: [],
-			addOn: [$addOn, addAddition(data.sub_type)]
+			addOn: [$addOn, addAddition(data.sub_type), $default_input]
 		};
 	};
 	
@@ -3839,6 +3933,7 @@ var InputCol = function(){
 		json.max = $basic.find('[name="max"]').val();
 		json.min_num = $basic.find('[name="min_num"]').val();
 		json.max_num = $basic.find('[name="max_num"]').val();
+		json.default_input = $basic.find('[name="default_input"]').val();
 		json.sub_type = $basic.find('[name="sub_type"] :selected').val();
 		
 		json.sub_error = [];
@@ -3854,7 +3949,7 @@ var InputCol = function(){
 	};
 	
 };
-
+/* 3. &&&&& */
 
 const NESTED_COL_MAP = [
 	{

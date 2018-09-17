@@ -18,9 +18,9 @@ var tab1 = {
 		// QUESTION_DEFAULT_JSON_MAP['table_input'].getDefaultJson(),
 		// QUESTION_DEFAULT_JSON_MAP['table_singledropdown'].getDefaultJson(),
 		// QUESTION_DEFAULT_JSON_MAP['table_rating'].getDefaultJson(),
-		// QUESTION_DEFAULT_JSON_MAP['table_nested'].getDefaultJson(),
-		QUESTION_DEFAULT_JSON_MAP['tagButton'].getDefaultJson(),
-		QUESTION_DEFAULT_JSON_MAP['colorPicker'].getDefaultJson()
+		QUESTION_DEFAULT_JSON_MAP['table_nested'].getDefaultJson(),
+		// QUESTION_DEFAULT_JSON_MAP['tagButton'].getDefaultJson(),
+		// QUESTION_DEFAULT_JSON_MAP['colorPicker'].getDefaultJson()
 	] 
 };
 
