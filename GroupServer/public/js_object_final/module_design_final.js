@@ -462,9 +462,7 @@ const QUESTION_DEFAULT_JSON_MAP = {
 		getDefaultJson: function(){
 			return $.extend(
 				{
-					type: 'tagButton',
-					min: 0,
-					max: 2
+					type: 'tagButton'
 				},
 				getJson_QuestionDefault(),
 				getJson_OptionsDefault(),
@@ -482,8 +480,38 @@ const QUESTION_DEFAULT_JSON_MAP = {
 				getJson_QuestionDefault(),
 			);
 		}
-	}
+	},
 	/* !2. #@#@ */
+	/* 2. ^^^^ */
+	'counter': {
+		text: '选色题',
+		getDefaultJson: function(){
+			var json = $.extend(
+				{
+					type: 'counter',
+					unit: '个',
+					onSite: 1,
+					timeLimit: 3600,
+					subjects: [
+						{
+							lid: localIDGenerator(),
+							name: '选项1',
+							key: localIDGenerator()
+						},
+						{
+							lid: localIDGenerator(),
+							name: '选项2',
+							key: localIDGenerator()
+						}
+					]
+				},
+				getJson_QuestionDefault(),
+			);
+			json.title = '计数器对象';
+			return json;
+		}
+	}
+	/* ! 2. ^^^^ */
 };
 
 const TAB_LIST = [
@@ -596,8 +624,15 @@ const TAB_LIST = [
 		name: '选色',
 		action_name: 'colorPicker',
 		icon: 'fa-paint-brush'
-	}
+	},
 	/* !1. #@#@ */
+	/* 1. ^^^^ */
+	{
+		name: '计数器',
+		action_name: 'counter',
+		icon: 'fa-clock-o'
+	},
+	/* ! 1. ^^^^ */
 ];
 
 const FORM_NAME_MODIFY = {
@@ -4123,6 +4158,32 @@ var TagButton = function(){
 	this.get$question = function(json){
 		var $question = q.get$question(json);
 		
+		$question.off('keyup');
+		$question.on('keyup', '[editor-option] input[name="min"], [editor-option] input[name="max"]', function(){
+			var value = $(this).val();
+			var limit = $question.find('[name="editorOption"]').length;
+			var type = $(this).attr('name')
+			if(value == ''){
+				
+			}else if(parseInt(value) == value && parseInt(value)>=0){
+				if(type == 'max'){
+					var min = $question.find('[editor-option] input[name="min"]').val();
+					if(min != '' && min > value){
+						callAlert('最大选项数必须大于等于最小选项数！');
+						$(this).val('');
+					}
+				}else{
+					var max = $question.find('[editor-option] input[name="max"]').val();
+					if(max != '' && max < value){
+						callAlert('最小选项数必须小于等于最大选项数！');
+						$(this).val('');
+					}
+				}
+			}else{
+				callAlert('请输入大于等于0的整数!');
+				$(this).val('');
+			}
+		});
 		return $question;
 	};
 	
@@ -4134,13 +4195,22 @@ var TagButton = function(){
 	this.loadAnswer = function(data, $question){
 		var $container = $question.find('[question-answer]').empty();
 		var $input = $(
-			'<div class="input-group" style="margin: 5px 0 5px;">\n' +
-			'	<div class="input-group-addon">\n' +
-			'		<i class="fa fa-tasks"></i>\n' +
-			'	</div>\n' +
-			'	<input type="text" class="form-control" placeholder="请输入标签...">\n' +
-			'</div>\n'
+			'<ul data-type="tag-container" style="min-height: 35px;"></ul>\n'
 		);
+		
+		data.options.forEach(function(item, index){
+			if(item.isDefault == 1){
+				var $btn = $(
+					'<li style="margin-right: 5px;">\n' +
+					'	<span data-value="' + item.value + '" data-lid="' + item.lid + '">' + item.name + '</span> \n'+
+					'</li>\n'
+				);
+				$input.append($btn);
+			}
+			
+			
+		});
+		
 		$container.append($input);
 	};
 };
@@ -4189,6 +4259,163 @@ var ColorPicker = function(){
 }
 /* !4. #@#@ */
 
+/* 4. ^^^^ */
+var Option_Subject = function(){
+	var obj = this;
+	var o = new Option();
+	this.get$option = function(data){
+		$option = o.get$option(data);
+		$option.find('td:nth-child(2), td:nth-child(3)').remove();
+		$option.find('td:nth-child(1)')
+			.after('<td><input type="text" name="key" value="' + data.key + '"></td>');
+
+		return $option;
+	};
+	
+	this.getJson = function($option){
+		var json = {};
+		json.lid = $option.attr('data-id');
+		json.name = $option.find('[name="name"]').val();
+		json.key = $option.find('[name="key"]').val();
+		
+		return json;
+	};
+};
+var Counter = function(){
+	var q = new Question();
+	var o = new Option_Subject();
+	var obj = this;
+	
+	this.get$question = function(json){
+		var $question = q.get$question(json);
+		$question.find('[editor-title]').closest('.col-md-6').remove();
+		$question.find('[editor-key]').closest('.col-md-12')
+			.addClass('col-md-6').removeClass('col-md-12');
+		
+		$question.find('[editor-key]')
+			.after(
+				'<div editor-title>\n' +
+				'	<label>计数对象: </label>\n' +
+				'	<input type="text" placeholder="请描述计数对象..." value="' + json.title + '">\n' +
+				'</div>\n' +
+				'<div editor-unit>\n' +
+				'	<label>计数单位: </label>\n' +
+				'	<input type="text" placeholder="请描述计数对象..." value="' + json.unit + '">\n' +
+				'</div>\n' +
+				'<div editor-onSite>\n' +
+				'	<label>是否为现场计数: </label>\n' +
+				'	<input type="checkbox"' + (json.onSite == 1 ? ' checked' : '') + '>\n' +
+				'</div>\n' +
+				'<div editor-timeLimit>\n' +
+				'	<label>计数时长 (小时): </label>\n' +
+				'	<input type="checkbox">\n' +
+				'	<input type="text" placeholder="请输入时间长度" style="margin-left: 10px;">\n' +
+				'</div>\n'
+			);
+		$question.find('.col-md-6:nth-child(1) label').css('width', '150px');
+		
+		
+		var time_display = ''
+		if(json.timeLimit != '' && !isNaN(json.timeLimit)){
+			time_display = parseInt(json.timeLimit)/60;
+			$question.find('[editor-timeLimit] [type="checkbox"]').prop('checked', true);
+			$question.find('[editor-timeLimit] [type="text"]')
+				.val(time_display)
+				.css('visibility', 'visible');
+		}else{
+			$question.find('[editor-timeLimit] [type="checkbox"]').prop('checked', false);
+			$question.find('[editor-timeLimit] [type="text"]')
+				.val(time_display)
+				.css('visibility', 'hidden');
+		}
+		
+		$question.on('click', '[editor-timeLimit] [type="checkbox"]', function(e){
+			if(this.checked){
+				$question.find('[editor-timeLimit] [type="text"]')
+					.val('')
+					.css('visibility', 'visible');
+			}else{
+				$question.find('[editor-timeLimit] [type="text"]')
+					.val('')
+					.css('visibility', 'hidden');
+			}
+		});
+		
+		// add options
+		var $oContainer = $(
+			'<div editor-option>\n' +
+			'	<table class="table table-hover">\n' +
+			'		<!-- <caption>选项设置</caption> -->\n' +
+			'		<thead>\n' +
+			'			<tr>\n' +
+			'				<th>计数对象名称</th>\n' +
+			'				<th>ID</th>\n' +
+			'				<th>操作</th>\n' +
+			'			</tr>\n' +
+			'		</thead>\n' +
+			'		<tbody>\n' +
+			'		</tbody>\n' +
+			'	</table>\n' +
+			'</div>'
+		);
+		$question.find('[editor-constraint]').before($oContainer);	
+		$.each(json.subjects, function(index, item){
+			var $o = o.get$option(item)
+			
+			$oContainer.find('tbody').append($o);
+
+		});
+		
+		return $question;
+	};
+	
+	this.getJson = function($question){
+		var json = q.getJson($question);
+		
+		json.subjects = [];
+		$question.find('[editor-option] [name="editorOption"]').each(function(index, item){
+			json.subjects.push(o.getJson($(item)));
+		});
+		
+		'<div editor-title>\n' +
+		'	<label>计数对象: </label>\n' +
+		'	<input type="text" placeholder="请描述计数对象..." value="' + json.title + '">\n' +
+		'</div>\n' +
+		'<div editor-unit>\n' +
+		'	<label>计数单位: </label>\n' +
+		'	<input type="text" placeholder="请描述计数对象..." value="' + json.unit + '">\n' +
+		'</div>\n' +
+		'<div editor-onSite>\n' +
+		'	<label>是否为现场计数: </label>\n' +
+		'	<input type="checkbox"' + (json.onSite == 1 ? ' checked' : '') + '>\n' +
+		'</div>\n' +
+		'<div editor-timeLimit>\n' +
+		'	<label>计数时长 (小时): </label>\n' +
+		'	<input type="checkbox">\n' +
+		'	<input type="text" placeholder="请输入时间长度" style="margin-left: 10px;">\n' +
+		'</div>\n'
+		
+		json.title = $question.find('[editor-title] [type="text"]').val();
+		json.unit = $question.find('[editor-unit] [type="text"]').val();
+		json.onSite = $question.find('[editor-onSite] [type="checkbox"]').is(':checked') ? 1 : 0;
+		json.timeLimit = $question.find('[editor-timeLimit] [type="text"]').val();
+		
+		return json;
+	};
+	
+	this.loadAnswer = function(data, $question){
+		var $container = $question.find('[question-answer]').empty();
+		
+		$container.append(
+			'<div style="border: 1px solid black;">asfsa\n'+ 
+			'</div>'
+		);
+		
+		// $container.append($input);
+	};
+};
+/* ! 4. ^^^^ */
+
 
 
 const QC_FILTER = ['singleSelect', 'multiSelect', 'singleDropdown', 'multiDropdown'];
@@ -4217,6 +4444,9 @@ const QUESTION_MAP = {
 	'tag': Tag,
 	'colorPicker': ColorPicker,
 	/* !3. #@#@ */
+	/* 3. ^^^^ */
+	'counter': Counter,
+	/* ! 3. ^^^^ */
 };
 
 var jsonTo$question = function(json){

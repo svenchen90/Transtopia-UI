@@ -275,3 +275,55 @@ a.disabled {
     cursor: no-drop !important;
 }
 /* !error */
+
+/* #@#@ */
+/* TagButton */
+[data-type="tag-container"] {
+	padding: 5px;
+	min-height: 20px;
+	border:1px solid rgba(0,0,0,0.3);
+	list-style: none;
+}
+
+[data-type="tag-container"] li, [data-type="tag-options"] li {
+	display: inline-block;
+	background-color: #007bff!important;
+	color: white;
+	padding: 3px;
+	border-radius: 3px;
+	cursor: pointer;
+}
+
+
+[data-type="tag-options"]{
+	line-height: 30px;
+}
+
+[data-type="tag-options"] li {
+	margin: 2px;
+}
+
+.tag-index {
+	display: inline-block;
+	padding: 1px;
+	cursor: text;
+}
+
+.tag-index .cursor {
+	font-size: 18px;
+	visibility: hidden;
+}
+
+.tag-index.active .cursor{
+	visibility: visible;
+}
+
+.blink_me {
+  animation: blinker 1s infinite;
+}
+
+@keyframes blinker {
+  50% {
+	opacity: 0;
+  }
+/* #@#@ */

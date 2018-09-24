@@ -843,7 +843,7 @@ var getQuestion = function(json){
 		'	<div question-main>\n' +
 		'		<div>\n' +
 		'			<span question-index></span>.\n' +
-		'			[<span q-type style="color: #3c8dbc;"></span>]\n' +
+		'			<!-- [<span q-type style="color: #3c8dbc;"></span>]-->\n' +
 		'			<span question-title></span>\n' +
 		'			<span question-tooltip><i class="fa fa-info-circle"></i></span>\n' +
 		'			<span question-error-message style="color: rgba(255,0,0,0.6 );"><span basic-error><span><span extends-error><span></span>\n' +
