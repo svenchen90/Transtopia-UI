@@ -773,6 +773,41 @@ var hasDuplicate = function(list){
 	}
 	return false;
 };
+/* 5. ^^^^ */
+// 3. sec to time
+var secToTime = function(sec){
+	
+	var s = sec % 60;
+	var m = Math.floor(sec / 60)%60;
+	var h = Math.floor(sec / 3600);
+	
+	if(s<10)
+			s = '0' + String(s);
+	
+	if(m<10)
+			m = '0' + String(m);
+	
+	if(h<10)
+			h = '0' + String(h);
+	
+	return String(h) + ' : ' + String(m) + ' : ' + String(s);
+};
+
+var toHHMMSS = function(date){
+	var AddZero = function(num) {
+			return (num >= 0 && num < 10) ? "0" + num : num + "";
+	};
+	
+	var strDateTime = [
+		[AddZero(date.getHours()), 
+		AddZero(date.getMinutes()),
+		AddZero(date.getSeconds())].join(":"), 
+		date.getHours() >= 12 ? "PM" : "AM"
+	].join(" ");
+	
+	return strDateTime;
+}
+/* ! 5. ^^^^ */
 /* !gear */
 
 
@@ -4260,15 +4295,54 @@ var ColorPicker = function(){
 /* !4. #@#@ */
 
 /* 4. ^^^^ */
-var Option_Subject = function(){
+var Option_Subject = function(opt){
 	var obj = this;
-	var o = new Option();
 	this.get$option = function(data){
-		$option = o.get$option(data);
-		$option.find('td:nth-child(2), td:nth-child(3)').remove();
-		$option.find('td:nth-child(1)')
-			.after('<td><input type="text" name="key" value="' + data.key + '"></td>');
+		var $option = $(
+			'<tr name="editorOption" id="">\n' +
+			'	<td><input type="text" placeholder="请输入选项..." name="name"></td>\n' +
+			'	<td><input type="text" name="key"></td>\n' +
+			'	<td>\n' +
+			'		<a class="btn btn-primary btn-xs" data-action="editor-create"><i class="fa fa-plus"></i></a>\n' +
+			'		<a class="btn btn-primary btn-xs" data-action="editor-delete"><i class="fa fa-trash"></i></a>\n' +
+			'		<a class="btn btn-primary btn-xs" data-action="editor-moveup"><i class="fa fa-arrow-up"></i></a>\n' +
+			'		<a class="btn btn-primary btn-xs" data-action="editor-movedown"><i class="fa fa-arrow-down"></i></a>\n' +
+			'	</td>\n' +
+			'</tr>'
+		);
 
+		$option.attr('data-id', data.lid);
+		$option.find('[name="name"]').val(data.name);
+		$option.find('[name="key"]').val(data.key);
+		
+		$option.on('click', '[data-action]', function(){
+			var actionType = $(this).attr('data-action');
+			switch(actionType){
+				case 'editor-create':
+					$option.after(obj.get$option({
+					lid: localIDGenerator(),
+					name: '新的选项',
+					key: localIDGenerator()
+				}));
+					break;
+				case 'editor-delete':
+					if($option.siblings().length == 0){
+						callAlert('选项列表不能为空！');
+					}else
+						$option.remove();
+					break;
+				case 'editor-moveup':
+					$option.prev().before($option);
+					break;
+				case 'editor-movedown':
+					$option.next().after($option);
+					break;
+				default:
+					console.log('error');
+					break;
+			}
+		});
+		
 		return $option;
 	};
 	
@@ -4406,10 +4480,50 @@ var Counter = function(){
 	this.loadAnswer = function(data, $question){
 		var $container = $question.find('[question-answer]').empty();
 		
-		$container.append(
-			'<div style="border: 1px solid black;">asfsa\n'+ 
-			'</div>'
+		var $block = $(
+			'<div class="counter-container">\n' +
+			'	<div class="head">\n' +
+			'		<a class="btn btn-success btn-lg">开始</a>\n' +
+			'		<a class="btn btn-default btn-lg">暂停</a>\n' +
+			'		<a class="btn btn-danger btn-lg">结束</a>\n' +
+			'		<div class="pull-right" class="display: inline-block;">\n' +
+			'			<div current-time style="font-size: 24px;"></div>\n' +
+			'			<div timer-counter>倒计时: <span>' + secToTime(data.timeLimit) + '</span></div>\n' +
+			'		</div>\n' +
+			'	</div>\n' +
+			'	<div class="row body">\n' +
+			'	</div>\n' +
+			'</div>\n'
 		);
+		
+		if(data.timeLimit == '')
+			$block.find('[timer-counter]').css('display', 'none');
+		
+		if(data.onSite == 0)
+			$block.find('[current-time]').css('display', 'none');
+		else
+			$block.find('[current-time]')
+				.text(toHHMMSS(new Date()))
+				.css('display', 'block');
+		
+		data.subjects.forEach(function(item, index){
+			var $card = $(
+				'<div class="col-sm-2">\n' +
+				'	<div class="main-card">\n' +
+				'		<div class="line-1">' + item.name + '</div>\n' +
+				'		<div class="line-2"><i class="fa fa-plus-square-o"></i></div>\n' +
+				'		<div class="line-3"> <span data-number>0</span> ' + data.unit + '</div>\n' +
+				'	</div>\n' +
+				'	<div class="sub-card">\n' +
+				'		<i class="fa fa-minus-square-o"></i> \n' +
+				'	</div>\n' +
+				'</div>\n'
+			);
+			$block.find('.body').append($card);
+		});
+		
+		
+		$container.append($block);
 		
 		// $container.append($input);
 	};

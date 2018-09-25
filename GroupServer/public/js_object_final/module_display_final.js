@@ -1938,6 +1938,70 @@ var ColorPicker_Display = function(json){
 
 };
 
+/* 3. ^^^^ */
+var Counter_Display = function(){
+	this.get$Question = function(data){
+		var $question = getQuestion(data);
+		var $container = $question.find('[question-answer]').empty();
+		
+		var $block = $(
+			'<div class="counter-container">\n' +
+			'	<div class="head">\n' +
+			'		<a class="btn btn-success btn-lg">开始</a>\n' +
+			'		<a class="btn btn-default btn-lg">暂停</a>\n' +
+			'		<a class="btn btn-danger btn-lg">结束</a>\n' +
+			'		<div class="pull-right" class="display: inline-block;">\n' +
+			'			<div current-time style="font-size: 24px;"></div>\n' +
+			'			<div timer-counter>倒计时: <span>' + secToTime(data.timeLimit) + '</span></div>\n' +
+			'		</div>\n' +
+			'	</div>\n' +
+			'	<div class="row body">\n' +
+			'	</div>\n' +
+			'</div>\n'
+		);
+		
+		if(data.timeLimit == '')
+			$block.find('[timer-counter]').css('display', 'none');
+		
+		if(data.onSite == 0)
+			$block.find('[current-time]').css('display', 'none');
+		else
+			$block.find('[current-time]')
+				.text(toHHMMSS(new Date()))
+				.css('display', 'block');
+		
+		data.subjects.forEach(function(item, index){
+			var $card = $(
+				'<div class="col-sm-2">\n' +
+				'	<div class="main-card">\n' +
+				'		<div class="line-1">' + item.name + '</div>\n' +
+				'		<div class="line-2"><i class="fa fa-plus-square-o"></i></div>\n' +
+				'		<div class="line-3"> <span data-number>0</span> ' + data.unit + '</div>\n' +
+				'	</div>\n' +
+				'	<div class="sub-card">\n' +
+				'		<i class="fa fa-minus-square-o"></i> \n' +
+				'	</div>\n' +
+				'</div>\n'
+			);
+			$block.find('.body').append($card);
+		});
+		
+		
+		$container.append($block);
+		
+		return $question;
+	};
+	
+	this.getJson = function($question){
+		var json = getResult_Question($question)
+		
+		json.color = $question.find('[name="color"]').val();
+
+		return json;	
+	};
+};
+/* ! 3. ^^^^ */
+
 /* ! 1. #@#@ */
 const QUESTION_DISPLAY_MAP = {
 	'singleSelect': getSingleSelect,
@@ -1961,8 +2025,11 @@ const QUESTION_DISPLAY_MAP = {
 	'tag': getTag,
 	/* 2. #@#@ */
 	'tagButton': new TagButton_Display().get$Question,
-	'colorPicker': new ColorPicker_Display().get$Question
+	'colorPicker': new ColorPicker_Display().get$Question,
 	/* 2. #@#@ */
+	/* 1. ^^^^ */
+	'counter': new Counter_Display().get$Question,
+	/* ! 1. ^^^^ */
 };
 
 // Result
@@ -2180,4 +2247,7 @@ const QUESTION_RESULT_MAP = {
 	'tagButton': new TagButton_Display().getJson,
 	'colorPicker': new ColorPicker_Display().getJson,
 	/* !3. #@#@ */
+	/* 2. ^^^^ */
+	'counter': new Counter_Display().getJson,
+	/* ! 2. ^^^^ */
 };
