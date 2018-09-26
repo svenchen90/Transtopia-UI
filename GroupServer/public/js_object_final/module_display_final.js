@@ -264,6 +264,18 @@ var answerAapter = function(json_question, answer){
 		json[key] = answer.color;
 		return json;
 	};
+	
+	var counter_Adapter = function(json_question, answer){
+		var key = answer.key;
+		var json = {}
+		json[key] = {
+			start_time: answer.start_time,
+			count_time: answer.count_time,
+			counter: $.extend({}, answer.counter)
+		}
+		return json;
+	};
+	
 	/* 5. #@#@= */
 	var adpterMap = {
 	'singleSelect': singleSelect_Adapter,
@@ -285,8 +297,11 @@ var answerAapter = function(json_question, answer){
 	'tag':tag_Adapter,
 	/* 4. #@#@ */
 	'tagButton':tagButton_Adapter,
-	'colorPicker': colorPicker_Adapter
+	'colorPicker': colorPicker_Adapter,
 	/* 4. #@#@ */
+	/* 4. ^^^^ */
+	'counter': counter_Adapter,
+	/* !4. ^^^^ */
 	};
 
 	var json = {};
@@ -541,15 +556,21 @@ var FormDisplay = function(data, submitCallback){
 					}
 				});
 			});
+						
 			
+			/* 5. ^^^^ */
+			var counter_ongoing = $modal.find('[data-status="start"], [data-status="pause"]').length;
 			if(err_required_id.length > 0)
 				callAlert('请按照要求填写!');
-			else{
+			else if(counter_ongoing > 0){
+				callAlert('请完成计数后再提交!');
+			}else{
 				var answer = toJson()
 				console.log(toJson());
 				console.log(answerAapter(data ,answer));
 				submitCallback(answer);
 			}
+			/* ! 5. ^^^^ */
 		});
 		
 		initializeConstraint()
@@ -1941,18 +1962,23 @@ var ColorPicker_Display = function(json){
 /* 3. ^^^^ */
 var Counter_Display = function(){
 	this.get$Question = function(data){
+		var count = 0
+		var timer;
+		var start_time = '';
+		
 		var $question = getQuestion(data);
 		var $container = $question.find('[question-answer]').empty();
 		
 		var $block = $(
-			'<div class="counter-container">\n' +
+			'<div class="counter-container" count-time start-time data-status="initial">\n' +
 			'	<div class="head">\n' +
-			'		<a class="btn btn-success btn-lg">开始</a>\n' +
-			'		<a class="btn btn-default btn-lg">暂停</a>\n' +
-			'		<a class="btn btn-danger btn-lg">结束</a>\n' +
+			'		<a class="btn btn-success btn-lg" data-action="start">开始</a>\n' +
+			'		<a class="btn btn-default btn-lg" data-action="pause">暂停</a>\n' +
+			'		<a class="btn btn-danger btn-lg" data-action="stop">完成</a>\n' +
+			'		<a class="btn btn-warning btn-lg" data-action="reset">重置</a>\n' +
 			'		<div class="pull-right" class="display: inline-block;">\n' +
 			'			<div current-time style="font-size: 24px;"></div>\n' +
-			'			<div timer-counter>倒计时: <span>' + secToTime(data.timeLimit) + '</span></div>\n' +
+			'			<div timer-counter>倒计时: <span></span></div>\n' +
 			'		</div>\n' +
 			'	</div>\n' +
 			'	<div class="row body">\n' +
@@ -1962,28 +1988,165 @@ var Counter_Display = function(){
 		
 		if(data.timeLimit == '')
 			$block.find('[timer-counter]').css('display', 'none');
-		
-		if(data.onSite == 0)
-			$block.find('[current-time]').css('display', 'none');
 		else
+			$block.find('[timer-counter] span').text(secToTime(data.timeLimit - count));
+		if(data.onSite == 0){
+			// $block.find('[current-time]').css('display', 'none');
+			$block.find('[data-action="pause"]').css('display', 'none');
+		}else
 			$block.find('[current-time]')
-				.text(toHHMMSS(new Date()))
+				.text('') /* toHHMMSS(new Date()) */
 				.css('display', 'block');
 		
 		data.subjects.forEach(function(item, index){
 			var $card = $(
-				'<div class="col-sm-2">\n' +
-				'	<div class="main-card">\n' +
+				'<div class="col-sm-2" count-subject data-key="' + item.key + '" data-container="">\n' +
+				'	<div class="main-card" data-action="plus">\n' +
 				'		<div class="line-1">' + item.name + '</div>\n' +
 				'		<div class="line-2"><i class="fa fa-plus-square-o"></i></div>\n' +
 				'		<div class="line-3"> <span data-number>0</span> ' + data.unit + '</div>\n' +
 				'	</div>\n' +
-				'	<div class="sub-card">\n' +
+				'	<div class="sub-card" data-action="minus">\n' +
 				'		<i class="fa fa-minus-square-o"></i> \n' +
 				'	</div>\n' +
 				'</div>\n'
 			);
 			$block.find('.body').append($card);
+		});
+		
+		var setToInital = function(){
+			$block.attr('data-status', 'initial');
+			clearInterval(timer);
+			$block.find('[data-container]').each(function(index, item){
+				$(item).attr('data-container', '');
+				$(item).find('[data-number]').text(0);
+			});
+			start_time = '';
+			$block.attr('start-time', start_time);
+			count = 0;
+			$block.attr('count-time', count);
+			updateCurrentTime(start_time, count);
+			updateCounter(data.timeLimit, count);
+			
+			$block.find('[data-action="start"]').removeClass('disabled');
+			$block.find('[data-action="pause"], [data-action="stop"], [data-action="reset"]').addClass('disabled');
+			$block.find('[data-container]').addClass('disabled');
+		};
+		
+		var updateCurrentTime = function(start_time, count){
+			if(start_time  != ''){
+				var start_sec = timeToSec(start_time);
+				$block.find('[current-time]').text(secToTime(start_sec + count));
+			}else{
+				$block.find('[current-time]').text('');
+			}
+		};
+		
+		var updateCounter = function(limit, count){
+			if(limit != '')
+				$block.find('[timer-counter] span').text(secToTime(limit - count));
+		};
+		
+		var setToStart = function(){
+			var callback = function(){
+				$block.attr('start-time', start_time);
+				$block.attr('data-status', 'start');
+				timer = setInterval(function() {
+					count += 1;
+					updateCurrentTime(start_time, count);
+					updateCounter(data.timeLimit, count);
+					$block.attr('count-time', count);
+					
+					if(data.timeLimit <= count)
+						setToStop();
+					
+				}, 1000);
+				
+				$block.find('[data-action="start"]').addClass('disabled');
+				$block.find('[data-action="pause"], [data-action="stop"], [data-action="reset"]').removeClass('disabled');
+				$block.find('[data-container]').toggleClass('disabled');
+			};
+			if(data.onSite == 1 || start_time != ''){
+				start_time = toHHMMSS(new Date())
+				callback();
+			}else{
+				singleLineInput('起始时间', toHHMMSS(new Date()), '请输入起始时间', function(input){
+					start_time = input;
+					callback();
+				}, validation=function(value){return '';},
+				'time');
+			}
+		};
+		
+		var setToPause = function(){
+			$block.attr('data-status', 'pause');
+			clearInterval(timer);
+			$block.find('[data-action="start"], [data-action="pause"]').toggleClass('disabled');
+			$block.find('[data-container]').addClass('disabled');
+		};
+		
+		var setToStop = function(){
+			$block.attr('data-status', 'stop');
+			clearInterval(timer);
+			
+			$block.find('[data-action="start"], [data-action="pause"],[data-action="stop"]').addClass('disabled');
+			$block.find('[data-container]').addClass('disabled');
+		};
+		
+		var addOne = function($dataContainer){
+			var num = parseInt($dataContainer.find('[data-number]').text());
+			num += 1;
+			$dataContainer.find('[data-number]').text(num);
+			var s = $dataContainer.attr('data-container');
+			if(s != '')
+				s += ',' + count;
+			else
+				s = count;
+			$dataContainer.attr('data-container', s);
+		};
+		
+		var minusOne = function($dataContainer){
+			var num = parseInt($dataContainer.find('[data-number]').text());
+			if(num > 0){
+				num -= 1;
+				$dataContainer.find('[data-number]').text(num);
+				var s = $dataContainer.attr('data-container');
+				var index = s.lastIndexOf(",");
+				s = s.substring(0, index);
+				$dataContainer.attr('data-container', s);
+			}	
+		};
+		
+		
+		setToInital();
+		$block.on('click', '[data-action]', function(e){
+			var actionType = $(this).attr('data-action');
+			// var currentStatus = $block.attr('data-status');
+			// console.log(actionType, currentStatus);
+			switch(actionType){
+					case 'start':
+						setToStart();
+						break;
+					case 'pause':
+						setToPause();
+						break;
+					case 'stop':
+						setToStop();
+						break;
+					case 'reset':
+						setToInital();
+						break;
+					case 'plus':
+						var $dataContainer = $(this).closest('[data-container]');
+						addOne($dataContainer);
+						break;
+					case 'minus':
+						var $dataContainer = $(this).closest('[data-container]');
+						minusOne($dataContainer);
+						break;
+					default:
+						break;
+				}
 		});
 		
 		
@@ -1995,7 +2158,17 @@ var Counter_Display = function(){
 	this.getJson = function($question){
 		var json = getResult_Question($question)
 		
-		json.color = $question.find('[name="color"]').val();
+		json.start_time = $question.find('.counter-container').attr('start-time');
+		json.count_time = $question.find('.counter-container').attr('count-time');
+		json.counter = {};
+		
+		$question.find('[count-subject]').each(function(index, item){
+			var key = $(item).attr('data-key');
+			if($(item).attr('data-container') == '')
+				json.counter[key] = [];
+			else
+				json.counter[key] = $(item).attr('data-container').split(',');
+		});
 
 		return json;	
 	};

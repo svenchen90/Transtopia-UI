@@ -322,13 +322,74 @@ a.disabled {
   animation: blinker 1s infinite;
 }
 
+/* 1. ^^^^ */
+/* counter */
 @keyframes blinker {
   50% {
 	opacity: 0;
   }
+}
 /* #@#@ */
 
-/* 1. ^^^^ */
-/* counter */
+
+.counter-container {
+	border: 1px solid black;
+	padding: 10px;
+}
+
+.counter-container .body {
+	margin-top: 10px;
+}
+
+.main-card {
+	padding: 10px;
+	height: 150px;
+	text-align: center;
+	color: rgba(255,255,255,1);
+	background-color: #00a65a; 
+	border-radius: 3px;
+	cursor: pointer;
+}
+	
+.main-card:hover {
+	background-color: #008d4c; 
+}
+
+.main-card .line-1 {
+	font-size: 24px;
+	line-height: 50px;
+}
+
+.main-card .line-2 {
+	font-size: 30px;
+	line-height: 30px;
+}
+
+.main-card .line-3 {
+	font-size: 24px;
+	line-height: 50px;
+}
+
+.sub-card {
+	margin-top: 10px;
+	padding: 10px;
+	font-size: 24px;
+	text-align: center;
+	background-color: #f4f4f4;
+	border-radius: 3px;
+	cursor: pointer;
+}
+
+.sub-card:hover {
+	background-color: #ddd;
+}
+
+[data-container].disabled [data-action="plus"], [data-container].disabled [data-action="minus"] {
+	pointer-events: none;
+	box-shadow: none;
+	opacity: .65;
+	color: rgba(0,0,0,0.3) !important;
+	cursor: no-drop !important;
+}
 /* ! 1. ^^^^ */
 

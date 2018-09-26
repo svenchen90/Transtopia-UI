@@ -138,7 +138,11 @@ var FormReview = function(data, data_answer, submitCallback){
 	
 	(function(){
 		load(data);
-		
+		/* 3. ^^^^ */
+		$modal.on('hidden.bs.modal', function(e){
+			$(this).remove();
+		});
+		/* ! 3. ^^^^ */
 		$modal.modal('show');
 	})();
 };
@@ -814,6 +818,104 @@ var getColorPicker_review = function(json, answer){
 	return $question;
 };
 /* #@#@ */
+
+/* 2. ^^^^ */
+var getCounter_review = function(json, answer){
+	var $question = getQuestion_review(json);
+	
+	var $container = $question.find('[question-answer]').empty();
+	
+	var $brief = $(
+		'<div>\n' +
+		'	<div>\n' +
+		'		<label>计数单位: </label>\n' +
+		'		<span>' + json.unit + '</span>\n' +
+		'	</div>\n' +
+		'	<div>\n' +
+		'		<label>是否为现场计数: </label>\n' +
+		'		<span>' + (json.onSite == 1 ? ' 是' : '否') + '</span>\n' +
+		'	</div>\n' +
+		'	<div>\n' +
+		'		<label>计数时长 (分钟): </label>\n' +
+		'		<span>' + secToTime(answer.count_time) + '</span>\n' +
+		'	</div>\n' +
+		'	<div>\n' +
+		'		<label>统计数据 </label> <a href="javascript:void(0);" data-action="details">详情</a>\n' +
+		'	</div>\n' +
+		'	<div overall-data></div>\n' +
+		'</div>\n'
+	);
+	
+	
+	json.subjects.forEach(function(item, index){
+		var $temp = $(
+			'<div style="padding-left: 10px;">\n' +
+			'	<label>' + item.name + ': </label>\n' +
+			'	<span>' + answer.counter[item.key].length + '</span>\n' +
+			'</div>\n'
+		);
+		$brief.find('[overall-data]').append($temp);
+	});
+	
+	$container.append($brief);
+	
+	
+	
+	$question.on('click', '[data-action="details"]', function(e){
+		var $detailModal = $(
+			'<div class="modal">\n' +
+			'	<div class="modal-dialog">\n' +
+			'		<div class="modal-content">\n' +
+			'			<div class="modal-header">\n' +
+			'				<h5 class="modal-title">计数详情</h5>\n' +
+			'			</div>\n' +
+			'			<div class="modal-body">\n' +
+			'				<table class="table">\n' +
+			'					<thead>\n' +
+			'						<!-- 标题 -->\n' +
+			'					<tr><th>#</th><th>类别</th><th>时间</th></tr></thead>\n' +
+			'					<tbody>\n' +
+			'					</tbody>\n' +
+			'				</table>\n' +
+			'			</div>\n' +
+			'			<div class="modal-footer">\n' +
+			'				<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>\n' +
+			'			</div>\n' +
+			'		</div>\n' +
+			'	</div>\n' +
+			'</div>\n'
+		);
+		
+		json.subjects.forEach(function(item1, index1){
+			if(answer.counter[item1.key].length > 0)
+				answer.counter[item1.key].forEach(function(item2, index2){
+					var start_sec = timeToSec(answer.start_time);
+					var time = secToTime(start_sec + parseInt(item2));
+					
+					var $row = $('<tr><td>' + (index2+1) + '</td><td>' + item1.name + '</td><td>' + time + '</td></tr>');
+					$detailModal.find('tbody').append($row);
+				});
+			else{
+				var $row = $('<tr><td></td><td>' + item1.name + '</td><td>暂无记录</td></tr>');
+				$detailModal.find('tbody').append($row);
+			}
+				
+		});
+		
+		$detailModal.modal('show');
+		
+		$detailModal.on('hidden.bs.modal', function(e){
+			$(this).remove();
+		});
+	});
+	
+	
+	
+
+	return $question;
+};
+/* ! 2. ^^^^ */
+
 const QUESTION_REVIEW_MAP = {
 	'singleSelect': getSingleSelect_review,
 	'singleDropdown': getSingleDropdown_review,
@@ -838,4 +940,7 @@ const QUESTION_REVIEW_MAP = {
 	'tagButton': getTagButton_review,
 	'colorPicker': getColorPicker_review,
 	/* 1. #@#@ */
+	/* 1. ^^^^ */
+	'counter': getCounter_review,
+	/* ! 1. ^^^^ */
 };

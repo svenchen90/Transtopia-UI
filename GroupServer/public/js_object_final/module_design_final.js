@@ -490,7 +490,7 @@ const QUESTION_DEFAULT_JSON_MAP = {
 				{
 					type: 'counter',
 					unit: '个',
-					onSite: 1,
+					onSite: 0,
 					timeLimit: 3600,
 					subjects: [
 						{
@@ -694,7 +694,8 @@ var delay = (function(){
   };
 })();
 // 1. 单行输入框
-var singleLineInput = function(title, default_value, placeholder, callback, validation=function(value){return '';}){
+/* 6. ^^^^ */
+var singleLineInput = function(title, default_value, placeholder, callback, validation=function(value){return '';}, type="text"){
 	var modal = $(
 		'<div class="modal fade">\n' +
 		'	<div class="modal-dialog">\n' +
@@ -705,7 +706,7 @@ var singleLineInput = function(title, default_value, placeholder, callback, vali
 		'			</div>\n' +
 		'			<div class="modal-body">\n' +
 		'				<div class="form-group">\n' +
-		'					<input name="input" type="text" class="form-control" />\n' +
+		'					<input name="input" type="' + type + '" class="form-control" />\n' +
 		'					<div name="error_msg" class="error"></div>\n' +
 		'				</div>\n' +
 		'			</div>\n' +
@@ -763,6 +764,8 @@ var singleLineInput = function(title, default_value, placeholder, callback, vali
 		modal.modal('show');
 	})();
 };
+/* ! 6. ^^^^ */
+
 // 2. check array has duplicate
 var hasDuplicate = function(list){
 	for(var i=0; i<list.length; i++){
@@ -790,7 +793,16 @@ var secToTime = function(sec){
 	if(h<10)
 			h = '0' + String(h);
 	
-	return String(h) + ' : ' + String(m) + ' : ' + String(s);
+	return String(h) + ':' + String(m) + ':' + String(s);
+};
+
+var timeToSec = function(time){
+	var list = time.split(':');
+	var sec = 0;
+	sec += parseInt(list[0])*3600;
+	sec += parseInt(list[1])*60;
+	sec += parseInt(list[2])*1;
+	return sec;
 };
 
 var toHHMMSS = function(date){
@@ -798,15 +810,13 @@ var toHHMMSS = function(date){
 			return (num >= 0 && num < 10) ? "0" + num : num + "";
 	};
 	
-	var strDateTime = [
-		[AddZero(date.getHours()), 
+	var strDateTime = [AddZero(date.getHours()), 
 		AddZero(date.getMinutes()),
-		AddZero(date.getSeconds())].join(":"), 
-		date.getHours() >= 12 ? "PM" : "AM"
-	].join(" ");
+		AddZero(date.getSeconds())].join(":")
 	
 	return strDateTime;
 }
+console.log();
 /* ! 5. ^^^^ */
 /* !gear */
 
@@ -4381,7 +4391,7 @@ var Counter = function(){
 				'	<input type="checkbox"' + (json.onSite == 1 ? ' checked' : '') + '>\n' +
 				'</div>\n' +
 				'<div editor-timeLimit>\n' +
-				'	<label>计数时长 (小时): </label>\n' +
+				'	<label>计数时长 (分钟): </label>\n' +
 				'	<input type="checkbox">\n' +
 				'	<input type="text" placeholder="请输入时间长度" style="margin-left: 10px;">\n' +
 				'</div>\n'
@@ -4451,28 +4461,10 @@ var Counter = function(){
 			json.subjects.push(o.getJson($(item)));
 		});
 		
-		'<div editor-title>\n' +
-		'	<label>计数对象: </label>\n' +
-		'	<input type="text" placeholder="请描述计数对象..." value="' + json.title + '">\n' +
-		'</div>\n' +
-		'<div editor-unit>\n' +
-		'	<label>计数单位: </label>\n' +
-		'	<input type="text" placeholder="请描述计数对象..." value="' + json.unit + '">\n' +
-		'</div>\n' +
-		'<div editor-onSite>\n' +
-		'	<label>是否为现场计数: </label>\n' +
-		'	<input type="checkbox"' + (json.onSite == 1 ? ' checked' : '') + '>\n' +
-		'</div>\n' +
-		'<div editor-timeLimit>\n' +
-		'	<label>计数时长 (小时): </label>\n' +
-		'	<input type="checkbox">\n' +
-		'	<input type="text" placeholder="请输入时间长度" style="margin-left: 10px;">\n' +
-		'</div>\n'
-		
 		json.title = $question.find('[editor-title] [type="text"]').val();
 		json.unit = $question.find('[editor-unit] [type="text"]').val();
 		json.onSite = $question.find('[editor-onSite] [type="checkbox"]').is(':checked') ? 1 : 0;
-		json.timeLimit = $question.find('[editor-timeLimit] [type="text"]').val();
+		json.timeLimit = $question.find('[editor-timeLimit] [type="text"]').val()*60;
 		
 		return json;
 	};
@@ -4486,6 +4478,7 @@ var Counter = function(){
 			'		<a class="btn btn-success btn-lg">开始</a>\n' +
 			'		<a class="btn btn-default btn-lg">暂停</a>\n' +
 			'		<a class="btn btn-danger btn-lg">结束</a>\n' +
+			'		<a class="btn btn-warning btn-lg">重置</a>\n' +
 			'		<div class="pull-right" class="display: inline-block;">\n' +
 			'			<div current-time style="font-size: 24px;"></div>\n' +
 			'			<div timer-counter>倒计时: <span>' + secToTime(data.timeLimit) + '</span></div>\n' +
