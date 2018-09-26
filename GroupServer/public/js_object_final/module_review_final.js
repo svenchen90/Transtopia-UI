@@ -873,7 +873,7 @@ var getCounter_review = function(json, answer){
 			'				<table class="table">\n' +
 			'					<thead>\n' +
 			'						<!-- 标题 -->\n' +
-			'					<tr><th>#</th><th>类别</th><th>时间</th></tr></thead>\n' +
+			'					<tr><th>类别</th><th>时间</th></tr></thead>\n' +
 			'					<tbody>\n' +
 			'					</tbody>\n' +
 			'				</table>\n' +
@@ -892,7 +892,7 @@ var getCounter_review = function(json, answer){
 					var start_sec = timeToSec(answer.start_time);
 					var time = secToTime(start_sec + parseInt(item2));
 					
-					var $row = $('<tr><td>' + (index2+1) + '</td><td>' + item1.name + '</td><td>' + time + '</td></tr>');
+					var $row = $('<tr><td>' + item1.name + '</td><td>' + time + '</td></tr>');
 					$detailModal.find('tbody').append($row);
 				});
 			else{

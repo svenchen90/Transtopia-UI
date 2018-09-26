@@ -495,12 +495,12 @@ const QUESTION_DEFAULT_JSON_MAP = {
 					subjects: [
 						{
 							lid: localIDGenerator(),
-							name: '选项1',
+							name: '类型1',
 							key: localIDGenerator()
 						},
 						{
 							lid: localIDGenerator(),
-							name: '选项2',
+							name: '类型2',
 							key: localIDGenerator()
 						}
 					]
@@ -4331,7 +4331,7 @@ var Option_Subject = function(opt){
 				case 'editor-create':
 					$option.after(obj.get$option({
 					lid: localIDGenerator(),
-					name: '新的选项',
+					name: '新的类型',
 					key: localIDGenerator()
 				}));
 					break;
@@ -4432,7 +4432,7 @@ var Counter = function(){
 			'		<!-- <caption>选项设置</caption> -->\n' +
 			'		<thead>\n' +
 			'			<tr>\n' +
-			'				<th>计数对象名称</th>\n' +
+			'				<th>计数类型</th>\n' +
 			'				<th>ID</th>\n' +
 			'				<th>操作</th>\n' +
 			'			</tr>\n' +

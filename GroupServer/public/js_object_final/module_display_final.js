@@ -2072,6 +2072,7 @@ var Counter_Display = function(){
 			}else{
 				singleLineInput('起始时间', toHHMMSS(new Date()), '请输入起始时间', function(input){
 					start_time = input;
+					console.log(start_time);
 					callback();
 				}, validation=function(value){return '';},
 				'time');
