@@ -391,5 +391,9 @@ a.disabled {
 	color: rgba(0,0,0,0.3) !important;
 	cursor: no-drop !important;
 }
+
+[timer-counter] {
+	text-align: center;
+}
 /* ! 1. ^^^^ */
 

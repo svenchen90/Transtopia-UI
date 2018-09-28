@@ -779,7 +779,6 @@ var hasDuplicate = function(list){
 /* 5. ^^^^ */
 // 3. sec to time
 var secToTime = function(sec){
-	
 	var s = sec % 60;
 	var m = Math.floor(sec / 60)%60;
 	var h = Math.floor(sec / 3600);
@@ -796,6 +795,11 @@ var secToTime = function(sec){
 	return String(h) + ':' + String(m) + ':' + String(s);
 };
 
+var msecToDatetime = function(msec){
+	var datetime = new Date(msec);
+	return toYYYYMMDDHHMMSS(datetime)
+};
+
 var timeToSec = function(time){
 	var list = time.split(':');
 	var sec = 0;
@@ -803,6 +807,16 @@ var timeToSec = function(time){
 	sec += parseInt(list[1])*60;
 	sec += parseInt(list[2])*1;
 	return sec;
+};
+
+var datetimeStrToSec = function(datetime){
+	var list = datetime.split(' ');
+	var date = list[0];
+	var time = list[1];
+	var date_list = list[0].split('-');
+	var time_list = list[1].split(':');
+	
+	return new Date(date_list[0], parseInt(date_list[1])-1, date_list[2], time_list[0], time_list[1], time_list[2], 0).getTime();
 };
 
 var toHHMMSS = function(date){
@@ -815,8 +829,30 @@ var toHHMMSS = function(date){
 		AddZero(date.getSeconds())].join(":")
 	
 	return strDateTime;
-}
-console.log();
+};
+
+var toYYYYMMDDHHMMSS = function(date){
+	var AddZero = function(num) {
+			return (num >= 0 && num < 10) ? "0" + num : num + "";
+	};
+	
+	var strDateTime = [
+		[
+			AddZero(date.getFullYear()), 
+			AddZero(date.getMonth() + 1),
+			AddZero(date.getDate())
+		].join("-"),
+		[
+			AddZero(date.getHours()), 
+			AddZero(date.getMinutes()),
+			AddZero(date.getSeconds())
+		].join(":")
+	].join(' ');
+	
+	
+	return strDateTime;
+};
+
 /* ! 5. ^^^^ */
 /* !gear */
 
@@ -4496,7 +4532,7 @@ var Counter = function(){
 			$block.find('[current-time]').css('display', 'none');
 		else
 			$block.find('[current-time]')
-				.text(toHHMMSS(new Date()))
+				.text(toYYYYMMDDHHMMSS(new Date()))
 				.css('display', 'block');
 		
 		data.subjects.forEach(function(item, index){

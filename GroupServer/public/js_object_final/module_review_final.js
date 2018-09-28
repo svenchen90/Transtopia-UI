@@ -889,8 +889,10 @@ var getCounter_review = function(json, answer){
 		json.subjects.forEach(function(item1, index1){
 			if(answer.counter[item1.key].length > 0)
 				answer.counter[item1.key].forEach(function(item2, index2){
-					var start_sec = timeToSec(answer.start_time);
-					var time = secToTime(start_sec + parseInt(item2));
+					var start_sec = datetimeStrToSec(answer.start_time);
+					var time = msecToDatetime(start_sec + parseInt(item2)*1000)
+					// var start_sec = timeToSec(answer.start_time);
+					// var time = secToTime(start_sec + parseInt(item2));
 					
 					var $row = $('<tr><td>' + item1.name + '</td><td>' + time + '</td></tr>');
 					$detailModal.find('tbody').append($row);
@@ -909,9 +911,6 @@ var getCounter_review = function(json, answer){
 		});
 	});
 	
-	
-	
-
 	return $question;
 };
 /* ! 2. ^^^^ */

@@ -268,13 +268,27 @@ var answerAapter = function(json_question, answer){
 	var counter_Adapter = function(json_question, answer){
 		var key = answer.key;
 		var json = {}
-		json[key] = {
-			start_time: answer.start_time,
-			count_time: answer.count_time,
-			counter: $.extend({}, answer.counter)
-		}
+		json[key] = {};
+		var start_sec = datetimeStrToSec(answer.start_time);
+		json_question.subjects.forEach(function(item, index){
+			var k = item.key;
+			
+			var temp = {};
+			temp[k] = answer.counter[k].map(function(item2, index2){
+				return msecToDatetime(start_sec + parseInt(item2)*1000)
+			})
+			
+			json[key] = $.extend(json[key], temp);
+		});
+
 		return json;
 	};
+	/* key: {
+		subject_key1: [绝对时间]
+		subject_key2: []
+		subject_key3: []
+	} */
+	
 	
 	/* 5. #@#@= */
 	var adpterMap = {
@@ -1990,7 +2004,7 @@ var Counter_Display = function(){
 			$block.find('[timer-counter]').css('display', 'none');
 		else
 			$block.find('[timer-counter] span').text(secToTime(data.timeLimit - count));
-		if(data.onSite == 0){
+		if(data.onSite == 1){
 			// $block.find('[current-time]').css('display', 'none');
 			$block.find('[data-action="pause"]').css('display', 'none');
 		}else
@@ -2035,8 +2049,9 @@ var Counter_Display = function(){
 		
 		var updateCurrentTime = function(start_time, count){
 			if(start_time  != ''){
-				var start_sec = timeToSec(start_time);
-				$block.find('[current-time]').text(secToTime(start_sec + count));
+				// var start_sec = timeToSec(start_time);
+				var start_sec = datetimeStrToSec(start_time);
+				$block.find('[current-time]').text(msecToDatetime(start_sec + count*1000));
 			}else{
 				$block.find('[current-time]').text('');
 			}
@@ -2066,16 +2081,17 @@ var Counter_Display = function(){
 				$block.find('[data-action="pause"], [data-action="stop"], [data-action="reset"]').removeClass('disabled');
 				$block.find('[data-container]').toggleClass('disabled');
 			};
-			if(data.onSite == 1 || start_time != ''){
-				start_time = toHHMMSS(new Date())
+			if(data.onSite == 1 && start_time == ''){
+				start_time = toYYYYMMDDHHMMSS(new Date())
 				callback();
-			}else{
-				singleLineInput('起始时间', toHHMMSS(new Date()), '请输入起始时间', function(input){
+			}else if(data.onSite == 0 && start_time == ''){
+				singleLineInput('起始时间', toYYYYMMDDHHMMSS(new Date()), '请输入起始时间', function(input){
 					start_time = input;
-					console.log(start_time);
 					callback();
 				}, validation=function(value){return '';},
-				'time');
+				'datetime');
+			}else{
+				callback();
 			}
 		};
 		
