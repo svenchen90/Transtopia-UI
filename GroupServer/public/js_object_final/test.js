@@ -20,8 +20,11 @@ var tab1 = {
 		// QUESTION_DEFAULT_JSON_MAP['table_rating'].getDefaultJson(),
 		// QUESTION_DEFAULT_JSON_MAP['table_nested'].getDefaultJson(),
 		// QUESTION_DEFAULT_JSON_MAP['tagButton'].getDefaultJson(),
-		// QUESTION_DEFAULT_JSON_MAP['colorPicker'].getDefaultJson()
-		QUESTION_DEFAULT_JSON_MAP['counter'].getDefaultJson()
+		// QUESTION_DEFAULT_JSON_MAP['colorPicker'].getDefaultJson(),
+		// QUESTION_DEFAULT_JSON_MAP['counter'].getDefaultJson(),
+		QUESTION_DEFAULT_JSON_MAP['currentTimer'].getDefaultJson(),
+		QUESTION_DEFAULT_JSON_MAP['comment'].getDefaultJson(),
+		QUESTION_DEFAULT_JSON_MAP['simpleCounter'].getDefaultJson(),
 	] 
 };
 

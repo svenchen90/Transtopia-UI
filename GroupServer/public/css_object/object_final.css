@@ -397,3 +397,28 @@ a.disabled {
 }
 /* ! 1. ^^^^ */
 
+/* 1. !!!! */
+.secondary-card {
+	margin-top: 10px;
+	padding: 10px;
+	font-size: 24px;
+	text-align: center;
+	background-color: #00a65a;
+	color: rgba(255,255,255,1);
+	border-radius: 3px;
+	cursor: pointer;
+}
+
+.secondary-card:hover {
+	background-color: #008d4c; 
+}
+[count-subject].disabled [data-action="plus"], [count-subject].disabled [data-action="jump"], [count-subject].disabled [data-action="minus"] {
+	pointer-events: none;
+	box-shadow: none;
+	opacity: .65;
+	color: rgba(0,0,0,0.3) !important;
+	cursor: no-drop !important;
+}
+/* 1. !!!! */
+
+

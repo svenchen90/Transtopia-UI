@@ -915,6 +915,75 @@ var getCounter_review = function(json, answer){
 };
 /* ! 2. ^^^^ */
 
+/* 2. !!!! */
+var geCurrentTimer_review = function(json, answer){
+	var $question = getQuestion_review(json);
+	
+	var $container = $question.find('[question-answer]').empty();
+	
+	var $input = $(
+			'<div class="input-group" style="margin: 5px 0 5px; max-width: 400px !important;">\n' +
+			'	<div class="input-group-addon">\n' +
+			'		<i class="fa fa-calendar"></i>\n' +
+			'	</div>\n' +
+			'	<input type="text" value="' + answer.datetime + '" data-type="currentTime" class="form-control" disabled style="background-color:white;">\n' +
+			'</div>'
+		);
+
+	$container.append($input);
+	return $question;
+};
+
+
+var getComment_review = function(json, answer){
+	var $question = getQuestion_review(json);
+	
+	var $container = $question.find('[question-answer]').empty();
+	
+	var $input = $(
+			'<textarea style="width: 100%;" placeholder="请输入备注信息...">' + answer.comment + '</textarea>'
+		);
+
+	$container.append($input);
+	return $question;
+};
+
+
+var getSimpleCounter_review = function(json, answer){
+	var $question = getQuestion_review(json);
+	
+	var $container = $question.find('[question-answer]').empty();
+	
+	var $brief = $(
+		'<div>\n' +
+		'	<div>\n' +
+		'		<label>计数单位: </label>\n' +
+		'		<span>' + json.unit + '</span>\n' +
+		'	</div>\n' +
+		'	<div>\n' +
+		'		<label>统计数据 </label>\n' +
+		'	</div>\n' +
+		'	<div overall-data></div>\n' +
+		'</div>\n'
+	);
+	
+	
+	json.subjects.forEach(function(item, index){
+		var $temp = $(
+			'<div style="padding-left: 10px;">\n' +
+			'	<label>' + item.name + ': </label>\n' +
+			'	<span>' + answer.counter[item.key] + '</span>\n' +
+			'</div>\n'
+		);
+		$brief.find('[overall-data]').append($temp);
+	});
+	
+	$container.append($brief);
+	
+	return $question;
+};
+/* ! 2. !!!! */
+
 const QUESTION_REVIEW_MAP = {
 	'singleSelect': getSingleSelect_review,
 	'singleDropdown': getSingleDropdown_review,
@@ -942,4 +1011,9 @@ const QUESTION_REVIEW_MAP = {
 	/* 1. ^^^^ */
 	'counter': getCounter_review,
 	/* ! 1. ^^^^ */
+	/* 1. !!!! */
+	'currentTimer': geCurrentTimer_review,
+	'comment': getComment_review,
+	'simpleCounter': getSimpleCounter_review,
+	/* ! 1. !!!! */
 };

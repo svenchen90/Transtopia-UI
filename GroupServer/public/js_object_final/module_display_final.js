@@ -289,6 +289,29 @@ var answerAapter = function(json_question, answer){
 		subject_key3: []
 	} */
 	
+	/* 5. !!!! */
+	var CurrentTimer_Adapter = function(json_question, answer){
+		var key = json_question.key;
+		var json = {}
+		json[key] = answer.datetime;
+		return json;
+	};
+	
+	var Comment_Adapter = function(json_question, answer){
+		var key = json_question.key;
+		var json = {}
+		json[key] = answer.comment;
+		return json;
+	};
+	
+	var SimpleCounter_Adapter = function(json_question, answer){
+		var key = answer.key;
+		var json = {}
+		json[key] = answer.counter
+
+		return json;
+	};
+	/* ! 5. !!!! */
 	
 	/* 5. #@#@= */
 	var adpterMap = {
@@ -316,6 +339,11 @@ var answerAapter = function(json_question, answer){
 	/* 4. ^^^^ */
 	'counter': counter_Adapter,
 	/* !4. ^^^^ */
+	/* 4. !!!! */
+	'currentTimer': CurrentTimer_Adapter,
+	'comment': Comment_Adapter,
+	'simpleCounter': SimpleCounter_Adapter,
+	/* ! 4. !!!! */
 	};
 
 	var json = {};
@@ -492,23 +520,27 @@ var FormDisplay = function(data, submitCallback){
 			}
 		}
 		
-		//console.log(QC_map);
-		//console.log(CQ_map);
+		console.log(QC_map);
+		console.log(CQ_map);
 		for(var key in QC_map){
 			checkConstraint(key, QC_map[key])
 		}
-		checkConstraint
 		
 		
-		$modal.on('change', '[question-answer] input, [question-answer] select', function(e){
+		/* 6. !!!! */
+		$modal.on('click', '[question-answer] input, [question-answer] select', function(e){
 			var o_ids = [];
 			if($(this).is('select')){
 				$(this).find('option:not(.default)').map(function(index, item){
 					o_ids.push($(item).attr('data-id'));
 				});
 			}else{
-				o_ids.push($(this).closest('.option').attr('data-id'));
+				$(this).closest('[question-answer]').find('.option').each(function(index, item){
+					o_ids.push($(item).attr('data-id'));
+				});
 			}
+			
+			console.log(o_ids);
 			
 			o_ids.map(function(o_id){
 				if(o_id in CQ_map)
@@ -516,9 +548,8 @@ var FormDisplay = function(data, submitCallback){
 						checkConstraint(q_id, QC_map[q_id]);
 					});
 			});
-			
-			
 		});
+		/* ! 6. !!!! */
 	};
 	
 	var checkConstraint = function(q_id, constraints){
@@ -739,18 +770,21 @@ var FormDisplay_mobile = function(data, submitCallback, $container = $('body')){
 		for(var key in QC_map){
 			checkConstraint(key, QC_map[key])
 		}
-		checkConstraint
 		
-		
-		$modal.on('change', '[question-answer] input, [question-answer] select', function(e){
+		/* 7. !!!! */
+		$modal.on('click', '[question-answer] input, [question-answer] select', function(e){
 			var o_ids = [];
 			if($(this).is('select')){
 				$(this).find('option:not(.default)').map(function(index, item){
 					o_ids.push($(item).attr('data-id'));
 				});
 			}else{
-				o_ids.push($(this).closest('.option').attr('data-id'));
+				$(this).closest('[question-answer]').find('.option').each(function(index, item){
+					o_ids.push($(item).attr('data-id'));
+				});
 			}
+			
+			console.log(o_ids);
 			
 			o_ids.map(function(o_id){
 				if(o_id in CQ_map)
@@ -758,9 +792,8 @@ var FormDisplay_mobile = function(data, submitCallback, $container = $('body')){
 						checkConstraint(q_id, QC_map[q_id]);
 					});
 			});
-			
-			
 		});
+		/* ! 7. !!!! */
 	};
 	
 	var checkConstraint = function(q_id, constraints){
@@ -2192,6 +2225,228 @@ var Counter_Display = function(){
 };
 /* ! 3. ^^^^ */
 
+/* 2. !!!! */
+var CurrentTimer_Display = function(){
+	this.get$Question = function(json){
+		var $question = getQuestion(json);
+		
+		var $container = $question.find('[question-answer]').empty();
+		var $input = $(
+			'<div class="input-group" style="margin: 5px 0 5px; max-width: 400px !important;">\n' +
+			'	<div class="input-group-addon">\n' +
+			'		<i class="fa fa-calendar"></i>\n' +
+			'	</div>\n' +
+			'	<input type="text" data-type="currentTime" class="form-control" disabled style="background-color:white;">\n' +
+			'	<div class="input-group-addon" data-action="getTime" style="color: white; background-color: #00a65a;cursor: pointer;">\n' +
+			'		获取当前时间\n' +
+			'	</div>\n' +
+			'	<div class="input-group-addon" data-action="clear" style="cursor: pointer;">\n' +
+			'		清空\n' +
+			'	</div>\n' +
+			'</div>'
+		);
+		
+		$input.on('click', '[data-action]', function(e){
+			var actionType = $(this).attr('data-action');
+			if(actionType == 'getTime'){
+				var datetime = toYYYYMMDDHHMMSS(new Date);
+				// console.log(datetime);
+				$input.find('[data-type="currentTime"]').val(datetime)
+			}else if(actionType == 'clear'){
+				$input.find('[data-type="currentTime"]').val('')
+			}
+		});
+		
+		$container.append($input);
+		
+		return $question;
+	};
+	
+	this.getJson = function($question){
+		var json = getResult_Question($question)
+		
+		json.datetime = $question.find('[data-type="currentTime"]').val();
+		
+		return json;	
+	};
+};
+
+var Comment_Display = function(){
+	this.get$Question = function(json){
+		var $question = getQuestion(json);
+		
+		var $container = $question.find('[question-answer]').empty();
+		var $input = $(
+			'<textarea style="width: 100%;" placeholder="请输入备注信息..."></textarea>'
+		);
+		
+		$container.append($input);
+		
+		return $question;
+	};
+	
+	this.getJson = function($question){
+		var json = getResult_Question($question)
+		
+		json.comment = $question.find('textarea').val();
+		
+		return json;	
+	};
+};
+
+var SimpleCounter_Display = function(){
+	this.get$Question = function(data){	
+		var $question = getQuestion(data);
+		var $container = $question.find('[question-answer]').empty();
+		
+		var $block = $(
+			'<div class="counter-container" count-time start-time data-status="initial">\n' +
+			'	<div class="head">\n' +
+			'		<a class="btn btn-success btn-lg" data-action="start">开始</a>\n' +
+			'		<a class="btn btn-default btn-lg" data-action="pause">暂停</a>\n' +
+			'		<a class="btn btn-danger btn-lg" data-action="stop">完成</a>\n' +
+			'		<a class="btn btn-warning btn-lg" data-action="reset">重置</a>\n' +
+			'	</div>\n' +
+			'	<div class="row body">\n' +
+			'	</div>\n' +
+			'</div>\n'
+		);
+		
+		
+		data.subjects.forEach(function(item, index){
+			var $card = $(
+				'<div class="col-sm-2" count-subject data-key="' + item.key + '">\n' +
+				'	<div class="main-card" data-action="plus">\n' +
+				'		<div class="line-1">' + item.name + '</div>\n' +
+				'		<div class="line-2"><i class="fa fa-plus-square-o"></i></div>\n' +
+				'		<div class="line-3"> <span data-number>0</span> ' + data.unit + '</div>\n' +
+				'	</div>\n' +
+				'	<div class="secondary-card" data-action="jump">\n' +
+				'		<i class="fa fa-plus-square-o"></i> ' + data.jump + ' \n' +
+				'	</div>\n' +
+				'	<div class="sub-card" data-action="minus">\n' +
+				'		<i class="fa fa-minus-square-o"></i> \n' +
+				'	</div>\n' +
+				'</div>\n'
+			);
+			$block.find('.body').append($card);
+		});
+		
+		if(data.jump <= 1){
+			$block.find('.secondary-card').remove();
+		}
+		
+		
+		var setToInital = function(){
+			$block.attr('data-status', 'initial');
+			$block.find('[count-subject]').each(function(index, item){
+				$(item).find('[data-number]').text(0);
+			});
+
+			$block.find('[data-action="start"]').removeClass('disabled');
+			$block.find('[data-action="pause"], [data-action="stop"], [data-action="reset"]').addClass('disabled');
+			$block.find('[count-subject]').addClass('disabled');
+		};
+			
+		
+		var setToStart = function(){
+			$block.attr('data-status', 'start');
+			$block.find('[data-action="start"]').addClass('disabled');
+			$block.find('[data-action="pause"], [data-action="stop"], [data-action="reset"]').removeClass('disabled');
+			$block.find('[count-subject]').toggleClass('disabled');
+		};
+		
+		var setToPause = function(){
+			$block.attr('data-status', 'pause');
+			$block.find('[data-action="start"], [data-action="pause"]').toggleClass('disabled');
+			$block.find('[count-subject]').addClass('disabled');
+		};
+		
+		var setToStop = function(){
+			$block.attr('data-status', 'stop');
+			$block.find('[data-action="start"], [data-action="pause"],[data-action="stop"]').addClass('disabled');
+			$block.find('[count-subject]').addClass('disabled');
+		};
+		
+		var addOne = function($dataContainer){
+			var num = parseInt($dataContainer.find('[data-number]').text());
+			num += 1;
+			$dataContainer.find('[data-number]').text(num);
+		};
+		
+		var minusOne = function($dataContainer){
+			var num = parseInt($dataContainer.find('[data-number]').text());
+			if(num > 0){
+				num -= 1;
+				$dataContainer.find('[data-number]').text(num);
+			}	
+		};
+		
+		var addJump = function($dataContainer){
+			var num = parseInt($dataContainer.find('[data-number]').text());
+			if(num > 0){
+				num += parseInt(data.jump);
+				$dataContainer.find('[data-number]').text(num);
+			}	
+		};
+		
+		
+		setToInital();
+		$block.on('click', '[data-action]', function(e){
+			var actionType = $(this).attr('data-action');
+			// var currentStatus = $block.attr('data-status');
+			// console.log(actionType, currentStatus);
+			switch(actionType){
+					case 'start':
+						setToStart();
+						break;
+					case 'pause':
+						setToPause();
+						break;
+					case 'stop':
+						setToStop();
+						break;
+					case 'reset':
+						setToInital();
+						break;
+					case 'plus':
+						var $dataContainer = $(this).closest('[count-subject]');
+						addOne($dataContainer);
+						break;
+					case 'minus':
+						var $dataContainer = $(this).closest('[count-subject]');
+						minusOne($dataContainer);
+						break;
+					case 'jump':
+						var $dataContainer = $(this).closest('[count-subject]');
+						addJump($dataContainer);
+						break;
+					default:
+						break;
+				}
+		});
+		
+		
+		$container.append($block);
+		
+		return $question;
+	};
+	
+	this.getJson = function($question){
+		var json = getResult_Question($question)
+		
+		json.counter = {};
+		
+		$question.find('[count-subject]').each(function(index, item){
+			var key = $(item).attr('data-key');
+			json.counter[key] = $(item).find('[data-number]').text();
+		});
+
+		return json;	
+	};
+};
+/* ! 2. !!!! */
+
 /* ! 1. #@#@ */
 const QUESTION_DISPLAY_MAP = {
 	'singleSelect': getSingleSelect,
@@ -2220,6 +2475,11 @@ const QUESTION_DISPLAY_MAP = {
 	/* 1. ^^^^ */
 	'counter': new Counter_Display().get$Question,
 	/* ! 1. ^^^^ */
+	/* 3. !!!! */
+	'currentTimer': new CurrentTimer_Display().get$Question,
+	'comment': new Comment_Display().get$Question,
+	'simpleCounter': new SimpleCounter_Display().get$Question,
+	/* ! 3. !!!! */
 };
 
 // Result
@@ -2440,4 +2700,9 @@ const QUESTION_RESULT_MAP = {
 	/* 2. ^^^^ */
 	'counter': new Counter_Display().getJson,
 	/* ! 2. ^^^^ */
+	/* 1. !!!! */
+	'currentTimer': new CurrentTimer_Display().getJson,
+	'comment': new Comment_Display().getJson,
+	'simpleCounter': new SimpleCounter_Display().getJson,
+	/* ! 1. !!!! */
 };

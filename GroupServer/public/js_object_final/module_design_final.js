@@ -510,8 +510,62 @@ const QUESTION_DEFAULT_JSON_MAP = {
 			json.title = '计数器对象';
 			return json;
 		}
-	}
+	},
 	/* ! 2. ^^^^ */
+	/* 1. !!!! */
+	'currentTimer': {
+		text: '时间题',
+		getDefaultJson: function(){
+			return $.extend(
+				{
+					type: 'currentTimer',
+					datetime: ''
+				},
+				getJson_QuestionDefault(),
+			);
+		}
+	},
+	'comment': {
+		text: '备注',
+		getDefaultJson: function() {
+			return $.extend(
+				{
+					type: 'comment'
+				},
+				getJson_QuestionDefault(),
+			);
+		},
+	},
+	'simpleCounter': {
+		text: '选色题',
+		getDefaultJson: function(){
+			var json = $.extend(
+				{
+					type: 'simpleCounter',
+					unit: '个',
+					// onSite: 0,
+					// timeLimit: 3600,
+					subjects: [
+						{
+							lid: localIDGenerator(),
+							name: '类型1',
+							key: localIDGenerator()
+						},
+						{
+							lid: localIDGenerator(),
+							name: '类型2',
+							key: localIDGenerator()
+						}
+					],
+					jump: 5
+				},
+				getJson_QuestionDefault(),
+			);
+			json.title = '计数器对象';
+			return json;
+		}
+	},
+	/* ! 1. !!!! */
 };
 
 const TAB_LIST = [
@@ -633,6 +687,23 @@ const TAB_LIST = [
 		icon: 'fa-clock-o'
 	},
 	/* ! 1. ^^^^ */
+	/* 2. !!!! */
+	{
+		name: '时间题',
+		action_name: 'currentTimer',
+		icon: 'fa-calendar'
+	},
+	{
+		name: '备注',
+		action_name: 'comment',
+		icon: 'fa-comment-o'
+	},
+	{
+		name: '简单计数器',
+		action_name: 'simpleCounter',
+		icon: 'fa-calculator'
+	},
+	/* ! 2. !!!! */
 ];
 
 const FORM_NAME_MODIFY = {
@@ -1393,7 +1464,7 @@ var TwinTables = function(context, data_top, data_bot, constr, toJson, callback)
 		$.each(data_bot, function(i, d){
 			var $item = constr(d);
 			$item.append('<td><a href="#" data-action="add"><i class="fa fa-plus"></i></a></td>');
-			$modal.find('tbody[data-container="bot"]').append($item);
+			$modal.find('tbody[data-container="bot"] ').append($item);
 		});
 	};
 	
@@ -1578,7 +1649,9 @@ var Constraint = function(){
 			'singleDropdown': '单选下拉',
 			'multiDropdown': '多选下拉'
 		};
-
+		
+		
+		console.log(data)
 		var $tr = $('<tr data-type="tr"></tr>');
 		$tr.append('<td><span data-index>' + data.index + '</span>. </td>');
 		$tr.append('<td data-type="question" data-id="' + data.lid + '"> [' + map[data.q_type] + '] <span data-title>' + data.title + '<span></td>');
@@ -1632,10 +1705,11 @@ var Constraint = function(){
 		return json;
 	};
 	this.showConstraintModal = function($question){
+		/* 6. !!!! */
 		var allData = $question.prevAll('[question-type]')
 			.map(function(index, el){
 				var data = $questionToJson($(el));
-				data.index = index + 1;
+				data.index = $question.prevAll('[question-type]').length - index;
 				if(data.options)
 					data.options = data.options.map(function(el,index){
 						el.index = index + 1;
@@ -1645,8 +1719,9 @@ var Constraint = function(){
 			})
 			.filter(function(index, el){
 				return QC_FILTER.includes(el.type);
-			});
-			
+			})
+			.sort(function(a, b){return a.index-b.index});
+		/* ! 6. !!!! */
 		var selectedData_draft = obj.getConstraintData($question);
 		//console.log(selectedData_draft)
 		
@@ -2133,7 +2208,9 @@ var Question = function(){
 				showConstraint();
 				c.showConstraintModal($question);
 			}else{
-				callConfirm('确认框', '您确认要清楚所有关联吗？', 
+				/* 5. !!!! */
+				callConfirm('确认框', '您确认要清除所有关联吗？', 
+				/* ! 5. !!!! */
 					function(){
 						hideConstraint();
 						$question.find('[editor-constraint] tbody').empty();
@@ -4559,6 +4636,195 @@ var Counter = function(){
 };
 /* ! 4. ^^^^ */
 
+/* 3. !!!! */
+var CurrentTimer = function(){
+	var q = new Question();
+	var o = new Option();
+	var obj = this;
+	
+	this.get$question = function(json){
+		var $question = q.get$question(json);
+		
+		return $question;
+	};
+	
+	this.getJson = function($question){
+		var json = q.getJson($question);
+		
+		json.datetime = '';
+		
+		return json;
+	};
+	
+	this.loadAnswer = function(data, $question){
+		var $container = $question.find('[question-answer]').empty();
+		
+		var $input = $(
+			'<div class="input-group" style="margin: 5px 0 5px;">\n' +
+			'	<div class="input-group-addon">\n' +
+			'		<i class="fa fa-calendar"></i>\n' +
+			'	</div>\n' +
+			'	<input type="text" value="' + data.datetime + '" class="form-control" >\n' +
+			'	<div class="input-group-addon" style="color: white; background-color: #00a65a;cursor: pointer;">\n' +
+			'		获取当前时间\n' +
+			'	</div>\n' +
+			'</div>'
+			
+		);
+		
+		$container.append($input);
+	};
+
+};
+
+
+var Comment = function(){
+	var q = new Question();
+	var o = new Option();
+	var obj = this;
+	
+	this.get$question = function(json){
+		var $question = q.get$question(json);
+		
+		return $question;
+	};
+	
+	this.getJson = function($question){
+		var json = q.getJson($question);
+		
+		json.comment = '';
+		
+		return json;
+	};
+	
+	this.loadAnswer = function(data, $question){
+		var $container = $question.find('[question-answer]').empty();
+		
+		var $input = $(
+			'<textarea style="width: 100%;" placeholder="请输入备注信息..."></textarea>'
+		);
+		
+		$container.append($input);
+	};
+
+};
+var SimpleCounter = function(){
+	var q = new Question();
+	var o = new Option_Subject();
+	var obj = this;
+	
+	this.get$question = function(json){
+		var $question = q.get$question(json);
+		$question.find('[editor-title]').closest('.col-md-6').remove();
+		$question.find('[editor-key]').closest('.col-md-12')
+			.addClass('col-md-6').removeClass('col-md-12');
+		
+		$question.find('[editor-key]')
+			.after(
+				'<div editor-title>\n' +
+				'	<label>计数对象: </label>\n' +
+				'	<input type="text" placeholder="请描述计数对象..." value="' + json.title + '">\n' +
+				'</div>\n' +
+				'<div editor-unit>\n' +
+				'	<label>计数单位: </label>\n' +
+				'	<input type="text" placeholder="请描述计数对象单位..." value="' + json.unit + '">\n' +
+				'</div>\n' +
+				'<div editor-jump>\n' +
+				'	<label>副按钮间隔: </label>\n' +
+				'	<input type="number" placeholder="请输入副按钮间隔..." value="' + json.jump + '">\n' +
+				'</div>\n'
+			);
+		$question.find('.col-md-6:nth-child(1) label').css('width', '150px');
+		
+		// add options
+		var $oContainer = $(
+			'<div editor-option>\n' +
+			'	<table class="table table-hover">\n' +
+			'		<!-- <caption>选项设置</caption> -->\n' +
+			'		<thead>\n' +
+			'			<tr>\n' +
+			'				<th>计数类型</th>\n' +
+			'				<th>ID</th>\n' +
+			'				<th>操作</th>\n' +
+			'			</tr>\n' +
+			'		</thead>\n' +
+			'		<tbody>\n' +
+			'		</tbody>\n' +
+			'	</table>\n' +
+			'</div>'
+		);
+		$question.find('[editor-constraint]').before($oContainer);	
+		$.each(json.subjects, function(index, item){
+			var $o = o.get$option(item)
+			
+			$oContainer.find('tbody').append($o);
+
+		});
+		
+		return $question;
+	};
+	
+	this.getJson = function($question){
+		var json = q.getJson($question);
+		
+		json.subjects = [];
+		$question.find('[editor-option] [name="editorOption"]').each(function(index, item){
+			json.subjects.push(o.getJson($(item)));
+		});
+		
+		json.title = $question.find('[editor-title] [type="text"]').val();
+		json.unit = $question.find('[editor-unit] [type="text"]').val();
+		json.jump = $question.find('[editor-jump] [type="number"]').val();
+		
+		return json;
+	};
+	
+	this.loadAnswer = function(data, $question){
+		var $container = $question.find('[question-answer]').empty();
+		
+		var $block = $(
+			'<div class="counter-container">\n' +
+			'	<div class="head">\n' +
+			'		<a class="btn btn-success btn-lg">开始</a>\n' +
+			'		<a class="btn btn-default btn-lg">暂停</a>\n' +
+			'		<a class="btn btn-danger btn-lg">结束</a>\n' +
+			'		<a class="btn btn-warning btn-lg">重置</a>\n' +
+			'	</div>\n' +
+			'	<div class="row body">\n' +
+			'	</div>\n' +
+			'</div>\n'
+		);
+		
+		data.subjects.forEach(function(item, index){
+			var $card = $(
+				'<div class="col-sm-2">\n' +
+				'	<div class="main-card">\n' +
+				'		<div class="line-1">' + item.name + '</div>\n' +
+				'		<div class="line-2"><i class="fa fa-plus-square-o"></i></div>\n' +
+				'		<div class="line-3"> <span data-number>0</span> ' + data.unit + '</div>\n' +
+				'	</div>\n' +
+				'	<div class="secondary-card">\n' +
+				'		<i class="fa fa-plus-square-o"></i> ' + data.jump + ' \n' +
+				'	</div>\n' +
+				'	<div class="sub-card">\n' +
+				'		<i class="fa fa-minus-square-o"></i> \n' +
+				'	</div>\n' +
+				'</div>\n'
+			);
+			$block.find('.body').append($card);
+		});
+		
+		if(data.jump <= 1){
+			$block.find('.secondary-card').remove();
+		}
+		
+		
+		$container.append($block);
+		
+		// $container.append($input);
+	};
+};
+/* ! 3. !!!! */
 
 
 const QC_FILTER = ['singleSelect', 'multiSelect', 'singleDropdown', 'multiDropdown'];
@@ -4590,6 +4856,11 @@ const QUESTION_MAP = {
 	/* 3. ^^^^ */
 	'counter': Counter,
 	/* ! 3. ^^^^ */
+	/* 4. !!!! */
+	'currentTimer': CurrentTimer,
+	'comment': Comment,
+	'simpleCounter': SimpleCounter,
+	/* ! 4. !!!! */
 };
 
 var jsonTo$question = function(json){
