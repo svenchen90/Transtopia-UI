@@ -3,16 +3,17 @@ var tab1 = {
 	name: '标签1',
 	key: localIDGenerator(),
 	questions: [
-		// QUESTION_DEFAULT_JSON_MAP['singleSelect'].getDefaultJson(),
+		QUESTION_DEFAULT_JSON_MAP['text'].getDefaultJson(),
+		QUESTION_DEFAULT_JSON_MAP['singleSelect'].getDefaultJson(),
 		// QUESTION_DEFAULT_JSON_MAP['multiSelect'].getDefaultJson(),
 		// QUESTION_DEFAULT_JSON_MAP['singleDropdown'].getDefaultJson(),
 		// QUESTION_DEFAULT_JSON_MAP['multiDropdown'].getDefaultJson(),
 		// QUESTION_DEFAULT_JSON_MAP['input'].getDefaultJson(),
 		// QUESTION_DEFAULT_JSON_MAP['file'].getDefaultJson(),
-		// QUESTION_DEFAULT_JSON_MAP['text'].getDefaultJson(),
+		
 		// QUESTION_DEFAULT_JSON_MAP['rating'].getDefaultJson(),
 		// QUESTION_DEFAULT_JSON_MAP['slide'].getDefaultJson(),
-		// QUESTION_DEFAULT_JSON_MAP['ranking'].getDefaultJson(),
+		QUESTION_DEFAULT_JSON_MAP['ranking'].getDefaultJson(),
 		// QUESTION_DEFAULT_JSON_MAP['table_singleselect'].getDefaultJson(),
 		// QUESTION_DEFAULT_JSON_MAP['table_multiselect'].getDefaultJson(),
 		// QUESTION_DEFAULT_JSON_MAP['table_input'].getDefaultJson(),
@@ -22,9 +23,9 @@ var tab1 = {
 		// QUESTION_DEFAULT_JSON_MAP['tagButton'].getDefaultJson(),
 		// QUESTION_DEFAULT_JSON_MAP['colorPicker'].getDefaultJson(),
 		// QUESTION_DEFAULT_JSON_MAP['counter'].getDefaultJson(),
-		QUESTION_DEFAULT_JSON_MAP['currentTimer'].getDefaultJson(),
-		QUESTION_DEFAULT_JSON_MAP['comment'].getDefaultJson(),
-		QUESTION_DEFAULT_JSON_MAP['simpleCounter'].getDefaultJson(),
+		// QUESTION_DEFAULT_JSON_MAP['currentTimer'].getDefaultJson(),
+		// QUESTION_DEFAULT_JSON_MAP['comment'].getDefaultJson(),
+		// QUESTION_DEFAULT_JSON_MAP['simpleCounter'].getDefaultJson(),
 	] 
 };
 

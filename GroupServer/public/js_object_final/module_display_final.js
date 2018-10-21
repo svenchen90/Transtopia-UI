@@ -111,14 +111,18 @@ var answerAapter = function(json_question, answer){
 		return json;
 	};
 	
+	/* 2. chen_1 */
 	var rank_Adapter = function(json_question, answer){
 		var key = answer.key;
 		var json = {}
-		json[key] = answer.rank.map(function(item, index){
-			return json_question.options[parseInt(item)-1].name;
+		json[key] = []
+		answer.rank.forEach(function(item, index){
+			console.log(index, item)
+			json[key][parseInt(item)-1] = json_question.options[index].value;
 		});
 		return json;
 	};
+	/* ! 2. chen_1 */
 	
 	var table_singleselect_Adapter = function(json_question, answer){
 		var key = answer.key;
@@ -372,6 +376,31 @@ var answerAapter = function(json_question, answer){
 	return result;
 };
 
+/* 3. chen_1 */
+var clearConstrainindex = function(data){
+	var file_types = ['intro_file', 'text'];
+	data.tabs.forEach(function(tab){
+		tab.questions.forEach(function(question){
+			if(question.constraints != undefined){
+				question.constraints.forEach(function(c){
+					var lid = c.lid;
+					count_index = 0
+					for(var i=0;i<tab.questions.length; i++){
+						if(!file_types.includes(tab.questions[i].type)){
+							count_index += 1;
+						}
+						if(tab.questions[i].lid == lid){
+							c.index = count_index;
+							break;
+						}
+					}
+				});
+			}
+		});
+	})
+};
+/* ! 3. chen_1 */
+
 var FormDisplay = function(data, submitCallback){
 	var $modal = $(
 		'<div class="modal fade">\n' +
@@ -408,6 +437,9 @@ var FormDisplay = function(data, submitCallback){
 	);
 	
 	var data = extendData(data);
+	/* 4. chen_1 */
+	clearConstrainindex(data);
+	/* ! 4. chen_1 */
 	
 	var validate = function(data){
 		return true;
@@ -500,6 +532,8 @@ var FormDisplay = function(data, submitCallback){
 		var QC_map = {};
 		var CQ_map = {};
 		
+		// console.log(data.tabs[0].questions)
+		// console.log(c_list)
 		for(var i in c_list){
 			QC_map[c_list[i].lid] = c_list[i].constraints.map(function(el){
 				el.options = el.options.map(function(o){
@@ -520,8 +554,8 @@ var FormDisplay = function(data, submitCallback){
 			}
 		}
 		
-		console.log(QC_map);
-		console.log(CQ_map);
+		// console.log(QC_map);
+		// console.log(CQ_map);
 		for(var key in QC_map){
 			checkConstraint(key, QC_map[key])
 		}
@@ -653,6 +687,10 @@ var FormDisplay_mobile = function(data, submitCallback, $container = $('body')){
 	);
 	
 	var data = extendData(data);
+	/* 5. chen_1 */
+	clearConstrainindex(data);
+	/* ! 5. chen_1 */
+	
 	
 	var validate = function(data){
 		return true;
@@ -906,6 +944,7 @@ var $questionResultToJson = function($question){
 };
 
 var getQuestion = function(json){
+	// console.log(json)
 	var $question = $(
 		'<div class="question" question-type question-lid>\n' +
 		'	<div question-main>\n' +
@@ -917,6 +956,7 @@ var getQuestion = function(json){
 		'			<span question-error-message style="color: rgba(255,0,0,0.6 );"><span basic-error><span><span extends-error><span></span>\n' +
 		'		</div>\n' +
 		'		<div question-answer></div>\n' +
+		'		<div class="not-display">关联逻辑不满足</div>\n' +
 		'	</div>\n' +
 		'	<div question-constraint>\n' +
 		'	</div>\n' +
@@ -1769,8 +1809,9 @@ var getTable_Nested = function(json) {
 	
 	$table.find('thead').append('<tr></tr>');
 	var $h_tr = $table.find('thead tr').last();
-	$h_tr.append('<td></td>');
-	
+	/* 7.chen_1 */
+	$h_tr.append('<th>' + json.coltitle + '</th>');
+	/* ! 7.chen_1 */
 	$.each(json.row, function(index, item){
 		var $tr = $(
 			'<tr>\n' +
@@ -2231,21 +2272,24 @@ var CurrentTimer_Display = function(){
 		var $question = getQuestion(json);
 		
 		var $container = $question.find('[question-answer]').empty();
+		/* 1. chen_1 */
 		var $input = $(
-			'<div class="input-group" style="margin: 5px 0 5px; max-width: 400px !important;">\n' +
-			'	<div class="input-group-addon">\n' +
-			'		<i class="fa fa-calendar"></i>\n' +
+			'<div>\n' + 
+			'	<div class="input-group" style="margin: 5px 0 5px; max-width: 400px !important;">\n' +
+			'		<div class="input-group-addon">\n' +
+			'			<i class="fa fa-calendar"></i>\n' +
+			'		</div>\n' +
+			'		<input type="text" data-type="currentTime" class="form-control" disabled style="background-color:white;">\n' +
 			'	</div>\n' +
-			'	<input type="text" data-type="currentTime" class="form-control" disabled style="background-color:white;">\n' +
-			'	<div class="input-group-addon" data-action="getTime" style="color: white; background-color: #00a65a;cursor: pointer;">\n' +
+			'	<div class="btn btn-success btn-sm" data-action="getTime">\n' +
 			'		获取当前时间\n' +
 			'	</div>\n' +
-			'	<div class="input-group-addon" data-action="clear" style="cursor: pointer;">\n' +
+			'	<div class="btn btn-default btn-sm" data-action="clear">\n' +
 			'		清空\n' +
-			'	</div>\n' +
-			'</div>'
+			'	</div>\n' + 
+			'</div>\n'
 		);
-		
+		/* ! 1. chen_1 */
 		$input.on('click', '[data-action]', function(e){
 			var actionType = $(this).attr('data-action');
 			if(actionType == 'getTime'){
@@ -2382,14 +2426,13 @@ var SimpleCounter_Display = function(){
 			}	
 		};
 		
+		/* 6. chen_1 */
 		var addJump = function($dataContainer){
 			var num = parseInt($dataContainer.find('[data-number]').text());
-			if(num > 0){
-				num += parseInt(data.jump);
-				$dataContainer.find('[data-number]').text(num);
-			}	
+			num += parseInt(data.jump);
+			$dataContainer.find('[data-number]').text(num);
 		};
-		
+		/* ! 6. chen_1 */
 		
 		setToInital();
 		$block.on('click', '[data-action]', function(e){

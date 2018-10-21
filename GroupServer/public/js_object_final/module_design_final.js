@@ -411,6 +411,9 @@ const QUESTION_DEFAULT_JSON_MAP = {
 			return $.extend(
 				{
 					type: 'table_nested',
+					/* 11. chen_1 */
+					coltitle: '行标题',
+					/* !11. chen_1 */
 					row: [
 						{
 							lid: localIDGenerator(),
@@ -1103,7 +1106,6 @@ var FormDesigner = function(data, submitCallback){
 			
 			$modal.find('#tab-bar [data-action="addTab"]').before($tab);
 			$modal.find('#tab-content').append($pane);
-			
 			return data.lid;
 		}
 	};
@@ -1139,7 +1141,9 @@ var FormDesigner = function(data, submitCallback){
 		}else{
 			$question = jsonTo$question(data);
 			$tab.append($question);
-			//rerank($tab);
+			/* 2. chen_1 */
+			rerank($tab);
+			/* ! 2. chen_1 */
 		}
 		
 		return $question;
@@ -1352,6 +1356,7 @@ var FormDesigner = function(data, submitCallback){
 			callConfirm('确认提交', '您确定提交此物品？', 
 				function(){
 					submitCallback(toJson());
+					// console.log(toJson())
 					/* console.log(toJson())
 					FormDisplay(
 						toJson(), 
@@ -1622,12 +1627,16 @@ var Constraint = function(){
 	
 	this.getJson = function($constraint){
 		var json = {};
+		/* 7. chen */
+		json.index = parseInt($constraint.find('[name="index"]').text());
+		/* ! 7. chen */
 		json.lid = $constraint.find('td [name="question"]').attr('data-id');
 		json.type = $constraint.find('td[name="type"]').attr('data-value');
 		json.options = [];
 		$constraint.find('td[name="options"] span').each(function(index2, item2){
 			json.options.push({lid: $(item2).attr('data-id')});
 		});
+		// console.log('##', json);
 		return json;
 	};
 	
@@ -1651,7 +1660,7 @@ var Constraint = function(){
 		};
 		
 		
-		console.log(data)
+		// console.log(data)
 		var $tr = $('<tr data-type="tr"></tr>');
 		$tr.append('<td><span data-index>' + data.index + '</span>. </td>');
 		$tr.append('<td data-type="question" data-id="' + data.lid + '"> [' + map[data.q_type] + '] <span data-title>' + data.title + '<span></td>');
@@ -1686,6 +1695,7 @@ var Constraint = function(){
 	};
 	var constraintTrToJson = function($tr){
 		var json = {};
+		
 		json.index = $tr.find('td:eq(0) [data-index]').text();
 		json.lid = $tr.find('[data-type="question"]').attr('data-id');
 		json.title = $tr.find('[data-type="question"] [data-title]').text();
@@ -1702,14 +1712,17 @@ var Constraint = function(){
 			alert('至少选择一项');
 			return {};
 		}
+		// console.log(json);
 		return json;
 	};
 	this.showConstraintModal = function($question){
 		/* 6. !!!! */
-		var allData = $question.prevAll('[question-type]')
+		/* 1. chen_1 */
+		var allData = $question.prevAll('[question-type]:not(.puretext)')
 			.map(function(index, el){
 				var data = $questionToJson($(el));
-				data.index = $question.prevAll('[question-type]').length - index;
+				data.index = $question.prevAll('[question-type]:not(.puretext)').length - index;
+		/* ! 1. chen_1 */
 				if(data.options)
 					data.options = data.options.map(function(el,index){
 						el.index = index + 1;
@@ -1772,8 +1785,10 @@ var Constraint = function(){
 	};
 	
 	this.getConstraintData_Sufficent = function($question){
-		var length = $question.prevAll('[question-type]').length;
-		var allData = $question.prevAll('[question-type]')
+		/* 3. chen_1 */
+		var length = $question.prevAll('[question-type]:not(.puretext)').length;
+		var allData = $question.prevAll('[question-type]:not(.puretext)')
+		/* ! 3. chen_1 */
 			.map(function(index, el){
 				var data = $questionToJson($(el));
 				data.index = length - index;
@@ -1782,6 +1797,7 @@ var Constraint = function(){
 						el.index = index + 1;
 						return el;
 					});
+				// console.log('111', data)
 				return data
 			})
 			.filter(function(index, el){
@@ -2255,8 +2271,10 @@ var Question = function(){
 		
 		json.constraints = []
 		c.getConstraintData($question).each(function(index, item){
+			// console.log(item)
 			json.constraints.push(item);
 		});
+		console.log(json);
 		return json;
 	}
 	
@@ -2921,7 +2939,9 @@ var Slide = function(){
 
 var Ranking = function(){
 	var q = new Question();
-	var o = new Option({hasDefault: 0, hasValue: 0});
+	/* 6. chen_1 */
+	var o = new Option({hasDefault: 0, hasValue: 1});
+	/* ！ 6. chen_1 */
 	var obj = this;
 	
 	this.get$question = function(json){
@@ -2935,6 +2955,9 @@ var Ranking = function(){
 			'		<thead>\n' +
 			'			<tr>\n' +
 			'				<th>选项文字</th>\n' +
+			/* 5. chen_1 */
+			'				<th>数值</th>\n' +
+			/* ! 5. chen_1 */
 			'				<th>操作</th>\n' +
 			'			</tr>\n' +
 			'		</thead>\n' +
@@ -4181,6 +4204,15 @@ var Table_Nested = function(){
 	this.get$question = function(json){
 		$question = t.get$question(json);
 		
+		/* 8. chen_1 */
+		$question.find('[editor-key]').after(
+			'<div editor-coltitle>\n' +
+			'	<label>行标题: </label>\n' +
+			'	<input type="text" value="' + json.coltitle + '" placeholder="请输入行标题...">\n' +
+			'</div>\n'
+		);
+		/* ! 8. chen_1 */
+		
 		// add options
 		var $colContainer = $(
 			'<div editor-col class="">\n' +
@@ -4223,7 +4255,12 @@ var Table_Nested = function(){
 	
 	this.getJson = function($question){
 		var json = t.getJson($question);
-
+		
+		/* 9. chen_1 */
+		json.coltitle = $question.find('[editor-coltitle] input').val();
+		/* ! 9. chen_1 */
+		
+		
 		json.col = [];
 		$question.find('[editor-col] [name="editorCol"]').each(function(index, item){
 			json.col.push(c.getJson($(item)));
@@ -4238,7 +4275,10 @@ var Table_Nested = function(){
 		
 		$table.find('thead').append('<tr></tr>');
 		var $h_tr = $table.find('thead tr').last();
-		$h_tr.append('<td></td>');
+		
+		/* 10. chen_1 */
+		$h_tr.append('<th>' + data.coltitle + '</th>');
+		/* ! 10. chen_1 */
 		
 		$.each(data.row, function(index1){
 			var $b_tr = $table.find('tbody tr:nth-child(' +  (index1 + 1) + ')');
@@ -4658,20 +4698,22 @@ var CurrentTimer = function(){
 	
 	this.loadAnswer = function(data, $question){
 		var $container = $question.find('[question-answer]').empty();
-		
+		 /* 4. chen_1 */
 		var $input = $(
 			'<div class="input-group" style="margin: 5px 0 5px;">\n' +
 			'	<div class="input-group-addon">\n' +
 			'		<i class="fa fa-calendar"></i>\n' +
 			'	</div>\n' +
 			'	<input type="text" value="' + data.datetime + '" class="form-control" >\n' +
-			'	<div class="input-group-addon" style="color: white; background-color: #00a65a;cursor: pointer;">\n' +
+			'</div>\n' +
+			'	<div class="btn btn-success btn-sm" data-action="getTime">\n' +
 			'		获取当前时间\n' +
 			'	</div>\n' +
-			'</div>'
-			
+			'	<div class="btn btn-default btn-sm" data-action="clear">\n' +
+			'		清空\n' +
+			'	</div>\n'
 		);
-		
+		 /* ! 4. chen_1 */
 		$container.append($input);
 	};
 
