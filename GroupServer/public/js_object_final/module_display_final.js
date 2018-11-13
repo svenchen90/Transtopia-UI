@@ -574,7 +574,7 @@ var FormDisplay = function(data, submitCallback){
 				});
 			}
 			
-			console.log(o_ids);
+			// console.log(o_ids);
 			
 			o_ids.map(function(o_id){
 				if(o_id in CQ_map)
@@ -590,12 +590,14 @@ var FormDisplay = function(data, submitCallback){
 		var flag = true;
 		constraints.map(function(item){
 			var sub_flag = false;
+			/* 9. chen_1109 */
 			item.options.map(function(o_id){
-				if($modal.find('[data-id="' + o_id  + '"]').is('option'))
-					sub_flag = sub_flag || $modal.find('[data-id="' + o_id  + '"]').is(':selected');
+				if($modal.find('.tab-pane.active [data-id="' + o_id  + '"]').is('option'))
+					sub_flag = sub_flag || $modal.find('.tab-pane.active [data-id="' + o_id  + '"]').is(':selected');
 				else
-					sub_flag = sub_flag || $modal.find('[data-id="' + o_id  + '"] input').is(':checked');
+					sub_flag = sub_flag || $modal.find('.tab-pane.active [data-id="' + o_id  + '"] input').is(':checked');
 			});
+			/* end 9. chen_1109 */
 			
 			if(item.type == 0)
 				sub_flag = !sub_flag;
@@ -607,7 +609,9 @@ var FormDisplay = function(data, submitCallback){
 	};
 	
 	var toggleQuestion = function(q_id, flag){
-		var $question = $modal.find('[question-lid="' + q_id + '"]');
+		/* 8. chen_1109 */
+		var $question = $modal.find('.tab-pane.active [question-lid="' + q_id + '"]');
+		/* end ` */
 		if(flag){
 			$question.removeClass('disable');
 			$question.find('[question-answer] input, [question-answer] select').attr('disabled', false);
@@ -2088,16 +2092,22 @@ var Counter_Display = function(){
 		
 		data.subjects.forEach(function(item, index){
 			var $card = $(
+				/* 1. chen_1109 */
 				'<div class="col-sm-2" count-subject data-key="' + item.key + '" data-container="">\n' +
-				'	<div class="main-card" data-action="plus">\n' +
+				'	<div>\n' +
+				'		<span>' + item.name + ': </span>\n' +
+				'		<span data-number>0</span> ' + data.unit + '\n' +
+				'	</div>\n' +
+				'	<div class="main-card total-2" data-action="plus">\n' +
 				'		<div class="line-1">' + item.name + '</div>\n' +
 				'		<div class="line-2"><i class="fa fa-plus-square-o"></i></div>\n' +
 				'		<div class="line-3"> <span data-number>0</span> ' + data.unit + '</div>\n' +
 				'	</div>\n' +
-				'	<div class="sub-card" data-action="minus">\n' +
+				'	<div class="sub-card total-2" data-action="minus">\n' +
 				'		<i class="fa fa-minus-square-o"></i> \n' +
 				'	</div>\n' +
 				'</div>\n'
+				/* end 1. chen_1109 */
 			);
 			$block.find('.body').append($card);
 		});
@@ -2185,7 +2195,9 @@ var Counter_Display = function(){
 		};
 		
 		var addOne = function($dataContainer){
-			var num = parseInt($dataContainer.find('[data-number]').text());
+			/* 2. chen_1109 */
+			var num = parseInt($dataContainer.find('[data-number]').first().text());
+			/* end 2. chen_1109 */
 			num += 1;
 			$dataContainer.find('[data-number]').text(num);
 			var s = $dataContainer.attr('data-container');
@@ -2197,7 +2209,9 @@ var Counter_Display = function(){
 		};
 		
 		var minusOne = function($dataContainer){
-			var num = parseInt($dataContainer.find('[data-number]').text());
+			/* 7. chen_1109 */
+			var num = parseInt($dataContainer.find('[data-number]').first().text());
+			/* end 7. chen_1109 */
 			if(num > 0){
 				num -= 1;
 				$dataContainer.find('[data-number]').text(num);
@@ -2359,19 +2373,25 @@ var SimpleCounter_Display = function(){
 		
 		data.subjects.forEach(function(item, index){
 			var $card = $(
+				/* 3. chen_1109 */
 				'<div class="col-sm-2" count-subject data-key="' + item.key + '">\n' +
-				'	<div class="main-card" data-action="plus">\n' +
+				'	<div>\n' +
+				'		<span>' + item.name + ': </span>\n' +
+				'		<span data-number>0</span> ' + data.unit + '\n' +
+				'	</div>\n' +
+				'	<div class="main-card total-3" data-action="plus">\n' +
 				'		<div class="line-1">' + item.name + '</div>\n' +
 				'		<div class="line-2"><i class="fa fa-plus-square-o"></i></div>\n' +
 				'		<div class="line-3"> <span data-number>0</span> ' + data.unit + '</div>\n' +
 				'	</div>\n' +
-				'	<div class="secondary-card" data-action="jump">\n' +
+				'	<div class="secondary-card total-3" data-action="jump">\n' +
 				'		<i class="fa fa-plus-square-o"></i> ' + data.jump + ' \n' +
 				'	</div>\n' +
-				'	<div class="sub-card" data-action="minus">\n' +
+				'	<div class="sub-card total-3" data-action="minus">\n' +
 				'		<i class="fa fa-minus-square-o"></i> \n' +
 				'	</div>\n' +
 				'</div>\n'
+				/* end 3. chen_1109 */
 			);
 			$block.find('.body').append($card);
 		});
@@ -2413,13 +2433,17 @@ var SimpleCounter_Display = function(){
 		};
 		
 		var addOne = function($dataContainer){
-			var num = parseInt($dataContainer.find('[data-number]').text());
+			/* 4. chen_1109 */
+			var num = parseInt($dataContainer.find('[data-number]').first().text());
+			/* end 4. chen_1109 */
 			num += 1;
 			$dataContainer.find('[data-number]').text(num);
 		};
 		
 		var minusOne = function($dataContainer){
-			var num = parseInt($dataContainer.find('[data-number]').text());
+			/* 5. chen_1109 */
+			var num = parseInt($dataContainer.find('[data-number]').first().text());
+			/* end 5. chen_1109 */
 			if(num > 0){
 				num -= 1;
 				$dataContainer.find('[data-number]').text(num);
@@ -2428,7 +2452,9 @@ var SimpleCounter_Display = function(){
 		
 		/* 6. chen_1 */
 		var addJump = function($dataContainer){
-			var num = parseInt($dataContainer.find('[data-number]').text());
+			/* 6. chen_1109 */
+			var num = parseInt($dataContainer.find('[data-number]').first().text());
+			/* end 6. chen_1109 */
 			num += parseInt(data.jump);
 			$dataContainer.find('[data-number]').text(num);
 		};

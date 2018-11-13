@@ -1621,7 +1621,9 @@ var Constraint = function(){
 		// 1.4  type
 		$constraint.find('[name="type"]')
 				.attr('data-value', data.type)
-				.text( data.type == 1 ? '选中显示' : '不选中显示' );
+				/* 2. chen_1109 */
+				.text( data.type == 1 ? '选中显示' : '选中不显示' );
+				/* end 2. chen_1109 */
 		return $constraint
 	};
 	
@@ -1933,10 +1935,22 @@ var Question = function(){
 			'		<div class="btn btn-primary btn-sm" question-action="activateEditor"><i class="fa fa-tag"></i> 编辑</div>\n' +
 			'		<div class="btn btn-default btn-sm" question-action="copy"><i class="fa fa-copy"></i> 复制</div>\n' +
 			'		<div class="btn btn-default btn-sm" question-action="delete"><i class="fa fa-trash"></i> 删除</div>\n' +
-			'		<div class="btn btn-default btn-sm" question-action="moveUp"><i class="fa fa-angle-up"></i> 上移</div>\n' +
-			'		<div class="btn btn-default btn-sm" question-action="moveDown"><i class="fa fa-angle-down"></i> 下移</div>\n' +
-			'		<div class="btn btn-default btn-sm" question-action="moveTop"><i class="fa fa-angle-double-up"></i> 最前</div>\n' +
-			'		<div class="btn btn-default btn-sm" question-action="moveBot"><i class="fa fa-angle-double-down"></i> 最后</div>\n' +
+			/* 5. chen_1109 */
+			'		<!-- <div class="btn btn-default btn-sm" question-action="moveUp"><i class="fa fa-angle-up"></i> 上移</div> -->\n' +
+			'		<!-- <div class="btn btn-default btn-sm" question-action="moveDown"><i class="fa fa-angle-down"></i> 下移</div>-->\n' +
+			'		<!-- <div class="btn btn-default btn-sm" question-action="moveTop"><i class="fa fa-angle-double-up"></i> 最前</div>-->\n' +
+			'		<!-- <div class="btn btn-default btn-sm" question-action="moveBot"><i class="fa fa-angle-double-down"></i> 最后</div>-->\n' +
+			'		<div class="dropdown" style="display: inline-block;">\n' +
+			'			<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">\n' +
+			'			<i class="fa fa-arrows-v"></i> 移动 <span class="caret"></span></button>\n' +
+			'			<ul class="dropdown-menu pull-right">\n' +
+			'				<li>\n' +
+			'					<input type="number" name="question_index" placeholder="移动至第几题..." style="margin: 5px;">\n' +
+			'					<div class="btn btn-primary btn-sm pull-right" question-action="move">确认</div>\n' +
+			'				</li>\n' +
+			'			</ul>\n' +
+			'		</div>\n' +
+			/* end 5. chen_1109 */
 			'	</div>\n' +
 			'	<div question-constraint>\n' +
 			'	</div>\n' +
@@ -2032,6 +2046,123 @@ var Question = function(){
 		$question.on('click', '[question-btn] [question-action]', function(){
 			var actionType = $(this).attr('question-action');
 			var $tab = $(this).closest('.tab-pane.active');
+			
+			/* 3. chen_1109 */
+			var checkAdapter = function($question, index_changed, callback){
+				var conflict_index;
+				if(index_changed>=0){
+					conflict_index = checkConstraint_backward($question, Math.abs(index_changed));
+				}else{
+					conflict_index = checkConstraint_forward($question, Math.abs(index_changed));
+				}
+				
+				if(conflict_index.length == 0){
+					callback();
+				}else{
+					var q_list = conflict_index.map(function(item){
+						return '[第' + (item+1) + '题]';
+					});
+					var err_msg = '移动将影响与' + q_list.join(',') + '的关联逻辑';
+					callConfirm('确认框', err_msg, function(){
+						callback();
+						rerank($tab);
+						$tab.find('.question').each(function(i, item){
+							obj.updateConstraint($(item));
+						});
+					}, function(){})
+				}
+			};
+			
+			var checkConstraint_forward = function($question, step){
+				var constraints_q_id = $questionToJson($question).constraints.map(function(item){
+					return item.lid;
+				});
+				var prevQID = [];
+				$question.prevAll('.question:not(.puretext)').each(function(index, item){
+					prevQID.unshift($(item).attr('question-lid'))
+				});
+				
+				var current_index = prevQID.length;
+				var after_index = Math.max(0, current_index - step);
+				var conflict_index = [];
+				
+				
+				for(var i=after_index; i<prevQID.length; i++){
+					if(constraints_q_id.includes(prevQID[i])){
+						conflict_index.unshift(i);
+					}
+				}
+				return conflict_index;
+			};
+			
+			var checkConstraint_backward = function($question, step){
+				var current_index = $question.prevAll('.question:not(.puretext)').length;
+				var current_id = $question.attr('question-lid');
+				var $next = $question;
+				var next_index = current_index;
+				var conflict_index = []
+				
+				while(step>0){
+					next_index += 1;
+					$next = $next.next('.question:not(.puretext)');
+					if($next.length == 0)
+						break;
+					var next_constrain_id = $questionToJson($next).constraints.map(function(item){
+						return item.lid;
+					});
+					
+					if(next_constrain_id.includes(current_id)){
+						conflict_index.push(next_index);
+					}
+					
+					step -= 1;
+				}
+				
+				return conflict_index;
+			};
+			/* 3. chen_1109 */
+			
+			/* 1. chen_1113 */
+			var checkConstraint_beta = function($question){
+				var conflict_index = []
+				var current_index = $question.prevAll('.question:not(.puretext)').length
+				
+				var constraint_id = $questionToJson($question).constraints.map(function(item){
+					return item.lid;
+				});
+				
+				//previous check
+				
+				var nextQID = [];
+				$question.nextAll('.question:not(.puretext)').each(function(index, item){
+					nextQID.push($(item).attr('question-lid'))
+				});
+				
+				for(var index in constraint_id){
+					var cid = constraint_id[index]
+					if(nextQID.includes(cid)){
+						conflict_index.push(current_index + 1 + parseInt(index));
+					}
+				}
+				
+				//back check
+				var q_id = $question.attr('question-lid');
+				var total_before = $question.prevAll('.question:not(.puretext)').length;
+				$question.prevAll('.question:not(.puretext)').each(function(index, q){
+					var temp_qid = $(q).attr('question-lid');
+					var c_id = $questionToJson($(q)).constraints.map(function(item){
+						return item.lid;
+					});
+					if(c_id.includes(q_id)){
+						conflict_index.push(total_before - 1 - index);
+					}
+				});
+				
+				return conflict_index;
+			};
+			/* end 1. chen_1113 */
+			
+			
 			switch(actionType){
 				case 'activateEditor':
 					$(this).replaceWith('<div class="btn btn-success btn-sm" question-action="confirmEdit"><i class="fa fa-check"></i> 完成</div>');
@@ -2147,24 +2278,70 @@ var Question = function(){
 					var data = $questionToJson($question);
 					data.lid = localIDGenerator();
 					data.key = localIDGenerator();
+					
+					/* 1. chen_1109 */
+					data.options.forEach(function(o){
+						o.lid = localIDGenerator();
+					});
+					/* end 1. chen_1109 */
+					
 					var $copy = jsonTo$question(data);
 					$question.after($copy);
 					break;
 				case 'delete':
 					$question.remove();
 					break;
+				/* 4. chen_1109 */
+				/*
 				case 'moveUp':
-					$question.prev().before($question);
+					index_changed = -1;
+					var callback = function(){
+						$question.prev().before($question);
+					};
+					checkAdapter($question, index_changed, callback);
 					break;
 				case 'moveDown':
-					$question.next().after($question);
+					index_changed = 1;
+					var callback = function(){
+						$question.next().after($question);
+					};
+					checkAdapter($question, index_changed, callback);
+					
 					break;
 				case 'moveTop':
-					$question.closest('.tab-pane').prepend($question);
+					index_changed = 0 - $question.prevAll('.question:not(.puretext)').length;
+					var callback = function(){
+						$question.closest('.tab-pane').prepend($question);
+					};
+					checkAdapter($question, index_changed, callback);
 					break;
 				case 'moveBot':
-					$question.closest('.tab-pane').append($question);
+					index_changed = $question.nextAll('.question:not(.puretext)').length;
+					var callback = function(){
+						$question.closest('.tab-pane').append($question);
+					};
+					checkAdapter($question, index_changed, callback);
 					break;
+				*/
+				case 'move':
+					var input = $(this).prev().val();
+					var length = $tab.find('.question:not(.puretext)').length;
+					if(input > length || input < 1)
+						callAlert('题号错误，请重新输入！');
+					else{
+						var current_index = $question.prevAll('.question:not(.puretext)').length;
+						index_changed = input - current_index - 1;
+						var callback = function(){
+							if(index_changed < 0)
+								$tab.find('.question:not(.puretext):eq(' + (input-1) + ')').before($question);
+							else if(index_changed > 0)
+								$tab.find('.question:not(.puretext):eq(' + (input-1) + ')').after($question);
+						};
+						checkAdapter($question, index_changed, callback);
+					}
+					
+					break;
+				/* end 4. chen_1109 */
 				default:
 					callAlert('question aciton error: ' + actionType);
 			}
@@ -2274,7 +2451,7 @@ var Question = function(){
 			// console.log(item)
 			json.constraints.push(item);
 		});
-		console.log(json);
+		// console.log(json);
 		return json;
 	}
 	
@@ -2747,10 +2924,22 @@ var Text = function(){
 			'		<div class="btn btn-primary btn-sm" question-action="activateEditor"><i class="fa fa-tag"></i> 编辑</div>\n' +
 			'		<div class="btn btn-default btn-sm" question-action="copy"><i class="fa fa-copy"></i> 复制</div>\n' +
 			'		<div class="btn btn-default btn-sm" question-action="delete"><i class="fa fa-trash"></i> 删除</div>\n' +
-			'		<div class="btn btn-default btn-sm" question-action="moveUp"><i class="fa fa-angle-up"></i> 上移</div>\n' +
-			'		<div class="btn btn-default btn-sm" question-action="moveDown"><i class="fa fa-angle-down"></i> 下移</div>\n' +
-			'		<div class="btn btn-default btn-sm" question-action="moveTop"><i class="fa fa-angle-double-up"></i> 最前</div>\n' +
-			'		<div class="btn btn-default btn-sm" question-action="moveBot"><i class="fa fa-angle-double-down"></i> 最后</div>\n' +
+			/* 6. chen_1109 */
+			'		<!-- <div class="btn btn-default btn-sm" question-action="moveUp"><i class="fa fa-angle-up"></i> 上移</div> -->\n' +
+			'		<!-- <div class="btn btn-default btn-sm" question-action="moveDown"><i class="fa fa-angle-down"></i> 下移</div>-->\n' +
+			'		<!-- <div class="btn btn-default btn-sm" question-action="moveTop"><i class="fa fa-angle-double-up"></i> 最前</div>-->\n' +
+			'		<!-- <div class="btn btn-default btn-sm" question-action="moveBot"><i class="fa fa-angle-double-down"></i> 最后</div>-->\n' +
+			'		<div class="dropdown" style="display: inline-block;">\n' +
+			'			<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">\n' +
+			'			<i class="fa fa-arrows-v"></i> 移动 <span class="caret"></span></button>\n' +
+			'			<ul class="dropdown-menu pull-right">\n' +
+			'				<li>\n' +
+			'					<input type="number" name="question_index" placeholder="移动至第几题..." style="margin: 5px;">\n' +
+			'					<div class="btn btn-primary btn-sm pull-right" question-action="move">确认</div>\n' +
+			'				</li>\n' +
+			'			</ul>\n' +
+			'		</div>\n' +
+			/* end 6. chen_1109 */
 			'	</div>\n' +
 			'	<div question-constraint>\n' +
 			'	</div>\n' +
@@ -2819,6 +3008,8 @@ var Text = function(){
 				case 'delete':
 					$question.remove();
 					break;
+				/* 7. chen_1109 */
+				/*
 				case 'moveUp':
 					$question.prev().before($question);
 					break;
@@ -2831,6 +3022,17 @@ var Text = function(){
 				case 'moveBot':
 					$question.closest('.tab-pane').append($question);
 					break;
+				*/
+				case 'move':
+					var input = $(this).prev().val();
+					var length = $tab.find('.question:not(.puretext)').length;
+					if(input > length || input < 1)
+						callAlert('题号错误，请重新输入！');
+					else{
+						$tab.find('.question:not(.puretext):eq(' + (input-1) + ')').before($question);
+					}
+					break;
+				/* end 7. chen_1109 */
 				default:
 					callAlert('question aciton error: ' + actionType);
 			}

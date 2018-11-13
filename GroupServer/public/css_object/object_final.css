@@ -32,8 +32,13 @@
 /* 1. chen_1 */
 
 .question:not(.disable):hover {
-	border: 0.1em solid #337ab7;
+	/* border: 0.1em solid #337ab7; */
+	outline: 0.1em solid #337ab7;
+	/* outline-offset: 5px; */
 }
+
+/* 1. chen_1111 */
+/*
 
 .question [question-btn] {
 	visibility: hidden;
@@ -42,6 +47,8 @@
 .question:hover [question-btn] {
 	visibility: visible;
 }
+*/
+/* end 1. chen_1111 */
 
 .question [question-editor] {
 	display: none;
@@ -435,5 +442,80 @@ a.disabled {
 	cursor: no-drop !important;
 }
 /* 1. !!!! */
+
+/* 2. chen_1111 */
+/* mobile counter  */
+@media (max-width: 1000px) {
+	.counter-container .head .btn {
+		padding: 5px 10px;
+		font-size: 12px;
+		line-height: 1.5;
+	}
+	
+	[data-container] {
+		margin-top: 10px;
+	}
+	
+	[current-time] {
+		font-size: 14px !important;
+	}
+	
+	.main-card {
+		height: auto;
+		display: inline-block;
+		padding: 5px;
+	}
+	
+	.main-card .line-2{
+		font-size: 15px;
+	}
+	
+	.sub-card {
+		margin-top: 0;
+		display: inline-block;	
+		font-size: 15px;
+		line-height: 30px;
+		padding: 5px;
+	}
+	
+	.total-2.main-card {
+		width: 60%;
+	}
+	
+	.total-2.sub-card {
+		width: 35%;
+	}
+	
+	.main-card .line-1, .main-card .line-3{
+		display: none;
+	}
+	
+	[count-subject] {
+		margin-top: 10px;
+	}
+	
+	.secondary-card {
+		margin-top: 0;
+		height: auto;
+		display: inline-block;
+		padding: 5px;
+		font-size: 15px;
+		line-height: 30px;
+	}
+	
+	.total-3.main-card {
+		width: 40%;
+	}
+	
+	.total-3.secondary-card {
+		width: 30%;
+	}
+	
+	.total-3.sub-card {
+		width: 23%;
+	}
+}
+/* !mobile counter  */
+/* end 2. chen_1111 */
 
 
