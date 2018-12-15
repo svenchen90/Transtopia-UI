@@ -435,8 +435,9 @@ var FormDisplay = function(data, submitCallback){
 		'	</div>\n' +
 		'</div>'
 	);
-	
+	console.log(data)
 	var data = extendData(data);
+	console.log(data)
 	/* 4. chen_1 */
 	clearConstrainindex(data);
 	/* ! 4. chen_1 */
@@ -840,6 +841,7 @@ var FormDisplay_mobile = function(data, submitCallback, $container = $('body')){
 	
 	var checkConstraint = function(q_id, constraints){
 		var flag = true;
+		
 		constraints.map(function(item){
 			var sub_flag = false;
 			item.options.map(function(o_id){
